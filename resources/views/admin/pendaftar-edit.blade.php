@@ -1,23 +1,42 @@
 @extends('layouts.admin')
 
-@section('title', 'Edit Calon Siswa - Admin Panel')
+@section('title', 'Edit Data Siswa - Admin Panel')
 
 @section('content')
+    {{-- Breadcrumb --}}
     <div class="mb-6">
-        <a href="{{ route('admin.pendaftar.index') }}" class="inline-flex items-center text-gray-500 hover:text-primary">
-            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-            Kembali ke Daftar
+        <a href="{{ route('admin.pendaftar.index') }}" class="inline-flex items-center gap-2 text-gray-600 hover:text-primary font-semibold text-lg">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+            </svg>
+            Kembali ke Daftar Pendaftar
         </a>
     </div>
 
-    <div class="mb-6">
-        <h1 class="text-2xl font-bold text-gray-800">Edit Calon Siswa</h1>
-        <p class="text-gray-600">{{ $siswa->nama }} - {{ $siswa->nisn }}</p>
+    {{-- Header --}}
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">Edit Data Calon Siswa</h1>
+        <div class="flex items-center gap-3">
+            <span class="text-xl text-gray-600 font-semibold">{{ $siswa->nama }}</span>
+            <span class="px-3 py-1 bg-gray-200 text-gray-700 rounded-lg font-mono text-base">{{ $siswa->nisn }}</span>
+        </div>
     </div>
 
+    {{-- Error Alert --}}
     @if(session('error'))
-    <div class="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg">
+    <div class="mb-6 p-5 bg-red-50 border-2 border-red-300 text-red-800 rounded-xl text-lg">
         {{ session('error') }}
+    </div>
+    @endif
+
+    @if($errors->any())
+    <div class="mb-6 p-5 bg-red-50 border-2 border-red-300 text-red-800 rounded-xl">
+        <p class="font-bold mb-2">Terdapat kesalahan:</p>
+        <ul class="list-disc list-inside">
+            @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
     </div>
     @endif
 
@@ -25,95 +44,155 @@
         @csrf
         @method('PUT')
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {{-- Data Siswa --}}
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                <h3 class="font-bold text-gray-900 mb-4 border-b pb-2">Data Siswa</h3>
-                <div class="space-y-4">
+            <div class="bg-white rounded-xl card-solid p-6">
+                <h3 class="font-bold text-xl text-gray-900 mb-6 border-b-2 border-gray-200 pb-3 flex items-center gap-2">
+                    <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                    </svg>
+                    Data Siswa
+                </h3>
+                <div class="space-y-5">
+                    {{-- NISN (Read Only) --}}
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">NISN</label>
-                        <input type="text" value="{{ $siswa->nisn }}" disabled class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-600">
+                        <label class="block text-base font-bold text-gray-700 mb-2">NISN</label>
+                        <input type="text" value="{{ $siswa->nisn }}" disabled 
+                               class="w-full px-4 input-large border-2 border-gray-300 rounded-xl bg-gray-100 text-gray-600 font-mono">
+                        <p class="text-sm text-gray-500 mt-1">NISN tidak dapat diubah</p>
                     </div>
+
+                    {{-- Nama --}}
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap <span class="text-red-500">*</span></label>
-                        <input type="text" name="nama" value="{{ old('nama', $siswa->nama) }}" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
-                        @error('nama') <p class="text-red-500 text-sm mt-1">{{ $message }}</p> @enderror
+                        <label class="block text-base font-bold text-gray-700 mb-2">
+                            Nama Lengkap <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" name="nama" value="{{ old('nama', $siswa->nama) }}" required 
+                               class="w-full px-4 input-large border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary">
                     </div>
+
+                    {{-- Jenis Kelamin --}}
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Jenis Kelamin</label>
-                        <select name="jk" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
-                            <option value="">Pilih</option>
-                            <option value="L" {{ old('jk', $siswa->jk) == 'L' ? 'selected' : '' }}>Laki-laki</option>
-                            <option value="P" {{ old('jk', $siswa->jk) == 'P' ? 'selected' : '' }}>Perempuan</option>
+                        <label class="block text-base font-bold text-gray-700 mb-2">Jenis Kelamin</label>
+                        <select name="jk" class="w-full px-4 input-large border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary bg-white">
+                            <option value="">-- Pilih Jenis Kelamin --</option>
+                            <option value="L" {{ old('jk', $siswa->jk) == 'L' ? 'selected' : '' }}>👦 Laki-laki</option>
+                            <option value="P" {{ old('jk', $siswa->jk) == 'P' ? 'selected' : '' }}>👧 Perempuan</option>
                         </select>
                     </div>
+
+                    {{-- Tanggal Lahir --}}
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal Lahir</label>
-                        <input type="date" name="tgl_lahir" value="{{ old('tgl_lahir', $siswa->tgl_lahir?->format('Y-m-d')) }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                        <label class="block text-base font-bold text-gray-700 mb-2">Tanggal Lahir</label>
+                        <input type="date" name="tgl_lahir" value="{{ old('tgl_lahir', $siswa->tgl_lahir?->format('Y-m-d')) }}" 
+                               class="w-full px-4 input-large border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary">
                     </div>
+
+                    {{-- No WA --}}
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">No. WhatsApp</label>
-                        <input type="text" name="no_wa" value="{{ old('no_wa', $siswa->no_wa) }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                        <label class="block text-base font-bold text-gray-700 mb-2">Nomor WhatsApp</label>
+                        <input type="text" name="no_wa" value="{{ old('no_wa', $siswa->no_wa) }}" 
+                               placeholder="Contoh: 081234567890"
+                               class="w-full px-4 input-large border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary">
                     </div>
+
+                    {{-- Asal Sekolah --}}
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Asal Sekolah</label>
-                        <input type="text" name="asal_sekolah" value="{{ old('asal_sekolah', $siswa->asal_sekolah) }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                        <label class="block text-base font-bold text-gray-700 mb-2">Asal Sekolah</label>
+                        <input type="text" name="asal_sekolah" value="{{ old('asal_sekolah', $siswa->asal_sekolah) }}" 
+                               placeholder="Nama SMP/MTs"
+                               class="w-full px-4 input-large border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary">
                     </div>
+
+                    {{-- Alamat --}}
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Alamat</label>
-                        <textarea name="alamat" rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">{{ old('alamat', $siswa->alamat) }}</textarea>
+                        <label class="block text-base font-bold text-gray-700 mb-2">Alamat Lengkap</label>
+                        <textarea name="alamat" rows="4" placeholder="Masukkan alamat lengkap..."
+                                  class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary text-lg">{{ old('alamat', $siswa->alamat) }}</textarea>
                     </div>
                 </div>
             </div>
 
             {{-- Data Pendaftaran & Orang Tua --}}
-            <div class="space-y-6">
-                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                    <h3 class="font-bold text-gray-900 mb-4 border-b pb-2">Data Pendaftaran</h3>
-                    <div class="space-y-4">
+            <div class="space-y-8">
+                {{-- Data Pendaftaran --}}
+                <div class="bg-white rounded-xl card-solid p-6">
+                    <h3 class="font-bold text-xl text-gray-900 mb-6 border-b-2 border-gray-200 pb-3 flex items-center gap-2">
+                        <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        Data Pendaftaran
+                    </h3>
+                    <div class="space-y-5">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Jurusan Pilihan</label>
-                            <select name="jurusan_id" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
-                                <option value="">Pilih Jurusan</option>
+                            <label class="block text-base font-bold text-gray-700 mb-2">Jurusan Pilihan</label>
+                            <select name="jurusan_id" class="w-full px-4 input-large border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary bg-white">
+                                <option value="">-- Pilih Jurusan --</option>
                                 @foreach($jurusan as $j)
-                                <option value="{{ $j->id }}" {{ old('jurusan_id', $siswa->pendaftaran?->jurusan_id) == $j->id ? 'selected' : '' }}>{{ $j->nama }}</option>
+                                <option value="{{ $j->id }}" {{ old('jurusan_id', $siswa->pendaftaran?->jurusan_id) == $j->id ? 'selected' : '' }}>
+                                    {{ $j->nama }}
+                                </option>
                                 @endforeach
                             </select>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Gelombang</label>
-                            <input type="text" name="gelombang" value="{{ old('gelombang', $siswa->pendaftaran?->gelombang) }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                            <label class="block text-base font-bold text-gray-700 mb-2">Gelombang Pendaftaran</label>
+                            <input type="text" name="gelombang" value="{{ old('gelombang', $siswa->pendaftaran?->gelombang) }}" 
+                                   placeholder="Contoh: Gelombang 1"
+                                   class="w-full px-4 input-large border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary">
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-                    <h3 class="font-bold text-gray-900 mb-4 border-b pb-2">Data Orang Tua</h3>
-                    <div class="space-y-4">
+                {{-- Data Orang Tua --}}
+                <div class="bg-white rounded-xl card-solid p-6">
+                    <h3 class="font-bold text-xl text-gray-900 mb-6 border-b-2 border-gray-200 pb-3 flex items-center gap-2">
+                        <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
+                        Data Orang Tua / Wali
+                    </h3>
+                    <div class="space-y-5">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Nama Ayah</label>
-                            <input type="text" name="nama_ayah" value="{{ old('nama_ayah', $siswa->orangTua?->nama_ayah) }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                            <label class="block text-base font-bold text-gray-700 mb-2">Nama Ayah</label>
+                            <input type="text" name="nama_ayah" value="{{ old('nama_ayah', $siswa->orangTua?->nama_ayah) }}" 
+                                   class="w-full px-4 input-large border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Nama Ibu</label>
-                            <input type="text" name="nama_ibu" value="{{ old('nama_ibu', $siswa->orangTua?->nama_ibu) }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                            <label class="block text-base font-bold text-gray-700 mb-2">Nama Ibu</label>
+                            <input type="text" name="nama_ibu" value="{{ old('nama_ibu', $siswa->orangTua?->nama_ibu) }}" 
+                                   class="w-full px-4 input-large border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Pekerjaan Orang Tua</label>
-                            <input type="text" name="pekerjaan" value="{{ old('pekerjaan', $siswa->orangTua?->pekerjaan) }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                            <label class="block text-base font-bold text-gray-700 mb-2">Pekerjaan Orang Tua</label>
+                            <input type="text" name="pekerjaan" value="{{ old('pekerjaan', $siswa->orangTua?->pekerjaan) }}" 
+                                   class="w-full px-4 input-large border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">No. WA Orang Tua</label>
-                            <input type="text" name="no_wa_ortu" value="{{ old('no_wa_ortu', $siswa->orangTua?->no_wa_ortu) }}" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary">
+                            <label class="block text-base font-bold text-gray-700 mb-2">Nomor WhatsApp Orang Tua</label>
+                            <input type="text" name="no_wa_ortu" value="{{ old('no_wa_ortu', $siswa->orangTua?->no_wa_ortu) }}" 
+                                   placeholder="Contoh: 081234567890"
+                                   class="w-full px-4 input-large border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary">
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="mt-6 flex justify-end gap-3">
-            <a href="{{ route('admin.pendaftar.index') }}" class="px-6 py-2 border border-gray-300 text-gray-600 rounded-lg hover:bg-gray-50 font-medium">Batal</a>
-            <button type="submit" class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-green-700 font-medium shadow-sm">
+        {{-- Action Buttons --}}
+        <div class="mt-10 flex flex-col sm:flex-row justify-end gap-4 pt-6 border-t-2 border-gray-200">
+            <a href="{{ route('admin.pendaftar.index') }}" 
+               class="btn-large bg-gray-200 text-gray-700 hover:bg-gray-300 text-center flex items-center justify-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+                Batal / Kembali
+            </a>
+            <button type="submit" 
+                    class="btn-large bg-primary text-white hover:bg-green-800 flex items-center justify-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
                 Simpan Perubahan
             </button>
         </div>
