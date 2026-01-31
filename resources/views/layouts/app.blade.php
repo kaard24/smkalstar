@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>@yield('title', 'SMK Al-Hidayah Lestari')</title>
     
     <!-- Google Fonts -->
@@ -17,12 +17,27 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        body { 
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        @media (min-width: 768px) {
+            body { font-size: 16px; }
+        }
         h1, h2, h3, h4, h5, h6 { font-family: 'Outfit', sans-serif; }
         [x-cloak] { display: none !important; }
+        
+        /* Smooth scrolling */
+        html { scroll-behavior: smooth; }
+        
+        /* Better touch targets on mobile */
+        @media (max-width: 768px) {
+            a, button { min-height: 44px; min-width: 44px; }
+        }
     </style>
 </head>
-<body class="bg-gray-50 flex flex-col min-h-screen text-gray-800 pb-16 md:pb-0">
+<body class="bg-gray-50 flex flex-col min-h-screen text-gray-800 pb-20 md:pb-0">
 
     @include('partials.header')
 
