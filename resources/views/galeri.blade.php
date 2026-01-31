@@ -27,7 +27,7 @@
                      onclick="openLightbox('{{ $item->gambar_url }}', '{{ addslashes($item->keterangan ?? '') }}')">
                     <div class="w-full">
                         <img src="{{ $item->gambar_url }}" alt="{{ $item->keterangan ?? 'Galeri' }}" 
-                             class="w-full h-auto object-cover group-hover:scale-110 transition-transform duration-500">
+                             class="w-full h-auto object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" decoding="async">
                     </div>
                     @if($item->keterangan)
                     <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">

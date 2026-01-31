@@ -181,12 +181,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
 // ============================================
 Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function () {
     // Dashboard
-    Route::get('/', function () {
-        return view('admin.dashboard');
-    })->name('dashboard');
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    });
+    Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [AdminDashboardController::class, 'index']);
 
     // Pendaftar Module (CRUD)
     Route::get('/pendaftar', [AdminPpdbController::class, 'index'])->name('pendaftar.index');
@@ -201,19 +197,19 @@ Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function
     Route::get('/input-nilai/{id}', [AdminPpdbController::class, 'formNilai'])->name('input_nilai');
     Route::post('/simpan-nilai/{id}', [AdminPpdbController::class, 'simpanNilai'])->name('simpan_nilai');
 
-    // Verifikasi Pendaftaran Module
-    Route::get('/verifikasi', [AdminVerifikasiController::class, 'index'])->name('verifikasi.index');
-    Route::get('/verifikasi/{id}', [AdminVerifikasiController::class, 'show'])->name('verifikasi.show');
-    Route::post('/verifikasi/{id}', [AdminVerifikasiController::class, 'verify'])->name('verifikasi.verify');
+    // Verifikasi Pendaftaran Module (deprecated - but keep routes for backward compatibility)
+    Route::get('/verifikasi', function() {
+        return redirect()->route('admin.pendaftar.index')->with('info', 'Fitur verifikasi tidak lagi digunakan. Silakan lihat progress upload di Data Pendaftar.');
+    })->name('verifikasi.index');
 
-    // Verifikasi Berkas Module
+    // Berkas Module - Admin can view/download only, no verification
     Route::get('/berkas', [BerkasController::class, 'adminIndex'])->name('berkas.index');
     Route::get('/berkas/{berkas}/download', [BerkasController::class, 'adminDownload'])->name('berkas.download');
-    Route::post('/berkas/{berkas}/verify', [BerkasController::class, 'adminVerify'])->name('berkas.verify');
 
-    // Kelulusan Module
-    Route::get('/kelulusan', [AdminKelulusanController::class, 'index'])->name('kelulusan');
-    Route::post('/kelulusan/{id}/notify', [AdminKelulusanController::class, 'sendNotification'])->name('kelulusan.notify');
+    // Kelulusan Module (deprecated - all students automatically pass)
+    Route::get('/kelulusan', function() {
+        return redirect()->route('admin.pendaftar.index')->with('info', 'Semua siswa otomatis lulus. Tidak perlu pengumuman kelulusan.');
+    })->name('kelulusan');
 
     // Profil Sekolah Module (Split into 3 pages)
     Route::get('/profil-sekolah', [\App\Http\Controllers\Admin\ProfilSekolahController::class, 'edit'])->name('profil-sekolah.edit');

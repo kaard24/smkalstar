@@ -2,7 +2,12 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <meta name="theme-color" content="#16a34a">
+    <meta name="description" content="Sistem Penerimaan Murid Baru SMK Al-Hidayah Lestari">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>@yield('title', 'SMK Al-Hidayah Lestari')</title>
     
     <!-- Google Fonts -->
@@ -21,6 +26,8 @@
             font-family: 'Inter', sans-serif;
             font-size: 14px;
             line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
         @media (min-width: 768px) {
             body { font-size: 16px; }
@@ -33,7 +40,36 @@
         
         /* Better touch targets on mobile */
         @media (max-width: 768px) {
-            a, button { min-height: 44px; min-width: 44px; }
+            a, button { 
+                min-height: 44px; 
+                min-width: 44px; 
+            }
+            /* Reduce animation on mobile for better performance */
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            /* Keep essential animations */
+            .animate-pulse, .animate-spin {
+                animation-duration: 2s !important;
+            }
+        }
+        
+        /* Optimize images */
+        img {
+            max-width: 100%;
+            height: auto;
+            content-visibility: auto;
+        }
+        
+        /* Reduce motion for users who prefer it */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
         }
     </style>
 </head>

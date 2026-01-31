@@ -6,7 +6,7 @@
     <!-- Header Page -->
     <div class="relative bg-gray-900 py-16 md:py-24 overflow-hidden">
         <div class="absolute inset-0 opacity-20">
-            <img src="{{ asset('images/b1.jpg') }}" class="w-full h-full object-cover">
+            <img src="{{ asset('images/b1.jpg') }}" class="w-full h-full object-cover" fetchpriority="high" decoding="async" alt="Header Profil">
         </div>
         <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/50 to-transparent"></div>
         <div class="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -53,7 +53,7 @@
                                  x-transition:enter-end="opacity-100 transform scale-100"
                                  class="absolute inset-0 w-full h-full cursor-pointer"
                                  @click="openLightbox(slide, 'Sejarah Sekolah')">
-                                <img :src="slide" alt="Sejarah Sekolah" class="w-full h-full object-cover">
+                                <img :src="slide" alt="Sejarah Sekolah" class="w-full h-full object-cover" loading="lazy" decoding="async">
                                 <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
                             </div>
                         </template>
@@ -147,7 +147,7 @@
                         }
                     @endphp
                     <div class="max-w-5xl mx-auto p-3 md:p-4 bg-gray-50 rounded-2xl md:rounded-3xl border border-gray-100">
-                        <img src="{{ $strukturGambar }}" alt="Struktur Organisasi" class="w-full rounded-xl md:rounded-2xl shadow-sm">
+                        <img src="{{ $strukturGambar }}" alt="Struktur Organisasi" class="w-full rounded-xl md:rounded-2xl shadow-sm" loading="lazy" decoding="async">
                     </div>
                 @else
                     <div class="max-w-3xl mx-auto bg-gray-50 border-2 border-dashed border-gray-200 rounded-2xl md:rounded-3xl p-8 md:p-16 flex flex-col items-center justify-center text-center">
@@ -171,7 +171,7 @@
                             <div class="text-center group">
                                 <div class="w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 mx-auto mb-3 md:mb-6 rounded-xl md:rounded-3xl overflow-hidden bg-white shadow-lg md:shadow-xl rotate-2 md:rotate-3 group-hover:rotate-0 transition-transform duration-300 ring-2 md:ring-4 ring-white border border-gray-100">
                                     @if($member->foto_url)
-                                    <img src="{{ $member->foto_url }}" alt="{{ $member->nama }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                    <img src="{{ $member->foto_url }}" alt="{{ $member->nama }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" decoding="async">
                                     @else
                                     <div class="w-full h-full flex items-center justify-center bg-gray-100 text-gray-300">
                                         <svg class="w-10 h-10 md:w-16 md:h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>

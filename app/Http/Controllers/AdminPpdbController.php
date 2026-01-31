@@ -8,6 +8,7 @@ use App\Models\Tes;
 use App\Models\Pengumuman;
 use App\Models\Jurusan;
 use App\Models\OrangTua;
+use App\Models\BerkasPendaftaran;
 use App\Services\WhatsAppService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -32,7 +33,7 @@ class AdminPpdbController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('nama', 'like', "%{$search}%")
-                  ->orWhere('asal_sekolah', 'like', "%{$search}%")
+                  ->orWhere('no_wa', 'like', "%{$search}%")
                   ->orWhere('nisn', 'like', "%{$search}%")
                   ->orWhereYear('tgl_lahir', $search);
             });
@@ -49,8 +50,10 @@ class AdminPpdbController extends Controller
         if ($request->filled('status')) {
             $status = $request->status;
             if ($status === 'baru') {
+                // Siswa yang belum punya pendaftaran
                 $query->whereDoesntHave('pendaftaran');
-            } elseif ($status === 'proses') {
+            } elseif ($status === 'proses_data') {
+                // Siswa yang sudah punya pendaftaran tapi data belum lengkap
                 $query->whereHas('pendaftaran')
                       ->where(function ($q) {
                           $q->whereNull('jk')
@@ -58,12 +61,34 @@ class AdminPpdbController extends Controller
                             ->orWhereNull('alamat')
                             ->orWhereNull('asal_sekolah');
                       });
-            } elseif ($status === 'lengkap') {
+            } elseif ($status === 'proses_berkas') {
+                // Siswa yang data sudah lengkap tapi berkas belum lengkap
                 $query->whereHas('pendaftaran')
                       ->whereNotNull('jk')
                       ->whereNotNull('tgl_lahir')
                       ->whereNotNull('alamat')
-                      ->whereNotNull('asal_sekolah');
+                      ->whereNotNull('asal_sekolah')
+                      ->whereExists(function ($q) {
+                          $q->select(DB::raw(1))
+                            ->from('berkas_pendaftaran')
+                            ->whereColumn('berkas_pendaftaran.calon_siswa_id', 'calon_siswa.id')
+                            ->groupBy('calon_siswa_id')
+                            ->havingRaw('COUNT(CASE WHEN file_path IS NOT NULL THEN 1 END) < 4');
+                      });
+            } elseif ($status === 'lengkap') {
+                // Siswa yang data lengkap dan berkas lengkap
+                $query->whereHas('pendaftaran')
+                      ->whereNotNull('jk')
+                      ->whereNotNull('tgl_lahir')
+                      ->whereNotNull('alamat')
+                      ->whereNotNull('asal_sekolah')
+                      ->whereExists(function ($q) {
+                          $q->select(DB::raw(1))
+                            ->from('berkas_pendaftaran')
+                            ->whereColumn('berkas_pendaftaran.calon_siswa_id', 'calon_siswa.id')
+                            ->groupBy('calon_siswa_id')
+                            ->havingRaw('COUNT(CASE WHEN file_path IS NOT NULL THEN 1 END) = 4');
+                      });
             }
         }
 
@@ -282,7 +307,7 @@ class AdminPpdbController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('nama', 'like', "%{$search}%")
-                  ->orWhere('asal_sekolah', 'like', "%{$search}%")
+                  ->orWhere('no_wa', 'like', "%{$search}%")
                   ->orWhere('nisn', 'like', "%{$search}%")
                   ->orWhereYear('tgl_lahir', $search);
             });
@@ -298,7 +323,7 @@ class AdminPpdbController extends Controller
             $status = $request->status;
             if ($status === 'baru') {
                 $query->whereDoesntHave('pendaftaran');
-            } elseif ($status === 'proses') {
+            } elseif ($status === 'proses_data') {
                 $query->whereHas('pendaftaran')
                       ->where(function ($q) {
                           $q->whereNull('jk')
@@ -306,12 +331,32 @@ class AdminPpdbController extends Controller
                             ->orWhereNull('alamat')
                             ->orWhereNull('asal_sekolah');
                       });
+            } elseif ($status === 'proses_berkas') {
+                $query->whereHas('pendaftaran')
+                      ->whereNotNull('jk')
+                      ->whereNotNull('tgl_lahir')
+                      ->whereNotNull('alamat')
+                      ->whereNotNull('asal_sekolah')
+                      ->whereExists(function ($q) {
+                          $q->select(DB::raw(1))
+                            ->from('berkas_pendaftaran')
+                            ->whereColumn('berkas_pendaftaran.calon_siswa_id', 'calon_siswa.id')
+                            ->groupBy('calon_siswa_id')
+                            ->havingRaw('COUNT(CASE WHEN file_path IS NOT NULL THEN 1 END) < 4');
+                      });
             } elseif ($status === 'lengkap') {
                 $query->whereHas('pendaftaran')
                       ->whereNotNull('jk')
                       ->whereNotNull('tgl_lahir')
                       ->whereNotNull('alamat')
-                      ->whereNotNull('asal_sekolah');
+                      ->whereNotNull('asal_sekolah')
+                      ->whereExists(function ($q) {
+                          $q->select(DB::raw(1))
+                            ->from('berkas_pendaftaran')
+                            ->whereColumn('berkas_pendaftaran.calon_siswa_id', 'calon_siswa.id')
+                            ->groupBy('calon_siswa_id')
+                            ->havingRaw('COUNT(CASE WHEN file_path IS NOT NULL THEN 1 END) = 4');
+                      });
             }
         }
 
@@ -388,4 +433,3 @@ class AdminPpdbController extends Controller
         return new StreamedResponse($callback, 200, $headers);
     }
 }
-

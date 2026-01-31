@@ -124,34 +124,47 @@ class CalonSiswa extends Authenticatable
     }
 
     /**
-     * Mendapatkan status verifikasi berkas
+     * Mendapatkan status verifikasi berkas (diubah untuk tracking upload saja)
      */
     public function getStatusBerkas(): string
     {
-        $berkas = $this->berkasPendaftaran;
+        $progress = BerkasPendaftaran::getUploadProgress($this->id);
         
-        if ($berkas->isEmpty()) {
+        if ($progress['uploaded'] === 0) {
             return 'Belum Upload';
         }
 
-        $pending = $berkas->where('status_verifikasi', BerkasPendaftaran::STATUS_PENDING)->count();
-        $tidakValid = $berkas->where('status_verifikasi', BerkasPendaftaran::STATUS_TIDAK_VALID)->count();
-        $valid = $berkas->where('status_verifikasi', BerkasPendaftaran::STATUS_VALID)->count();
-        $total = count(BerkasPendaftaran::getJenisBerkas());
-
-        if ($tidakValid > 0) {
-            return 'Ada Berkas Tidak Valid';
+        if ($progress['is_complete']) {
+            return 'Lengkap';
         }
 
-        if ($valid === $total) {
-            return 'Semua Valid';
-        }
+        return 'Proses Upload (' . $progress['uploaded'] . '/' . $progress['total'] . ')';
+    }
 
-        if ($pending > 0) {
-            return 'Menunggu Verifikasi';
-        }
+    /**
+     * Cek apakah siswa sudah menyelesaikan semua tahapan
+     */
+    public function isSelesai(): bool
+    {
+        return BerkasPendaftaran::isAllUploaded($this->id);
+    }
 
-        return 'Belum Lengkap';
+    /**
+     * Mendapatkan status lengkap untuk timeline
+     */
+    public function getStatusDetail(): array
+    {
+        $pendaftaran = $this->pendaftaran;
+        $berkasProgress = BerkasPendaftaran::getUploadProgress($this->id);
+
+        return [
+            'biodata_lengkap' => $this->isRegistrationComplete(),
+            'orang_tua_lengkap' => $this->orangTua !== null,
+            'jurusan_terpilih' => $pendaftaran?->jurusan_id !== null,
+            'berkas_progress' => $berkasProgress,
+            'semua_berkas_uploaded' => $berkasProgress['is_complete'],
+            'status_tes' => $berkasProgress['is_complete'] ? 'Menunggu Jadwal via WA' : 'Belum Siap',
+        ];
     }
 }
 

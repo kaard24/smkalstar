@@ -7,7 +7,7 @@
     <section class="relative bg-white overflow-hidden min-h-[70vh] md:min-h-[90vh] flex items-center">
         <div class="absolute inset-0 z-0">
             <div class="absolute inset-0 bg-gradient-to-r from-gray-900/95 via-gray-900/70 to-transparent z-10"></div>
-            <img src="{{ asset('images/b1.jpg') }}" alt="School Building" class="w-full h-full object-cover">
+            <img src="{{ asset('images/b1.jpg') }}" alt="School Building" class="w-full h-full object-cover" fetchpriority="high" decoding="async">
         </div>
         
         <div class="container relative z-20 mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
@@ -141,7 +141,7 @@
                 @foreach($jurusan as $j)
                 <div class="group relative bg-white rounded-xl md:rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100 flex flex-col h-full">
                     <div class="h-40 md:h-56 bg-gray-200 relative overflow-hidden">
-                        <img src="{{ $j['img'] }}" alt="{{ $j['code'] }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                        <img src="{{ $j['img'] }}" alt="{{ $j['code'] }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700" loading="lazy" decoding="async">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition duration-500"></div>
                         <h4 class="absolute bottom-3 left-4 md:bottom-4 md:left-6 text-white text-xl md:text-2xl font-bold font-heading">{{ $j['code'] }}</h4>
                     </div>
@@ -161,7 +161,7 @@
     <!-- Call to Action PPDB -->
     <section class="py-12 md:py-20 lg:py-32 bg-gray-900 relative overflow-hidden">
         <div class="absolute inset-0 z-0 opacity-20">
-            <img src="{{ asset('images/b1.jpg') }}" alt="Background" class="w-full h-full object-cover grayscale">
+            <img src="{{ asset('images/b1.jpg') }}" alt="Background" class="w-full h-full object-cover grayscale" loading="lazy" decoding="async">
             <div class="absolute inset-0 bg-gray-900/50"></div>
         </div>
         

@@ -6,7 +6,7 @@
     <!-- Header Page -->
     <div class="relative bg-gray-900 py-24 overflow-hidden">
         <div class="absolute inset-0 opacity-20">
-            <img src="{{ asset('images/b1.jpg') }}" class="w-full h-full object-cover">
+            <img src="{{ asset('images/b1.jpg') }}" class="w-full h-full object-cover" fetchpriority="high" decoding="async" alt="Header Prestasi">
         </div>
         <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/50 to-transparent"></div>
         <div class="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -53,7 +53,7 @@
                      @click="openLightbox({{ json_encode($images) }}, '{{ addslashes($item->judul) }}')">
                     <div class="relative h-64 overflow-hidden">
                         @if($item->gambar_url)
-                        <img src="{{ $item->gambar_url }}" alt="{{ $item->judul }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                        <img src="{{ $item->gambar_url }}" alt="{{ $item->judul }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700" loading="lazy" decoding="async">
                         @else
                         <div class="w-full h-full bg-yellow-50 flex items-center justify-center text-yellow-500 group-hover:bg-yellow-100 transition duration-300">
                             <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>

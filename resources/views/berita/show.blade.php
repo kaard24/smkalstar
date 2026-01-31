@@ -36,14 +36,14 @@
                 @if(!empty($berita->gambar_urls))
                 <div class="mb-8">
                     @if(count($berita->gambar_urls) == 1)
-                    <img src="{{ $berita->gambar_urls[0] }}" alt="{{ $berita->judul }}" class="w-full rounded-2xl shadow-lg">
+                    <img src="{{ $berita->gambar_urls[0] }}" alt="{{ $berita->judul }}" class="w-full rounded-2xl shadow-lg" fetchpriority="high" decoding="async">
                     @else
                     <div class="grid grid-cols-2 gap-4">
                         @foreach($berita->gambar_urls as $index => $url)
                         <div class="{{ $index === 0 ? 'col-span-2' : '' }}">
                             <img src="{{ $url }}" alt="{{ $berita->judul }} - Gambar {{ $index + 1 }}" 
                                  class="w-full {{ $index === 0 ? 'h-80 md:h-96' : 'h-48' }} object-cover rounded-xl shadow-md cursor-pointer hover:opacity-90 transition"
-                                 onclick="openImageModal('{{ $url }}')">
+                                 onclick="openImageModal('{{ $url }}')" {{ $index === 0 ? 'fetchpriority="high"' : 'loading="lazy"' }} decoding="async">
                         </div>
                         @endforeach
                     </div>
@@ -172,7 +172,7 @@
                         <a href="{{ route('berita.show', $item->slug) }}">
                             <div class="aspect-video overflow-hidden bg-gray-100">
                                 @if($item->gambar_utama)
-                                <img src="{{ $item->gambar_utama }}" alt="{{ $item->judul }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                <img src="{{ $item->gambar_utama }}" alt="{{ $item->judul }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" decoding="async">
                                 @else
                                 <div class="w-full h-full flex items-center justify-center">
                                     <svg class="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path></svg>

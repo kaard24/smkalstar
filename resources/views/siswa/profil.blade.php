@@ -53,7 +53,7 @@
                     @if($calonSiswa->pendaftaran->tes && $calonSiswa->pendaftaran->tes->status_kelulusan != 'Pending')
                     <div class="mt-4 p-3 rounded-lg {{ $calonSiswa->pendaftaran->tes->status_kelulusan == 'Lulus' ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200' }}">
                         <p class="font-bold {{ $calonSiswa->pendaftaran->tes->status_kelulusan == 'Lulus' ? 'text-green-700' : 'text-red-700' }}">
-                            {{ $calonSiswa->pendaftaran->tes->status_kelulusan == 'Lulus' ? '🎉 LULUS' : '❌ TIDAK LULUS' }}
+                            {{ $calonSiswa->pendaftaran->tes->status_kelulusan == 'Lulus' ? 'LULUS' : 'TIDAK LULUS' }}
                         </p>
                     </div>
                     @endif
@@ -146,7 +146,10 @@
 
         <!-- Actions -->
         <div class="mt-6 flex justify-between items-center">
-            <a href="{{ url('/') }}" class="text-gray-500 hover:text-gray-700 text-sm">← Kembali ke Website</a>
+            <a href="{{ url('/') }}" class="text-gray-500 hover:text-gray-700 text-sm flex items-center gap-1">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+                Kembali ke Website
+            </a>
             <form action="{{ route('logout') }}" method="POST" class="inline">
                 @csrf
                 <button type="submit" class="text-red-600 hover:text-red-800 text-sm font-medium">Logout</button>

@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pendaftaran;
-use App\Models\Tes;
+use App\Models\BerkasPendaftaran;
 use App\Models\Pengumuman;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class PpdbDashboardController extends Controller
@@ -17,53 +16,58 @@ class PpdbDashboardController extends Controller
     public function index()
     {
         $siswa = Auth::guard('ppdb')->user();
-        $siswa->load(['orangTua', 'pendaftaran.jurusan', 'pendaftaran.tes', 'berkasPendaftaran']);
+        $siswa->load(['orangTua', 'pendaftaran.jurusan', 'berkasPendaftaran']);
 
         $pendaftaran = $siswa->pendaftaran;
-        $tes = $pendaftaran?->tes;
+        
+        // Get berkas progress
+        $berkasProgress = BerkasPendaftaran::getUploadProgress($siswa->id);
 
         // Get latest pengumuman
         $pengumuman = Pengumuman::latest()->first();
 
-        // Calculate registration completeness
+        // Calculate registration completeness (now includes berkas)
         $biodataComplete = $siswa->isRegistrationComplete();
         $orangTuaComplete = $siswa->orangTua !== null;
         $jurusanSelected = $pendaftaran?->jurusan_id !== null;
+        $berkasComplete = $berkasProgress['is_complete'];
 
         $completeness = [
             'biodata' => $biodataComplete,
             'orang_tua' => $orangTuaComplete,
             'jurusan' => $jurusanSelected,
-            'percentage' => $this->calculateCompleteness($biodataComplete, $orangTuaComplete, $jurusanSelected),
+            'berkas' => $berkasComplete,
+            'percentage' => $this->calculateCompleteness($biodataComplete, $orangTuaComplete, $jurusanSelected, $berkasComplete),
+            'berkas_progress' => $berkasProgress,
         ];
 
         // Status timeline
-        $timeline = $this->buildTimeline($siswa, $pendaftaran, $tes);
+        $timeline = $this->buildTimeline($siswa, $pendaftaran, $berkasProgress);
 
         return view('ppdb.dashboard', compact(
             'siswa',
             'pendaftaran',
-            'tes',
             'pengumuman',
             'completeness',
-            'timeline'
+            'timeline',
+            'berkasProgress'
         ));
     }
 
     /**
      * Calculate registration completeness percentage
      */
-    protected function calculateCompleteness(bool $biodata, bool $orangTua, bool $jurusan): int
+    protected function calculateCompleteness(bool $biodata, bool $orangTua, bool $jurusan, bool $berkas): int
     {
-        $total = 3;
-        $completed = ($biodata ? 1 : 0) + ($orangTua ? 1 : 0) + ($jurusan ? 1 : 0);
+        $total = 4;
+        $completed = ($biodata ? 1 : 0) + ($orangTua ? 1 : 0) + ($jurusan ? 1 : 0) + ($berkas ? 1 : 0);
         return (int) round(($completed / $total) * 100);
     }
 
     /**
-     * Build registration timeline
+     * Build registration timeline - Simplified version
      */
-    protected function buildTimeline($siswa, $pendaftaran, $tes): array
+    protected function buildTimeline($siswa, $pendaftaran, array $berkasProgress): array
     {
         $timeline = [];
 
@@ -93,62 +97,55 @@ class PpdbDashboardController extends Controller
         }
 
         // 3. Upload Berkas
-        if ($pendaftaran) {
-            // Check if user has uploaded any berkas
-            $hasBerkas = $siswa->berkasPendaftaran()->count() > 0;
-            
-            if ($hasBerkas) {
-                $timeline[] = [
-                    'title' => 'Upload Berkas',
-                    'status' => 'completed',
-                    'date' => $siswa->berkasPendaftaran()->latest()->first()->created_at->format('d M Y'),
-                    'description' => 'Berkas berhasil diupload',
-                ];
-            } else {
-                $timeline[] = [
-                    'title' => 'Upload Berkas',
-                    'status' => 'current',
-                    'date' => null,
-                    'description' => 'Silakan upload berkas pendaftaran',
-                ];
-            }
-        }
-
-        // 4. Test BTQ
-        if ($tes) {
-            if ($tes->nilai_btq !== null) {
-                $timeline[] = [
-                    'title' => 'Tes BTQ',
-                    'status' => 'completed',
-                    'date' => $tes->updated_at->format('d M Y'),
-                    'description' => 'Nilai: ' . $tes->nilai_btq,
-                ];
-            } else {
-                $timeline[] = [
-                    'title' => 'Tes BTQ',
-                    'status' => 'pending',
-                    'date' => null,
-                    'description' => 'Menunggu jadwal tes',
-                ];
-            }
-        }
-
-        // 5. Announcement
-        if ($tes && $tes->status_kelulusan !== 'Pending') {
+        if ($berkasProgress['is_complete']) {
             $timeline[] = [
-                'title' => 'Pengumuman',
-                'status' => $tes->status_kelulusan === 'Lulus' ? 'completed' : 'rejected',
-                'date' => $tes->updated_at->format('d M Y'),
-                'description' => 'Status: ' . $tes->status_kelulusan,
+                'title' => 'Upload Berkas',
+                'status' => 'completed',
+                'date' => $siswa->berkasPendaftaran()->latest()->first()?->created_at->format('d M Y'),
+                'description' => 'Semua berkas telah diupload (' . $berkasProgress['uploaded'] . '/' . $berkasProgress['total'] . ')',
+            ];
+        } else {
+            $currentStep = $siswa->isRegistrationComplete() ? 'current' : 'upcoming';
+            $timeline[] = [
+                'title' => 'Upload Berkas',
+                'status' => $currentStep,
+                'date' => null,
+                'description' => 'Progress: ' . $berkasProgress['uploaded'] . ' dari ' . $berkasProgress['total'] . ' berkas',
+            ];
+        }
+
+        // 4. Menunggu Jadwal Tes (diganti dari Tes BTQ)
+        if ($berkasProgress['is_complete']) {
+            $timeline[] = [
+                'title' => 'Menunggu Jadwal Tes',
+                'status' => 'current',
+                'date' => null,
+                'description' => 'Jadwal tes akan diinformasikan melalui WhatsApp',
             ];
         } else {
             $timeline[] = [
-                'title' => 'Pengumuman',
+                'title' => 'Menunggu Jadwal Tes',
                 'status' => 'upcoming',
                 'date' => null,
-                'description' => 'Menunggu hasil seleksi',
+                'description' => 'Lengkapi upload berkas terlebih dahulu',
             ];
         }
+
+        // 5. Tes & Wawancara (Offline)
+        $timeline[] = [
+            'title' => 'Tes & Wawancara',
+            'status' => 'upcoming',
+            'date' => null,
+            'description' => 'Dilaksanakan offline di sekolah',
+        ];
+
+        // 6. Kelulusan - Semua siswa lulus
+        $timeline[] = [
+            'title' => 'Kelulusan',
+            'status' => 'upcoming',
+            'date' => null,
+            'description' => 'Selamat! Semua siswa diterima',
+        ];
 
         return $timeline;
     }

@@ -19,11 +19,11 @@ class BerkasPendaftaran extends Model
 
     /**
      * Jenis berkas yang dapat diupload
+     * SKL dan Ijazah digabung menjadi satu kategori
      */
     const JENIS_KK = 'KK';
     const JENIS_AKTA = 'AKTA';
-    const JENIS_SKL = 'SKL';
-    const JENIS_IJAZAH = 'IJAZAH';
+    const JENIS_SKL_IJAZAH = 'SKL_IJAZAH'; // Gabungan SKL atau Ijazah
 
     /**
      * Status verifikasi berkas
@@ -43,15 +43,29 @@ class BerkasPendaftaran extends Model
 
     /**
      * Daftar jenis berkas yang tersedia
+     * SKL dan Ijazah digabung - siswa cukup upload salah satu
      */
     public static function getJenisBerkas(): array
     {
         return [
             self::JENIS_KK => 'Kartu Keluarga',
             self::JENIS_AKTA => 'Akta Kelahiran',
-            self::JENIS_SKL => 'Surat Keterangan Lulus',
-            self::JENIS_IJAZAH => 'Ijazah',
+            self::JENIS_SKL_IJAZAH => 'SKL atau Ijazah',
         ];
+    }
+
+    /**
+     * Keterangan tambahan untuk SKL/Ijazah
+     */
+    public static function getKeteranganJenis(string $jenis): string
+    {
+        $keterangan = [
+            self::JENIS_KK => 'Scan Kartu Keluarga yang masih berlaku',
+            self::JENIS_AKTA => 'Scan Akta Kelahiran',
+            self::JENIS_SKL_IJAZAH => 'Upload SKL (jika belum lulus) atau Ijazah (jika sudah lulus)',
+        ];
+        
+        return $keterangan[$jenis] ?? '';
     }
 
     /**
@@ -112,5 +126,47 @@ class BerkasPendaftaran extends Model
     public function getFullPathAttribute(): string
     {
         return storage_path('app/' . $this->path_file);
+    }
+
+    /**
+     * Mendapatkan progress upload berkas dalam persen
+     */
+    public static function getUploadProgress(int $calonSiswaId): array
+    {
+        $totalBerkas = count(self::getJenisBerkas());
+        $uploadedBerkas = self::where('calon_siswa_id', $calonSiswaId)->count();
+        
+        $percentage = $totalBerkas > 0 ? (int) round(($uploadedBerkas / $totalBerkas) * 100) : 0;
+        
+        // Get detail per jenis berkas
+        $uploadedTypes = self::where('calon_siswa_id', $calonSiswaId)
+            ->pluck('jenis_berkas')
+            ->toArray();
+        
+        $detail = [];
+        foreach (self::getJenisBerkas() as $key => $label) {
+            $detail[$key] = [
+                'label' => $label,
+                'uploaded' => in_array($key, $uploadedTypes),
+                'keterangan' => self::getKeteranganJenis($key),
+            ];
+        }
+        
+        return [
+            'percentage' => $percentage,
+            'uploaded' => $uploadedBerkas,
+            'total' => $totalBerkas,
+            'is_complete' => $uploadedBerkas === $totalBerkas,
+            'detail' => $detail,
+        ];
+    }
+
+    /**
+     * Cek apakah semua berkas sudah diupload
+     */
+    public static function isAllUploaded(int $calonSiswaId): bool
+    {
+        $progress = self::getUploadProgress($calonSiswaId);
+        return $progress['is_complete'];
     }
 }

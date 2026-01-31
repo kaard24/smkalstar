@@ -4,8 +4,8 @@
             <!-- Brand & Desc -->
             <div>
                 <div class="flex items-center gap-2 mb-4">
-                    <img class="h-10 w-auto rounded-full" src="{{ asset('images/logo.jpg') }}" alt="Logo SMK Al-Hidayah Lestari">
-                    <span class="font-bold text-lg tracking-tight text-white">SMK Al-Hidayah Lestari</span>
+                    <img class="h-8 w-8 rounded-full object-cover" src="{{ asset('images/logo.jpg') }}" alt="Logo SMK Al-Hidayah Lestari">
+                    <span class="font-bold text-base md:text-lg tracking-tight text-white">SMK Al-Hidayah Lestari</span>
                 </div>
                 <p class="text-gray-400 text-sm leading-relaxed mb-4">
                     Mewujudkan generasi unggul, berakhlak mulia, dan siap kerja dengan kompetensi masa depan.

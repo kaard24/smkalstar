@@ -111,37 +111,73 @@
             @endif
         </div>
 
-        {{-- Berkas Upload --}}
+        {{-- Berkas Upload dengan Progress --}}
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-            <h3 class="font-bold text-gray-900 mb-4 border-b pb-2">Berkas yang Diupload</h3>
+            @php
+                $berkasProgress = \App\Models\BerkasPendaftaran::getUploadProgress($siswa->id);
+            @endphp
             
-            @if($siswa->berkasPendaftaran->count() > 0)
-            <div class="space-y-4">
-                @foreach($siswa->berkasPendaftaran as $berkas)
-                <div class="p-4 rounded-lg border bg-gray-50 border-gray-200">
-                    <div class="flex items-start justify-between">
-                        <div>
-                            <h4 class="font-bold text-sm text-gray-800">{{ $berkas->nama_jenis }}</h4>
-                            <p class="text-xs text-gray-500 mt-1">{{ $berkas->nama_file }}</p>
-                            <p class="text-xs text-gray-400 mt-1">Upload: {{ $berkas->created_at->format('d M Y H:i') }}</p>
-                            <div class="mt-2">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">Berhasil Upload</span>
-                            </div>
+            <div class="flex items-center justify-between mb-4 border-b pb-2">
+                <h3 class="font-bold text-gray-900">Progress Upload Berkas</h3>
+                <span class="text-sm font-bold {{ $berkasProgress['is_complete'] ? 'text-green-600' : 'text-yellow-600' }}">
+                    {{ $berkasProgress['uploaded'] }}/{{ $berkasProgress['total'] }}
+                </span>
+            </div>
+            
+            {{-- Progress Bar --}}
+            <div class="mb-6">
+                <div class="w-full bg-gray-200 rounded-full h-3">
+                    <div class="bg-primary h-3 rounded-full transition-all duration-500" style="width: {{ $berkasProgress['percentage'] }}%"></div>
+                </div>
+                <p class="text-xs text-gray-500 mt-2">
+                    @if($berkasProgress['is_complete'])
+                        <span class="flex items-center gap-1"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Semua berkas telah diupload</span>
+                    @else
+                        {{ $berkasProgress['total'] - $berkasProgress['uploaded'] }} berkas belum diupload
+                    @endif
+                </p>
+            </div>
+            
+            {{-- Detail Berkas --}}
+            <h4 class="font-semibold text-sm text-gray-700 mb-3">Detail Berkas</h4>
+            <div class="space-y-2">
+                @foreach($berkasProgress['detail'] as $key => $item)
+                <div class="flex items-start justify-between p-3 rounded-lg {{ $item['uploaded'] ? 'bg-green-50 border border-green-100' : 'bg-gray-50 border border-gray-100' }}">
+                    <div class="flex items-start gap-3">
+                        <div class="w-6 h-6 rounded-full {{ $item['uploaded'] ? 'bg-green-500' : 'bg-gray-300' }} flex items-center justify-center flex-shrink-0 mt-0.5">
+                            @if($item['uploaded'])
+                            <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            @else
+                            <span class="text-xs text-white font-bold">{{ $loop->iteration }}</span>
+                            @endif
                         </div>
-                        <a href="{{ route('admin.berkas.download', $berkas->id) }}" target="_blank" class="flex items-center text-blue-600 hover:text-blue-800 text-sm font-medium">
-                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        <div>
+                            <span class="text-sm {{ $item['uploaded'] ? 'text-green-800 font-medium' : 'text-gray-600' }}">{{ $item['label'] }}</span>
+                            @if(isset($item['keterangan']) && $item['keterangan'])
+                            <p class="text-xs text-gray-500 mt-0.5">{{ $item['keterangan'] }}</p>
+                            @endif
+                        </div>
+                    </div>
+                    @if($item['uploaded'])
+                        @php
+                            $berkasFile = $siswa->berkasPendaftaran->where('jenis_berkas', $key)->first();
+                        @endphp
+                        @if($berkasFile)
+                        <a href="{{ route('admin.berkas.download', $berkasFile->id) }}" target="_blank" class="text-xs text-blue-600 hover:text-blue-800 flex items-center gap-1">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                            </svg>
                             Unduh
                         </a>
-                    </div>
+                        @endif
+                    @else
+                        <span class="text-xs text-gray-400">Belum</span>
+                    @endif
                 </div>
                 @endforeach
             </div>
-            @else
-            <div class="text-center py-8 text-gray-500">
-                <svg class="w-12 h-12 mx-auto text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                <p>Belum ada berkas yang diupload.</p>
-            </div>
-            @endif
         </div>
     </div>
 @endsection

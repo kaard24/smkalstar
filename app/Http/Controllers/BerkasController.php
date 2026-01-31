@@ -26,7 +26,7 @@ class BerkasController extends Controller
     }
 
     /**
-     * Upload berkas baru
+     * Upload berkas baru - Tanpa verifikasi admin
      */
     public function upload(Request $request)
     {
@@ -48,11 +48,6 @@ class BerkasController extends Controller
             ->where('jenis_berkas', $request->jenis_berkas)
             ->first();
 
-        // Jika sudah ada berkas yang sudah diverifikasi (Valid), tidak boleh upload ulang
-        if ($existingBerkas && $existingBerkas->isValid()) {
-            return back()->with('error', 'Berkas ini sudah diverifikasi Valid dan tidak dapat diubah.');
-        }
-
         // Buat folder berdasarkan NISN
         $folder = "ppdb/berkas/{$siswa->nisn}";
         
@@ -69,13 +64,11 @@ class BerkasController extends Controller
         // Simpan file baru
         $path = $request->file('file')->storeAs($folder, $filename);
 
-        // Update atau create record berkas
+        // Update atau create record berkas (tanpa status verifikasi)
         if ($existingBerkas) {
             $existingBerkas->update([
                 'nama_file' => $request->file('file')->getClientOriginalName(),
                 'path_file' => $path,
-                'status_verifikasi' => BerkasPendaftaran::STATUS_PENDING,
-                'catatan_admin' => null,
             ]);
         } else {
             BerkasPendaftaran::create([
@@ -83,11 +76,16 @@ class BerkasController extends Controller
                 'jenis_berkas' => $request->jenis_berkas,
                 'nama_file' => $request->file('file')->getClientOriginalName(),
                 'path_file' => $path,
-                'status_verifikasi' => BerkasPendaftaran::STATUS_PENDING,
             ]);
         }
 
-        return back()->with('success', 'Berkas berhasil diupload.');
+        // Check if all berkas uploaded
+        $progress = BerkasPendaftaran::getUploadProgress($siswa->id);
+        if ($progress['is_complete']) {
+            return back()->with('success', 'Berkas berhasil diupload. Semua dokumen telah lengkap! Jadwal tes akan diinformasikan melalui WhatsApp.');
+        }
+
+        return back()->with('success', 'Berkas berhasil diupload. Progress: ' . $progress['uploaded'] . '/' . $progress['total']);
     }
 
     /**
@@ -110,7 +108,7 @@ class BerkasController extends Controller
     }
 
     /**
-     * Hapus berkas (hanya jika masih pending atau tidak valid)
+     * Hapus berkas (boleh dihapus kapan saja)
      */
     public function destroy(BerkasPendaftaran $berkas)
     {
@@ -119,11 +117,6 @@ class BerkasController extends Controller
         // Cek kepemilikan berkas
         if ($berkas->calon_siswa_id !== $siswa->id) {
             abort(403);
-        }
-
-        // Tidak bisa hapus berkas yang sudah valid
-        if ($berkas->isValid()) {
-            return back()->with('error', 'Berkas yang sudah diverifikasi Valid tidak dapat dihapus.');
         }
 
         // Hapus file dari storage
@@ -141,15 +134,15 @@ class BerkasController extends Controller
     // ============================================
 
     /**
-     * Menampilkan daftar berkas untuk verifikasi (Admin)
+     * Menampilkan daftar berkas (Admin - view only, no verification)
      */
     public function adminIndex(Request $request)
     {
         $query = BerkasPendaftaran::with('calonSiswa');
 
-        // Filter berdasarkan status
-        if ($request->has('status') && $request->status !== 'all') {
-            $query->where('status_verifikasi', $request->status);
+        // Filter berdasarkan jenis berkas
+        if ($request->has('jenis') && $request->jenis) {
+            $query->where('jenis_berkas', $request->jenis);
         }
 
         // Filter berdasarkan NISN
