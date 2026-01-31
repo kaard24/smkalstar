@@ -53,7 +53,7 @@
 
                 <!-- Article Body -->
                 <div class="prose prose-lg max-w-none text-gray-700 leading-relaxed">
-                    {!! nl2br(e($berita->isi)) !!}
+                    {!! $berita->isi !!}
                 </div>
 
                 <!-- Share Section -->

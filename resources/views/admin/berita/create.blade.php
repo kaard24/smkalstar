@@ -41,8 +41,9 @@
                 <div>
                     <label for="isi" class="block text-sm font-medium text-gray-700 mb-1">Isi Berita <span class="text-red-500">*</span></label>
                     <textarea id="isi" name="isi" rows="10" required
-                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition tinymce-editor"
                         placeholder="Tulis isi berita...">{{ old('isi') }}</textarea>
+                    <p class="mt-1 text-xs text-gray-500">Gunakan editor untuk memformat teks, menambahkan link, gambar, dan lainnya.</p>
                 </div>
 
                 <div>
@@ -70,4 +71,32 @@
         </div>
     </form>
 </div>
+
+{{-- TinyMCE Rich Text Editor --}}
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+    tinymce.init({
+        selector: '.tinymce-editor',
+        height: 400,
+        plugins: [
+            'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+            'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+            'insertdatetime', 'media', 'table', 'help', 'wordcount'
+        ],
+        toolbar: 'undo redo | blocks | bold italic forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media table | removeformat code help',
+        menubar: 'file edit view insert format tools table help',
+        content_style: 'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; font-size: 16px; }',
+        branding: false,
+        promotion: false,
+        images_upload_url: '/upload-image',
+        automatic_uploads: true,
+        file_picker_types: 'image',
+        images_file_types: 'jpg,jpeg,png,gif,webp',
+        setup: function (editor) {
+            editor.on('change', function () {
+                editor.save();
+            });
+        }
+    });
+</script>
 @endsection

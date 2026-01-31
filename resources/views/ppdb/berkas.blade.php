@@ -159,50 +159,99 @@
     </div>
 </div>
 
-{{-- Upload Modal --}}
+{{-- Upload Modal with Drag & Drop --}}
 <div id="uploadModal" class="fixed inset-0 z-50 hidden">
-    <div class="absolute inset-0 bg-black/50" onclick="closeUploadModal()"></div>
+    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeUploadModal()"></div>
     <div class="absolute inset-0 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 relative">
-            <button type="button" onclick="closeUploadModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-6 relative transform transition-all">
+            <button type="button" onclick="closeUploadModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                 </svg>
             </button>
 
-            <h3 class="text-lg font-semibold text-gray-900 mb-1">Upload Berkas</h3>
-            <p id="modalBerkasNama" class="text-sm text-gray-500 mb-6"></p>
+            <div class="text-center mb-6">
+                <div class="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <svg class="w-7 h-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900">Upload Berkas</h3>
+                <p id="modalBerkasNama" class="text-sm text-gray-500 mt-1"></p>
+            </div>
 
-            <form action="{{ route('ppdb.berkas.upload') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('ppdb.berkas.upload') }}" method="POST" enctype="multipart/form-data" id="uploadForm">
                 @csrf
                 <input type="hidden" name="jenis_berkas" id="modalJenisBerkas">
 
-                <div class="mb-6">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Pilih File</label>
-                    <div class="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-primary transition cursor-pointer"
-                         onclick="document.getElementById('fileInput').click()">
-                        <svg class="w-12 h-12 mx-auto text-gray-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
-                        </svg>
-                        <p class="text-sm text-gray-600 mb-1">Klik untuk memilih file</p>
-                        <p class="text-xs text-gray-400">PDF, JPG, PNG (Maks. 2MB)</p>
-                        <p id="selectedFileName" class="text-sm text-primary font-medium mt-2 hidden"></p>
+                {{-- Drag & Drop Zone --}}
+                <div id="dropZone" 
+                     class="relative border-2 border-dashed border-gray-300 rounded-2xl p-8 text-center transition-all duration-200 hover:border-primary/50 bg-gray-50/50">
+                    
+                    {{-- Upload State --}}
+                    <div id="uploadState">
+                        <div class="mb-4">
+                            <svg class="w-16 h-16 mx-auto text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                            </svg>
+                        </div>
+                        <p class="text-gray-600 font-medium mb-2">Drag & drop file di sini</p>
+                        <p class="text-gray-400 text-sm mb-4">atau</p>
+                        <button type="button" onclick="document.getElementById('fileInput').click()"
+                                class="px-6 py-2.5 bg-white border-2 border-primary text-primary rounded-xl font-medium hover:bg-primary hover:text-white transition shadow-sm">
+                            Pilih File
+                        </button>
+                        <p class="mt-4 text-xs text-gray-400">PDF, JPG, PNG (Maks. 2MB)</p>
                     </div>
-                    <input type="file" name="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png" class="hidden" required
-                           onchange="updateFileName(this)">
-                    @error('file')
-                    <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
-                    @enderror
+
+                    {{-- File Selected State --}}
+                    <div id="fileSelectedState" class="hidden">
+                        <div class="flex items-center justify-center mb-4">
+                            <div id="filePreviewIcon" class="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center">
+                                {{-- Icon will be set by JS --}}
+                            </div>
+                        </div>
+                        <p id="selectedFileName" class="text-gray-800 font-medium mb-1 truncate px-4"></p>
+                        <p id="selectedFileSize" class="text-gray-400 text-sm mb-4"></p>
+                        <button type="button" onclick="resetFileInput()"
+                                class="text-red-500 hover:text-red-600 text-sm font-medium flex items-center gap-1 mx-auto">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                            </svg>
+                            Hapus & Pilih Ulang
+                        </button>
+                    </div>
+
+                    {{-- Loading State --}}
+                    <div id="loadingState" class="hidden">
+                        <div class="mb-4">
+                            <svg class="w-16 h-16 mx-auto text-primary animate-spin" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                        </div>
+                        <p class="text-gray-600 font-medium">Mengupload file...</p>
+                        <p class="text-gray-400 text-sm mt-1">Mohon tunggu sebentar</p>
+                    </div>
+
+                    <input type="file" name="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png" class="hidden" required>
                 </div>
 
-                <div class="flex gap-3">
+                @error('file')
+                <p class="mt-2 text-sm text-red-500 text-center">{{ $message }}</p>
+                @enderror
+
+                <div class="flex gap-3 mt-6">
                     <button type="button" onclick="closeUploadModal()" 
                             class="flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition font-medium">
                         Batal
                     </button>
-                    <button type="submit" 
-                            class="flex-1 px-4 py-3 bg-primary text-white rounded-xl hover:bg-primary/90 transition font-medium shadow-sm">
-                        Upload
+                    <button type="submit" id="submitBtn" disabled
+                            class="flex-1 px-4 py-3 bg-primary text-white rounded-xl hover:bg-primary/90 transition font-medium shadow-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+                        <span>Upload</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+                        </svg>
                     </button>
                 </div>
             </form>
@@ -211,27 +260,178 @@
 </div>
 
 <script>
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+const uploadState = document.getElementById('uploadState');
+const fileSelectedState = document.getElementById('fileSelectedState');
+const loadingState = document.getElementById('loadingState');
+const selectedFileName = document.getElementById('selectedFileName');
+const selectedFileSize = document.getElementById('selectedFileSize');
+const filePreviewIcon = document.getElementById('filePreviewIcon');
+const submitBtn = document.getElementById('submitBtn');
+const uploadForm = document.getElementById('uploadForm');
+
+// Prevent default drag behaviors
+t['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+    dropZone.addEventListener(eventName, preventDefaults, false);
+    document.body.addEventListener(eventName, preventDefaults, false);
+});
+
+// Highlight drop zone when dragging over
+t['dragenter', 'dragover'].forEach(eventName => {
+    dropZone.addEventListener(eventName, highlight, false);
+});
+
+t['dragleave', 'drop'].forEach(eventName => {
+    dropZone.addEventListener(eventName, unhighlight, false);
+});
+
+// Handle dropped files
+dropZone.addEventListener('drop', handleDrop, false);
+
+// Handle file input change
+fileInput.addEventListener('change', handleFiles, false);
+
+// Handle form submit
+uploadForm.addEventListener('submit', handleSubmit, false);
+
+function preventDefaults(e) {
+    e.preventDefault();
+    e.stopPropagation();
+}
+
+function highlight(e) {
+    dropZone.classList.add('border-primary', 'bg-primary/5', 'scale-[1.02]');
+    dropZone.classList.remove('border-gray-300');
+}
+
+function unhighlight(e) {
+    dropZone.classList.remove('border-primary', 'bg-primary/5', 'scale-[1.02]');
+    dropZone.classList.add('border-gray-300');
+}
+
+function handleDrop(e) {
+    const dt = e.dataTransfer;
+    const files = dt.files;
+    
+    if (files.length > 0) {
+        fileInput.files = files;
+        handleFiles();
+    }
+}
+
+function handleFiles() {
+    const file = fileInput.files[0];
+    
+    if (file) {
+        // Validate file size (2MB)
+        if (file.size > 2 * 1024 * 1024) {
+            alert('Ukuran file terlalu besar. Maksimal 2MB.');
+            resetFileInput();
+            return;
+        }
+        
+        // Validate file type
+        const allowedTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
+        if (!allowedTypes.includes(file.type)) {
+            alert('Format file tidak didukung. Harap upload PDF, JPG, atau PNG.');
+            resetFileInput();
+            return;
+        }
+        
+        // Show file selected state
+        showFileSelected(file);
+    }
+}
+
+function showFileSelected(file) {
+    uploadState.classList.add('hidden');
+    fileSelectedState.classList.remove('hidden');
+    loadingState.classList.add('hidden');
+    
+    selectedFileName.textContent = file.name;
+    selectedFileSize.textContent = formatFileSize(file.size);
+    
+    // Set appropriate icon based on file type
+    if (file.type === 'application/pdf') {
+        filePreviewIcon.innerHTML = `
+            <svg class="w-8 h-8 text-red-500" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M7 3C5.895 3 5 3.895 5 5v14c0 1.105.895 2 2 2h10c1.105 0 2-.895 2-2V9l-6-6H7zm6 1.5L17.5 9H13V4.5z"/>
+            </svg>
+        `;
+        filePreviewIcon.className = 'w-16 h-16 bg-red-100 rounded-2xl flex items-center justify-center';
+    } else {
+        filePreviewIcon.innerHTML = `
+            <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+        `;
+        filePreviewIcon.className = 'w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center';
+    }
+    
+    submitBtn.disabled = false;
+}
+
+function resetFileInput() {
+    fileInput.value = '';
+    uploadState.classList.remove('hidden');
+    fileSelectedState.classList.add('hidden');
+    loadingState.classList.add('hidden');
+    submitBtn.disabled = true;
+}
+
+function handleSubmit(e) {
+    if (!fileInput.files[0]) {
+        e.preventDefault();
+        alert('Silakan pilih file terlebih dahulu.');
+        return;
+    }
+    
+    // Show loading state
+    uploadState.classList.add('hidden');
+    fileSelectedState.classList.add('hidden');
+    loadingState.classList.remove('hidden');
+    
+    // Disable buttons
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = `
+        <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <span>Mengupload...</span>
+    `;
+}
+
+function formatFileSize(bytes) {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+}
+
 function openUploadModal(jenis, nama) {
     document.getElementById('modalJenisBerkas').value = jenis;
     document.getElementById('modalBerkasNama').textContent = nama;
     document.getElementById('uploadModal').classList.remove('hidden');
     document.body.style.overflow = 'hidden';
+    
+    // Reset state
+    resetFileInput();
 }
 
 function closeUploadModal() {
     document.getElementById('uploadModal').classList.add('hidden');
     document.body.style.overflow = '';
-    document.getElementById('fileInput').value = '';
-    document.getElementById('selectedFileName').classList.add('hidden');
+    resetFileInput();
 }
 
-function updateFileName(input) {
-    const fileName = input.files[0]?.name;
-    const display = document.getElementById('selectedFileName');
-    if (fileName) {
-        display.textContent = fileName;
-        display.classList.remove('hidden');
+// Close modal on Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && !document.getElementById('uploadModal').classList.contains('hidden')) {
+        closeUploadModal();
     }
-}
+});
 </script>
 @endsection

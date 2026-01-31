@@ -9,6 +9,13 @@
             <p class="text-gray-600">Kelola data semua calon siswa yang terdaftar</p>
         </div>
         <div class="flex gap-3">
+            <a href="{{ route('admin.pendaftar.export', request()->query()) }}" 
+               class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition flex items-center gap-2 font-medium">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                Export Excel
+            </a>
             <span class="px-4 py-2 bg-primary/10 text-primary rounded-lg font-medium">
                 Total: {{ $pendaftar->total() }} siswa
             </span>

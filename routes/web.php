@@ -190,6 +190,7 @@ Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function
 
     // Pendaftar Module (CRUD)
     Route::get('/pendaftar', [AdminPpdbController::class, 'index'])->name('pendaftar.index');
+    Route::get('/pendaftar/export', [AdminPpdbController::class, 'exportExcel'])->name('pendaftar.export');
     Route::get('/pendaftar/{id}', [AdminPpdbController::class, 'show'])->name('pendaftar.show');
     Route::get('/pendaftar/{id}/edit', [AdminPpdbController::class, 'edit'])->name('pendaftar.edit');
     Route::put('/pendaftar/{id}', [AdminPpdbController::class, 'update'])->name('pendaftar.update');

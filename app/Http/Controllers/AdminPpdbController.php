@@ -12,6 +12,7 @@ use App\Services\WhatsAppService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class AdminPpdbController extends Controller
 {
@@ -267,6 +268,124 @@ class AdminPpdbController extends Controller
         } catch (\Exception $e) {
             return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage())->withInput();
         }
+    }
+
+    /**
+     * Export data pendaftar ke Excel (CSV format)
+     */
+    public function exportExcel(Request $request)
+    {
+        $query = CalonSiswa::with(['pendaftaran.jurusan', 'pendaftaran.tes', 'orangTua']);
+
+        // Apply same filters as index
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('nama', 'like', "%{$search}%")
+                  ->orWhere('asal_sekolah', 'like', "%{$search}%")
+                  ->orWhere('nisn', 'like', "%{$search}%")
+                  ->orWhereYear('tgl_lahir', $search);
+            });
+        }
+
+        if ($request->filled('jurusan')) {
+            $query->whereHas('pendaftaran', function ($q) use ($request) {
+                $q->where('jurusan_id', $request->jurusan);
+            });
+        }
+
+        if ($request->filled('status')) {
+            $status = $request->status;
+            if ($status === 'baru') {
+                $query->whereDoesntHave('pendaftaran');
+            } elseif ($status === 'proses') {
+                $query->whereHas('pendaftaran')
+                      ->where(function ($q) {
+                          $q->whereNull('jk')
+                            ->orWhereNull('tgl_lahir')
+                            ->orWhereNull('alamat')
+                            ->orWhereNull('asal_sekolah');
+                      });
+            } elseif ($status === 'lengkap') {
+                $query->whereHas('pendaftaran')
+                      ->whereNotNull('jk')
+                      ->whereNotNull('tgl_lahir')
+                      ->whereNotNull('alamat')
+                      ->whereNotNull('asal_sekolah');
+            }
+        }
+
+        $pendaftar = $query->orderBy('created_at', 'desc')->get();
+
+        $filename = 'data_pendaftar_ppdb_' . date('Y-m-d_His') . '.csv';
+        
+        $headers = [
+            'Content-Type' => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+            'Pragma' => 'no-cache',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+        ];
+
+        $callback = function () use ($pendaftar) {
+            $file = fopen('php://output', 'w');
+            
+            // Add BOM for UTF-8
+            fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
+
+            // Header row
+            fputcsv($file, [
+                'No',
+                'NISN',
+                'Nama Lengkap',
+                'Jenis Kelamin',
+                'Tanggal Lahir',
+                'Asal Sekolah',
+                'Alamat',
+                'No. WhatsApp',
+                'Nama Ayah',
+                'Nama Ibu',
+                'No. WA Ortu',
+                'Jurusan Pilihan',
+                'Gelombang',
+                'Status Pendaftaran',
+                'Nilai BTQ',
+                'Nilai Minat Bakat',
+                'Nilai Kejuruan',
+                'Status BTQ',
+                'Status Kelulusan',
+                'Tanggal Daftar'
+            ]);
+
+            // Data rows
+            foreach ($pendaftar as $index => $siswa) {
+                fputcsv($file, [
+                    $index + 1,
+                    $siswa->nisn,
+                    $siswa->nama,
+                    $siswa->jk == 'L' ? 'Laki-laki' : ($siswa->jk == 'P' ? 'Perempuan' : '-'),
+                    $siswa->tgl_lahir ? $siswa->tgl_lahir->format('d/m/Y') : '-',
+                    $siswa->asal_sekolah ?? '-',
+                    $siswa->alamat ?? '-',
+                    $siswa->no_wa ?? '-',
+                    $siswa->orangTua->nama_ayah ?? '-',
+                    $siswa->orangTua->nama_ibu ?? '-',
+                    $siswa->orangTua->no_wa_ortu ?? '-',
+                    $siswa->pendaftaran->jurusan->nama ?? 'Belum Memilih',
+                    $siswa->pendaftaran->gelombang ?? '-',
+                    $siswa->pendaftaran->status_pendaftaran ?? 'Belum Lengkap',
+                    $siswa->pendaftaran->tes->nilai_btq ?? '-',
+                    $siswa->pendaftaran->tes->nilai_minat_bakat ?? '-',
+                    $siswa->pendaftaran->tes->nilai_kejuruan ?? '-',
+                    $siswa->pendaftaran->tes->status_btq ?? '-',
+                    $siswa->pendaftaran->tes->status_kelulusan ?? 'Pending',
+                    $siswa->created_at->format('d/m/Y H:i')
+                ]);
+            }
+
+            fclose($file);
+        };
+
+        return new StreamedResponse($callback, 200, $headers);
     }
 }
 
