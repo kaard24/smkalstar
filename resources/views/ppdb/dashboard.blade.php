@@ -16,12 +16,6 @@
                     <span class="bg-white/20 px-3 py-1.5 rounded-lg text-xs md:text-sm">
                         NISN: {{ $siswa->nisn }}
                     </span>
-                    <form action="{{ route('logout') }}" method="POST">
-                        @csrf
-                        <button type="submit" class="bg-white/20 hover:bg-white/30 px-3 py-1.5 rounded-lg text-xs md:text-sm transition">
-                            Logout
-                        </button>
-                    </form>
                 </div>
             </div>
         </div>
@@ -139,7 +133,7 @@
                 <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                     <div class="px-4 md:px-6 py-3 md:py-4 border-b border-gray-100 flex items-center justify-between">
                         <h2 class="font-semibold text-sm md:text-base text-gray-900">Biodata Siswa</h2>
-                        <a href="{{ route('ppdb.profil.edit') }}" class="text-xs md:text-sm text-primary hover:underline">Edit</a>
+                        <a href="{{ route('ppdb.lengkapi-data') }}" class="text-xs md:text-sm text-primary hover:underline">Edit</a>
                     </div>
                     <div class="p-4 md:p-6">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">

@@ -7,13 +7,7 @@
     <div class="max-w-4xl mx-auto">
         {{-- Header --}}
         <div class="mb-4 md:mb-6">
-            <nav class="text-xs md:text-sm text-gray-500 mb-2">
-                <a href="{{ route('ppdb.dashboard') }}" class="hover:text-primary">Dashboard</a>
-                <span class="mx-1 md:mx-2">/</span>
-                <span class="text-gray-700">Upload Berkas</span>
-            </nav>
             <h1 class="text-xl md:text-3xl font-bold text-gray-900">Upload Berkas Pendaftaran</h1>
-            <p class="text-gray-600 mt-1 text-sm md:text-base">Upload dokumen-dokumen yang diperlukan (tidak perlu menunggu verifikasi)</p>
         </div>
 
         {{-- Alert Messages --}}
@@ -47,7 +41,6 @@
                         <li>Format file: PDF, JPG, JPEG, atau PNG</li>
                         <li>Ukuran maksimal: 2MB per file</li>
                         <li>Pastikan file dapat dibaca dengan jelas</li>
-                        <li>File langsung tersimpan, tidak perlu menunggu verifikasi</li>
                     </ul>
                 </div>
             </div>
@@ -166,13 +159,6 @@
             @endforeach
         </div>
 
-        {{-- Back Button --}}
-        <div class="mt-6 md:mt-8 text-center">
-            <a href="{{ route('ppdb.dashboard') }}" class="text-gray-500 hover:text-primary transition text-sm flex items-center gap-1">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-                Kembali ke Dashboard
-            </a>
-        </div>
     </div>
 </div>
 

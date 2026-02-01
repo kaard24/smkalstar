@@ -128,8 +128,17 @@ Route::middleware('auth:ppdb')->prefix('ppdb')->name('ppdb.')->group(function ()
     // Status
     Route::get('/status', function () { 
         $siswa = auth('ppdb')->user();
-        $siswa->load(['pendaftaran.jurusan', 'pendaftaran.tes']);
-        return view('ppdb.status', compact('siswa')); 
+        $siswa->load(['pendaftaran.jurusan', 'pendaftaran.tes', 'orangTua']);
+        
+        // Calculate progress
+        $progress = \App\Models\BerkasPendaftaran::getUploadProgress($siswa->id);
+        
+        // Check data completeness
+        $biodataComplete = !empty($siswa->nama) && !empty($siswa->tgl_lahir) && !empty($siswa->jk) && !empty($siswa->alamat);
+        $orangTuaComplete = $siswa->orangTua && !empty($siswa->orangTua->nama_ayah) && !empty($siswa->orangTua->nama_ibu);
+        $jurusanComplete = $siswa->pendaftaran && $siswa->pendaftaran->jurusan_id;
+        
+        return view('ppdb.status', compact('siswa', 'progress', 'biodataComplete', 'orangTuaComplete', 'jurusanComplete')); 
     })->name('status');
     
     // Upload Berkas
