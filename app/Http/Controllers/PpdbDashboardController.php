@@ -16,7 +16,7 @@ class PpdbDashboardController extends Controller
     public function index()
     {
         $siswa = Auth::guard('ppdb')->user();
-        $siswa->load(['orangTua', 'pendaftaran.jurusan', 'berkasPendaftaran']);
+        $siswa->load(['orangTua', 'pendaftaran.jurusan', 'pendaftaran.tes', 'berkasPendaftaran']);
 
         $pendaftaran = $siswa->pendaftaran;
         
@@ -70,6 +70,7 @@ class PpdbDashboardController extends Controller
     protected function buildTimeline($siswa, $pendaftaran, array $berkasProgress): array
     {
         $timeline = [];
+        $tes = $pendaftaran?->tes;
 
         // 1. Registration
         $timeline[] = [
@@ -114,38 +115,52 @@ class PpdbDashboardController extends Controller
             ];
         }
 
-        // 4. Menunggu Jadwal Tes (diganti dari Tes BTQ)
+        // 4. Tes & Wawancara (gabungan, tanpa menunggu jadwal)
         if ($berkasProgress['is_complete']) {
-            $timeline[] = [
-                'title' => 'Menunggu Jadwal Tes',
-                'status' => 'current',
-                'date' => null,
-                'description' => 'Jadwal tes akan diinformasikan melalui WhatsApp',
-            ];
+            $tesStatus = $tes?->status_wawancara ?? 'belum';
+            if ($tesStatus === 'sudah') {
+                $timeline[] = [
+                    'title' => 'Tes & Wawancara',
+                    'status' => 'completed',
+                    'date' => $tes?->updated_at?->format('d M Y') ?? '-',
+                    'description' => 'Tes dan wawancara telah selesai dilaksanakan',
+                ];
+            } else {
+                $timeline[] = [
+                    'title' => 'Tes & Wawancara',
+                    'status' => 'current',
+                    'date' => null,
+                    'description' => 'Menunggu pelaksanaan tes dan wawancara',
+                ];
+            }
         } else {
             $timeline[] = [
-                'title' => 'Menunggu Jadwal Tes',
+                'title' => 'Tes & Wawancara',
                 'status' => 'upcoming',
                 'date' => null,
                 'description' => 'Lengkapi upload berkas terlebih dahulu',
             ];
         }
 
-        // 5. Tes & Wawancara (Offline)
-        $timeline[] = [
-            'title' => 'Tes & Wawancara',
-            'status' => 'upcoming',
-            'date' => null,
-            'description' => 'Dilaksanakan offline di sekolah',
-        ];
-
-        // 6. Kelulusan - Semua siswa lulus
-        $timeline[] = [
-            'title' => 'Kelulusan',
-            'status' => 'upcoming',
-            'date' => null,
-            'description' => 'Selamat! Semua siswa diterima',
-        ];
+        // 5. Kelulusan - Berdasarkan status wawancara
+        if ($tes?->status_wawancara === 'sudah') {
+            $statusKelulusan = $tes?->status_kelulusan ?? 'Lulus';
+            $timeline[] = [
+                'title' => 'Kelulusan',
+                'status' => 'completed',
+                'date' => $tes?->updated_at?->format('d M Y') ?? '-',
+                'description' => $statusKelulusan === 'Lulus' 
+                    ? 'Selamat! Anda dinyatakan LULUS' 
+                    : 'Anda dinyatakan TIDAK LULUS',
+            ];
+        } else {
+            $timeline[] = [
+                'title' => 'Kelulusan',
+                'status' => 'upcoming',
+                'date' => null,
+                'description' => 'Menunggu selesainya tes dan wawancara',
+            ];
+        }
 
         return $timeline;
     }

@@ -217,26 +217,58 @@
                     </div>
                 </div>
 
-                <!-- Info Tes -->
+                <!-- Info Tes & Wawancara -->
                 @if($completeness['berkas'])
-                <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 md:p-6">
-                    <div class="flex items-start gap-3">
-                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                            </svg>
-                        </div>
-                        <div>
-                            <h3 class="font-semibold text-blue-900 text-sm md:text-base">Menunggu Jadwal Tes</h3>
-                            <p class="text-xs md:text-sm text-blue-700 mt-1">
-                                Terima kasih telah melengkapi semua dokumen. Jadwal tes dan wawancara akan diinformasikan melalui WhatsApp Anda.
-                            </p>
-                            <p class="text-xs text-blue-600 mt-2">
-                                Pastikan nomor WhatsApp Anda aktif: <strong>{{ $siswa->no_wa ?: 'Belum diisi' }}</strong>
-                            </p>
+                    @php
+                        $tes = $pendaftaran?->tes;
+                        $wawancaraSelesai = $tes?->status_wawancara === 'sudah';
+                    @endphp
+                    @if(!$wawancaraSelesai)
+                    <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 md:p-6">
+                        <div class="flex items-start gap-3">
+                            <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-blue-900 text-sm md:text-base">Proses Tes dan Wawancara</h3>
+                                <p class="text-xs md:text-sm text-blue-700 mt-1">
+                                    Terima kasih telah melengkapi semua dokumen. Tes dan wawancara akan diinformasikan melalui WhatsApp Anda.
+                                </p>
+                                <p class="text-xs text-blue-600 mt-2">
+                                    Pastikan nomor WhatsApp Anda aktif: <strong>{{ $siswa->no_wa ?: 'Belum diisi' }}</strong>
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div>
+                    @else
+                    <div class="bg-green-50 border border-green-200 rounded-xl p-4 md:p-6">
+                        <div class="flex items-start gap-3">
+                            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-green-900 text-sm md:text-base">Tes dan Wawancara Selesai</h3>
+                                <p class="text-xs md:text-sm text-green-700 mt-1">
+                                    @if($tes?->status_kelulusan === 'Lulus' || $tes?->status_kelulusan === null)
+                                        Selamat! Anda dinyatakan <strong>LULUS</strong>. Silakan cek pengumuman untuk informasi lebih lanjut.
+                                    @else
+                                        Anda dinyatakan <strong>TIDAK LULUS</strong>. Tetap semangat dan jangan putus asa.
+                                    @endif
+                                </p>
+                                @if($tes?->nilai_minat_bakat)
+                                <div class="mt-3 p-3 bg-white rounded-lg border border-green-200">
+                                    <p class="text-xs text-gray-600 mb-1">Minat dan Bakat:</p>
+                                    <p class="text-sm text-gray-800">{{ $tes->nilai_minat_bakat }}</p>
+                                </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                    @endif
                 @endif
 
                 <!-- Pengumuman -->

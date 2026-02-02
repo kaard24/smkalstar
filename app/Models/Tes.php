@@ -17,6 +17,7 @@ class Tes extends Model
         'nilai_minat_bakat',
         'nilai_kejuruan',
         'status_btq',
+        'status_wawancara',
         'status_kelulusan'
     ];
 

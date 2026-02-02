@@ -11,7 +11,7 @@
             <p class="text-lg text-gray-600">Tambah, edit, atau hapus artikel berita di website</p>
         </div>
         <a href="{{ route('admin.berita.create') }}" 
-           class="btn-large bg-primary text-white hover:bg-green-800 transition shadow-lg flex items-center justify-center gap-2">
+           class="btn-large bg-primary text-white hover:bg-blue-700 transition shadow-lg flex items-center justify-center gap-2">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
             </svg>
@@ -21,7 +21,7 @@
 
     {{-- Alert Messages --}}
     @if(session('success'))
-    <div class="mb-6 p-5 bg-green-50 border-2 border-green-300 text-green-800 rounded-xl flex items-center gap-3 text-lg">
+    <div class="mb-6 p-5 bg-blue-50 border-2 border-blue-300 text-blue-800 rounded-xl flex items-center gap-3 text-lg">
         <svg class="w-7 h-7 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
         </svg>
@@ -38,7 +38,7 @@
         <h3 class="text-2xl font-bold text-gray-700 mb-3">Belum Ada Berita</h3>
         <p class="text-lg text-gray-500 mb-6">Mulai dengan menambahkan berita pertama untuk website sekolah.</p>
         <a href="{{ route('admin.berita.create') }}" 
-           class="btn-large bg-primary text-white hover:bg-green-800 inline-flex items-center gap-2">
+           class="btn-large bg-primary text-white hover:bg-blue-700 inline-flex items-center gap-2">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
             </svg>
@@ -61,7 +61,7 @@
                 </thead>
                 <tbody class="divide-y divide-gray-200">
                     @foreach($berita as $item)
-                    <tr class="hover:bg-green-50 transition">
+                    <tr class="hover:bg-blue-50 transition">
                         <td class="px-6 py-5">
                             <div class="flex items-center gap-4">
                                 @if($item->gambar_utama)
@@ -81,7 +81,7 @@
                         </td>
                         <td class="px-6 py-5 text-center">
                             <a href="{{ route('admin.berita.komentar', $item->id) }}" 
-                               class="inline-flex items-center gap-2 text-lg font-bold text-primary hover:text-green-800 bg-green-50 px-4 py-2 rounded-lg hover:bg-green-100 transition">
+                               class="inline-flex items-center gap-2 text-lg font-bold text-primary hover:text-blue-800 bg-blue-50 px-4 py-2 rounded-lg hover:bg-blue-100 transition">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
                                 </svg>

@@ -78,7 +78,7 @@
                     </div>
                     <div>
                         <span class="block text-gray-500">Status</span>
-                        <span class="inline-flex px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-bold">{{ $siswa->pendaftaran->status_pendaftaran }}</span>
+                        <span class="inline-flex px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs font-bold">{{ $siswa->pendaftaran->status_pendaftaran }}</span>
                     </div>
                     @else
                     <p class="text-gray-500 italic">Belum melengkapi data pendaftaran.</p>
@@ -119,7 +119,7 @@
             
             <div class="flex items-center justify-between mb-4 border-b pb-2">
                 <h3 class="font-bold text-gray-900">Progress Upload Berkas</h3>
-                <span class="text-sm font-bold {{ $berkasProgress['is_complete'] ? 'text-green-600' : 'text-yellow-600' }}">
+                <span class="text-sm font-bold {{ $berkasProgress['is_complete'] ? 'text-blue-600' : 'text-yellow-600' }}">
                     {{ $berkasProgress['uploaded'] }}/{{ $berkasProgress['total'] }}
                 </span>
             </div>
@@ -142,9 +142,9 @@
             <h4 class="font-semibold text-sm text-gray-700 mb-3">Detail Berkas</h4>
             <div class="space-y-2">
                 @foreach($berkasProgress['detail'] as $key => $item)
-                <div class="flex items-start justify-between p-3 rounded-lg {{ $item['uploaded'] ? 'bg-green-50 border border-green-100' : 'bg-gray-50 border border-gray-100' }}">
+                <div class="flex items-start justify-between p-3 rounded-lg {{ $item['uploaded'] ? 'bg-blue-50 border border-blue-100' : 'bg-gray-50 border border-gray-100' }}">
                     <div class="flex items-start gap-3">
-                        <div class="w-6 h-6 rounded-full {{ $item['uploaded'] ? 'bg-green-500' : 'bg-gray-300' }} flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <div class="w-6 h-6 rounded-full {{ $item['uploaded'] ? 'bg-blue-500' : 'bg-gray-300' }} flex items-center justify-center flex-shrink-0 mt-0.5">
                             @if($item['uploaded'])
                             <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
@@ -154,7 +154,7 @@
                             @endif
                         </div>
                         <div>
-                            <span class="text-sm {{ $item['uploaded'] ? 'text-green-800 font-medium' : 'text-gray-600' }}">{{ $item['label'] }}</span>
+                            <span class="text-sm {{ $item['uploaded'] ? 'text-blue-800 font-medium' : 'text-gray-600' }}">{{ $item['label'] }}</span>
                             @if(isset($item['keterangan']) && $item['keterangan'])
                             <p class="text-xs text-gray-500 mt-0.5">{{ $item['keterangan'] }}</p>
                             @endif

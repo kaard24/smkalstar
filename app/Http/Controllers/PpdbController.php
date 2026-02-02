@@ -6,8 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\CalonSiswa;
 use App\Models\OrangTua;
 use App\Models\Pendaftaran;
-use App\Models\Tes;
-use App\Models\Jurusan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,9 +25,8 @@ class PpdbController extends Controller
         }
 
         $siswa->load(['orangTua', 'pendaftaran']);
-        $jurusan = Jurusan::all();
         
-        return view('ppdb.lengkapi-data', compact('jurusan', 'siswa'));
+        return view('ppdb.lengkapi-data', compact('siswa'));
     }
 
     /**
@@ -39,69 +36,119 @@ class PpdbController extends Controller
     {
         $siswa = Auth::guard('ppdb')->user();
 
-        $request->validate([
-            'nama' => 'required|string|max:100',
+        $rules = [
+            'nik' => 'required|string|size:16',
+            'no_kk' => 'required|string|size:16',
             'jk' => 'required|in:L,P',
-            'tgl_lahir' => 'required|date',
             'alamat' => 'required|string',
-            'asal_sekolah' => 'required|string|max:100',
-            'nama_ayah' => 'required|string|max:100',
-            'nama_ibu' => 'required|string|max:100',
-            'no_wa_ortu' => 'required|string',
-            'pekerjaan' => 'required|string|max:100',
-            'jurusan_id' => 'required|exists:jurusan,id',
-            'gelombang' => 'required|in:Gelombang 1,Gelombang 2',
-        ], [
-            'nama.required' => 'Nama lengkap wajib diisi.',
+            'alamat_sekolah' => 'required|string',
+            'jenis' => 'required|in:orang_tua,wali',
+        ];
+
+        $messages = [
+            'nik.required' => 'NIK wajib diisi.',
+            'nik.size' => 'NIK harus 16 digit.',
+            'no_kk.required' => 'Nomor KK wajib diisi.',
+            'no_kk.size' => 'Nomor KK harus 16 digit.',
             'jk.required' => 'Jenis kelamin wajib dipilih.',
-            'tgl_lahir.required' => 'Tanggal lahir wajib diisi.',
             'alamat.required' => 'Alamat wajib diisi.',
-            'asal_sekolah.required' => 'Asal sekolah wajib diisi.',
-            'nama_ayah.required' => 'Nama ayah wajib diisi.',
-            'nama_ibu.required' => 'Nama ibu wajib diisi.',
-            'no_wa_ortu.required' => 'Nomor WhatsApp orang tua wajib diisi.',
-            'pekerjaan.required' => 'Pekerjaan orang tua wajib diisi.',
-            'jurusan_id.required' => 'Jurusan wajib dipilih.',
-            'gelombang.required' => 'Gelombang wajib dipilih.',
-        ]);
+            'alamat_sekolah.required' => 'Alamat sekolah wajib diisi.',
+            'jenis.required' => 'Jenis orang tua/wali wajib dipilih.',
+        ];
+
+        // Validasi khusus berdasarkan jenis
+        if ($request->jenis === 'orang_tua') {
+            $rules['nama_ayah'] = 'required|string|max:100';
+            $rules['nik_ayah'] = 'required|string|size:16';
+            $rules['status_ayah'] = 'required|in:hidup,meninggal';
+            $rules['nama_ibu'] = 'required|string|max:100';
+            $rules['nik_ibu'] = 'required|string|size:16';
+            $rules['status_ibu'] = 'required|in:hidup,meninggal';
+            $rules['no_wa_ortu'] = 'required|string';
+            $rules['pekerjaan'] = 'required|string|max:100';
+
+            $messages['nama_ayah.required'] = 'Nama ayah wajib diisi.';
+            $messages['nik_ayah.required'] = 'NIK ayah wajib diisi.';
+            $messages['nik_ayah.size'] = 'NIK ayah harus 16 digit.';
+            $messages['status_ayah.required'] = 'Status ayah wajib dipilih.';
+            $messages['nama_ibu.required'] = 'Nama ibu wajib diisi.';
+            $messages['nik_ibu.required'] = 'NIK ibu wajib diisi.';
+            $messages['nik_ibu.size'] = 'NIK ibu harus 16 digit.';
+            $messages['status_ibu.required'] = 'Status ibu wajib dipilih.';
+            $messages['no_wa_ortu.required'] = 'Nomor WhatsApp orang tua wajib diisi.';
+            $messages['pekerjaan.required'] = 'Pekerjaan orang tua wajib diisi.';
+        } else {
+            $rules['nama_wali'] = 'required|string|max:100';
+            $rules['pekerjaan_wali'] = 'required|string|max:100';
+            $rules['no_hp_wali'] = 'required|string';
+            $rules['hubungan_wali'] = 'required|string|max:50';
+
+            $messages['nama_wali.required'] = 'Nama wali wajib diisi.';
+            $messages['pekerjaan_wali.required'] = 'Pekerjaan wali wajib diisi.';
+            $messages['no_hp_wali.required'] = 'Nomor HP wali wajib diisi.';
+            $messages['hubungan_wali.required'] = 'Hubungan wali wajib diisi.';
+        }
+
+        $request->validate($rules, $messages);
 
         try {
             DB::transaction(function () use ($request, $siswa) {
                 // Update Calon Siswa data
                 $siswa->update([
-                    'nama' => $request->nama,
+                    'nik' => $request->nik,
+                    'no_kk' => $request->no_kk,
                     'jk' => $request->jk,
-                    'tgl_lahir' => $request->tgl_lahir,
                     'alamat' => $request->alamat,
-                    'asal_sekolah' => $request->asal_sekolah,
+                    'alamat_sekolah' => $request->alamat_sekolah,
                 ]);
+
+                // Data orang tua/wali
+                $orangTuaData = [
+                    'jenis' => $request->jenis,
+                ];
+
+                if ($request->jenis === 'orang_tua') {
+                    $orangTuaData['nama_ayah'] = $request->nama_ayah;
+                    $orangTuaData['nik_ayah'] = $request->nik_ayah;
+                    $orangTuaData['status_ayah'] = $request->status_ayah;
+                    $orangTuaData['nama_ibu'] = $request->nama_ibu;
+                    $orangTuaData['nik_ibu'] = $request->nik_ibu;
+                    $orangTuaData['status_ibu'] = $request->status_ibu;
+                    $orangTuaData['no_wa_ortu'] = $request->no_wa_ortu;
+                    $orangTuaData['pekerjaan'] = $request->pekerjaan;
+                    // Kosongkan field wali
+                    $orangTuaData['nama_wali'] = null;
+                    $orangTuaData['pekerjaan_wali'] = null;
+                    $orangTuaData['no_hp_wali'] = null;
+                    $orangTuaData['hubungan_wali'] = null;
+                } else {
+                    $orangTuaData['nama_wali'] = $request->nama_wali;
+                    $orangTuaData['pekerjaan_wali'] = $request->pekerjaan_wali;
+                    $orangTuaData['no_hp_wali'] = $request->no_hp_wali;
+                    $orangTuaData['hubungan_wali'] = $request->hubungan_wali;
+                    // Kosongkan field orang tua
+                    $orangTuaData['nama_ayah'] = null;
+                    $orangTuaData['nik_ayah'] = null;
+                    $orangTuaData['status_ayah'] = null;
+                    $orangTuaData['nama_ibu'] = null;
+                    $orangTuaData['nik_ibu'] = null;
+                    $orangTuaData['status_ibu'] = null;
+                    $orangTuaData['no_wa_ortu'] = null;
+                    $orangTuaData['pekerjaan'] = null;
+                }
 
                 // Create or update Orang Tua
                 OrangTua::updateOrCreate(
                     ['calon_siswa_id' => $siswa->id],
-                    [
-                        'nama_ayah' => $request->nama_ayah,
-                        'nama_ibu' => $request->nama_ibu,
-                        'no_wa_ortu' => $request->no_wa_ortu,
-                        'pekerjaan' => $request->pekerjaan,
-                    ]
+                    $orangTuaData
                 );
 
-                // Update or create Pendaftaran
-                $pendaftaran = Pendaftaran::updateOrCreate(
-                    ['calon_siswa_id' => $siswa->id],
-                    [
-                        'jurusan_id' => $request->jurusan_id,
-                        'gelombang' => $request->gelombang,
+                // Update status pendaftaran menjadi lengkap
+                if ($siswa->pendaftaran) {
+                    $siswa->pendaftaran->update([
                         'status_pendaftaran' => 'Terdaftar',
-                    ]
-                );
-
-                // Create Tes record if not exists
-                Tes::firstOrCreate(
-                    ['pendaftaran_id' => $pendaftaran->id],
-                    ['status_kelulusan' => 'Pending']
-                );
+                    ]);
+                }
             });
 
             return redirect()->route('ppdb.dashboard')->with('success', 'Data berhasil disimpan! Pendaftaran Anda sudah lengkap.');

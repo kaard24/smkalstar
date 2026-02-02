@@ -41,7 +41,7 @@
                     <h3 class="font-bold text-gray-900 mb-4 border-b pb-2">Aksi Validasi</h3>
                     <form action="{{ route('admin.verifikasi.verify', $pendaftaran->id) }}" method="POST" class="space-y-3">
                         @csrf
-                        <button type="submit" class="w-full bg-green-600 text-white font-bold py-2 rounded-lg hover:bg-green-700 transition">
+                        <button type="submit" class="w-full bg-blue-600 text-white font-bold py-2 rounded-lg hover:bg-blue-700 transition">
                             Setujui & Verifikasi
                         </button>
                     </form>
@@ -77,13 +77,13 @@
                     <h3 class="font-bold text-gray-900 mb-4">Berkas Dokumen</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         @foreach($pendaftaran->calonSiswa->berkasPendaftaran as $berkas)
-                        <div class="p-4 rounded-lg border {{ $berkas->status_verifikasi == 'Valid' ? 'bg-green-50 border-green-200' : ($berkas->status_verifikasi == 'Tidak Valid' ? 'bg-red-50 border-red-200' : 'bg-gray-50 border-gray-200') }}">
+                        <div class="p-4 rounded-lg border {{ $berkas->status_verifikasi == 'Valid' ? 'bg-blue-50 border-blue-200' : ($berkas->status_verifikasi == 'Tidak Valid' ? 'bg-red-50 border-red-200' : 'bg-gray-50 border-gray-200') }}">
                             <div class="flex items-start justify-between">
                                 <div>
                                     <h4 class="font-bold text-sm text-gray-800">{{ $berkas->nama_jenis }}</h4>
                                     <p class="text-xs text-gray-500 mt-1">{{ $berkas->created_at->format('d M Y H:i') }}</p>
                                     <div class="mt-2">
-                                         <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium {{ $berkas->status_verifikasi == 'Valid' ? 'bg-green-100 text-green-800' : ($berkas->status_verifikasi == 'Tidak Valid' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800') }}">
+                                         <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium {{ $berkas->status_verifikasi == 'Valid' ? 'bg-blue-100 text-blue-800' : ($berkas->status_verifikasi == 'Tidak Valid' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800') }}">
                                             {{ $berkas->status_verifikasi }}
                                         </span>
                                     </div>
@@ -110,7 +110,7 @@
         <h1 class="text-2xl font-bold text-gray-800 mb-6">Verifikasi Berkas Pendaftar</h1>
 
         @if(session('success'))
-        <div class="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg">{{ session('success') }}</div>
+        <div class="mb-6 p-4 bg-blue-50 border border-blue-200 text-blue-700 rounded-lg">{{ session('success') }}</div>
         @endif
 
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
@@ -129,10 +129,10 @@
                     <tr class="hover:bg-gray-50 transition">
                         <td class="px-6 py-4 font-medium text-gray-900">{{ $item->calonSiswa->nama }}</td>
                         <td class="px-6 py-4 text-gray-600 font-mono text-sm">{{ $item->calonSiswa->nisn }}</td>
-                        <td class="px-6 py-4"><span class="px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-bold">{{ $item->jurusan->kode }}</span></td>
+                        <td class="px-6 py-4"><span class="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs font-bold">{{ $item->jurusan->kode }}</span></td>
                         <td class="px-6 py-4 text-gray-600">{{ $item->created_at->format('d M Y') }}</td>
                         <td class="px-6 py-4 text-center">
-                            <a href="{{ route('admin.verifikasi.show', $item->id) }}" class="text-primary hover:text-green-700 font-medium text-sm">Verifikasi</a>
+                            <a href="{{ route('admin.verifikasi.show', $item->id) }}" class="text-primary hover:text-blue-600 font-medium text-sm">Verifikasi</a>
                         </td>
                     </tr>
                     @empty

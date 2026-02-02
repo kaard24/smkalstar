@@ -1,6 +1,13 @@
 @import 'tailwindcss';
 @import './fonts.css';
 
+/* Global CSS Variables */
+:root {
+    --color-primary: #3AA2CF;
+    --color-primary-dark: #2B8AB3;
+    --color-secondary: #2B8AB3;
+}
+
 /* Prevent horizontal scroll */
 html, body {
     overflow-x: hidden;
@@ -20,9 +27,9 @@ html, body {
     --font-heading: 'Outfit', sans-serif;
     --font-sans: 'Inter', sans-serif;
 
-    --color-primary: #16a34a; /* green-600 */
-    --color-primary-dark: #15803d; /* green-700 */
-    --color-secondary: #15803d; /* green-700 */
+    --color-primary: #3AA2CF;
+    --color-primary-dark: #2B8AB3;
+    --color-secondary: #2B8AB3;
     --color-accent: #facc15; /* yellow-400 */
     --color-surface: #ffffff;
     --color-background: #f9fafb; /* gray-50 */
@@ -92,14 +99,14 @@ body {
 
 /* Focus visible untuk accessibility */
 *:focus-visible {
-    outline: 2px solid #16a34a;
+    outline: 2px solid #3AA2CF;
     outline-offset: 2px;
 }
 
 /* Selection color */
 ::selection {
-    background-color: rgba(22, 163, 74, 0.2);
-    color: #15803d;
+    background-color: rgba(58, 162, 207, 0.2);
+    color: #2B8AB3;
 }
 
 /* ============================================
@@ -137,11 +144,11 @@ body {
 }
 
 .btn-primary {
-    background-color: #16a34a;
+    background-color: #3AA2CF;
     color: white;
 }
 .btn-primary:hover:not(:disabled) {
-    background-color: #15803d;
+    background-color: #2B8AB3;
 }
 
 .btn-secondary {
@@ -173,8 +180,8 @@ body {
     background-color: white;
 }
 .form-input:focus {
-    border-color: #16a34a;
-    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
+    border-color: #3AA2CF;
+    box-shadow: 0 0 0 3px rgba(58, 162, 207, 0.1);
     outline: none;
 }
 .form-input::placeholder {

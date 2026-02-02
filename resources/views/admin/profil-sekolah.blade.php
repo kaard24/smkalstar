@@ -10,7 +10,7 @@
     </div>
 
     @if(session('success'))
-    <div class="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-xl flex items-center gap-2">
+    <div class="mb-6 p-4 bg-blue-50 border border-blue-200 text-blue-700 rounded-xl flex items-center gap-2">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
         {{ session('success') }}
     </div>
@@ -93,7 +93,7 @@
                 <div class="space-y-3" id="misi-list">
                     <template x-for="(item, index) in misiItems" :key="index">
                         <div class="flex items-center gap-3">
-                            <span class="bg-green-100 text-primary rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold flex-shrink-0" x-text="index + 1"></span>
+                            <span class="bg-blue-100 text-primary rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold flex-shrink-0" x-text="index + 1"></span>
                             <input type="text" :name="'misi[' + index + ']'" x-model="misiItems[index]" required
                                 class="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition">
                             <button type="button" @click="misiItems.splice(index, 1)" class="text-red-500 hover:text-red-700 p-2" x-show="misiItems.length > 1">

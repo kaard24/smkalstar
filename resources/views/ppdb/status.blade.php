@@ -49,16 +49,18 @@
                 <div class="p-6 md:p-8">
                     <h3 class="font-bold text-gray-900 text-lg mb-4">Progress Pendaftaran</h3>
                     
+                    @php
+                        $totalSteps = 7;
+                        $completedSteps = 1; // Pendaftaran akun selalu selesai
+                        if($biodataComplete) $completedSteps++;
+                        if($orangTuaComplete) $completedSteps++;
+                        if($jurusanComplete) $completedSteps++;
+                        if($progress['is_complete']) $completedSteps++;
+                        if($wawancaraComplete) $completedSteps++;
+                        if($kelulusanStatus === 'Lulus') $completedSteps++;
+                        $overallProgress = ($completedSteps / $totalSteps) * 100;
+                    @endphp
                     <div class="w-full bg-gray-200 rounded-full h-3 mb-4">
-                        @php
-                            $totalSteps = 4;
-                            $completedSteps = 0;
-                            if($biodataComplete) $completedSteps++;
-                            if($orangTuaComplete) $completedSteps++;
-                            if($jurusanComplete) $completedSteps++;
-                            if($progress['is_complete']) $completedSteps++;
-                            $overallProgress = ($completedSteps / $totalSteps) * 100;
-                        @endphp
                         <div class="bg-primary h-3 rounded-full transition-all duration-500" style="width: {{ $overallProgress }}%"></div>
                     </div>
                     
@@ -77,7 +79,20 @@
                     </h3>
                     
                     <div class="space-y-4">
-                        <!-- Step 1: Biodata -->
+                        <!-- Step 1: Pendaftaran Akun -->
+                        <div class="flex items-center gap-4 p-4 rounded-xl bg-green-50 border border-green-100">
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 bg-green-500 text-white">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-semibold text-gray-900">Pendaftaran Akun</h4>
+                                <p class="text-sm text-gray-600">Akun berhasil dibuat pada {{ $siswa->created_at->format('d M Y') }}</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Step 2: Biodata -->
                         <div class="flex items-center gap-4 p-4 rounded-xl {{ $biodataComplete ? 'bg-green-50 border border-green-100' : 'bg-gray-50 border border-gray-100' }}">
                             <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 {{ $biodataComplete ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-800' }}">
                                 @if($biodataComplete)
@@ -85,7 +100,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 @else
-                                    <span class="text-sm font-bold">1</span>
+                                    <span class="text-sm font-bold">2</span>
                                 @endif
                             </div>
                             <div class="flex-1">
@@ -97,7 +112,7 @@
                             @endif
                         </div>
                         
-                        <!-- Step 2: Orang Tua -->
+                        <!-- Step 3: Orang Tua -->
                         <div class="flex items-center gap-4 p-4 rounded-xl {{ $orangTuaComplete ? 'bg-green-50 border border-green-100' : 'bg-gray-50 border border-gray-100' }}">
                             <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 {{ $orangTuaComplete ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-800' }}">
                                 @if($orangTuaComplete)
@@ -105,7 +120,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 @else
-                                    <span class="text-sm font-bold">2</span>
+                                    <span class="text-sm font-bold">3</span>
                                 @endif
                             </div>
                             <div class="flex-1">
@@ -117,7 +132,7 @@
                             @endif
                         </div>
                         
-                        <!-- Step 3: Jurusan -->
+                        <!-- Step 4: Jurusan -->
                         <div class="flex items-center gap-4 p-4 rounded-xl {{ $jurusanComplete ? 'bg-green-50 border border-green-100' : 'bg-gray-50 border border-gray-100' }}">
                             <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 {{ $jurusanComplete ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-800' }}">
                                 @if($jurusanComplete)
@@ -125,7 +140,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 @else
-                                    <span class="text-sm font-bold">3</span>
+                                    <span class="text-sm font-bold">4</span>
                                 @endif
                             </div>
                             <div class="flex-1">
@@ -137,7 +152,7 @@
                             @endif
                         </div>
                         
-                        <!-- Step 4: Berkas -->
+                        <!-- Step 5: Berkas -->
                         <div class="flex items-center gap-4 p-4 rounded-xl {{ $progress['is_complete'] ? 'bg-green-50 border border-green-100' : ($progress['uploaded'] > 0 ? 'bg-yellow-50 border border-yellow-100' : 'bg-gray-50 border border-gray-100') }}">
                             <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 {{ $progress['is_complete'] ? 'bg-green-500 text-white' : ($progress['uploaded'] > 0 ? 'bg-yellow-400 text-gray-800' : 'bg-gray-200 text-gray-800') }}">
                                 @if($progress['is_complete'])
@@ -145,7 +160,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
                                     </svg>
                                 @else
-                                    <span class="text-sm font-bold">{{ $progress['uploaded'] }}</span>
+                                    <span class="text-sm font-bold">5</span>
                                 @endif
                             </div>
                             <div class="flex-1">
@@ -156,25 +171,106 @@
                                 {{ $progress['is_complete'] ? 'Kelola' : 'Upload' }}
                             </a>
                         </div>
+                        
+                        <!-- Step 6: Tes & Wawancara -->
+                        <div class="flex items-center gap-4 p-4 rounded-xl {{ $wawancaraComplete ? 'bg-green-50 border border-green-100' : ($progress['is_complete'] ? 'bg-blue-50 border border-blue-100' : 'bg-gray-50 border border-gray-100') }}">
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 {{ $wawancaraComplete ? 'bg-green-500 text-white' : ($progress['is_complete'] ? 'bg-primary text-white' : 'bg-gray-200 text-gray-800') }}">
+                                @if($wawancaraComplete)
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                @else
+                                    <span class="text-sm font-bold">6</span>
+                                @endif
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-semibold text-gray-900">Tes &amp; Wawancara</h4>
+                                <p class="text-sm text-gray-600">
+                                    @if($wawancaraComplete)
+                                        Selesai dilaksanakan
+                                        @if($tes?->nilai_minat_bakat)
+                                            <br><span class="text-xs text-gray-500 mt-1">Minat Bakat: {{ Str::limit($tes->nilai_minat_bakat, 50) }}</span>
+                                        @endif
+                                    @elseif($progress['is_complete'])
+                                        Menunggu pelaksanaan
+                                    @else
+                                        Lengkapi upload berkas terlebih dahulu
+                                    @endif
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- Step 7: Kelulusan -->
+                        <div class="flex items-center gap-4 p-4 rounded-xl {{ $kelulusanStatus === 'Lulus' ? 'bg-green-50 border border-green-100' : ($wawancaraComplete ? 'bg-blue-50 border border-blue-100' : 'bg-gray-50 border border-gray-100') }}">
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 {{ $kelulusanStatus === 'Lulus' ? 'bg-green-500 text-white' : ($wawancaraComplete ? 'bg-primary text-white' : 'bg-gray-200 text-gray-800') }}">
+                                @if($kelulusanStatus === 'Lulus')
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                @else
+                                    <span class="text-sm font-bold">7</span>
+                                @endif
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-semibold text-gray-900">Kelulusan</h4>
+                                <p class="text-sm text-gray-600">
+                                    @if($kelulusanStatus === 'Lulus')
+                                        <span class="text-green-600 font-medium">Selamat! Anda dinyatakan LULUS</span>
+                                    @elseif($wawancaraComplete)
+                                        Sedang diproses
+                                    @else
+                                        Menunggu selesainya tes dan wawancara
+                                    @endif
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             
             <!-- Next Steps Info -->
             @if($progress['is_complete'] && $biodataComplete && $orangTuaComplete && $jurusanComplete)
-                <div class="mt-6 bg-blue-50 border border-blue-200 rounded-xl p-6">
-                    <div class="flex items-start gap-3">
-                        <svg class="w-6 h-6 text-blue-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                        <div>
-                            <h4 class="font-semibold text-blue-900">Selamat! Semua data lengkap</h4>
-                            <p class="text-sm text-blue-700 mt-1">
-                                Anda telah menyelesaikan semua langkah pendaftaran. Jadwal tes dan wawancara akan diinformasikan melalui WhatsApp Anda.
-                            </p>
+                @if($wawancaraComplete)
+                    <!-- Sudah selesai wawancara -->
+                    <div class="mt-6 bg-green-50 border border-green-200 rounded-xl p-6">
+                        <div class="flex items-start gap-3">
+                            <svg class="w-6 h-6 text-green-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <div>
+                                <h4 class="font-semibold text-green-900">Tes dan Wawancara Selesai!</h4>
+                                <p class="text-sm text-green-700 mt-1">
+                                    @if($kelulusanStatus === 'Lulus')
+                                        Selamat! Anda dinyatakan <strong>LULUS</strong>. Silakan cek pengumuman untuk informasi lebih lanjut.
+                                    @else
+                                        Status kelulusan Anda sedang diproses. Silakan tunggu pengumuman resmi.
+                                    @endif
+                                </p>
+                                @if($tes?->nilai_minat_bakat)
+                                <div class="mt-3 p-3 bg-white rounded-lg border border-green-200">
+                                    <p class="text-xs text-gray-600 mb-1">Catatan Minat dan Bakat:</p>
+                                    <p class="text-sm text-gray-800">{{ $tes->nilai_minat_bakat }}</p>
+                                </div>
+                                @endif
+                            </div>
                         </div>
                     </div>
-                </div>
+                @else
+                    <!-- Data lengkap, menunggu wawancara -->
+                    <div class="mt-6 bg-blue-50 border border-blue-200 rounded-xl p-6">
+                        <div class="flex items-start gap-3">
+                            <svg class="w-6 h-6 text-blue-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <div>
+                                <h4 class="font-semibold text-blue-900">Selamat! Semua data lengkap</h4>
+                                <p class="text-sm text-blue-700 mt-1">
+                                    Anda telah menyelesaikan semua langkah pendaftaran. Tes dan wawancara akan diinformasikan melalui WhatsApp Anda.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                @endif
             @else
                 <div class="mt-6 bg-yellow-50 border border-yellow-200 rounded-xl p-6">
                     <div class="flex items-start gap-3">

@@ -77,7 +77,7 @@
                     </label>
                     <div class="border-2 border-dashed border-gray-300 rounded-xl p-6 bg-gray-50">
                         <input type="file" id="gambar" name="gambar[]" accept="image/*" multiple
-                               class="w-full text-base text-gray-700 file:mr-4 file:py-3 file:px-6 file:rounded-lg file:border-0 file:text-base file:font-bold file:bg-primary file:text-white hover:file:bg-green-800 cursor-pointer">
+                               class="w-full text-base text-gray-700 file:mr-4 file:py-3 file:px-6 file:rounded-lg file:border-0 file:text-base file:font-bold file:bg-primary file:text-white hover:file:bg-blue-700 cursor-pointer">
                         <p class="text-base text-gray-500 mt-3">
                             Format yang diterima: JPG, PNG, WebP. Maksimal 2MB per file.<br>
                             Bisa pilih lebih dari satu gambar sekaligus.
@@ -108,7 +108,7 @@
                 Batal
             </a>
             <button type="submit" 
-                    class="btn-large bg-primary text-white hover:bg-green-800 flex items-center justify-center gap-2">
+                    class="btn-large bg-primary text-white hover:bg-blue-700 flex items-center justify-center gap-2">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                 </svg>

@@ -70,7 +70,76 @@
                         id="nama_lengkap" 
                         name="nama_lengkap" 
                         value="{{ old('nama_lengkap') }}"
-                        placeholder="Masukkan nama lengkap"
+                        placeholder="Minimal 3 karakter"
+                        minlength="3"
+                        required
+                        class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                    >
+                </div>
+
+                <!-- Jurusan -->
+                <div class="mb-5">
+                    <label for="jurusan_id" class="block text-sm font-medium text-gray-700 mb-2">
+                        Pilihan Jurusan <span class="text-red-500">*</span>
+                    </label>
+                    <select 
+                        id="jurusan_id" 
+                        name="jurusan_id" 
+                        required
+                        class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                    >
+                        <option value="">-- Pilih Jurusan --</option>
+                        @foreach($jurusan as $j)
+                        <option value="{{ $j->id }}" {{ old('jurusan_id') == $j->id ? 'selected' : '' }}>
+                            {{ $j->nama }}
+                        </option>
+                        @endforeach
+                    </select>
+                    <p class="mt-1.5 text-xs text-gray-500">Pilih salah satu jurusan yang tersedia</p>
+                </div>
+
+                <!-- Tempat Lahir -->
+                <div class="mb-5">
+                    <label for="tempat_lahir" class="block text-sm font-medium text-gray-700 mb-2">
+                        Tempat Lahir <span class="text-red-500">*</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="tempat_lahir" 
+                        name="tempat_lahir" 
+                        value="{{ old('tempat_lahir') }}"
+                        placeholder="Contoh: Jakarta"
+                        required
+                        class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                    >
+                </div>
+
+                <!-- Tanggal Lahir -->
+                <div class="mb-5">
+                    <label for="tgl_lahir" class="block text-sm font-medium text-gray-700 mb-2">
+                        Tanggal Lahir <span class="text-red-500">*</span>
+                    </label>
+                    <input 
+                        type="date" 
+                        id="tgl_lahir" 
+                        name="tgl_lahir" 
+                        value="{{ old('tgl_lahir') }}"
+                        required
+                        class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                    >
+                </div>
+
+                <!-- Asal Sekolah -->
+                <div class="mb-5">
+                    <label for="asal_sekolah" class="block text-sm font-medium text-gray-700 mb-2">
+                        Asal Sekolah (SMP/MTs) <span class="text-red-500">*</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="asal_sekolah" 
+                        name="asal_sekolah" 
+                        value="{{ old('asal_sekolah') }}"
+                        placeholder="Contoh: SMPN 1 Jakarta"
                         required
                         class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
                     >
@@ -81,19 +150,18 @@
                     <label for="no_wa" class="block text-sm font-medium text-gray-700 mb-2">
                         Nomor WhatsApp <span class="text-red-500">*</span>
                     </label>
-                    <div class="relative">
-                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-sm font-medium">+62</span>
-                        <input 
-                            type="text" 
-                            id="no_wa" 
-                            name="no_wa" 
-                            value="{{ old('no_wa') }}"
-                            placeholder="8xxxxxxxxxx"
-                            required
-                            class="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
-                        >
-                    </div>
-                    <p class="mt-1.5 text-xs text-gray-500">Format: 62xxxxxxxxxx (tanpa spasi)</p>
+                    <input 
+                        type="text" 
+                        id="no_wa" 
+                        name="no_wa" 
+                        value="{{ old('no_wa') }}"
+                        placeholder="6281234567890"
+                        minlength="12"
+                        maxlength="14"
+                        required
+                        class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                    >
+                    <p class="mt-1.5 text-xs text-gray-500">Format: 12-14 digit diawali dengan 62 (contoh: 6281234567890)</p>
                 </div>
 
                 <!-- Password -->
@@ -106,6 +174,7 @@
                             :type="showPassword ? 'text' : 'password'" 
                             id="password" 
                             name="password" 
+                            value="{{ old('password', session('password', '')) }}"
                             placeholder="Minimal 8 karakter"
                             minlength="8"
                             required
@@ -137,6 +206,7 @@
                             :type="showConfirmPassword ? 'text' : 'password'" 
                             id="password_confirmation" 
                             name="password_confirmation" 
+                            value="{{ old('password_confirmation', session('password_confirmation', '')) }}"
                             placeholder="Ulangi password"
                             required
                             class="w-full px-4 py-3 pr-12 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"

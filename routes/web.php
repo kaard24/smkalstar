@@ -122,7 +122,12 @@ Route::middleware('auth:ppdb')->prefix('ppdb')->name('ppdb.')->group(function ()
         $orangTuaComplete = $siswa->orangTua && !empty($siswa->orangTua->nama_ayah) && !empty($siswa->orangTua->nama_ibu);
         $jurusanComplete = $siswa->pendaftaran && $siswa->pendaftaran->jurusan_id;
         
-        return view('ppdb.status', compact('siswa', 'progress', 'biodataComplete', 'orangTuaComplete', 'jurusanComplete')); 
+        // Check tes & wawancara status
+        $tes = $siswa->pendaftaran?->tes;
+        $wawancaraComplete = $tes?->status_wawancara === 'sudah';
+        $kelulusanStatus = $tes?->status_kelulusan ?? 'Pending';
+        
+        return view('ppdb.status', compact('siswa', 'progress', 'biodataComplete', 'orangTuaComplete', 'jurusanComplete', 'wawancaraComplete', 'kelulusanStatus', 'tes')); 
     })->name('status');
     
     // Upload Berkas
@@ -179,6 +184,8 @@ Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function
 
     // Pendaftar Module (CRUD)
     Route::get('/pendaftar', [AdminPpdbController::class, 'index'])->name('pendaftar.index');
+    Route::get('/pendaftar/create', [AdminPpdbController::class, 'create'])->name('pendaftar.create');
+    Route::post('/pendaftar', [AdminPpdbController::class, 'store'])->name('pendaftar.store');
     Route::get('/pendaftar/export', [AdminPpdbController::class, 'exportExcel'])->name('pendaftar.export');
     Route::get('/pendaftar/{id}', [AdminPpdbController::class, 'show'])->name('pendaftar.show');
     Route::get('/pendaftar/{id}/edit', [AdminPpdbController::class, 'edit'])->name('pendaftar.edit');

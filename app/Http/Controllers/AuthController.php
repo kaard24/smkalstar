@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\CalonSiswa;
+use App\Models\Jurusan;
 use App\Models\Pendaftaran;
 use App\Models\Tes;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
@@ -22,7 +25,8 @@ class AuthController extends Controller
             return redirect()->route('ppdb.dashboard');
         }
 
-        return view('auth.register');
+        $jurusan = Jurusan::aktif()->urut()->get();
+        return view('auth.register', compact('jurusan'));
     }
 
     /**
@@ -30,43 +34,89 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
-        $request->validate([
+        $validator = \Validator::make($request->all(), [
             'nisn' => 'required|string|size:10|unique:calon_siswa,nisn',
-            'nama_lengkap' => 'required|string|max:100',
-            'no_wa' => 'required|string|regex:/^62[0-9]{9,13}$/',
+            'nama_lengkap' => 'required|string|min:3|max:100',
+            'jurusan_id' => 'required|exists:jurusan,id',
+            'tempat_lahir' => 'required|string|max:100',
+            'tgl_lahir' => 'required|date|before_or_equal:' . now()->subYears(13)->format('Y-m-d') . '|after_or_equal:' . now()->subYears(20)->format('Y-m-d'),
+            'asal_sekolah' => 'required|string|max:100',
+            'no_wa' => 'required|string|regex:/^62[0-9]{10,12}$/',
             'password' => ['required', 'confirmed', Password::min(8)],
         ], [
             'nisn.required' => 'NISN wajib diisi.',
             'nisn.size' => 'NISN harus 10 digit.',
             'nisn.unique' => 'NISN sudah terdaftar. Silakan login.',
             'nama_lengkap.required' => 'Nama lengkap wajib diisi.',
+            'nama_lengkap.min' => 'Nama lengkap minimal 3 karakter.',
+            'jurusan_id.required' => 'Pilihan jurusan wajib dipilih.',
+            'jurusan_id.exists' => 'Jurusan yang dipilih tidak valid.',
+            'tempat_lahir.required' => 'Tempat lahir wajib diisi.',
+            'tgl_lahir.required' => 'Tanggal lahir wajib diisi.',
+            'tgl_lahir.before_or_equal' => 'Umur minimal harus 13 tahun.',
+            'tgl_lahir.after_or_equal' => 'Umur maksimal adalah 20 tahun.',
+            'asal_sekolah.required' => 'Asal sekolah wajib diisi.',
             'no_wa.required' => 'Nomor WhatsApp wajib diisi.',
-            'no_wa.regex' => 'Format nomor WhatsApp tidak valid (contoh: 6281234567890).',
+            'no_wa.regex' => 'Nomor WhatsApp harus 12-14 digit diawali dengan 62 (contoh: 6281234567890).',
             'password.required' => 'Password wajib diisi.',
             'password.confirmed' => 'Konfirmasi password tidak cocok.',
             'password.min' => 'Password minimal 8 karakter.',
         ]);
 
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput($request->except(['password', 'password_confirmation']))
+                ->with('password', $request->password)
+                ->with('password_confirmation', $request->password_confirmation);
+        }
+
         // Normalize phone number
         $noWa = $this->normalizePhoneNumber($request->no_wa);
 
-        // Create CalonSiswa - hanya data dari registrasi
-        // jk, tgl_lahir, alamat, asal_sekolah akan diisi di form "Lengkapi Data"
-        $calonSiswa = CalonSiswa::create([
-            'nisn' => $request->nisn,
-            'nama' => $request->nama_lengkap,
-            'no_wa' => $noWa,
-            'password' => Hash::make($request->password),
-        ]);
+        try {
+            DB::transaction(function () use ($request, $noWa) {
+                // Create CalonSiswa dengan data lengkap
+                $calonSiswa = CalonSiswa::create([
+                    'nisn' => $request->nisn,
+                    'nama' => $request->nama_lengkap,
+                    'tempat_lahir' => $request->tempat_lahir,
+                    'tgl_lahir' => $request->tgl_lahir,
+                    'asal_sekolah' => $request->asal_sekolah,
+                    'no_wa' => $noWa,
+                    'password' => Hash::make($request->password),
+                ]);
 
-        // Note: Pendaftaran will be created when user completes their data
-        // (jurusan_id is required and cannot be null)
+                // Create Pendaftaran dengan jurusan yang dipilih
+                $pendaftaran = Pendaftaran::create([
+                    'calon_siswa_id' => $calonSiswa->id,
+                    'jurusan_id' => $request->jurusan_id,
+                    'gelombang' => 'Gelombang 1',
+                    'status_pendaftaran' => 'Terdaftar',
+                ]);
 
-        // Redirect ke halaman login dengan data untuk auto-fill
-        return redirect()->route('login')
-            ->with('registration_success', true)
-            ->with('registered_nisn', $request->nisn)
-            ->with('registered_password', $request->password);
+                // Create Tes record
+                Tes::create([
+                    'pendaftaran_id' => $pendaftaran->id,
+                    'status_kelulusan' => 'Pending',
+                ]);
+            });
+
+            // Simpan session flash untuk login form
+            Session::flash('registration_success', true);
+            Session::flash('registered_nisn', $request->nisn);
+            Session::flash('registered_nama_lengkap', $request->nama_lengkap);
+            Session::flash('registered_password', $request->password);
+
+            // Redirect ke halaman login
+            return redirect()->route('login');
+        } catch (\Exception $e) {
+            return back()
+                ->with('error', 'Terjadi kesalahan saat mendaftar: ' . $e->getMessage())
+                ->withInput($request->except(['password', 'password_confirmation']))
+                ->with('password', $request->password)
+                ->with('password_confirmation', $request->password_confirmation);
+        }
     }
 
     /**

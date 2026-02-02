@@ -32,6 +32,21 @@
             <form action="{{ route('login.submit') }}" method="POST" @submit="isLoading = true">
                 @csrf
                 
+                <!-- Nama Lengkap (readonly, dari register) -->
+                @if(session('registered_nama_lengkap'))
+                <div class="mb-5">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        Nama Lengkap
+                    </label>
+                    <input 
+                        type="text" 
+                        value="{{ session('registered_nama_lengkap') }}"
+                        readonly
+                        class="w-full px-4 py-3 bg-green-50 border border-green-200 rounded-xl text-green-800 font-medium"
+                    >
+                </div>
+                @endif
+
                 <!-- NISN -->
                 <div class="mb-5">
                     <label for="nisn" class="block text-sm font-medium text-gray-700 mb-2">
@@ -134,6 +149,7 @@
                 </svg>
             </div>
             <h3 class="text-xl font-bold text-gray-900 mb-2">Pendaftaran Berhasil!</h3>
+            <p class="text-gray-600 text-sm mb-2">Selamat datang, <strong>{{ session('registered_nama_lengkap') }}</strong>!</p>
             <p class="text-gray-600 text-sm mb-6">Akun Anda telah dibuat. Data login sudah terisi otomatis.</p>
             <button @click="showRegPopup = false" class="w-full bg-primary text-white px-6 py-3 rounded-xl font-semibold hover:bg-primary-dark transition">
                 Mengerti

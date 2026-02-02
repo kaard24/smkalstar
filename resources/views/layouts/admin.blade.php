@@ -51,7 +51,7 @@
         .input:focus {
             outline: none;
             border-color: var(--color-primary);
-            box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
+            box-shadow: 0 0 0 3px rgba(58, 162, 207, 0.1);
         }
 
         .nav-item {
@@ -93,7 +93,7 @@
                 <!-- Desktop Navigation -->
                 <nav class="hidden lg:flex items-center gap-1">
                     <a href="{{ route('admin.pendaftar.index') }}" 
-                       class="nav-item flex items-center gap-2 {{ request()->is('admin/pendaftar*') ? 'bg-primary text-white' : 'text-gray-700 hover:bg-gray-100' }}">
+                       class="nav-item flex items-center gap-2 {{ request()->is('admin/pendaftar*') ? 'bg-primary text-white' : 'text-primary hover:bg-blue-50 hover:border hover:border-primary/30' }}">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
                         </svg>
@@ -101,7 +101,7 @@
                     </a>
 
                     <a href="{{ route('admin.struktur-organisasi.index') }}" 
-                       class="nav-item flex items-center gap-2 {{ request()->is('admin/struktur-organisasi*') ? 'bg-primary text-white' : 'text-gray-700 hover:bg-gray-100' }}">
+                       class="nav-item flex items-center gap-2 {{ request()->is('admin/struktur-organisasi*') ? 'bg-primary text-white' : 'text-primary hover:bg-blue-50 hover:border hover:border-primary/30' }}">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
                         </svg>
@@ -109,7 +109,7 @@
                     </a>
 
                     <a href="{{ route('admin.fasilitas.index') }}" 
-                       class="nav-item flex items-center gap-2 {{ request()->is('admin/fasilitas*') ? 'bg-primary text-white' : 'text-gray-700 hover:bg-gray-100' }}">
+                       class="nav-item flex items-center gap-2 {{ request()->is('admin/fasilitas*') ? 'bg-primary text-white' : 'text-primary hover:bg-blue-50 hover:border hover:border-primary/30' }}">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
                         </svg>
@@ -117,7 +117,7 @@
                     </a>
 
                     <a href="{{ route('admin.berita.index') }}" 
-                       class="nav-item flex items-center gap-2 {{ request()->is('admin/berita*') ? 'bg-primary text-white' : 'text-gray-700 hover:bg-gray-100' }}">
+                       class="nav-item flex items-center gap-2 {{ request()->is('admin/berita*') ? 'bg-primary text-white' : 'text-primary hover:bg-blue-50 hover:border hover:border-primary/30' }}">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
                         </svg>
@@ -127,7 +127,7 @@
                     <!-- More Menu Dropdown -->
                     <div class="relative" x-data="{ open: false }">
                         <button @click="open = !open" 
-                                class="nav-item flex items-center gap-1 text-gray-700 hover:bg-gray-100">
+                                class="nav-item flex items-center gap-1 text-primary hover:bg-blue-50 hover:border hover:border-primary/30">
                             <span>Lainnya</span>
                             <svg :class="{'rotate-180': open}" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -135,22 +135,22 @@
                         </button>
                         <div x-show="open" @click.away="open = false" x-cloak
                              class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
-                            <a href="{{ route('admin.ekstrakurikuler.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                            <a href="{{ route('admin.ekstrakurikuler.index') }}" class="block px-4 py-2 text-sm text-primary hover:bg-blue-50">
                                 Ekstrakurikuler
                             </a>
-                            <a href="{{ route('admin.prestasi.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                            <a href="{{ route('admin.prestasi.index') }}" class="block px-4 py-2 text-sm text-primary hover:bg-blue-50">
                                 Prestasi
                             </a>
-                            <a href="{{ route('admin.galeri.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                            <a href="{{ route('admin.galeri.index') }}" class="block px-4 py-2 text-sm text-primary hover:bg-blue-50">
                                 Galeri
                             </a>
-                            <a href="{{ route('admin.jurusan.index') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                            <a href="{{ route('admin.jurusan.index') }}" class="block px-4 py-2 text-sm text-primary hover:bg-blue-50">
                                 Jurusan
                             </a>
-                            <a href="{{ route('admin.profil-sekolah.sejarah') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                            <a href="{{ route('admin.profil-sekolah.sejarah') }}" class="block px-4 py-2 text-sm text-primary hover:bg-blue-50">
                                 Sejarah
                             </a>
-                            <a href="{{ route('admin.profil-sekolah.visi-misi') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                            <a href="{{ route('admin.profil-sekolah.visi-misi') }}" class="block px-4 py-2 text-sm text-primary hover:bg-blue-50">
                                 Visi Misi
                             </a>
                         </div>
@@ -160,7 +160,7 @@
                 <!-- User Actions -->
                 <div class="flex items-center gap-3">
                     <a href="{{ url('/') }}" target="_blank" 
-                       class="hidden md:flex items-center gap-2 px-3 py-2 text-sm font-medium hover:bg-green-50 rounded-lg transition border"
+                       class="hidden md:flex items-center gap-2 px-3 py-2 text-sm font-medium hover:bg-blue-50 rounded-lg transition border"
                        style="color: var(--color-primary); border-color: var(--color-primary)">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -182,9 +182,9 @@
 
                     <!-- Mobile menu button -->
                     <button type="button" 
-                            class="lg:hidden p-2 rounded-lg border border-gray-300 hover:border-primary hover:bg-green-50 transition"
+                            class="lg:hidden p-2 rounded-lg border border-primary hover:bg-blue-50 transition"
                             onclick="document.getElementById('admin-mobile-menu').classList.toggle('hidden')">
-                        <svg class="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg class="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                         </svg>
                     </button>
@@ -196,59 +196,59 @@
         <div class="hidden lg:hidden bg-white border-t border-gray-200" id="admin-mobile-menu">
             <div class="px-4 py-3 space-y-1">
                 <a href="{{ route('admin.pendaftar.index') }}" 
-                   class="block px-4 py-2 rounded-lg text-sm font-medium {{ request()->is('admin/pendaftar*') ? 'text-white' : 'text-gray-700 hover:bg-gray-50' }}"
+                   class="block px-4 py-2 rounded-lg text-sm font-medium {{ request()->is('admin/pendaftar*') ? 'text-white' : 'text-primary hover:bg-blue-50' }}"
                    style="{{ request()->is('admin/pendaftar*') ? 'background-color: var(--color-primary)' : '' }}">
                     Data Pendaftar
                 </a>
                 <a href="{{ route('admin.struktur-organisasi.index') }}" 
-                   class="block px-4 py-2 rounded-lg text-sm font-medium {{ request()->is('admin/struktur-organisasi*') ? 'text-white' : 'text-gray-700 hover:bg-gray-50' }}"
+                   class="block px-4 py-2 rounded-lg text-sm font-medium {{ request()->is('admin/struktur-organisasi*') ? 'text-white' : 'text-primary hover:bg-blue-50' }}"
                    style="{{ request()->is('admin/struktur-organisasi*') ? 'background-color: var(--color-primary)' : '' }}">
                     Struktur Organisasi
                 </a>
                 <a href="{{ route('admin.fasilitas.index') }}" 
-                   class="block px-4 py-2 rounded-lg text-sm font-medium {{ request()->is('admin/fasilitas*') ? 'text-white' : 'text-gray-700 hover:bg-gray-50' }}"
+                   class="block px-4 py-2 rounded-lg text-sm font-medium {{ request()->is('admin/fasilitas*') ? 'text-white' : 'text-primary hover:bg-blue-50' }}"
                    style="{{ request()->is('admin/fasilitas*') ? 'background-color: var(--color-primary)' : '' }}">
                     Fasilitas
                 </a>
                 <a href="{{ route('admin.berita.index') }}" 
-                   class="block px-4 py-2 rounded-lg text-sm font-medium {{ request()->is('admin/berita*') ? 'text-white' : 'text-gray-700 hover:bg-gray-50' }}"
+                   class="block px-4 py-2 rounded-lg text-sm font-medium {{ request()->is('admin/berita*') ? 'text-white' : 'text-primary hover:bg-blue-50' }}"
                    style="{{ request()->is('admin/berita*') ? 'background-color: var(--color-primary)' : '' }}">
                     Berita
                 </a>
                 <a href="{{ route('admin.ekstrakurikuler.index') }}" 
-                   class="block px-4 py-2 rounded-lg text-sm font-medium {{ request()->is('admin/ekstrakurikuler*') ? 'text-white' : 'text-gray-700 hover:bg-gray-50' }}"
+                   class="block px-4 py-2 rounded-lg text-sm font-medium {{ request()->is('admin/ekstrakurikuler*') ? 'text-white' : 'text-primary hover:bg-blue-50' }}"
                    style="{{ request()->is('admin/ekstrakurikuler*') ? 'background-color: var(--color-primary)' : '' }}">
                     Ekstrakurikuler
                 </a>
                 <a href="{{ route('admin.prestasi.index') }}" 
-                   class="block px-4 py-2 rounded-lg text-sm font-medium {{ request()->is('admin/prestasi*') ? 'text-white' : 'text-gray-700 hover:bg-gray-50' }}"
+                   class="block px-4 py-2 rounded-lg text-sm font-medium {{ request()->is('admin/prestasi*') ? 'text-white' : 'text-primary hover:bg-blue-50' }}"
                    style="{{ request()->is('admin/prestasi*') ? 'background-color: var(--color-primary)' : '' }}">
                     Prestasi
                 </a>
                 <a href="{{ route('admin.galeri.index') }}" 
-                   class="block px-4 py-2 rounded-lg text-sm font-medium {{ request()->is('admin/galeri*') ? 'text-white' : 'text-gray-700 hover:bg-gray-50' }}"
+                   class="block px-4 py-2 rounded-lg text-sm font-medium {{ request()->is('admin/galeri*') ? 'text-white' : 'text-primary hover:bg-blue-50' }}"
                    style="{{ request()->is('admin/galeri*') ? 'background-color: var(--color-primary)' : '' }}">
                     Galeri
                 </a>
                 <a href="{{ route('admin.jurusan.index') }}" 
-                   class="block px-4 py-2 rounded-lg text-sm font-medium {{ request()->is('admin/jurusan*') ? 'text-white' : 'text-gray-700 hover:bg-gray-50' }}"
+                   class="block px-4 py-2 rounded-lg text-sm font-medium {{ request()->is('admin/jurusan*') ? 'text-white' : 'text-primary hover:bg-blue-50' }}"
                    style="{{ request()->is('admin/jurusan*') ? 'background-color: var(--color-primary)' : '' }}">
                     Jurusan
                 </a>
                 <a href="{{ route('admin.profil-sekolah.sejarah') }}" 
-                   class="block px-4 py-2 rounded-lg text-sm font-medium {{ request()->is('admin/profil-sekolah/sejarah*') ? 'text-white' : 'text-gray-700 hover:bg-gray-50' }}"
+                   class="block px-4 py-2 rounded-lg text-sm font-medium {{ request()->is('admin/profil-sekolah/sejarah*') ? 'text-white' : 'text-primary hover:bg-blue-50' }}"
                    style="{{ request()->is('admin/profil-sekolah/sejarah*') ? 'background-color: var(--color-primary)' : '' }}">
                     Sejarah
                 </a>
                 <a href="{{ route('admin.profil-sekolah.visi-misi') }}" 
-                   class="block px-4 py-2 rounded-lg text-sm font-medium {{ request()->is('admin/profil-sekolah/visi-misi*') ? 'text-white' : 'text-gray-700 hover:bg-gray-50' }}"
+                   class="block px-4 py-2 rounded-lg text-sm font-medium {{ request()->is('admin/profil-sekolah/visi-misi*') ? 'text-white' : 'text-primary hover:bg-blue-50' }}"
                    style="{{ request()->is('admin/profil-sekolah/visi-misi*') ? 'background-color: var(--color-primary)' : '' }}">
                     Visi Misi
                 </a>
 
                 <div class="border-t border-gray-200 pt-3 mt-3">
                     <a href="{{ url('/') }}" target="_blank" 
-                       class="block px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-50 mb-1"
+                       class="block px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-50 mb-1"
                        style="color: var(--color-primary)">
                         Lihat Website
                     </a>

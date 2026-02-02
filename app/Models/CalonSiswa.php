@@ -20,12 +20,16 @@ class CalonSiswa extends Authenticatable
 
     protected $fillable = [
         'nisn',
+        'nik',
+        'no_kk',
         'nama',
         'jk',
+        'tempat_lahir',
         'tgl_lahir',
         'alamat',
         'no_wa',
         'asal_sekolah',
+        'alamat_sekolah',
         'password',
     ];
 
@@ -99,6 +103,7 @@ class CalonSiswa extends Authenticatable
     {
         return !empty($this->nama) 
             && !empty($this->jk) 
+            && !empty($this->tempat_lahir)
             && !empty($this->tgl_lahir)
             && !empty($this->alamat)
             && !empty($this->asal_sekolah);

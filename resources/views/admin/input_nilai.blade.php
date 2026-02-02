@@ -87,7 +87,7 @@
 
                 <div class="px-8 py-6 bg-gray-50 flex justify-end gap-4 border-t border-gray-100">
                     <button type="button" onclick="history.back()" class="px-6 py-2.5 bg-white border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition">Batal</button>
-                    <button type="submit" class="px-6 py-2.5 bg-primary text-white rounded-lg font-bold hover:bg-green-700 transition shadow-lg shadow-green-500/30">Simpan Keputusan</button>
+                    <button type="submit" class="px-6 py-2.5 bg-primary text-white rounded-lg font-bold hover:bg-blue-600 transition shadow-lg shadow-blue-500/30">Simpan Keputusan</button>
                 </div>
             </form>
         </div>

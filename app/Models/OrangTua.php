@@ -13,10 +13,19 @@ class OrangTua extends Model
 
     protected $fillable = [
         'calon_siswa_id',
+        'jenis',
         'nama_ayah',
+        'nik_ayah',
+        'status_ayah',
         'nama_ibu',
+        'nik_ibu',
+        'status_ibu',
         'no_wa_ortu',
-        'pekerjaan'
+        'pekerjaan',
+        'nama_wali',
+        'pekerjaan_wali',
+        'no_hp_wali',
+        'hubungan_wali',
     ];
 
     public function calonSiswa()

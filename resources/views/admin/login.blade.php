@@ -10,8 +10,8 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#15803d',
-                        secondary: '#166534',
+                        primary: '#3AA2CF',
+                        secondary: '#2B7BA3',
                     }
                 }
             }
@@ -28,9 +28,11 @@
         <div class="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
             {{-- Header dengan Logo --}}
             <div class="bg-primary px-6 py-6 text-center">
-                <img src="{{ asset('images/logo.webp') }}" alt="Logo Sekolah" class="w-16 h-16 mx-auto rounded-full border-2 border-white/30 object-cover mb-3" loading="lazy" decoding="async">
+                <div class="w-16 h-16 mx-auto rounded-full border-2 border-white/30 bg-white p-1 mb-3">
+                    <img src="{{ asset('images/logo.webp') }}" alt="Logo Sekolah" class="w-full h-full rounded-full object-cover" loading="lazy" decoding="async">
+                </div>
                 <h1 class="text-xl font-bold text-white">Admin Panel</h1>
-                <p class="text-green-100 text-sm mt-0.5">SMK Al-Hidayah Lestari</p>
+                <p class="text-blue-100 text-sm mt-0.5">SMK Al-Hidayah Lestari</p>
             </div>
 
             {{-- Form --}}
@@ -42,7 +44,7 @@
                 @endif
 
                 @if(session('success'))
-                <div class="mb-4 p-3 bg-green-50 border border-green-200 text-green-700 rounded-md text-sm">
+                <div class="mb-4 p-3 bg-blue-50 border border-blue-200 text-blue-700 rounded-md text-sm">
                     {{ session('success') }}
                 </div>
                 @endif
@@ -107,7 +109,7 @@
                     {{-- Submit Button --}}
                     <button 
                         type="submit" 
-                        class="w-full py-2.5 bg-primary text-white text-sm font-medium rounded-md hover:bg-green-800 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                        class="w-full py-2.5 bg-primary text-white text-sm font-medium rounded-md hover:bg-blue-700 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
                     >
                         Masuk
                     </button>

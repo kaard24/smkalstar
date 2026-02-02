@@ -9,7 +9,7 @@
     </div>
 
     @if(session('success'))
-    <div class="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg flex items-center">
+    <div class="mb-6 p-4 bg-blue-50 border border-blue-200 text-blue-700 rounded-lg flex items-center">
         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
         {{ session('success') }}
     </div>
@@ -43,7 +43,7 @@
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600 font-mono">{{ $item->calonSiswa->nisn }}</td>
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <span class="px-2 py-1 bg-green-100 text-green-700 rounded text-xs font-bold">{{ $item->jurusan->kode }}</span>
+                        <span class="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs font-bold">{{ $item->jurusan->kode }}</span>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         @if($item->status_pendaftaran == 'Selesai Tes')
@@ -66,7 +66,7 @@
                         @endif
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-center">
-                        <a href="{{ route('admin.input_nilai', $item->id) }}" class="inline-flex items-center px-4 py-2 bg-primary text-white rounded-lg hover:bg-green-700 text-sm font-medium transition shadow-sm">
+                        <a href="{{ route('admin.input_nilai', $item->id) }}" class="inline-flex items-center px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-700 text-sm font-medium transition shadow-sm">
                             <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                             Input Nilai
                         </a>

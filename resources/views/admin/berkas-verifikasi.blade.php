@@ -38,7 +38,7 @@
 
         {{-- Alert Messages --}}
         @if(session('success'))
-        <div class="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-xl text-sm">
+        <div class="mb-6 p-4 bg-blue-50 border border-blue-200 text-blue-700 rounded-xl text-sm">
             {{ session('success') }}
         </div>
         @endif

@@ -11,8 +11,15 @@
                 <p class="text-sm text-gray-500 mt-1">Kelola data pendaftar PPDB SMK Al-Hidayah Lestari</p>
             </div>
             <div class="flex flex-wrap gap-2 items-center">
+                <a href="{{ route('admin.pendaftar.create') }}" 
+                   class="btn bg-primary text-white hover:bg-blue-700 flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                    </svg>
+                    Tambah Siswa
+                </a>
                 <a href="{{ route('admin.pendaftar.export', request()->query()) }}" 
-                   class="btn bg-green-600 text-white hover:bg-green-700 flex items-center gap-2">
+                   class="btn bg-blue-600 text-white hover:bg-blue-700 flex items-center gap-2">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                     </svg>
@@ -27,7 +34,7 @@
 
     {{-- Alert Messages --}}
     @if(session('success'))
-    <div class="mb-4 p-4 bg-green-50 border border-green-200 text-green-800 rounded-lg flex items-center text-sm">
+    <div class="mb-4 p-4 bg-blue-50 border border-blue-200 text-blue-800 rounded-lg flex items-center text-sm">
         <svg class="w-5 h-5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
         </svg>
@@ -57,12 +64,13 @@
             <div class="flex-1 min-w-[250px]">
                 <label for="search" class="block text-xs font-medium text-gray-600 mb-1">Kata Kunci</label>
                 <div class="relative">
-                    <input type="text" name="search" id="search" value="{{ request('search') }}" 
-                           placeholder="Nama, NISN, atau No. WA..." 
-                           class="w-full pl-9 pr-3 input">
-                    <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                     </svg>
+                    <input type="text" name="search" id="search" value="{{ request('search') }}" 
+                           placeholder="Nama, NISN, atau No. WA..." 
+                           style="padding-left: 2.5rem;"
+                           class="w-full pr-3 py-2.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary bg-white">
                 </div>
             </div>
 
@@ -81,25 +89,36 @@
 
             {{-- Status Filter --}}
             <div class="w-48">
-                <label for="status" class="block text-xs font-medium text-gray-600 mb-1">Status</label>
+                <label for="status" class="block text-xs font-medium text-gray-600 mb-1">Status Pendaftaran</label>
                 <select name="status" id="status" class="w-full px-3 input bg-white">
                     <option value="">Semua Status</option>
                     <option value="baru" {{ request('status') == 'baru' ? 'selected' : '' }}>Baru Daftar</option>
                     <option value="proses_data" {{ request('status') == 'proses_data' ? 'selected' : '' }}>Proses Data</option>
                     <option value="proses_berkas" {{ request('status') == 'proses_berkas' ? 'selected' : '' }}>Proses Berkas</option>
                     <option value="lengkap" {{ request('status') == 'lengkap' ? 'selected' : '' }}>Data Lengkap</option>
+                    <option value="lulus" {{ request('status') == 'lulus' ? 'selected' : '' }}>Sudah Lulus</option>
+                </select>
+            </div>
+
+            {{-- Wawancara Filter --}}
+            <div class="w-48">
+                <label for="wawancara" class="block text-xs font-medium text-gray-600 mb-1">Status Wawancara</label>
+                <select name="wawancara" id="wawancara" class="w-full px-3 input bg-white">
+                    <option value="">Semua</option>
+                    <option value="belum" {{ request('wawancara') == 'belum' ? 'selected' : '' }}>Belum Wawancara</option>
+                    <option value="sudah" {{ request('wawancara') == 'sudah' ? 'selected' : '' }}>Sudah Wawancara</option>
                 </select>
             </div>
 
             {{-- Action Buttons --}}
             <div class="flex gap-2">
-                <button type="submit" class="btn bg-primary text-white hover:bg-green-800 flex items-center gap-2">
+                <button type="submit" class="btn bg-primary text-white hover:bg-blue-700 flex items-center gap-2">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                     </svg>
                     Cari
                 </button>
-                @if(request('search') || request('jurusan') || request('status'))
+                @if(request('search') || request('jurusan') || request('status') || request('wawancara'))
                 <a href="{{ route('admin.pendaftar.index') }}" class="btn bg-gray-200 text-gray-700 hover:bg-gray-300 flex items-center gap-2">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
@@ -145,7 +164,7 @@
                         </td>
                         <td class="px-4 py-3">
                             @if($siswa->pendaftaran && $siswa->pendaftaran->jurusan)
-                                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
+                                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
                                     {{ $siswa->pendaftaran->jurusan->kode }}
                                 </span>
                             @else
@@ -164,7 +183,7 @@
                                 </span>
                             </div>
                             @if($berkasProgress['is_complete'])
-                                <span class="text-xs text-green-600 font-medium">Lengkap</span>
+                                <span class="text-xs text-blue-600 font-medium">Lengkap</span>
                             @elseif($berkasProgress['uploaded'] > 0)
                                 <span class="text-xs text-yellow-600">Proses</span>
                             @else
@@ -173,7 +192,7 @@
                         </td>
                         <td class="px-4 py-3">
                             @if($hasPendaftaran && $isComplete && $berkasProgress['is_complete'])
-                                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
+                                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
                                     <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                                     </svg>
@@ -249,14 +268,14 @@
 
     {{-- Info Cards --}}
     <div class="mt-4 grid md:grid-cols-4 gap-3">
-        <div class="bg-green-50 border border-green-200 rounded-lg p-3">
-            <h4 class="font-semibold text-green-900 mb-1 flex items-center gap-2 text-xs">
+        <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
+            <h4 class="font-semibold text-blue-900 mb-1 flex items-center gap-2 text-xs">
                 <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                 </svg>
                 Siap Tes
             </h4>
-            <p class="text-green-700 text-xs">Data & berkas lengkap</p>
+            <p class="text-blue-700 text-xs">Data & berkas lengkap</p>
         </div>
         <div class="bg-blue-50 border border-blue-200 rounded-lg p-3">
             <h4 class="font-semibold text-blue-900 mb-1 flex items-center gap-2 text-xs">
