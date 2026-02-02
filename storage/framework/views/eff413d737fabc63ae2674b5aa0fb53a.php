@@ -166,6 +166,8 @@
     
     <!-- Async Alpine.js -->
     <script defer src="<?php echo e(asset('js/alpine.min.js')); ?>"></script>
+    
+    <?php echo $__env->yieldPushContent('styles'); ?>
 </head>
 <body class="bg-gray-50 flex flex-col min-h-screen text-gray-800 pb-20 md:pb-0">
     <!-- Skip to main content -->
@@ -182,12 +184,18 @@
         <?php echo $__env->yieldContent('content'); ?>
     </main>
 
-    <?php echo $__env->make('partials.footer', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
+    <?php if(!isset($hide_footer)): ?>
+        <?php echo $__env->make('partials.footer', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
+    <?php endif; ?>
     
-    <?php echo $__env->make('partials.bottom-nav', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
+    <?php if(!isset($hide_bottom_nav)): ?>
+        <?php echo $__env->make('partials.bottom-nav', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
+    <?php endif; ?>
 
     <script src="<?php echo e(asset('js/validation.js')); ?>" defer></script>
     <script src="<?php echo e(asset('js/lightbox.js')); ?>" defer></script>
+    
+    <?php echo $__env->yieldPushContent('scripts'); ?>
     
     <!-- Service Worker -->
     <script>

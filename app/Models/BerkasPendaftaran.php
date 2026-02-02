@@ -121,11 +121,19 @@ class BerkasPendaftaran extends Model
     }
 
     /**
-     * Mendapatkan full path file di storage
+     * Mendapatkan full path file di storage (gunakan disk public)
      */
     public function getFullPathAttribute(): string
     {
-        return storage_path('app/' . $this->path_file);
+        return storage_path('app/public/' . $this->path_file);
+    }
+    
+    /**
+     * Mendapatkan URL file (gunakan disk public)
+     */
+    public function getFileUrlAttribute(): string
+    {
+        return asset('storage/' . $this->path_file);
     }
 
     /**

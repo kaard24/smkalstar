@@ -166,6 +166,8 @@
     
     <!-- Async Alpine.js -->
     <script defer src="{{ asset('js/alpine.min.js') }}"></script>
+    
+    @stack('styles')
 </head>
 <body class="bg-gray-50 flex flex-col min-h-screen text-gray-800 pb-20 md:pb-0">
     <!-- Skip to main content -->
@@ -182,12 +184,18 @@
         @yield('content')
     </main>
 
-    @include('partials.footer')
+    @if(!isset($hide_footer))
+        @include('partials.footer')
+    @endif
     
-    @include('partials.bottom-nav')
+    @if(!isset($hide_bottom_nav))
+        @include('partials.bottom-nav')
+    @endif
 
     <script src="{{ asset('js/validation.js') }}" defer></script>
     <script src="{{ asset('js/lightbox.js') }}" defer></script>
+    
+    @stack('scripts')
     
     <!-- Service Worker -->
     <script>

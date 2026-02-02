@@ -48,21 +48,21 @@ class BerkasController extends Controller
             ->where('jenis_berkas', $request->jenis_berkas)
             ->first();
 
-        // Buat folder berdasarkan NISN
-        $folder = "ppdb/berkas/{$siswa->nisn}";
+        // Buat folder berdasarkan NISN (gunakan disk public agar bisa diakses)
+        $folder = "berkas/ppdb/{$siswa->nisn}";
         
         // Nama file dengan jenis berkas
         $jenis = $request->jenis_berkas;
-        $extension = $request->file('file')->getClientOriginalExtension();
+        $extension = strtolower($request->file('file')->getClientOriginalExtension());
         $filename = "{$jenis}_{$siswa->nisn}.{$extension}";
 
-        // Hapus file lama jika ada
-        if ($existingBerkas && Storage::exists($existingBerkas->path_file)) {
-            Storage::delete($existingBerkas->path_file);
+        // Hapus file lama jika ada (gunakan disk public)
+        if ($existingBerkas && Storage::disk('public')->exists($existingBerkas->path_file)) {
+            Storage::disk('public')->delete($existingBerkas->path_file);
         }
 
-        // Simpan file baru
-        $path = $request->file('file')->storeAs($folder, $filename);
+        // Simpan file baru ke disk public
+        $path = $request->file('file')->storeAs($folder, $filename, 'public');
 
         // Update atau create record berkas (tanpa status verifikasi)
         if ($existingBerkas) {
@@ -100,11 +100,11 @@ class BerkasController extends Controller
             abort(403);
         }
 
-        if (!Storage::exists($berkas->path_file)) {
+        if (!Storage::disk('public')->exists($berkas->path_file)) {
             return back()->with('error', 'File tidak ditemukan.');
         }
 
-        return Storage::download($berkas->path_file, $berkas->nama_file);
+        return Storage::disk('public')->download($berkas->path_file, $berkas->nama_file);
     }
 
     /**
@@ -119,9 +119,9 @@ class BerkasController extends Controller
             abort(403);
         }
 
-        // Hapus file dari storage
-        if (Storage::exists($berkas->path_file)) {
-            Storage::delete($berkas->path_file);
+        // Hapus file dari storage (gunakan disk public)
+        if (Storage::disk('public')->exists($berkas->path_file)) {
+            Storage::disk('public')->delete($berkas->path_file);
         }
 
         $berkas->delete();
@@ -183,10 +183,10 @@ class BerkasController extends Controller
      */
     public function adminDownload(BerkasPendaftaran $berkas)
     {
-        if (!Storage::exists($berkas->path_file)) {
+        if (!Storage::disk('public')->exists($berkas->path_file)) {
             return back()->with('error', 'File tidak ditemukan.');
         }
 
-        return Storage::download($berkas->path_file, $berkas->nama_file);
+        return Storage::disk('public')->download($berkas->path_file, $berkas->nama_file);
     }
 }

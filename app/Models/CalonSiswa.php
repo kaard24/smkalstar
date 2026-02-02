@@ -31,6 +31,7 @@ class CalonSiswa extends Authenticatable
         'asal_sekolah',
         'alamat_sekolah',
         'password',
+        'foto',
     ];
 
     /**
@@ -94,6 +95,20 @@ class CalonSiswa extends Authenticatable
     public static function findByNisn(string $nisn): ?self
     {
         return static::where('nisn', $nisn)->first();
+    }
+
+    /**
+     * Mendapatkan URL foto profil
+     */
+    public function getFotoUrlAttribute(): string
+    {
+        if ($this->foto && file_exists(public_path('storage/foto/' . $this->foto))) {
+            return asset('storage/foto/' . $this->foto);
+        }
+        // Default avatar based on gender
+        return $this->jk === 'P' 
+            ? asset('images/avatar-female.svg') 
+            : asset('images/avatar-male.svg');
     }
 
     /**

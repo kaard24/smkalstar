@@ -85,9 +85,9 @@
             <div>
                 <h3 class="text-base font-bold mb-5 text-white flex items-center gap-2">
                     <span class="w-1 h-5 bg-gradient-to-b from-orange-400 to-red-500 rounded-full"></span>
-                    Info PPDB
+                    Info SPMB
                 </h3>
-                <p class="text-gray-400 text-sm mb-4">Pendaftaran murid baru tahun ajaran 2026/2027 telah dibuka.</p>
+                <p class="text-gray-400 text-sm mb-4">Sitem Penerimaanan Murid Baru tahun ajaran 2026/2027 telah dibuka.</p>
                 <a href="{{ url('/ppdb/register') }}" class="inline-flex items-center justify-center w-full gap-2 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold px-4 py-3 rounded-xl transition-all shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40">
                     <span>Daftar Sekarang</span>
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>

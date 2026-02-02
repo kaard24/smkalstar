@@ -102,8 +102,12 @@
                         <span class="font-medium text-slate-800">{{ $siswa->orangTua->nama_ibu ?? '-' }}</span>
                     </div>
                     <div>
-                        <span class="block text-slate-500">Pekerjaan</span>
-                        <span class="font-medium text-slate-800">{{ $siswa->orangTua->pekerjaan ?? '-' }}</span>
+                        <span class="block text-slate-500">Pekerjaan Ayah</span>
+                        <span class="font-medium text-slate-800">{{ $siswa->orangTua->pekerjaan_ayah ?? $siswa->orangTua->pekerjaan ?? '-' }}</span>
+                    </div>
+                    <div>
+                        <span class="block text-slate-500">Pekerjaan Ibu</span>
+                        <span class="font-medium text-slate-800">{{ $siswa->orangTua->pekerjaan_ibu ?? '-' }}</span>
                     </div>
                     <div>
                         <span class="block text-slate-500">No. WA Orang Tua</span>

@@ -363,22 +363,31 @@
                         </div>
 
                         <div class="grid grid-cols-2 gap-3">
-                            {{-- Pekerjaan --}}
+                            {{-- Pekerjaan Ayah --}}
                             <div>
-                                <label class="block text-xs font-medium text-slate-600 mb-1">Pekerjaan <span class="text-[#991B1B]">*</span></label>
-                                <input type="text" id="pekerjaan" name="pekerjaan" 
-                                       value="{{ old('pekerjaan', $siswa->orangTua?->pekerjaan) }}"
+                                <label class="block text-xs font-medium text-slate-600 mb-1">Pekerjaan Ayah <span class="text-[#991B1B]">*</span></label>
+                                <input type="text" id="pekerjaan_ayah" name="pekerjaan_ayah" 
+                                       value="{{ old('pekerjaan_ayah', $siswa->orangTua?->pekerjaan_ayah) }}"
                                        placeholder="Contoh: Wiraswasta"
                                        class="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:border-[#4276A3] focus:ring-1 focus:ring-[#4276A3]">
                             </div>
-                            {{-- No WA Ortu --}}
+                            {{-- Pekerjaan Ibu --}}
                             <div>
-                                <label class="block text-xs font-medium text-slate-600 mb-1">No. WA Ortu <span class="text-[#991B1B]">*</span></label>
-                                <input type="text" id="no_wa_ortu" name="no_wa_ortu" 
-                                       value="{{ old('no_wa_ortu', $siswa->orangTua?->no_wa_ortu) }}"
-                                       placeholder="081234567890"
+                                <label class="block text-xs font-medium text-slate-600 mb-1">Pekerjaan Ibu <span class="text-[#991B1B]">*</span></label>
+                                <input type="text" id="pekerjaan_ibu" name="pekerjaan_ibu" 
+                                       value="{{ old('pekerjaan_ibu', $siswa->orangTua?->pekerjaan_ibu) }}"
+                                       placeholder="Contoh: Ibu Rumah Tangga"
                                        class="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:border-[#4276A3] focus:ring-1 focus:ring-[#4276A3]">
                             </div>
+                        </div>
+
+                        <div>
+                            {{-- No WA Ortu --}}
+                            <label class="block text-xs font-medium text-slate-600 mb-1">No. WA Ortu <span class="text-[#991B1B]">*</span></label>
+                            <input type="text" id="no_wa_ortu" name="no_wa_ortu" 
+                                   value="{{ old('no_wa_ortu', $siswa->orangTua?->no_wa_ortu) }}"
+                                   placeholder="081234567890"
+                                   class="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:border-[#4276A3] focus:ring-1 focus:ring-[#4276A3]">
                         </div>
                     </div>
 
@@ -522,7 +531,8 @@ function toggleJenis() {
         document.getElementById('nik_ayah').required = true;
         document.getElementById('nama_ibu').required = true;
         document.getElementById('nik_ibu').required = true;
-        document.getElementById('pekerjaan').required = true;
+        document.getElementById('pekerjaan_ayah').required = true;
+        document.getElementById('pekerjaan_ibu').required = true;
         document.getElementById('no_wa_ortu').required = true;
         
         // Disable required untuk wali
@@ -539,7 +549,8 @@ function toggleJenis() {
         document.getElementById('nik_ayah').required = false;
         document.getElementById('nama_ibu').required = false;
         document.getElementById('nik_ibu').required = false;
-        document.getElementById('pekerjaan').required = false;
+        document.getElementById('pekerjaan_ayah').required = false;
+        document.getElementById('pekerjaan_ibu').required = false;
         document.getElementById('no_wa_ortu').required = false;
         
         // Enable required untuk wali

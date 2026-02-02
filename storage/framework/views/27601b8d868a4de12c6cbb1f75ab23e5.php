@@ -26,10 +26,16 @@
             </a>
 
             
+            <?php
+                $navUser = auth('ppdb')->user();
+                $navFotoUrl = $navUser->foto && file_exists(public_path('storage/foto/' . $navUser->foto)) 
+                    ? asset('storage/foto/' . $navUser->foto) 
+                    : ($navUser->jk === 'P' ? asset('images/avatar-female.svg') : asset('images/avatar-male.svg'));
+            ?>
             <a href="<?php echo e(route('ppdb.profil')); ?>" data-instant class="inline-flex flex-col items-center justify-center px-2 hover:bg-gray-50 group <?php echo e(request()->routeIs('ppdb.profil') ? 'text-primary' : 'text-gray-500'); ?>" aria-current="<?php echo e(request()->routeIs('ppdb.profil') ? 'page' : 'false'); ?>">
-                <svg class="w-6 h-6 mb-0.5 group-hover:text-primary <?php echo e(request()->routeIs('ppdb.profil') ? 'text-primary' : 'text-gray-500'); ?>" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                </svg>
+                <div class="w-6 h-6 mb-0.5 rounded-full overflow-hidden border-2 <?php echo e(request()->routeIs('ppdb.profil') ? 'border-primary' : 'border-gray-300'); ?>">
+                    <img src="<?php echo e($navFotoUrl); ?>" alt="Profil" class="w-full h-full object-cover">
+                </div>
                 <span class="text-[10px] group-hover:text-primary <?php echo e(request()->routeIs('ppdb.profil') ? 'text-primary' : 'text-gray-500'); ?>">Profil</span>
             </a>
         <?php else: ?>

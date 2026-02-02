@@ -53,7 +53,7 @@
                     <div class="mt-10 flex items-center gap-6 text-sm text-gray-400 animate-fade-in-up" style="animation-delay: 0.4s;">
                         <div class="flex items-center gap-2">
                             <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                            <span>Akreditasi A</span>
+                            <span>Akreditasi B</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>

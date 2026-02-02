@@ -48,14 +48,18 @@
             <!-- CTA Buttons / User Profile -->
             <div class="hidden md:flex items-center space-x-2">
                 @auth('ppdb')
+                    @php
+                        $user = auth('ppdb')->user();
+                        $fotoUrl = $user->foto && file_exists(public_path('storage/foto/' . $user->foto)) 
+                            ? asset('storage/foto/' . $user->foto) 
+                            : ($user->jk === 'P' ? asset('images/avatar-female.svg') : asset('images/avatar-male.svg'));
+                    @endphp
                     <div class="relative" x-data="{ open: false }" @click.away="open = false">
-                        <button @click="open = !open" class="flex items-center gap-2 text-gray-700 hover:text-primary transition focus:outline-none px-2 py-1 rounded-lg hover:bg-gray-50" aria-haspopup="true" :aria-expanded="open.toString()" aria-label="Menu pengguna {{ auth('ppdb')->user()->nama ?: 'Siswa' }}">
-                            <div class="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center border border-primary/20">
-                                <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                                </svg>
+                        <button @click="open = !open" class="flex items-center gap-2 text-gray-700 hover:text-primary transition focus:outline-none px-2 py-1 rounded-lg hover:bg-gray-50" aria-haspopup="true" :aria-expanded="open.toString()" aria-label="Menu pengguna {{ $user->nama ?: 'Siswa' }}">
+                            <div class="w-8 h-8 rounded-full overflow-hidden border-2 border-primary/20 bg-gray-100">
+                                <img src="{{ $fotoUrl }}" alt="Foto {{ $user->nama }}" class="w-full h-full object-cover">
                             </div>
-                            <span class="font-medium text-sm hidden lg:block truncate max-w-[100px]">{{ auth('ppdb')->user()->nama ?: 'Siswa' }}</span>
+                            <span class="font-medium text-sm hidden lg:block truncate max-w-[100px]">{{ $user->nama ?: 'Siswa' }}</span>
                             <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                             </svg>
@@ -156,12 +160,21 @@
             
             <!-- User Section -->
             @auth('ppdb')
+                @php
+                    $mobileUser = auth('ppdb')->user();
+                    $mobileFotoUrl = $mobileUser->foto && file_exists(public_path('storage/foto/' . $mobileUser->foto)) 
+                        ? asset('storage/foto/' . $mobileUser->foto) 
+                        : ($mobileUser->jk === 'P' ? asset('images/avatar-female.svg') : asset('images/avatar-male.svg'));
+                @endphp
                 <div class="border-t border-gray-200 pt-3 mt-3">
                     <div class="flex items-center gap-3 mb-2">
-                        <div class="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
-                            <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                        <div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/20 bg-gray-100">
+                            <img src="{{ $mobileFotoUrl }}" alt="Foto {{ $mobileUser->nama }}" class="w-full h-full object-cover">
                         </div>
-                        <span class="text-sm font-medium text-gray-700">{{ auth('ppdb')->user()->nama ?: 'Siswa' }}</span>
+                        <div class="flex-1 min-w-0">
+                            <span class="text-sm font-medium text-gray-900 block truncate">{{ $mobileUser->nama ?: 'Siswa' }}</span>
+                            <span class="text-xs text-gray-500">{{ $mobileUser->nisn }}</span>
+                        </div>
                     </div>
                     <div class="grid grid-cols-2 gap-2">
                         <a href="{{ route('ppdb.dashboard') }}" class="flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs font-medium {{ request()->routeIs('ppdb.dashboard') ? 'bg-primary text-white' : 'text-gray-700 hover:bg-gray-50 border border-gray-200' }}">

@@ -70,7 +70,8 @@
                         <div><span class="text-gray-500">Nama Ayah:</span> <span class="font-medium">{{ $pendaftaran->calonSiswa->orangTua->nama_ayah }}</span></div>
                         <div><span class="text-gray-500">Nama Ibu:</span> <span class="font-medium">{{ $pendaftaran->calonSiswa->orangTua->nama_ibu }}</span></div>
                         <div><span class="text-gray-500">No. WA Ortu:</span> <span class="font-medium">{{ $pendaftaran->calonSiswa->orangTua->no_wa_ortu }}</span></div>
-                        <div><span class="text-gray-500">Pekerjaan:</span> <span class="font-medium">{{ $pendaftaran->calonSiswa->orangTua->pekerjaan }}</span></div>
+                        <div><span class="text-gray-500">Pekerjaan Ayah:</span> <span class="font-medium">{{ $pendaftaran->calonSiswa->orangTua->pekerjaan_ayah ?? $pendaftaran->calonSiswa->orangTua->pekerjaan ?? '-' }}</span></div>
+                        <div><span class="text-gray-500">Pekerjaan Ibu:</span> <span class="font-medium">{{ $pendaftaran->calonSiswa->orangTua->pekerjaan_ibu ?? '-' }}</span></div>
                     </div>
                 </div>
                 @endif

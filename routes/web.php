@@ -132,7 +132,15 @@ Route::middleware('auth:ppdb')->prefix('ppdb')->name('ppdb.')->group(function ()
         
         // Check data completeness
         $biodataComplete = !empty($siswa->nama) && !empty($siswa->tgl_lahir) && !empty($siswa->jk) && !empty($siswa->alamat);
-        $orangTuaComplete = $siswa->orangTua && !empty($siswa->orangTua->nama_ayah) && !empty($siswa->orangTua->nama_ibu);
+        
+        // Check data orang tua/wali - handle both cases
+        $orangTuaComplete = false;
+        $jenisOrtu = $siswa->orangTua?->jenis ?? null;
+        if ($jenisOrtu === 'orang_tua') {
+            $orangTuaComplete = !empty($siswa->orangTua->nama_ayah) && !empty($siswa->orangTua->nama_ibu);
+        } elseif ($jenisOrtu === 'wali') {
+            $orangTuaComplete = !empty($siswa->orangTua->nama_wali);
+        }
         $jurusanComplete = $siswa->pendaftaran && $siswa->pendaftaran->jurusan_id;
         
         // Check tes & wawancara status
@@ -161,6 +169,8 @@ Route::middleware('auth:ppdb')->prefix('ppdb')->name('ppdb.')->group(function ()
     Route::get('/profil', [ProfilSiswaController::class, 'index'])->name('profil');
     Route::get('/profil/edit', [ProfilSiswaController::class, 'edit'])->name('profil.edit');
     Route::put('/profil', [ProfilSiswaController::class, 'update'])->name('profil.update');
+    Route::post('/profil/foto', [ProfilSiswaController::class, 'uploadFoto'])->name('profil.foto');
+    Route::delete('/profil/foto', [ProfilSiswaController::class, 'hapusFoto'])->name('profil.foto.hapus');
 });
 
 // Legacy route redirects

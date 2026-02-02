@@ -65,7 +65,8 @@ class PpdbController extends Controller
             $rules['nik_ibu'] = 'required|string|size:16';
             $rules['status_ibu'] = 'required|in:hidup,meninggal';
             $rules['no_wa_ortu'] = 'required|string';
-            $rules['pekerjaan'] = 'required|string|max:100';
+            $rules['pekerjaan_ayah'] = 'required|string|max:100';
+            $rules['pekerjaan_ibu'] = 'required|string|max:100';
 
             $messages['nama_ayah.required'] = 'Nama ayah wajib diisi.';
             $messages['nik_ayah.required'] = 'NIK ayah wajib diisi.';
@@ -76,7 +77,8 @@ class PpdbController extends Controller
             $messages['nik_ibu.size'] = 'NIK ibu harus 16 digit.';
             $messages['status_ibu.required'] = 'Status ibu wajib dipilih.';
             $messages['no_wa_ortu.required'] = 'Nomor WhatsApp orang tua wajib diisi.';
-            $messages['pekerjaan.required'] = 'Pekerjaan orang tua wajib diisi.';
+            $messages['pekerjaan_ayah.required'] = 'Pekerjaan ayah wajib diisi.';
+            $messages['pekerjaan_ibu.required'] = 'Pekerjaan ibu wajib diisi.';
         } else {
             $rules['nama_wali'] = 'required|string|max:100';
             $rules['pekerjaan_wali'] = 'required|string|max:100';
@@ -115,7 +117,8 @@ class PpdbController extends Controller
                     $orangTuaData['nik_ibu'] = $request->nik_ibu;
                     $orangTuaData['status_ibu'] = $request->status_ibu;
                     $orangTuaData['no_wa_ortu'] = $request->no_wa_ortu;
-                    $orangTuaData['pekerjaan'] = $request->pekerjaan;
+                    $orangTuaData['pekerjaan_ayah'] = $request->pekerjaan_ayah;
+                    $orangTuaData['pekerjaan_ibu'] = $request->pekerjaan_ibu;
                     // Kosongkan field wali
                     $orangTuaData['nama_wali'] = null;
                     $orangTuaData['pekerjaan_wali'] = null;
@@ -134,6 +137,8 @@ class PpdbController extends Controller
                     $orangTuaData['nik_ibu'] = null;
                     $orangTuaData['status_ibu'] = null;
                     $orangTuaData['no_wa_ortu'] = null;
+                    $orangTuaData['pekerjaan_ayah'] = null;
+                    $orangTuaData['pekerjaan_ibu'] = null;
                     $orangTuaData['pekerjaan'] = null;
                 }
 
