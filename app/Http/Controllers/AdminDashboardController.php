@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CalonSiswa;
 use App\Models\BerkasPendaftaran;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class AdminDashboardController extends Controller

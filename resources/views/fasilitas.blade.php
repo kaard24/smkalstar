@@ -4,14 +4,10 @@
 
 @section('content')
     <!-- Header Page -->
-    <div class="relative bg-gray-900 py-24 overflow-hidden">
-        <div class="absolute inset-0 opacity-20">
-            <img src="{{ asset('images/b1.jpg') }}" class="w-full h-full object-cover" fetchpriority="high" decoding="async" alt="Header Fasilitas">
-        </div>
-        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/50 to-transparent"></div>
-        <div class="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4 font-heading">Fasilitas Sekolah</h1>
-            <p class="text-gray-300 text-lg max-w-2xl mx-auto font-light">Sarana dan prasarana modern untuk mendukung kegiatan belajar mengajar yang efektif</p>
+    <div class="bg-green-50 py-12 border-b border-green-100">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Fasilitas Sekolah</h1>
+            <p class="text-gray-600">Sarana dan prasarana modern untuk mendukung kegiatan belajar mengajar yang efektif</p>
         </div>
     </div>
 

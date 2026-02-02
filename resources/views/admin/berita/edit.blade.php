@@ -76,7 +76,7 @@
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                         @foreach($berita->gambar_urls as $index => $url)
                         <div class="relative group border-2 border-gray-200 rounded-lg overflow-hidden">
-                            <img src="{{ $url }}" alt="Gambar {{ $index + 1 }}" class="w-full h-40 object-cover">
+                            <img src="{{ $url }}" alt="Gambar {{ $index + 1 }}" class="w-full h-40 object-cover" loading="lazy" decoding="async">
                             <label class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center cursor-pointer opacity-0 group-hover:opacity-100 transition">
                                 <input type="checkbox" name="hapus_gambar[]" value="{{ $index }}" class="w-6 h-6 rounded border-2 border-white">
                                 <span class="text-white font-bold mt-2">Hapus</span>

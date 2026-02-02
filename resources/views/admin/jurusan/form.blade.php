@@ -69,7 +69,7 @@
                     <label class="block text-sm font-medium text-gray-700 mb-2">Gambar</label>
                     @if(isset($jurusan) && $jurusan->gambar_url)
                     <div class="mb-3">
-                        <img src="{{ $jurusan->gambar_url }}" alt="{{ $jurusan->nama }}" class="w-48 h-32 object-cover rounded-lg border">
+                        <img src="{{ $jurusan->gambar_url }}" alt="{{ $jurusan->nama }}" class="w-48 h-32 object-cover rounded-lg border" loading="lazy" decoding="async">
                     </div>
                     @endif
                     <input type="file" id="gambar" name="gambar" accept="image/*"

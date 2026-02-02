@@ -36,7 +36,7 @@
         @foreach($galeri as $item)
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden group relative">
             <div class="aspect-square overflow-hidden">
-                <img src="{{ $item->gambar_url }}" alt="{{ $item->keterangan ?? 'Galeri' }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                <img src="{{ $item->gambar_url }}" alt="{{ $item->keterangan ?? 'Galeri' }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" loading="lazy" decoding="async">
             </div>
             @if($item->keterangan)
             <div class="p-3 border-t border-gray-100">

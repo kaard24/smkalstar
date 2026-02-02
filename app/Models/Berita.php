@@ -2,14 +2,16 @@
 
 namespace App\Models;
 
+use App\Traits\ClearsCache;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class Berita extends Model
 {
-    use HasFactory;
+    use HasFactory, ClearsCache;
 
     protected $table = 'berita';
 
@@ -132,5 +134,50 @@ class Berita extends Model
     public function getExcerptAttribute(): string
     {
         return Str::limit(strip_tags($this->isi), 150);
+    }
+
+    /**
+     * Get cache key to clear
+     * Clears related berita cache for this berita
+     */
+    public function getCacheKey()
+    {
+        return 'related_berita_' . $this->id;
+    }
+
+    /**
+     * Clear all related berita caches when any berita is updated
+     */
+    public static function clearAllRelatedCache()
+    {
+        // Get all active berita IDs
+        $ids = self::aktif()->published()->pluck('id');
+        
+        // Clear related cache for each berita
+        foreach ($ids as $id) {
+            Cache::forget('related_berita_' . $id);
+        }
+    }
+    
+    /**
+     * Boot the trait - override to also clear all related caches
+     */
+    public static function bootClearsCache()
+    {
+        static::saved(function ($model) {
+            $model->clearCache();
+            // Also clear all related caches since related berita might change
+            static::clearAllRelatedCache();
+        });
+
+        static::deleted(function ($model) {
+            $model->clearCache();
+            static::clearAllRelatedCache();
+        });
+
+        static::updated(function ($model) {
+            $model->clearCache();
+            static::clearAllRelatedCache();
+        });
     }
 }

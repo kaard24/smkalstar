@@ -4,14 +4,10 @@
 
 @section('content')
     <!-- Header Page -->
-    <div class="relative bg-gray-900 py-16 md:py-24 overflow-hidden">
-        <div class="absolute inset-0 opacity-20">
-            <img src="{{ asset('images/b1.jpg') }}" class="w-full h-full object-cover" fetchpriority="high" decoding="async" alt="Header Profil">
-        </div>
-        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/50 to-transparent"></div>
-        <div class="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-2xl sm:text-3xl md:text-5xl font-bold text-white mb-3 md:mb-4 font-heading">Profil Sekolah</h1>
-            <p class="text-gray-300 text-sm md:text-lg max-w-2xl mx-auto font-light">Mengenal lebih dekat sejarah, visi, dan orang-orang hebat di balik SMK Al-Hidayah Lestari</p>
+    <div class="bg-green-50 py-12 border-b border-green-100">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Profil Sekolah</h1>
+            <p class="text-gray-600">Mengenal lebih dekat sejarah, visi, dan orang-orang hebat di balik SMK Al-Hidayah Lestari</p>
         </div>
     </div>
 
@@ -23,7 +19,7 @@
                     @php
                         $sejarahGambarUrls = $profil->sejarah_gambar_urls;
                         if (empty($sejarahGambarUrls)) {
-                            $sejarahGambarUrls = ['https://images.unsplash.com/photo-1544531586-fde5298cdd40?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80'];
+                            $sejarahGambarUrls = [asset('images/b1.webp')];
                         }
                     @endphp
                     

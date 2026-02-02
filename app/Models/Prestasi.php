@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\ClearsCache;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Prestasi extends Model
 {
-    use HasFactory;
+    use HasFactory, ClearsCache;
 
     protected $table = 'prestasi';
 
@@ -80,5 +81,13 @@ class Prestasi extends Model
         }
         
         return asset('storage/' . $gambar);
+    }
+
+    /**
+     * Get cache key to clear
+     */
+    public function getCacheKey()
+    {
+        return 'prestasi_aktif';
     }
 }

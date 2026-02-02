@@ -3,23 +3,18 @@
 @section('title', 'Cek Pengumuman - SPMB SMK Al-Hidayah Lestari')
 
 @section('content')
-    <div class="relative bg-gray-900 min-h-screen py-24 overflow-hidden">
-        <!-- Background Elements -->
-        <div class="absolute inset-0 opacity-20">
-            <img src="{{ asset('images/b1.jpg') }}" class="w-full h-full object-cover">
+    <!-- Header Page -->
+    <div class="bg-green-50 py-12 border-b border-green-100">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Pengumuman Kelulusan</h1>
+            <p class="text-gray-600">Silakan masukkan NISN untuk melihat hasil seleksi Penerimaan Peserta Didik Baru</p>
         </div>
-        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/90 to-transparent"></div>
-        
-        <div class="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
-             <!-- Header -->
-             <div class="text-center mb-16">
-                <span class="inline-block py-1 px-3 rounded-full bg-yellow-500/20 text-yellow-500 text-sm font-bold mb-4 border border-yellow-500/20">Hasil Seleksi</span>
-                <h1 class="text-3xl md:text-5xl font-bold text-white font-heading mb-4">Pengumuman Kelulusan</h1>
-                <p class="text-gray-400 text-lg max-w-xl mx-auto">Silakan masukkan NISN untuk melihat hasil seleksi Penerimaan Peserta Didik Baru.</p>
-            </div>
+    </div>
 
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
              <!-- Search Card -->
-            <div class="bg-white rounded-3xl shadow-2xl overflow-hidden mb-12 border border-gray-800/50">
+            <div class="bg-white rounded-3xl shadow-xl overflow-hidden mb-12 border border-gray-100">
                 <div class="p-8 md:p-12">
                      <form action="{{ route('ppdb.pengumuman.cek') }}" method="GET" class="space-y-8">
                         <div>
@@ -41,7 +36,7 @@
             <!-- Result Area (Example logic) -->
             @if(session('hasil'))
                 @php $hasil = session('hasil'); @endphp
-                <div class="bg-white rounded-3xl shadow-2xl overflow-hidden animate-fade-in-up">
+                <div class="bg-white rounded-3xl shadow-xl overflow-hidden animate-fade-in-up">
                     <div class="p-10 text-center">
                         @if($hasil->status_kelulusan == 'Lulus')
                             <div class="w-24 h-24 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner animate-bounce">
@@ -88,5 +83,5 @@
                 </div>
             @endif
         </div>
-    </div>
+    </section>
 @endsection

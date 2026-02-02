@@ -12,7 +12,7 @@
         <!-- Logo & Title -->
         <div class="text-center mb-8">
             <div class="inline-flex items-center justify-center w-16 h-16 bg-white rounded-2xl shadow-md mb-4">
-                <img src="{{ asset('images/logo.jpg') }}" alt="Logo" class="w-12 h-12 object-contain rounded-lg">
+                <img src="{{ asset('images/logo.webp') }}" alt="Logo" class="w-12 h-12 object-contain rounded-lg" loading="lazy" decoding="async">
             </div>
             <h1 class="text-2xl font-bold text-gray-900">Buat Akun Baru</h1>
             <p class="text-gray-500 mt-1 text-sm">SPMB SMK Al-Hidayah Lestari</p>

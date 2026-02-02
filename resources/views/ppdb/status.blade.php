@@ -6,7 +6,7 @@
     <div class="relative bg-gray-900 min-h-screen py-12 md:py-24 overflow-hidden">
         <!-- Background - Hidden on mobile for performance -->
         <div class="absolute inset-0 opacity-10 md:opacity-20 hidden md:block">
-            <img src="{{ asset('images/b2.jpg') }}" class="w-full h-full object-cover" loading="lazy" alt="">
+            <img src="{{ asset('images/b2.jpg') }}" class="w-full h-full object-cover" loading="lazy" decoding="async" alt="">
         </div>
         <div class="absolute inset-0 bg-gradient-to-b from-gray-900 via-gray-900/95 to-gray-800"></div>
         

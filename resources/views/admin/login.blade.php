@@ -28,7 +28,7 @@
         <div class="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
             {{-- Header dengan Logo --}}
             <div class="bg-primary px-6 py-6 text-center">
-                <img src="{{ asset('images/logo.jpg') }}" alt="Logo Sekolah" class="w-16 h-16 mx-auto rounded-full border-2 border-white/30 object-cover mb-3">
+                <img src="{{ asset('images/logo.webp') }}" alt="Logo Sekolah" class="w-16 h-16 mx-auto rounded-full border-2 border-white/30 object-cover mb-3" loading="lazy" decoding="async">
                 <h1 class="text-xl font-bold text-white">Admin Panel</h1>
                 <p class="text-green-100 text-sm mt-0.5">SMK Al-Hidayah Lestari</p>
             </div>

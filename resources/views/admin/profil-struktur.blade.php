@@ -102,7 +102,7 @@
                         {{-- Photo --}}
                         <div class="w-24 h-24 mx-auto mb-3 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center">
                             @if($member->foto_url)
-                            <img src="{{ $member->foto_url }}" alt="{{ $member->nama }}" class="w-full h-full object-cover">
+                            <img src="{{ $member->foto_url }}" alt="{{ $member->nama }}" class="w-full h-full object-cover" loading="lazy" decoding="async">
                             @else
                             <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
                             @endif
@@ -192,7 +192,7 @@
                     <div>
                         <label for="member_foto" class="block text-sm font-medium text-gray-700 mb-1">Foto</label>
                         <div id="memberFotoPreview" class="mb-2 hidden">
-                            <img id="memberFotoImg" src="" alt="Preview" class="w-20 h-20 rounded-full object-cover mx-auto">
+                            <img id="memberFotoImg" src="" alt="Preview" class="w-20 h-20 rounded-full object-cover mx-auto" loading="lazy" decoding="async">
                         </div>
                         <input type="file" id="member_foto" name="foto" accept="image/*"
                             class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20">

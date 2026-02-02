@@ -36,7 +36,7 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Foto Saat Ini</label>
                     <div class="w-48 h-48 rounded-xl overflow-hidden bg-gray-100">
-                        <img src="{{ $galeri->gambar_url }}" alt="{{ $galeri->keterangan ?? 'Galeri' }}" class="w-full h-full object-cover">
+                        <img src="{{ $galeri->gambar_url }}" alt="{{ $galeri->keterangan ?? 'Galeri' }}" class="w-full h-full object-cover" loading="lazy" decoding="async">
                     </div>
                 </div>
 

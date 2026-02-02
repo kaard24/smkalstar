@@ -7,7 +7,7 @@
     <section class="relative bg-white overflow-hidden min-h-[70vh] md:min-h-[90vh] flex items-center">
         <div class="absolute inset-0 z-0">
             <div class="absolute inset-0 bg-gradient-to-r from-gray-900/95 via-gray-900/70 to-transparent z-10"></div>
-            <img src="{{ asset('images/b1.jpg') }}" alt="School Building" class="w-full h-full object-cover" fetchpriority="high" decoding="async">
+            <img src="{{ asset('images/b1.webp') }}" alt="School Building" class="w-full h-full object-cover" fetchpriority="high" decoding="async">
         </div>
         
         <div class="container relative z-20 mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
@@ -118,31 +118,31 @@
                         [
                             'code' => 'TKJ',
                             'name' => 'Teknik Komputer & Jaringan',
-                            'img' => 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+                            'bg' => 'bg-blue-500'
                         ],
                         [
                             'code' => 'MPLB',
                             'name' => 'Manajemen Perkantoran',
-                            'img' => 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+                            'bg' => 'bg-purple-500'
                         ],
                         [
                             'code' => 'AKL',
                             'name' => 'Akuntansi & Keuangan',
-                            'img' => 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+                            'bg' => 'bg-orange-500'
                         ],
                         [
                             'code' => 'BDP',
                             'name' => 'Bisnis Daring & Pemasaran',
-                            'img' => 'https://images.unsplash.com/photo-1472851294608-062f824d29cc?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+                            'bg' => 'bg-pink-500'
                         ]
                     ];
                 @endphp
 
                 @foreach($jurusan as $j)
                 <div class="group relative bg-white rounded-xl md:rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100 flex flex-col h-full">
-                    <div class="h-40 md:h-56 bg-gray-200 relative overflow-hidden">
-                        <img src="{{ $j['img'] }}" alt="{{ $j['code'] }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700" loading="lazy" decoding="async">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition duration-500"></div>
+                    <div class="h-40 md:h-56 {{ $j['bg'] }} relative overflow-hidden flex items-center justify-center">
+                        <span class="text-6xl md:text-8xl font-bold text-white/30 font-heading">{{ $j['code'] }}</span>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                         <h4 class="absolute bottom-3 left-4 md:bottom-4 md:left-6 text-white text-xl md:text-2xl font-bold font-heading">{{ $j['code'] }}</h4>
                     </div>
                     <div class="p-4 md:p-6 flex-grow flex flex-col justify-between">
@@ -161,7 +161,7 @@
     <!-- Call to Action PPDB -->
     <section class="py-12 md:py-20 lg:py-32 bg-gray-900 relative overflow-hidden">
         <div class="absolute inset-0 z-0 opacity-20">
-            <img src="{{ asset('images/b1.jpg') }}" alt="Background" class="w-full h-full object-cover grayscale" loading="lazy" decoding="async">
+            <img src="{{ asset('images/b1.webp') }}" alt="Background" class="w-full h-full object-cover grayscale" loading="lazy" decoding="async">
             <div class="absolute inset-0 bg-gray-900/50"></div>
         </div>
         

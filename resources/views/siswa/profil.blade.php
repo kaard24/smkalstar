@@ -17,7 +17,7 @@
                     <p class="text-sm text-gray-500">{{ $user->email }}</p>
                 </div>
                 @if($user->avatar)
-                <img src="{{ $user->avatar }}" alt="Avatar" class="w-12 h-12 rounded-full border-2 border-primary">
+                <img src="{{ $user->avatar }}" alt="Avatar" class="w-12 h-12 rounded-full border-2 border-primary" loading="lazy" decoding="async">
                 @endif
             </div>
         </div>

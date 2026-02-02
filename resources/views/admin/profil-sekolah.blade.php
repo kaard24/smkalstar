@@ -56,7 +56,7 @@
                     <label class="block text-sm font-medium text-gray-700 mb-2">Gambar Sejarah</label>
                     @if($profil->sejarah_gambar)
                     <div class="mb-3">
-                        <img src="{{ str_starts_with($profil->sejarah_gambar, 'http') ? $profil->sejarah_gambar : asset('storage/' . $profil->sejarah_gambar) }}" 
+                        <img src="{{ str_starts_with($profil->sejarah_gambar, 'http') ? $profil->sejarah_gambar : asset('storage/' . $profil->sejarah_gambar) }}" loading="lazy" decoding="async" 
                              alt="Gambar Sejarah" class="w-48 h-32 object-cover rounded-lg border">
                     </div>
                     @endif
@@ -120,7 +120,7 @@
             <div class="p-6">
                 @if($profil->struktur_organisasi_gambar)
                 <div class="mb-4 relative inline-block">
-                    <img src="{{ str_starts_with($profil->struktur_organisasi_gambar, 'http') ? $profil->struktur_organisasi_gambar : asset('storage/' . $profil->struktur_organisasi_gambar) }}" 
+                    <img src="{{ str_starts_with($profil->struktur_organisasi_gambar, 'http') ? $profil->struktur_organisasi_gambar : asset('storage/' . $profil->struktur_organisasi_gambar) }}" loading="lazy" decoding="async" 
                          alt="Struktur Organisasi" class="max-w-full h-auto rounded-lg border">
                     <form action="{{ route('admin.profil-sekolah.delete-struktur') }}" method="POST" class="inline absolute top-2 right-2">
                         @csrf

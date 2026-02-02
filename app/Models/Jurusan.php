@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\ClearsCache;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Jurusan extends Model
 {
-    use HasFactory;
+    use HasFactory, ClearsCache;
 
     protected $table = 'jurusan';
 
@@ -62,5 +63,13 @@ class Jurusan extends Model
         }
         
         return asset('storage/' . $this->gambar);
+    }
+
+    /**
+     * Get cache key to clear
+     */
+    public function getCacheKey()
+    {
+        return 'jurusan_aktif';
     }
 }

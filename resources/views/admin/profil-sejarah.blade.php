@@ -58,7 +58,7 @@
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
                         @foreach($profil->sejarah_gambar_urls as $index => $url)
                         <div class="relative group">
-                            <img src="{{ $url }}" alt="Gambar Sejarah {{ $index + 1 }}" class="w-full h-32 object-cover rounded-lg border">
+                            <img src="{{ $url }}" alt="Gambar Sejarah {{ $index + 1 }}" class="w-full h-32 object-cover rounded-lg border" loading="lazy" decoding="async">
                             <label class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer rounded-lg">
                                 <input type="checkbox" name="hapus_gambar[]" value="{{ $index }}" class="peer sr-only">
                                 <div class="text-white text-sm bg-red-600 px-3 py-1 rounded shadow peer-checked:bg-red-800">

@@ -1,9 +1,9 @@
-<header class="bg-white/95 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-gray-100">
+<header class="bg-white/95 shadow-sm sticky top-0 z-50 border-b border-gray-100 md:backdrop-blur-md">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-14 md:h-16">
             <!-- Logo -->
             <a href="{{ url('/') }}" class="flex-shrink-0 flex items-center gap-2">
-                <img class="h-8 w-8 md:h-9 md:w-9 rounded-full object-cover" src="{{ asset('images/logo.jpg') }}" alt="Logo SMK Al-Hidayah Lestari">
+                <img class="h-8 w-8 md:h-9 md:w-9 rounded-full object-cover" src="{{ asset('images/logo.webp') }}" alt="Logo SMK Al-Hidayah Lestari" loading="lazy" decoding="async">
                 <span class="font-bold text-sm md:text-lg text-primary tracking-tight truncate max-w-[140px] md:max-w-none leading-none">
                     SMK Al-Hidayah
                 </span>

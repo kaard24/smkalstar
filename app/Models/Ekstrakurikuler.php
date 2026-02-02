@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\ClearsCache;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Ekstrakurikuler extends Model
 {
-    use HasFactory;
+    use HasFactory, ClearsCache;
 
     protected $table = 'ekstrakurikuler';
 
@@ -77,5 +78,13 @@ class Ekstrakurikuler extends Model
         }
         
         return asset('storage/' . $gambar);
+    }
+
+    /**
+     * Get cache key to clear
+     */
+    public function getCacheKey()
+    {
+        return 'ekstrakurikuler_aktif';
     }
 }

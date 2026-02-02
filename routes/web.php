@@ -6,11 +6,13 @@ use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminVerifikasiController;
 use App\Http\Controllers\AdminKelulusanController;
 use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\AdminCacheController;
 use App\Http\Controllers\PpdbController;
 use App\Http\Controllers\PpdbDashboardController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfilSiswaController;
 use App\Http\Controllers\BerkasController;
+use App\Http\Controllers\PublicPageController;
 use Illuminate\Http\Request;
 use App\Models\CalonSiswa;
 use App\Models\Pendaftaran;
@@ -22,32 +24,14 @@ use App\Models\Tes;
 |--------------------------------------------------------------------------
 */
 
-// Public Pages
-Route::get('/', function () { return view('home'); });
-Route::get('/profil', function () { 
-    $profil = \App\Models\ProfilSekolah::getInstance();
-    return view('profil', compact('profil')); 
-});
-Route::get('/jurusan', function () { 
-    $jurusan = \App\Models\Jurusan::aktif()->urut()->get();
-    return view('jurusan', compact('jurusan')); 
-});
-Route::get('/fasilitas', function () { 
-    $fasilitas = \App\Models\Fasilitas::aktif()->urut()->get();
-    return view('fasilitas', compact('fasilitas')); 
-});
-Route::get('/ekstrakurikuler', function () { 
-    $ekstrakurikuler = \App\Models\Ekstrakurikuler::aktif()->urut()->get();
-    return view('ekstrakurikuler', compact('ekstrakurikuler')); 
-});
-Route::get('/prestasi', function () { 
-    $prestasi = \App\Models\Prestasi::aktif()->urut()->get();
-    return view('prestasi', compact('prestasi')); 
-});
-Route::get('/galeri', function () { 
-    $galeri = \App\Models\Galeri::aktif()->urut()->get();
-    return view('galeri', compact('galeri')); 
-});
+// Public Pages (with caching)
+Route::get('/', [PublicPageController::class, 'home']);
+Route::get('/profil', [PublicPageController::class, 'profil'])->name('profil');
+Route::get('/jurusan', [PublicPageController::class, 'jurusan'])->name('jurusan');
+Route::get('/fasilitas', [PublicPageController::class, 'fasilitas'])->name('fasilitas');
+Route::get('/ekstrakurikuler', [PublicPageController::class, 'ekstrakurikuler'])->name('ekstrakurikuler');
+Route::get('/prestasi', [PublicPageController::class, 'prestasi'])->name('prestasi');
+Route::get('/galeri', [PublicPageController::class, 'galeri'])->name('galeri');
 
 // Berita Routes
 Route::get('/berita', [\App\Http\Controllers\BeritaController::class, 'index'])->name('berita.index');
@@ -265,5 +249,9 @@ Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function
     Route::resource('berita', \App\Http\Controllers\Admin\BeritaController::class)->except(['show']);
     Route::get('berita/{id}/komentar', [\App\Http\Controllers\Admin\BeritaController::class, 'komentar'])->name('berita.komentar');
     Route::delete('berita/komentar/{id}', [\App\Http\Controllers\Admin\BeritaController::class, 'destroyKomentar'])->name('berita.komentar.destroy');
+
+    // Cache Management
+    Route::post('/cache/clear-frontend', [AdminCacheController::class, 'clearFrontend'])->name('cache.clear-frontend');
+    Route::post('/cache/clear-all', [AdminCacheController::class, 'clearAll'])->name('cache.clear-all');
 });
 

@@ -4,14 +4,10 @@
 
 @section('content')
     <!-- Header Page -->
-    <div class="relative bg-gray-900 py-24 overflow-hidden">
-        <div class="absolute inset-0 opacity-20">
-            <img src="{{ asset('images/b1.jpg') }}" class="w-full h-full object-cover">
-        </div>
-        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/50 to-transparent"></div>
-        <div class="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-3xl md:text-5xl font-bold text-white mb-4 font-heading">Sistem Penerimaan Murid Baru</h1>
-            <p class="text-gray-300 text-lg max-w-2xl mx-auto font-light">Informasi Lengkap Pendaftaran Tahun Pelajaran 2026/2027</p>
+    <div class="bg-green-50 py-12 border-b border-green-100">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Sistem Penerimaan Murid Baru</h1>
+            <p class="text-gray-600">Informasi Lengkap Pendaftaran Tahun Pelajaran 2026/2027</p>
         </div>
     </div>
 
@@ -42,7 +38,7 @@
                             </div>
                             <div class="p-6 border border-orange-100 rounded-3xl bg-white hover:shadow-lg transition duration-300 group">
                                 <div class="w-10 h-10 rounded-full bg-orange-50 mb-4 flex items-center justify-center text-orange-600 group-hover:bg-orange-600 group-hover:text-white transition">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08.402-2.599 1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                 </div>
                                 <h3 class="font-bold text-gray-900 text-lg group-hover:text-orange-600 transition">Akuntansi Keuangan (AKL)</h3>
                             </div>
@@ -184,7 +180,7 @@
                             </div>
                         </div>
                         
-                         <a href="{{ url('/ppdb/register') }}" class="block w-full text-center bg-white text-primary font-bold py-4 rounded-xl hover:bg-green-50 transition shadow-lg relative z-10 hover:shadow-xl transform group-hover:-translate-y-1 duration-300">
+                         <a href="{{ url('/ppdb/register') }}" class="block w-full text-center bg-green-500 text-white font-bold py-4 rounded-xl hover:bg-green-600 transition shadow-lg relative z-10 hover:shadow-xl transform group-hover:-translate-y-1 duration-300">
                             Daftar Sekarang
                         </a>
                     </div>
@@ -194,20 +190,20 @@
                         <h3 class="text-xl font-bold text-gray-900 mb-6 font-heading">Butuh Bantuan?</h3>
                         <p class="text-gray-600 mb-6 leading-relaxed">Jika ada kendala saat mendaftar, hubungi panitia kami:</p>
                         <div class="space-y-4">
-                            <a href="#" class="flex items-center p-4 bg-gray-50 rounded-2xl hover:bg-green-50 group transition duration-300">
-                                <div class="w-10 h-10 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-4 group-hover:bg-green-500 group-hover:text-white transition">
-                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-3.138-5.437-2.1-11.966 3.038-16.148 5.462-4.446 13.532-4.088 18.575 1.14 5.043 5.228 5.61 13.332 1.348 19.32H.057zM23.633 4.97c-5.184-5.366-14.156-5.405-19.349.333C-1.127 9.876-1.077 17.585 4.3 22.03L2.24 29.537l7.536-2.015c1.82 1.05 3.916 1.625 6.13 1.625 6.89 0 12.5-5.61 12.5-12.5 0-3.342-1.303-6.483-3.67-8.67z"/></svg>
+                            <a href="https://wa.me/6281234567890" target="_blank" class="flex items-center p-4 bg-gray-50 rounded-2xl hover:bg-green-50 group transition duration-300">
+                                <div class="w-10 h-10 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-4 group-hover:bg-green-500 group-hover:text-white transition flex-shrink-0">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                                 </div>
-                                <div>
+                                <div class="min-w-0">
                                     <p class="text-sm text-gray-500 font-medium">Panitia 1</p>
                                     <p class="font-bold text-gray-900">0812-3456-7890</p>
                                 </div>
                             </a>
-                            <a href="#" class="flex items-center p-4 bg-gray-50 rounded-2xl hover:bg-green-50 group transition duration-300">
-                                <div class="w-10 h-10 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-4 group-hover:bg-green-500 group-hover:text-white transition">
-                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-3.138-5.437-2.1-11.966 3.038-16.148 5.462-4.446 13.532-4.088 18.575 1.14 5.043 5.228 5.61 13.332 1.348 19.32H.057zM23.633 4.97c-5.184-5.366-14.156-5.405-19.349.333C-1.127 9.876-1.077 17.585 4.3 22.03L2.24 29.537l7.536-2.015c1.82 1.05 3.916 1.625 6.13 1.625 6.89 0 12.5-5.61 12.5-12.5 0-3.342-1.303-6.483-3.67-8.67z"/></svg>
+                            <a href="https://wa.me/6289876543210" target="_blank" class="flex items-center p-4 bg-gray-50 rounded-2xl hover:bg-green-50 group transition duration-300">
+                                <div class="w-10 h-10 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-4 group-hover:bg-green-500 group-hover:text-white transition flex-shrink-0">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                                 </div>
-                                <div>
+                                <div class="min-w-0">
                                     <p class="text-sm text-gray-500 font-medium">Panitia 2</p>
                                     <p class="font-bold text-gray-900">0898-7654-3210</p>
                                 </div>

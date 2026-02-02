@@ -5,9 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Berita;
 use App\Models\KomentarBerita;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class BeritaController extends Controller
 {
+    /**
+     * Cache duration in seconds (30 minutes for berita)
+     */
+    protected const CACHE_DURATION = 1800;
+
     /**
      * Display a listing of all berita
      */
@@ -25,13 +31,16 @@ class BeritaController extends Controller
         $berita = Berita::aktif()->where('slug', $slug)->firstOrFail();
         $berita->load('approvedKomentar');
         
-        // Get related berita
-        $related = Berita::aktif()
-            ->published()
-            ->where('id', '!=', $berita->id)
-            ->terbaru()
-            ->limit(3)
-            ->get();
+        // Get related berita (cached)
+        $cacheKey = 'related_berita_' . $berita->id;
+        $related = Cache::remember($cacheKey, self::CACHE_DURATION, function () use ($berita) {
+            return Berita::aktif()
+                ->published()
+                ->where('id', '!=', $berita->id)
+                ->terbaru()
+                ->limit(3)
+                ->get();
+        });
             
         return view('berita.show', compact('berita', 'related'));
     }

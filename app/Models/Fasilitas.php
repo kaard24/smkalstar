@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\ClearsCache;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Fasilitas extends Model
 {
-    use HasFactory;
+    use HasFactory, ClearsCache;
 
     protected $table = 'fasilitas';
 
@@ -76,5 +77,13 @@ class Fasilitas extends Model
         }
         
         return asset('storage/' . $gambar);
+    }
+
+    /**
+     * Get cache key to clear
+     */
+    public function getCacheKey()
+    {
+        return 'fasilitas_aktif';
     }
 }

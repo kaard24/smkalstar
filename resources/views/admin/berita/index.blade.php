@@ -65,7 +65,7 @@
                         <td class="px-6 py-5">
                             <div class="flex items-center gap-4">
                                 @if($item->gambar_utama)
-                                <img src="{{ $item->gambar_utama }}" alt="{{ $item->judul }}" class="w-20 h-20 object-cover rounded-lg border-2 border-gray-200">
+                                <img src="{{ $item->gambar_utama }}" alt="{{ $item->judul }}" class="w-20 h-20 object-cover rounded-lg border-2 border-gray-200" loading="lazy" decoding="async">
                                 @else
                                 <div class="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center border-2 border-gray-200">
                                     <svg class="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">

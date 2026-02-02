@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\ClearsCache;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ProfilSekolah extends Model
 {
-    use HasFactory;
+    use HasFactory, ClearsCache;
 
     protected $table = 'profil_sekolah';
 
@@ -64,5 +65,13 @@ class ProfilSekolah extends Model
         }
 
         return $profil;
+    }
+
+    /**
+     * Get cache key to clear
+     */
+    public function getCacheKey()
+    {
+        return 'profil_sekolah';
     }
 }
