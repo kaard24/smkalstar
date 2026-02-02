@@ -3,19 +3,13 @@
 <?php $__env->startSection('title', 'Status Pendaftaran - SMK Al-Hidayah Lestari'); ?>
 
 <?php $__env->startSection('content'); ?>
-    <div class="relative bg-gray-900 min-h-screen py-12 md:py-24 overflow-hidden">
-        <!-- Background - Hidden on mobile for performance -->
-        <div class="absolute inset-0 opacity-10 md:opacity-20 hidden md:block">
-            <img src="<?php echo e(asset('images/b2.jpg')); ?>" class="w-full h-full object-cover" loading="lazy" decoding="async" alt="">
-        </div>
-        <div class="absolute inset-0 bg-gradient-to-b from-gray-900 via-gray-900/95 to-gray-800"></div>
-        
-        <div class="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
-            <!-- Header -->
-            <div class="text-center mb-8 md:mb-12">
-                <span class="inline-block py-1 px-3 rounded-full bg-primary/20 text-primary text-xs md:text-sm font-bold mb-3 border border-primary/20">Portal SPMB Online</span>
-                <h1 class="text-2xl md:text-4xl font-bold text-white font-heading mb-2">Status Pendaftaran</h1>
-                <p class="text-gray-400 text-sm md:text-base max-w-xl mx-auto">Pantau progres pendaftaran Anda secara real-time.</p>
+    <div class="min-h-screen bg-gray-50 py-6 md:py-12">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
+            <!-- Header Page - Konsisten dengan halaman lain -->
+            <div class="bg-sky-50 py-8 md:py-12 border border-sky-100 rounded-2xl mb-6 md:mb-8 text-center">
+                <span class="inline-block py-1 px-3 rounded-full bg-primary/10 text-primary text-xs md:text-sm font-bold mb-3 border border-primary/20">Portal SPMB Online</span>
+                <h1 class="text-2xl md:text-3xl font-bold text-gray-900 font-heading mb-2">Status Pendaftaran</h1>
+                <p class="text-gray-600 text-sm md:text-base max-w-xl mx-auto">Pantau progres pendaftaran Anda secara real-time.</p>
             </div>
 
             <!-- Student Info Card -->

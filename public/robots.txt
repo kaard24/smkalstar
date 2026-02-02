@@ -1,2 +1,41 @@
 User-agent: *
-Disallow:
+Allow: /
+
+# Sitemap location
+Sitemap: https://smk-alstar.sch.id/sitemap.xml
+
+# Disallow admin areas
+Disallow: /admin/
+Disallow: /login
+Disallow: /register
+Disallow: /ppdb/dashboard
+Disallow: /ppdb/status
+Disallow: /ppdb/berkas
+Disallow: /ppdb/profil
+
+# Disallow search queries
+Disallow: /search
+Disallow: /*?*
+
+# Crawl delay untuk bot yang respect
+Crawl-delay: 10
+
+# Specific bot rules
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+# Block bad bots
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /

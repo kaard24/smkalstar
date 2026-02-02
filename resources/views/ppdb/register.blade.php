@@ -11,7 +11,7 @@
                 <img src="{{ asset('images/logo.webp') }}" alt="Logo" class="w-12 h-12 object-contain rounded-lg" loading="lazy" decoding="async">
             </div>
             <h1 class="text-2xl font-bold text-gray-900">Formulir Pendaftaran</h1>
-            <p class="text-gray-500 mt-1 text-sm">PPDB 2026/2027 SMK Al-Hidayah Lestari</p>
+            <p class="text-gray-500 mt-1 text-sm">SPMB 2026/2027 SMK Al-Hidayah Lestari</p>
         </div>
 
         <!-- Form Card -->

@@ -6,7 +6,7 @@
     <!-- Header Page -->
     <div class="bg-sky-50 py-12 border-b border-sky-100">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Pengumuman Kelulusan</h1>
+            <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-2">Pengumuman Kelulusan</h1>
             <p class="text-gray-600">Silakan masukkan NISN untuk melihat hasil seleksi Penerimaan Peserta Didik Baru</p>
         </div>
     </div>

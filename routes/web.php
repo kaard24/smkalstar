@@ -33,6 +33,19 @@ Route::get('/ekstrakurikuler', [PublicPageController::class, 'ekstrakurikuler'])
 Route::get('/prestasi', [PublicPageController::class, 'prestasi'])->name('prestasi');
 Route::get('/galeri', [PublicPageController::class, 'galeri'])->name('galeri');
 
+// Legal Pages
+Route::get('/privacy-policy', function () {
+    return view('legal.privacy');
+})->name('privacy');
+Route::get('/terms', function () {
+    return view('legal.terms');
+})->name('terms');
+
+// Offline page for PWA
+Route::get('/offline.html', function () {
+    return view('errors.offline');
+});
+
 // Berita Routes
 Route::get('/berita', [\App\Http\Controllers\BeritaController::class, 'index'])->name('berita.index');
 Route::get('/berita/{slug}', [\App\Http\Controllers\BeritaController::class, 'show'])->name('berita.show');

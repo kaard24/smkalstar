@@ -3,11 +3,41 @@
 @section('title', 'Jurusan - SMK Al-Hidayah Lestari')
 
 @section('content')
-    <!-- Header Page -->
-    <div class="bg-sky-50 py-12 border-b border-sky-100">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Kompetensi Keahlian</h1>
-            <p class="text-gray-600">Pilihlah jurusan masa depan sesuai dengan minat dan bakatmu</p>
+    <!-- Header Page - Unique Design -->
+    <div class="relative bg-gradient-to-br from-violet-50 via-purple-50 to-pink-50 py-16 md:py-24 border-b border-violet-100 overflow-hidden">
+        <!-- Decorative Elements -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden">
+            <div class="absolute top-10 left-10 w-64 h-64 bg-violet-300/20 rounded-full blur-3xl animate-pulse"></div>
+            <div class="absolute bottom-10 right-10 w-80 h-80 bg-pink-300/20 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
+            <!-- Grid Pattern -->
+            <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at 1px 1px, #8b5cf6 1px, transparent 0); background-size: 40px 40px;"></div>
+        </div>
+        
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <div class="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm border border-violet-200 px-4 py-1.5 rounded-full text-sm font-medium text-violet-700 mb-6">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+                Program Keahlian
+            </div>
+            <h1 class="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-4 font-heading">
+                Kompetensi <span class="text-transparent bg-clip-text bg-gradient-to-r from-violet-500 to-pink-500">Keahlian</span>
+            </h1>
+            <p class="text-gray-600 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">Pilihlah jurusan masa depan sesuai dengan minat dan bakatmu. Masing-masing program dilengkapi fasilitas modern dan instruktur berpengalaman.</p>
+            
+            <!-- Stats -->
+            <div class="mt-10 flex justify-center gap-8 md:gap-16">
+                <div class="text-center">
+                    <div class="text-3xl md:text-4xl font-bold text-violet-600">4</div>
+                    <div class="text-sm text-gray-600 mt-1">Jurusan</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl md:text-4xl font-bold text-pink-500">50+</div>
+                    <div class="text-sm text-gray-600 mt-1">Tenaga Ahli</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl md:text-4xl font-bold text-violet-500">98%</div>
+                    <div class="text-sm text-gray-600 mt-1">Penyerapan</div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -69,9 +99,24 @@
                     </div>
                 </div>
                 @empty
-                <div class="text-center py-20 bg-white rounded-3xl border border-gray-100">
-                    <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-                    <p class="text-gray-500 text-lg">Data jurusan belum tersedia saat ini.</p>
+                <!-- Enhanced Empty State -->
+                <div class="max-w-2xl mx-auto">
+                    <div class="relative bg-gradient-to-br from-violet-50 via-purple-50 to-pink-50 border border-violet-100 rounded-3xl p-12 md:p-16 text-center overflow-hidden">
+                        <div class="absolute inset-0">
+                            <div class="absolute top-10 left-10 w-40 h-40 bg-violet-300/20 rounded-full blur-3xl animate-pulse"></div>
+                            <div class="absolute bottom-10 right-10 w-32 h-32 bg-pink-300/20 rounded-full blur-3xl animate-pulse" style="animation-delay: 0.5s;"></div>
+                        </div>
+                        
+                        <div class="relative z-10">
+                            <div class="w-28 h-28 mx-auto mb-6 bg-gradient-to-br from-violet-100 to-purple-100 rounded-3xl flex items-center justify-center shadow-xl">
+                                <svg class="w-14 h-14 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-900 mb-3">Program Keahlian Segera Hadir</h3>
+                            <p class="text-gray-500">Informasi lengkap tentang kompetensi keahlian sedang dipersiapkan. Nantikan program-program unggulan kami!</p>
+                        </div>
+                    </div>
                 </div>
                 @endforelse
             </div>

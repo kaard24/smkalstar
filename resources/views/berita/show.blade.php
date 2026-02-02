@@ -107,10 +107,11 @@
                         </div>
                         @endauth
                         <div>
-                            <label for="komentar" class="block text-sm font-medium text-gray-700 mb-1">Komentar <span class="text-red-500">*</span></label>
+                            <label for="komentar" class="block text-sm font-medium text-gray-700 mb-1">Komentar <span class="text-red-500" aria-hidden="true">*</span></label>
                             <textarea id="komentar" name="komentar" rows="4" required maxlength="1000"
                                 class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition"
-                                placeholder="Tulis komentar Anda..."></textarea>
+                                placeholder="Tulis komentar Anda..."
+                                aria-required="true"></textarea>
                         </div>
                         <div class="flex items-center gap-2">
                             <input type="checkbox" id="show_username" name="show_username" value="1" checked
@@ -197,25 +198,7 @@
         <button class="absolute top-4 right-4 text-white hover:text-gray-300 transition">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
-        <img id="modalImage" src="" alt="" class="max-w-full max-h-[90vh] object-contain rounded-lg" onclick="event.stopPropagation()">
+        <img id="modalImage" src="" alt="Gambar berita - tampilan penuh" class="max-w-full max-h-[90vh] object-contain rounded-lg" onclick="event.stopPropagation()">
     </div>
 
-    <script>
-        function openImageModal(src) {
-            document.getElementById('modalImage').src = src;
-            document.getElementById('imageModal').classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeImageModal() {
-            document.getElementById('imageModal').classList.add('hidden');
-            document.body.style.overflow = 'auto';
-        }
-
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeImageModal();
-            }
-        });
-    </script>
 @endsection

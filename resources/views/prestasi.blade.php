@@ -3,47 +3,37 @@
 @section('title', 'Prestasi - SMK Al-Hidayah Lestari')
 
 @section('content')
-    <!-- Header Page -->
-    <div class="bg-sky-50 py-12 border-b border-sky-100">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Prestasi Sekolah</h1>
-            <p class="text-gray-600">Catatan kebanggaan dan bukti nyata kualitas pendidikan kami</p>
+    <!-- Header Page - Unique Design -->
+    <div class="relative bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50 py-16 md:py-24 border-b border-amber-100 overflow-hidden">
+        <!-- Decorative Elements -->
+        <div class="absolute inset-0">
+            <div class="absolute top-0 right-1/3 w-96 h-96 bg-yellow-300/30 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-0 left-1/3 w-72 h-72 bg-amber-300/30 rounded-full blur-3xl"></div>
+            <!-- Trophy Sparkles -->
+            <div class="absolute top-20 right-20 text-yellow-400/30 text-6xl animate-pulse">✦</div>
+            <div class="absolute bottom-20 left-20 text-amber-400/30 text-4xl animate-pulse" style="animation-delay: 0.5s;">✦</div>
+            <div class="absolute top-1/2 right-1/4 text-yellow-400/20 text-3xl animate-pulse" style="animation-delay: 1s;">★</div>
+        </div>
+        
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <div class="inline-flex items-center gap-2 bg-gradient-to-r from-amber-400 to-yellow-500 text-white px-4 py-1.5 rounded-full text-sm font-bold mb-6 shadow-lg">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+                Pencapaian Gemilang
+            </div>
+            <h1 class="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-4 font-heading">
+                Prestasi <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-500 via-yellow-500 to-orange-500">Sekolah</span>
+            </h1>
+            <p class="text-gray-600 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">Catatan kebanggaan dan bukti nyata kualitas pendidikan yang telah menghasilkan lulusan berprestasi</p>
         </div>
     </div>
 
-    <section class="py-20 bg-gray-50" x-data="{
-        lightboxOpen: false,
-        activeImages: [],
-        activeIndex: 0,
-        activeCaption: '',
-        openLightbox(images, caption) {
-            this.activeImages = images;
-            this.activeIndex = 0;
-            this.activeCaption = caption;
-            this.lightboxOpen = true;
-            document.body.style.overflow = 'hidden';
-        },
-        closeLightbox() {
-            this.lightboxOpen = false;
-            document.body.style.overflow = 'auto';
-            setTimeout(() => { this.activeImages = []; }, 300);
-        },
-        nextImage() {
-            this.activeIndex = (this.activeIndex + 1) % this.activeImages.length;
-        },
-        prevImage() {
-            this.activeIndex = this.activeIndex === 0 ? this.activeImages.length - 1 : this.activeIndex - 1;
-        }
-    }" @keydown.escape.window="closeLightbox()">
+    <section class="py-20 bg-gray-50" x-data="createLightboxData()" @keydown.escape.window="closeLightbox()">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             @if($prestasi->count() > 0)
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @foreach($prestasi as $item)
                 @php
                     $images = $item->gambar_urls;
-                    if (empty($images)) {
-                        $images = ['https://via.placeholder.com/800x600?text=No+Image'];
-                    }
                 @endphp
                 <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-2xl transition-all duration-300 group cursor-pointer flex flex-col"
                      @click="openLightbox({{ json_encode($images) }}, '{{ addslashes($item->judul) }}')">
@@ -90,9 +80,24 @@
                 @endforeach
             </div>
             @else
-            <div class="text-center py-20 bg-white rounded-3xl border border-gray-100">
-                <svg class="w-20 h-20 mx-auto text-gray-300 mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
-                <p class="text-gray-500 text-xl font-light">Belum ada data prestasi untuk saat ini.</p>
+            <!-- Enhanced Empty State -->
+            <div class="max-w-2xl mx-auto">
+                <div class="relative bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50 border border-amber-100 rounded-3xl p-12 md:p-16 text-center overflow-hidden">
+                    <div class="absolute inset-0">
+                        <div class="absolute top-5 right-20 w-32 h-32 bg-yellow-300/30 rounded-full blur-2xl animate-pulse"></div>
+                        <div class="absolute bottom-5 left-20 w-24 h-24 bg-orange-300/30 rounded-full blur-2xl animate-pulse" style="animation-delay: 0.5s;"></div>
+                    </div>
+                    
+                    <div class="relative z-10">
+                        <div class="w-28 h-28 mx-auto mb-6 bg-gradient-to-br from-amber-100 to-yellow-100 rounded-3xl flex items-center justify-center shadow-xl">
+                            <svg class="w-14 h-14 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-3">Prestasi Akan Segera Diperbarui</h3>
+                        <p class="text-gray-500">Kami sedang mengumpulkan data prestasi terbaru. Segera lihat pencapaian gemilang siswa-siswi kami!</p>
+                    </div>
+                </div>
             </div>
             @endif
         </div>

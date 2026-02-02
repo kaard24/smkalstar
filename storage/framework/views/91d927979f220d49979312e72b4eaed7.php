@@ -6,8 +6,8 @@
 <div class="max-w-6xl mx-auto">
     <div class="mb-8 flex flex-wrap items-center justify-between gap-4">
         <div>
-            <h1 class="text-2xl font-bold text-gray-900">Struktur Organisasi</h1>
-            <p class="text-gray-600">Kelola struktur organisasi sekolah dengan section dan anggota.</p>
+            <h1 class="text-2xl font-bold text-slate-800">Struktur Organisasi</h1>
+            <p class="text-slate-600">Kelola struktur organisasi sekolah dengan section dan anggota.</p>
         </div>
         <button onclick="openSectionModal()" class="btn btn-primary shadow-md hover:shadow-lg">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
@@ -16,7 +16,7 @@
     </div>
 
     <?php if(session('success')): ?>
-    <div class="mb-6 p-4 bg-blue-50 border border-blue-200 text-blue-700 rounded-xl flex items-center gap-2">
+    <div class="mb-6 p-4 bg-[#047857]/10 border border-[#047857]/20 text-[#047857] rounded-xl flex items-center gap-2">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
         <?php echo e(session('success')); ?>
 
@@ -24,7 +24,7 @@
     <?php endif; ?>
 
     <?php if($errors->any()): ?>
-    <div class="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-xl">
+    <div class="mb-6 p-4 bg-[#991B1B]/10 border border-[#991B1B]/20 text-[#991B1B] rounded-xl">
         <ul class="list-disc pl-5 space-y-1">
             <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <li><?php echo e($error); ?></li>
@@ -34,10 +34,10 @@
     <?php endif; ?>
 
     <?php if($sections->isEmpty()): ?>
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-12 text-center">
-        <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-        <h3 class="text-lg font-semibold text-gray-700 mb-2">Belum Ada Section</h3>
-        <p class="text-gray-500 mb-4">Mulai dengan menambahkan section pertama, misalnya "Tenaga Pendidik".</p>
+    <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-12 text-center">
+        <svg class="w-16 h-16 text-slate-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+        <h3 class="text-lg font-semibold text-slate-700 mb-2">Belum Ada Section</h3>
+        <p class="text-slate-500 mb-4">Mulai dengan menambahkan section pertama, misalnya "Tenaga Pendidik".</p>
         <button onclick="openSectionModal()" class="btn btn-primary shadow-md hover:shadow-lg">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
             Tambah Section Pertama
@@ -46,16 +46,16 @@
     <?php else: ?>
     <div class="space-y-6">
         <?php $__currentLoopData = $sections; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $section): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
             
-            <div class="px-6 py-4 border-b border-gray-100 bg-gray-50 flex flex-wrap items-center justify-between gap-4">
+            <div class="px-6 py-4 border-b border-slate-100 bg-slate-50 flex flex-wrap items-center justify-between gap-4">
                 <div class="flex items-center gap-3">
-                    <span class="bg-primary/10 text-primary p-2 rounded-lg">
+                    <span class="bg-[#4276A3]/10 text-[#4276A3] p-2 rounded-lg">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                     </span>
                     <div>
-                        <h2 class="font-semibold text-gray-900"><?php echo e($section->nama); ?></h2>
-                        <span class="text-xs text-gray-500"><?php echo e($section->members->count()); ?> anggota · Urutan: <?php echo e($section->urutan); ?></span>
+                        <h2 class="font-semibold text-slate-800"><?php echo e($section->nama); ?></h2>
+                        <span class="text-xs text-slate-500"><?php echo e($section->members->count()); ?> anggota · Urutan: <?php echo e($section->urutan); ?></span>
                     </div>
                 </div>
                 <div class="flex items-center gap-2">
@@ -79,14 +79,14 @@
             
             <div class="p-6">
                 <?php if($section->members->isEmpty()): ?>
-                <div class="bg-gray-50 border-2 border-dashed border-gray-200 rounded-xl p-8 text-center">
-                    <svg class="w-12 h-12 text-gray-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                    <p class="text-gray-500 text-sm">Belum ada anggota di section ini</p>
+                <div class="bg-slate-50 border-2 border-dashed border-slate-200 rounded-xl p-8 text-center">
+                    <svg class="w-12 h-12 text-slate-300 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                    <p class="text-slate-500 text-sm">Belum ada anggota di section ini</p>
                 </div>
                 <?php else: ?>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     <?php $__currentLoopData = $section->members; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $member): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <div class="bg-gray-50 rounded-xl p-4 text-center relative group">
+                    <div class="bg-slate-50 rounded-xl p-4 text-center relative group">
                         
                         <div class="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition">
                             <button onclick="openEditMemberModal(<?php echo e($member->id); ?>, '<?php echo e(addslashes($member->nama)); ?>', '<?php echo e(addslashes($member->keterangan ?? '')); ?>', <?php echo e($member->urutan); ?>, '<?php echo e($member->foto_url ?? ''); ?>')" class="btn-icon btn-icon-edit btn-icon-sm">
@@ -102,18 +102,18 @@
                         </div>
 
                         
-                        <div class="w-24 h-24 mx-auto mb-3 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center">
+                        <div class="w-24 h-24 mx-auto mb-3 rounded-full overflow-hidden bg-slate-200 flex items-center justify-center">
                             <?php if($member->foto_url): ?>
                             <img src="<?php echo e($member->foto_url); ?>" alt="<?php echo e($member->nama); ?>" class="w-full h-full object-cover" loading="lazy" decoding="async">
                             <?php else: ?>
-                            <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                            <svg class="w-12 h-12 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
                             <?php endif; ?>
                         </div>
 
                         
-                        <h4 class="font-semibold text-gray-900 text-sm"><?php echo e($member->nama); ?></h4>
+                        <h4 class="font-semibold text-slate-800 text-sm"><?php echo e($member->nama); ?></h4>
                         <?php if($member->keterangan): ?>
-                        <p class="text-gray-500 text-xs mt-1"><?php echo e($member->keterangan); ?></p>
+                        <p class="text-slate-500 text-xs mt-1"><?php echo e($member->keterangan); ?></p>
                         <?php endif; ?>
                     </div>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -138,21 +138,21 @@
     <div class="flex items-center justify-center min-h-screen px-4">
         <div class="fixed inset-0 bg-black/50 transition-opacity" onclick="closeSectionModal()"></div>
         <div class="relative bg-white rounded-2xl shadow-xl max-w-md w-full p-6 z-10">
-            <h3 id="sectionModalTitle" class="text-lg font-bold text-gray-900 mb-4">Tambah Section</h3>
+            <h3 id="sectionModalTitle" class="text-lg font-bold text-slate-800 mb-4">Tambah Section</h3>
             <form id="sectionForm" method="POST">
                 <?php echo csrf_field(); ?>
                 <div id="sectionMethodField"></div>
                 <div class="space-y-4">
                     <div>
-                        <label for="section_nama" class="block text-sm font-medium text-gray-700 mb-1">Nama Section</label>
+                        <label for="section_nama" class="block text-sm font-medium text-slate-700 mb-1">Nama Section</label>
                         <input type="text" id="section_nama" name="nama" required
-                            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition"
+                            class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-[#4276A3] focus:border-[#4276A3] transition"
                             placeholder="Contoh: Tenaga Pendidik">
                     </div>
                     <div>
-                        <label for="section_urutan" class="block text-sm font-medium text-gray-700 mb-1">Urutan</label>
+                        <label for="section_urutan" class="block text-sm font-medium text-slate-700 mb-1">Urutan</label>
                         <input type="number" id="section_urutan" name="urutan" min="0"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition"
+                            class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-[#4276A3] focus:border-[#4276A3] transition"
                             placeholder="0">
                     </div>
                 </div>
@@ -175,37 +175,37 @@
     <div class="flex items-center justify-center min-h-screen px-4">
         <div class="fixed inset-0 bg-black/50 transition-opacity" onclick="closeMemberModal()"></div>
         <div class="relative bg-white rounded-2xl shadow-xl max-w-md w-full p-6 z-10">
-            <h3 id="memberModalTitle" class="text-lg font-bold text-gray-900 mb-4">Tambah Anggota</h3>
+            <h3 id="memberModalTitle" class="text-lg font-bold text-slate-800 mb-4">Tambah Anggota</h3>
             <form id="memberForm" method="POST" enctype="multipart/form-data">
                 <?php echo csrf_field(); ?>
                 <div id="memberMethodField"></div>
                 <input type="hidden" id="member_section_id" name="section_id">
                 <div class="space-y-4">
                     <div>
-                        <label for="member_nama" class="block text-sm font-medium text-gray-700 mb-1">Nama</label>
+                        <label for="member_nama" class="block text-sm font-medium text-slate-700 mb-1">Nama</label>
                         <input type="text" id="member_nama" name="nama" required
-                            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition"
+                            class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-[#4276A3] focus:border-[#4276A3] transition"
                             placeholder="Nama lengkap">
                     </div>
                     <div>
-                        <label for="member_keterangan" class="block text-sm font-medium text-gray-700 mb-1">Keterangan/Jabatan</label>
+                        <label for="member_keterangan" class="block text-sm font-medium text-slate-700 mb-1">Keterangan/Jabatan</label>
                         <input type="text" id="member_keterangan" name="keterangan"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition"
+                            class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-[#4276A3] focus:border-[#4276A3] transition"
                             placeholder="Contoh: Kepala Sekolah">
                     </div>
                     <div>
-                        <label for="member_foto" class="block text-sm font-medium text-gray-700 mb-1">Foto</label>
+                        <label for="member_foto" class="block text-sm font-medium text-slate-700 mb-1">Foto</label>
                         <div id="memberFotoPreview" class="mb-2 hidden">
                             <img id="memberFotoImg" src="" alt="Preview" class="w-20 h-20 rounded-full object-cover mx-auto" loading="lazy" decoding="async">
                         </div>
                         <input type="file" id="member_foto" name="foto" accept="image/*"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20">
-                        <p class="mt-1 text-xs text-gray-500">Format: JPG, PNG, WebP. Maks. 2MB.</p>
+                            class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-[#4276A3] focus:border-[#4276A3] transition file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#4276A3]/10 file:text-[#4276A3] hover:file:bg-[#4276A3]/20">
+                        <p class="mt-1 text-xs text-slate-500">Format: JPG, PNG, WebP. Maks. 2MB.</p>
                     </div>
                     <div>
-                        <label for="member_urutan" class="block text-sm font-medium text-gray-700 mb-1">Urutan</label>
+                        <label for="member_urutan" class="block text-sm font-medium text-slate-700 mb-1">Urutan</label>
                         <input type="number" id="member_urutan" name="urutan" min="0"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition"
+                            class="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-[#4276A3] focus:border-[#4276A3] transition"
                             placeholder="0">
                     </div>
                 </div>

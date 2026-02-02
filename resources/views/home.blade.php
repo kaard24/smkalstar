@@ -3,34 +3,110 @@
 @section('title', 'Beranda - SMK Al-Hidayah Lestari')
 
 @section('content')
-    <!-- Hero Section -->
-    <section class="relative bg-white overflow-hidden min-h-[70vh] md:min-h-[90vh] flex items-center">
+    <!-- Hero Section - Premium Redesign -->
+    <section class="relative bg-white overflow-hidden min-h-[80vh] md:min-h-screen flex items-center">
+        <!-- Animated Background Elements -->
         <div class="absolute inset-0 z-0">
-            <div class="absolute inset-0 bg-gradient-to-r from-gray-900/95 via-gray-900/70 to-transparent z-10"></div>
-            <img src="{{ asset('images/b1.webp') }}" alt="School Building" class="w-full h-full object-cover" fetchpriority="high" decoding="async">
+            <div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 z-10"></div>
+            <!-- Animated Blobs -->
+            <div class="absolute top-20 left-10 w-72 h-72 bg-primary/30 rounded-full blur-3xl animate-pulse"></div>
+            <div class="absolute bottom-20 right-10 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-radial from-primary/10 to-transparent rounded-full"></div>
+            <!-- Pattern Overlay -->
+            <div class="absolute inset-0 opacity-20" style="background-image: url('data:image/svg+xml,%3Csvg width=&quot;60&quot; height=&quot;60&quot; viewBox=&quot;0 0 60 60&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;%3E%3Cg fill=&quot;none&quot; fill-rule=&quot;evenodd&quot;%3E%3Cg fill=&quot;%23ffffff&quot; fill-opacity=&quot;0.05&quot;%3E%3Cpath d=&quot;M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z&quot;/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+            <img src="{{ asset('images/b1.webp') }}" 
+                     alt="Gedung SMK Al-Hidayah Lestari" 
+                     class="w-full h-full object-cover opacity-40 mix-blend-overlay" 
+                     fetchpriority="high" 
+                     decoding="async"
+                     width="1920"
+                     height="1080">
         </div>
         
         <div class="container relative z-20 mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
-            <div class="max-w-3xl text-white">
-                <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 px-3 py-1.5 rounded-full text-xs md:text-sm font-medium text-[#0EA5E9] mb-4 md:mb-6">
-                    <span class="w-2 h-2 rounded-full bg-[#0EA5E9] animate-pulse"></span>
-                    PPDB 2026/2027 Telah Dibuka
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="max-w-3xl text-white">
+                    <div class="inline-flex items-center gap-2 bg-gradient-to-r from-primary/20 to-cyan-500/20 backdrop-blur-md border border-primary/30 px-4 py-2 rounded-full text-sm font-medium text-cyan-300 mb-6 animate-fade-in-up">
+                        <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                        SPMB 2026/2027 Telah Dibuka
+                    </div>
+                    <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight mb-6 font-heading animate-fade-in-up" style="animation-delay: 0.1s;">
+                        Mewujudkan Generasi <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-primary to-cyan-300">Unggul & Berakhlak</span>
+                    </h1>
+                    <p class="text-base md:text-lg text-gray-300 mb-8 leading-relaxed max-w-xl font-light animate-fade-in-up" style="animation-delay: 0.2s;">
+                        SMK Al-Hidayah Lestari berkomitmen mencetak lulusan yang kompeten, berkarakter Islami, dan siap bersaing di era digital.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 animate-fade-in-up" style="animation-delay: 0.3s;">
+                        <a href="{{ url('/ppdb/register') }}" class="group relative bg-gradient-to-r from-primary to-cyan-500 text-white font-bold px-8 py-4 rounded-2xl shadow-2xl shadow-primary/30 transition-all transform hover:-translate-y-1 hover:shadow-cyan-500/40 text-center flex items-center justify-center gap-3 text-base md:text-lg overflow-hidden">
+                            <span class="absolute inset-0 bg-gradient-to-r from-cyan-400 to-primary opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                            <span class="relative">Daftar Sekarang</span>
+                            <svg class="w-5 h-5 relative group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+                        </a>
+                        <a href="#jurusan" class="group relative bg-white/5 hover:bg-white/10 text-white font-semibold px-8 py-4 rounded-2xl backdrop-blur-md border border-white/20 hover:border-cyan-400/50 transition-all text-center flex items-center justify-center gap-2 text-base">
+                            <span>Lihat Jurusan</span>
+                            <svg class="w-5 h-5 group-hover:translate-y-0.5 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </a>
+                    </div>
+                    
+                    <!-- Trust Indicators -->
+                    <div class="mt-10 flex items-center gap-6 text-sm text-gray-400 animate-fade-in-up" style="animation-delay: 0.4s;">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            <span>Akreditasi A</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            <span>Free Registration</span>
+                        </div>
+                    </div>
                 </div>
-                <h1 class="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4 md:mb-6 font-heading">
-                    Mewujudkan Generasi <br>
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#0EA5E9] to-cyan-200">Unggul & Berakhlak</span>
-                </h1>
-                <p class="text-sm sm:text-base md:text-lg text-gray-200 mb-6 md:mb-8 leading-relaxed max-w-2xl font-light">
-                    SMK Al-Hidayah Lestari berkomitmen mencetak lulusan yang kompeten, berkarakter Islami, dan siap bersaing di era digital.
-                </p>
-                <div class="flex flex-col sm:flex-row gap-3">
-                    <a href="{{ url('/ppdb/register') }}" class="bg-primary hover:bg-primary-dark text-white font-semibold px-6 py-3 md:px-8 md:py-4 rounded-xl shadow-lg hover:shadow-cyan-500/30 transition-all transform hover:-translate-y-0.5 text-center flex items-center justify-center gap-2 group text-sm md:text-base">
-                        Daftar Sekarang
-                        <svg class="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
-                    </a>
-                    <a href="#jurusan" class="bg-white/10 hover:bg-white/20 text-white font-medium px-6 py-3 md:px-8 md:py-4 rounded-xl backdrop-blur-md border border-white/20 transition text-center hover:border-white/40 text-sm md:text-base">
-                        Lihat Jurusan
-                    </a>
+                
+                <!-- Hero Visual/Illustration -->
+                <div class="hidden lg:block relative animate-fade-in-up" style="animation-delay: 0.5s;">
+                    <div class="relative">
+                        <!-- Floating Cards -->
+                        <div class="absolute -top-10 -left-10 bg-white rounded-2xl p-4 shadow-2xl animate-float" style="animation-delay: 0s;">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 bg-gradient-to-br from-primary to-cyan-400 rounded-xl flex items-center justify-center text-white">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500">Program</p>
+                                    <p class="font-bold text-gray-900">4 Jurusan</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="absolute top-20 -right-5 bg-white rounded-2xl p-4 shadow-2xl animate-float" style="animation-delay: 0.5s;">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 bg-gradient-to-br from-orange-400 to-red-500 rounded-xl flex items-center justify-center text-white">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500">Rating</p>
+                                    <p class="font-bold text-gray-900">4.9/5.0</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="absolute -bottom-5 left-10 bg-white rounded-2xl p-4 shadow-2xl animate-float" style="animation-delay: 1s;">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 bg-gradient-to-br from-green-400 to-emerald-500 rounded-xl flex items-center justify-center text-white">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500">Siswa</p>
+                                    <p class="font-bold text-gray-900">1500+</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Main Image/Graphic Container -->
+                        <div class="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/20 rounded-3xl p-6 mx-8">
+                            <img src="{{ asset('images/b1.webp') }}" alt="SMK Al-Hidayah" class="rounded-2xl shadow-2xl w-full object-cover aspect-[4/3]">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -158,10 +234,10 @@
         </div>
     </section>
 
-    <!-- Call to Action PPDB -->
+    <!-- Call to Action SPMB -->
     <section class="py-12 md:py-20 lg:py-32 bg-gray-900 relative overflow-hidden">
         <div class="absolute inset-0 z-0 opacity-20">
-            <img src="{{ asset('images/b1.webp') }}" alt="Background" class="w-full h-full object-cover grayscale" loading="lazy" decoding="async">
+            <img src="{{ asset('images/b1.webp') }}" alt="" class="w-full h-full object-cover grayscale" loading="lazy" decoding="async" role="presentation">
             <div class="absolute inset-0 bg-gray-900/50"></div>
         </div>
         

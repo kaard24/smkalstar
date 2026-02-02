@@ -3,11 +3,49 @@
 @section('title', 'Informasi SPMB - SMK Al-Hidayah Lestari')
 
 @section('content')
-    <!-- Header Page -->
-    <div class="bg-sky-50 py-12 border-b border-sky-100">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Sistem Penerimaan Murid Baru</h1>
-            <p class="text-gray-600">Informasi Lengkap Pendaftaran Tahun Pelajaran 2026/2027</p>
+    <!-- Header Page - Unique PPDB Design -->
+    <div class="relative bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 py-16 md:py-24 border-b border-orange-100 overflow-hidden">
+        <!-- Decorative Elements -->
+        <div class="absolute inset-0">
+            <div class="absolute top-0 right-1/4 w-96 h-96 bg-orange-300/20 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-0 left-1/4 w-72 h-72 bg-amber-300/20 rounded-full blur-3xl"></div>
+            <!-- Diagonal Lines Pattern -->
+            <svg class="absolute inset-0 w-full h-full opacity-10" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <pattern id="diagonal-lines" patternUnits="userSpaceOnUse" width="40" height="40" patternTransform="rotate(45)">
+                        <line x1="0" y1="0" x2="0" y2="40" stroke="#f97316" stroke-width="2" />
+                    </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#diagonal-lines)" />
+            </svg>
+        </div>
+        
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <div class="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-amber-500 text-white px-5 py-2 rounded-full text-sm font-bold mb-6 shadow-lg shadow-orange-200">
+                <span class="w-2 h-2 bg-white rounded-full animate-pulse"></span>
+                Pendaftaran Dibuka!
+            </div>
+            <h1 class="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-4 font-heading">
+                Sistem Penerimaan <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500">Murid Baru 2026/2027</span>
+            </h1>
+            <p class="text-gray-600 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed mb-8">Informasi lengkap mengenai pendaftaran, jadwal, persyaratan, dan biaya pendidikan di SMK Al-Hidayah Lestari</p>
+            
+            <!-- Countdown/Quick Info -->
+            <div class="flex flex-wrap justify-center gap-4 md:gap-6">
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl px-6 py-4 shadow-lg border border-orange-100">
+                    <div class="text-2xl font-bold text-orange-600">Gelombang 1</div>
+                    <div class="text-sm text-gray-600">Jan - Mei 2026</div>
+                </div>
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl px-6 py-4 shadow-lg border border-amber-100">
+                    <div class="text-2xl font-bold text-amber-600">Gelombang 2</div>
+                    <div class="text-sm text-gray-600">Mei - Juli 2026</div>
+                </div>
+                <div class="bg-gradient-to-r from-orange-500 to-amber-500 rounded-2xl px-6 py-4 shadow-lg text-white">
+                    <div class="text-2xl font-bold">100%</div>
+                    <div class="text-sm opacity-90">Gratis Pendaftaran</div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -91,7 +129,7 @@
                         </div>
                     </div>
 
-                    <!-- Alur PPDB -->
+                    <!-- Alur SPMB -->
                     <div>
                         <div class="flex items-center gap-4 mb-8">
                             <span class="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center text-xl font-bold">3</span>

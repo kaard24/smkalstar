@@ -3,47 +3,35 @@
 @section('title', 'Fasilitas - SMK Al-Hidayah Lestari')
 
 @section('content')
-    <!-- Header Page -->
-    <div class="bg-sky-50 py-12 border-b border-sky-100">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Fasilitas Sekolah</h1>
-            <p class="text-gray-600">Sarana dan prasarana modern untuk mendukung kegiatan belajar mengajar yang efektif</p>
+    <!-- Header Page - Unique Design -->
+    <div class="relative bg-gradient-to-br from-blue-50 via-indigo-50 to-cyan-50 py-16 md:py-24 border-b border-blue-100 overflow-hidden">
+        <!-- Decorative Elements -->
+        <div class="absolute inset-0">
+            <div class="absolute top-0 left-1/3 w-96 h-96 bg-blue-300/20 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-0 right-1/4 w-72 h-72 bg-indigo-300/20 rounded-full blur-3xl"></div>
+            <!-- Dots Pattern -->
+            <div class="absolute inset-0 opacity-30" style="background-image: radial-gradient(#3b82f6 1px, transparent 1px); background-size: 24px 24px;"></div>
+        </div>
+        
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <div class="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm border border-blue-200 px-4 py-1.5 rounded-full text-sm font-medium text-blue-700 mb-6">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                Sarana & Prasarana
+            </div>
+            <h1 class="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-4 font-heading">
+                Fasilitas <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-indigo-600">Sekolah</span>
+            </h1>
+            <p class="text-gray-600 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">Sarana dan prasarana modern untuk mendukung kegiatan belajar mengajar yang efektif dan nyaman</p>
         </div>
     </div>
 
-    <section class="py-20 bg-gray-50" x-data="{
-        lightboxOpen: false,
-        activeImages: [],
-        activeIndex: 0,
-        activeCaption: '',
-        openLightbox(images, caption) {
-            this.activeImages = images;
-            this.activeIndex = 0;
-            this.activeCaption = caption;
-            this.lightboxOpen = true;
-            document.body.style.overflow = 'hidden';
-        },
-        closeLightbox() {
-            this.lightboxOpen = false;
-            document.body.style.overflow = 'auto';
-            setTimeout(() => { this.activeImages = []; }, 300);
-        },
-        nextImage() {
-            this.activeIndex = (this.activeIndex + 1) % this.activeImages.length;
-        },
-        prevImage() {
-            this.activeIndex = this.activeIndex === 0 ? this.activeImages.length - 1 : this.activeIndex - 1;
-        }
-    }" @keydown.escape.window="closeLightbox()">
+    <section class="py-20 bg-gray-50" x-data="createLightboxData()" @keydown.escape.window="closeLightbox()">
         
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
                 @forelse($fasilitas as $item)
                 @php
                     $images = $item->gambar_urls;
-                    if (empty($images)) {
-                        $images = ['https://via.placeholder.com/800x600?text=No+Image'];
-                    }
                 @endphp
                 <div class="group cursor-pointer bg-white rounded-3xl shadow-sm hover:shadow-2xl transition-all duration-300 border border-gray-100 overflow-hidden" @click="openLightbox({{ json_encode($images) }}, '{{ addslashes($item->nama) }}')">
                     <div class="relative h-64 overflow-hidden">
@@ -75,9 +63,30 @@
                     </div>
                 </div>
                 @empty
-                <div class="col-span-full text-center py-20 bg-white rounded-3xl border border-gray-100">
-                    <svg class="w-20 h-20 mx-auto mb-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
-                    <p class="text-gray-500 text-xl font-light">Data fasilitas belum tersedia saat ini.</p>
+                <!-- Enhanced Empty State -->
+                <div class="col-span-full">
+                    <div class="relative bg-gradient-to-br from-blue-50 via-indigo-50 to-cyan-50 border border-blue-100 rounded-3xl p-12 md:p-20 text-center overflow-hidden">
+                        <!-- Decorative Elements -->
+                        <div class="absolute inset-0">
+                            <div class="absolute top-0 left-1/4 w-64 h-64 bg-blue-300/20 rounded-full blur-3xl"></div>
+                            <div class="absolute bottom-0 right-1/4 w-48 h-48 bg-indigo-300/20 rounded-full blur-3xl"></div>
+                        </div>
+                        
+                        <div class="relative z-10">
+                            <div class="w-32 h-32 mx-auto mb-8 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-3xl flex items-center justify-center shadow-xl">
+                                <svg class="w-16 h-16 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-3xl font-bold text-gray-900 mb-4">Fasilitas Sedang Dipersiapkan</h3>
+                            <p class="text-gray-600 text-lg max-w-xl mx-auto leading-relaxed">Kami sedang menyiapkan informasi lengkap tentang sarana dan prasarana modern yang akan mendukung proses belajar mengajar Anda.</p>
+                            <div class="mt-8 flex justify-center gap-3">
+                                <div class="w-2 h-2 rounded-full bg-blue-400 animate-bounce" style="animation-delay: 0s;"></div>
+                                <div class="w-2 h-2 rounded-full bg-blue-400 animate-bounce" style="animation-delay: 0.2s;"></div>
+                                <div class="w-2 h-2 rounded-full bg-blue-400 animate-bounce" style="animation-delay: 0.4s;"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 @endforelse
             </div>

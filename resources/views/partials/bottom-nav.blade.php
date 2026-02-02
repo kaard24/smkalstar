@@ -1,4 +1,4 @@
-<div class="fixed bottom-0 left-0 z-50 w-full bg-white border-t border-gray-200 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] md:hidden safe-area-pb">
+<nav class="fixed bottom-0 left-0 z-50 w-full bg-white/95 backdrop-blur-lg border-t border-gray-200/80 shadow-[0_-8px_30px_-6px_rgba(0,0,0,0.1)] md:hidden safe-area-pb" aria-label="Navigasi mobile">
     <div class="grid h-16 grid-cols-4 mx-auto font-medium">
         @auth('ppdb')
             {{-- Dashboard --}}
@@ -26,8 +26,8 @@
             </a>
 
             {{-- Profil --}}
-            <a href="{{ route('ppdb.profil') }}" data-instant class="inline-flex flex-col items-center justify-center px-2 hover:bg-gray-50 group {{ request()->routeIs('ppdb.profil') ? 'text-primary' : 'text-gray-500' }}">
-                <svg class="w-6 h-6 mb-0.5 group-hover:text-primary {{ request()->routeIs('ppdb.profil') ? 'text-primary' : 'text-gray-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <a href="{{ route('ppdb.profil') }}" data-instant class="inline-flex flex-col items-center justify-center px-2 hover:bg-gray-50 group {{ request()->routeIs('ppdb.profil') ? 'text-primary' : 'text-gray-500' }}" aria-current="{{ request()->routeIs('ppdb.profil') ? 'page' : 'false' }}">
+                <svg class="w-6 h-6 mb-0.5 group-hover:text-primary {{ request()->routeIs('ppdb.profil') ? 'text-primary' : 'text-gray-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                 </svg>
                 <span class="text-[10px] group-hover:text-primary {{ request()->routeIs('ppdb.profil') ? 'text-primary' : 'text-gray-500' }}">Profil</span>
@@ -49,7 +49,7 @@
                 <span class="text-[10px] group-hover:text-primary {{ request()->is('jurusan') ? 'text-primary' : 'text-gray-500' }}">Jurusan</span>
             </a>
             
-            {{-- Info PPDB --}}
+            {{-- Info SPMB --}}
             <a href="{{ url('/ppdb/info') }}" data-instant class="inline-flex flex-col items-center justify-center px-2 hover:bg-gray-50 group {{ request()->is('ppdb/info') ? 'text-primary' : 'text-gray-500' }}">
                 <svg class="w-6 h-6 mb-0.5 group-hover:text-primary {{ request()->is('ppdb/info') ? 'text-primary' : 'text-gray-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -58,15 +58,15 @@
             </a>
 
             {{-- Login/Daftar --}}
-            <a href="{{ url('/login') }}" data-instant class="inline-flex flex-col items-center justify-center px-2 hover:bg-gray-50 group {{ request()->is('login') ? 'text-primary' : 'text-gray-500' }}">
-                <svg class="w-6 h-6 mb-0.5 group-hover:text-primary {{ request()->is('login') ? 'text-primary' : 'text-gray-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <a href="{{ url('/login') }}" data-instant class="inline-flex flex-col items-center justify-center px-2 hover:bg-gray-50 group {{ request()->is('login') ? 'text-primary' : 'text-gray-500' }}" aria-current="{{ request()->is('login') ? 'page' : 'false' }}">
+                <svg class="w-6 h-6 mb-0.5 group-hover:text-primary {{ request()->is('login') ? 'text-primary' : 'text-gray-500' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
                 </svg>
                 <span class="text-[10px] group-hover:text-primary {{ request()->is('login') ? 'text-primary' : 'text-gray-500' }}">Masuk</span>
             </a>
         @endauth
     </div>
-</div>
+</nav>
 
 <style>
     /* Safe area padding for iPhone X and newer */
