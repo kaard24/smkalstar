@@ -63,16 +63,19 @@ class EkstrakurikulerController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Ekstrakurikuler $ekstrakurikuler)
+    public function edit($id)
     {
-        return view('admin.ekstrakurikuler.form', ['ekstrakurikuler' => $ekstrakurikuler]);
+        $ekstrakurikuler = Ekstrakurikuler::findOrFail($id);
+        return view('admin.ekstrakurikuler.form', compact('ekstrakurikuler'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Ekstrakurikuler $ekstrakurikuler)
+    public function update(Request $request, $id)
     {
+        $ekstrakurikuler = Ekstrakurikuler::findOrFail($id);
+        
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
@@ -105,7 +108,7 @@ class EkstrakurikulerController extends Controller
              $newImages = [];
              
              foreach ($currentImages as $index => $path) {
-                 if (in_array($index, $indexesToDelete)) {
+                 if (in_array((string)$index, $indexesToDelete) || in_array($index, $indexesToDelete)) {
                      if (!str_starts_with($path, 'http')) {
                          Storage::disk('public')->delete($path);
                      }
@@ -126,10 +129,17 @@ class EkstrakurikulerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Ekstrakurikuler $ekstrakurikuler)
+    public function destroy($id)
     {
-        if ($ekstrakurikuler->gambar && !str_starts_with($ekstrakurikuler->gambar, 'http')) {
-            Storage::disk('public')->delete($ekstrakurikuler->gambar);
+        $ekstrakurikuler = Ekstrakurikuler::findOrFail($id);
+        
+        // Hapus semua gambar dari storage jika ada
+        if ($ekstrakurikuler->gambar && is_array($ekstrakurikuler->gambar)) {
+            foreach ($ekstrakurikuler->gambar as $path) {
+                if (!str_starts_with($path, 'http')) {
+                    Storage::disk('public')->delete($path);
+                }
+            }
         }
 
         $ekstrakurikuler->delete();

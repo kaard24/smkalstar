@@ -42,7 +42,7 @@
                         type="text" 
                         value="{{ session('registered_nama_lengkap') }}"
                         readonly
-                        class="w-full px-4 py-3 bg-green-50 border border-green-200 rounded-xl text-green-800 font-medium"
+                        class="w-full px-4 py-3 bg-sky-50 border border-sky-200 rounded-xl text-sky-800 font-medium"
                     >
                 </div>
                 @endif
@@ -143,8 +143,8 @@
     <div x-show="showRegPopup" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-4">
         <div class="absolute inset-0 bg-black/50" @click="showRegPopup = false"></div>
         <div class="relative bg-white rounded-2xl shadow-2xl p-8 max-w-sm w-full text-center">
-            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="w-16 h-16 bg-sky-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-8 h-8 text-[#0EA5E9]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
                 </svg>
             </div>

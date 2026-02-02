@@ -53,12 +53,13 @@ class ProfilSekolah extends Model
                 'sejarah_judul' => 'Berdiri Sejak 2005 untuk Mencerdaskan Bangsa',
                 'sejarah_konten' => "SMK Al-Hidayah Lestari didirikan pada tahun 2005 di bawah naungan Yayasan Al-Hidayah. Berawal dari keinginan kuat para pendiri untuk menyediakan pendidikan kejuruan yang berkualitas namun terjangkau bagi masyarakat sekitar.\n\nDengan semangat \"Ilmu Amaliah, Amal Ilmiah\", sekolah ini terus berkembang dari awalnya hanya memiliki satu jurusan hingga kini memiliki 4 Kompetensi Keahlian unggulan. Kami berkomitmen untuk terus berinovasi dalam melahirkan lulusan yang siap kerja, santun, dan mandiri.\n\nKini, SMK Al-Hidayah Lestari telah meluluskan ribuan alumni yang tersebar di berbagai sektor industri maupun yang melanjutkan ke jenjang perguruan tinggi negeri dan swasta.",
                 'sejarah_gambar' => 'https://images.unsplash.com/photo-1544531586-fde5298cdd40?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80',
-                'visi' => 'Menjadi Sekolah Menengah Kejuruan yang Unggul dalam IMTAQ dan IPTEK serta Berwawasan Lingkungan pada Tahun 2030.',
+                'visi' => 'TERBENTUKNYA INSAN YANG BERKARAKTER, BERPRESTASI, PEDULI LINGKUNGAN DAN KOMPETEN DALAM KONSENTRASI KEAHLIAN MANAJEMEN PERKANTORAN, BISNIS RITEL, AKUNTANSI DAN TEKHNIK KOMPUTER JARINGAN',
                 'misi' => [
-                    'Menanamkan nilai-nilai keimanan dan ketakwaan kepada Tuhan YME.',
-                    'Melaksanakan pembelajaran berbasis kompetensi dan teknologi informasi.',
-                    'Membangun kemitraan yang sinergis dengan Dunia Usaha dan Dunia Industri.',
-                    'Menciptakan lingkungan sekolah yang bersih, hijau, dan kondusif.',
+                    'Membekali dan mengembangkan pengetahuan yang didasari oleh keimanan dan ketakwaan kepada Tuhan yang Maha Esa sebagai landasan dalam bertindak.',
+                    'Menyelenggarakan Pendidikan Kejuruan yang sesuai dengan 8 standar Nasional Pendidikan +I, Berkarakter Kebangsaan, Kewirausahaan dan berbudaya lingkungan yang relevan dengan kebutuhan Dunia Usaha Dunia Industri dan Masyarakat.',
+                    'Membina Kerjasama dengan potensi pengembangan SDM, Inovasi tepat guna dan kemajuan dunia usaha dan dunia industri.',
+                    'Meningkatkan kompetensi guru sesuai dengan bidang tugasnya.',
+                    'Mewujutkan kondisi tempat belajar yang kondusif dan representatif',
                 ],
                 'struktur_organisasi_gambar' => null,
             ]);

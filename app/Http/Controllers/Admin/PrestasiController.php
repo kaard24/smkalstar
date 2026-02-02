@@ -67,16 +67,19 @@ class PrestasiController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Prestasi $prestasi)
+    public function edit($id)
     {
-        return view('admin.prestasi.form', ['prestasi' => $prestasi]);
+        $prestasi = Prestasi::findOrFail($id);
+        return view('admin.prestasi.form', compact('prestasi'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Prestasi $prestasi)
+    public function update(Request $request, $id)
     {
+        $prestasi = Prestasi::findOrFail($id);
+        
         $validated = $request->validate([
             'judul' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
@@ -113,7 +116,7 @@ class PrestasiController extends Controller
              $newImages = [];
              
              foreach ($currentImages as $index => $path) {
-                 if (in_array($index, $indexesToDelete)) {
+                 if (in_array((string)$index, $indexesToDelete) || in_array($index, $indexesToDelete)) {
                      if (!str_starts_with($path, 'http')) {
                          Storage::disk('public')->delete($path);
                      }
@@ -134,10 +137,17 @@ class PrestasiController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Prestasi $prestasi)
+    public function destroy($id)
     {
-        if ($prestasi->gambar && !str_starts_with($prestasi->gambar, 'http')) {
-            Storage::disk('public')->delete($prestasi->gambar);
+        $prestasi = Prestasi::findOrFail($id);
+        
+        // Hapus semua gambar dari storage jika ada
+        if ($prestasi->gambar && is_array($prestasi->gambar)) {
+            foreach ($prestasi->gambar as $path) {
+                if (!str_starts_with($path, 'http')) {
+                    Storage::disk('public')->delete($path);
+                }
+            }
         }
 
         $prestasi->delete();

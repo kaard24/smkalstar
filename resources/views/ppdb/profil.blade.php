@@ -23,7 +23,7 @@
         </div>
 
         @if(session('success'))
-        <div class="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg">
+        <div class="mb-6 p-4 bg-sky-50 border border-sky-200 text-[#0EA5E9] rounded-lg">
             {{ session('success') }}
         </div>
         @endif
@@ -42,7 +42,7 @@
                             'Terdaftar' => 'yellow',
                             'Diverifikasi' => 'blue',
                             'Menunggu Tes' => 'purple',
-                            'Selesai Tes' => 'green',
+                            'Selesai Tes' => 'cyan',
                             default => 'gray'
                         };
                     @endphp
@@ -51,8 +51,8 @@
                     </span>
                     
                     @if($calonSiswa->pendaftaran->tes && $calonSiswa->pendaftaran->tes->status_kelulusan != 'Pending')
-                    <div class="mt-4 p-3 rounded-lg {{ $calonSiswa->pendaftaran->tes->status_kelulusan == 'Lulus' ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200' }}">
-                        <p class="font-bold {{ $calonSiswa->pendaftaran->tes->status_kelulusan == 'Lulus' ? 'text-green-700' : 'text-red-700' }}">
+                    <div class="mt-4 p-3 rounded-lg {{ $calonSiswa->pendaftaran->tes->status_kelulusan == 'Lulus' ? 'bg-sky-50 border border-sky-200' : 'bg-red-50 border border-red-200' }}">
+                        <p class="font-bold {{ $calonSiswa->pendaftaran->tes->status_kelulusan == 'Lulus' ? 'text-[#0EA5E9]' : 'text-red-700' }}">
                             {{ $calonSiswa->pendaftaran->tes->status_kelulusan == 'Lulus' ? 'LULUS' : 'TIDAK LULUS' }}
                         </p>
                     </div>
@@ -74,7 +74,7 @@
                         <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
                         Data Diri
                     </h3>
-                    <a href="{{ route('ppdb.profil.edit') }}" class="text-primary hover:text-green-700 text-sm font-medium flex items-center gap-1">
+                    <a href="{{ route('ppdb.profil.edit') }}" class="text-primary hover:text-[#0284C7] text-sm font-medium flex items-center gap-1">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                         Edit
                     </a>

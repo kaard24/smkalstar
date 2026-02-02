@@ -61,16 +61,19 @@ class FasilitasController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Fasilitas $fasilita)
+    public function edit($id)
     {
-        return view('admin.fasilitas.form', ['fasilitas' => $fasilita]);
+        $fasilitas = Fasilitas::findOrFail($id);
+        return view('admin.fasilitas.form', compact('fasilitas'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Fasilitas $fasilita)
+    public function update(Request $request, $id)
     {
+        $fasilitas = Fasilitas::findOrFail($id);
+        
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
             'gambar' => 'nullable|array',
@@ -86,7 +89,7 @@ class FasilitasController extends Controller
         ];
 
         // Handle new images
-        $currentImages = $fasilita->gambar ?? [];
+        $currentImages = $fasilitas->gambar ?? [];
         if (!is_array($currentImages)) $currentImages = [];
 
         if ($request->hasFile('gambar')) {
@@ -101,7 +104,7 @@ class FasilitasController extends Controller
              $newImages = [];
              
              foreach ($currentImages as $index => $path) {
-                 if (in_array($index, $indexesToDelete)) {
+                 if (in_array((string)$index, $indexesToDelete) || in_array($index, $indexesToDelete)) {
                      if (!str_starts_with($path, 'http')) {
                          Storage::disk('public')->delete($path);
                      }
@@ -114,7 +117,7 @@ class FasilitasController extends Controller
 
         $data['gambar'] = $currentImages;
 
-        $fasilita->update($data);
+        $fasilitas->update($data);
 
         return redirect()->route('admin.fasilitas.index')->with('success', 'Fasilitas berhasil diperbarui.');
     }
@@ -122,13 +125,20 @@ class FasilitasController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Fasilitas $fasilita)
+    public function destroy($id)
     {
-        if ($fasilita->gambar && !str_starts_with($fasilita->gambar, 'http')) {
-            Storage::disk('public')->delete($fasilita->gambar);
+        $fasilitas = Fasilitas::findOrFail($id);
+        
+        // Hapus semua gambar dari storage jika ada
+        if ($fasilitas->gambar && is_array($fasilitas->gambar)) {
+            foreach ($fasilitas->gambar as $path) {
+                if (!str_starts_with($path, 'http')) {
+                    Storage::disk('public')->delete($path);
+                }
+            }
         }
 
-        $fasilita->delete();
+        $fasilitas->delete();
 
         return redirect()->route('admin.fasilitas.index')->with('success', 'Fasilitas berhasil dihapus.');
     }

@@ -5,12 +5,12 @@
 @section('content')
 <div class="min-h-screen bg-gray-50">
     <!-- Header - Compact for mobile -->
-    <div class="bg-gradient-to-r from-primary to-green-600 text-white">
+    <div class="bg-gradient-to-r from-[#0EA5E9] to-[#0284C7] text-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-6">
             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
                 <div>
                     <h1 class="text-xl md:text-2xl font-bold">Dashboard SPMB</h1>
-                    <p class="text-sm text-green-100">Selamat datang, {{ $siswa->nama ?: 'Calon Siswa' }}!</p>
+                    <p class="text-sm text-cyan-100">Selamat datang, {{ $siswa->nama ?: 'Calon Siswa' }}!</p>
                 </div>
                 <div class="flex items-center gap-2 md:gap-4">
                     <span class="bg-white/20 px-3 py-1.5 rounded-lg text-xs md:text-sm">
@@ -30,7 +30,7 @@
         @endif
 
         @if(session('success'))
-        <div class="mb-4 p-3 bg-green-50 border border-green-200 text-green-700 rounded-lg text-sm">
+        <div class="mb-4 p-3 bg-sky-50 border border-sky-200 text-sky-700 rounded-lg text-sm">
             {{ session('success') }}
         </div>
         @endif
@@ -47,7 +47,7 @@
             @if($completeness['percentage'] < 100)
             <p class="text-xs text-gray-500 mt-2">Lengkapi semua data untuk melanjutkan</p>
             @else
-            <p class="text-xs text-green-600 mt-2 font-medium flex items-center gap-1">
+            <p class="text-xs text-[#0EA5E9] mt-2 font-medium flex items-center gap-1">
                                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                                 Semua data lengkap! Tunggu jadwal tes via WhatsApp
                             </p>
@@ -63,14 +63,14 @@
                     <!-- Biodata -->
                     <div class="bg-white rounded-xl p-3 md:p-4 shadow-sm border border-gray-100">
                         <div class="flex items-center gap-2 md:gap-3">
-                            <div class="w-8 h-8 md:w-10 md:h-10 rounded-lg {{ $completeness['biodata'] ? 'bg-green-100' : 'bg-gray-100' }} flex items-center justify-center flex-shrink-0">
-                                <svg class="w-4 h-4 md:w-5 md:h-5 {{ $completeness['biodata'] ? 'text-green-600' : 'text-gray-400' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="w-8 h-8 md:w-10 md:h-10 rounded-lg {{ $completeness['biodata'] ? 'bg-sky-100' : 'bg-gray-100' }} flex items-center justify-center flex-shrink-0">
+                                <svg class="w-4 h-4 md:w-5 md:h-5 {{ $completeness['biodata'] ? 'text-[#0EA5E9]' : 'text-gray-400' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                                 </svg>
                             </div>
                             <div class="min-w-0">
                                 <p class="text-xs text-gray-500">Biodata</p>
-                                <p class="font-semibold text-xs md:text-sm {{ $completeness['biodata'] ? 'text-green-600' : 'text-gray-900' }} truncate">
+                                <p class="font-semibold text-xs md:text-sm {{ $completeness['biodata'] ? 'text-[#0EA5E9]' : 'text-gray-900' }} truncate">
                                     {{ $completeness['biodata'] ? 'Lengkap' : 'Belum' }}
                                 </p>
                             </div>
@@ -80,14 +80,14 @@
                     <!-- Orang Tua -->
                     <div class="bg-white rounded-xl p-3 md:p-4 shadow-sm border border-gray-100">
                         <div class="flex items-center gap-2 md:gap-3">
-                            <div class="w-8 h-8 md:w-10 md:h-10 rounded-lg {{ $completeness['orang_tua'] ? 'bg-green-100' : 'bg-gray-100' }} flex items-center justify-center flex-shrink-0">
-                                <svg class="w-4 h-4 md:w-5 md:h-5 {{ $completeness['orang_tua'] ? 'text-green-600' : 'text-gray-400' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="w-8 h-8 md:w-10 md:h-10 rounded-lg {{ $completeness['orang_tua'] ? 'bg-sky-100' : 'bg-gray-100' }} flex items-center justify-center flex-shrink-0">
+                                <svg class="w-4 h-4 md:w-5 md:h-5 {{ $completeness['orang_tua'] ? 'text-[#0EA5E9]' : 'text-gray-400' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                 </svg>
                             </div>
                             <div class="min-w-0">
                                 <p class="text-xs text-gray-500">Orang Tua</p>
-                                <p class="font-semibold text-xs md:text-sm {{ $completeness['orang_tua'] ? 'text-green-600' : 'text-gray-900' }} truncate">
+                                <p class="font-semibold text-xs md:text-sm {{ $completeness['orang_tua'] ? 'text-[#0EA5E9]' : 'text-gray-900' }} truncate">
                                     {{ $completeness['orang_tua'] ? 'Lengkap' : 'Belum' }}
                                 </p>
                             </div>
@@ -97,14 +97,14 @@
                     <!-- Jurusan -->
                     <div class="bg-white rounded-xl p-3 md:p-4 shadow-sm border border-gray-100">
                         <div class="flex items-center gap-2 md:gap-3">
-                            <div class="w-8 h-8 md:w-10 md:h-10 rounded-lg {{ $completeness['jurusan'] ? 'bg-green-100' : 'bg-gray-100' }} flex items-center justify-center flex-shrink-0">
-                                <svg class="w-4 h-4 md:w-5 md:h-5 {{ $completeness['jurusan'] ? 'text-green-600' : 'text-gray-400' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="w-8 h-8 md:w-10 md:h-10 rounded-lg {{ $completeness['jurusan'] ? 'bg-sky-100' : 'bg-gray-100' }} flex items-center justify-center flex-shrink-0">
+                                <svg class="w-4 h-4 md:w-5 md:h-5 {{ $completeness['jurusan'] ? 'text-[#0EA5E9]' : 'text-gray-400' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
                                 </svg>
                             </div>
                             <div class="min-w-0">
                                 <p class="text-xs text-gray-500">Jurusan</p>
-                                <p class="font-semibold text-xs md:text-sm {{ $completeness['jurusan'] ? 'text-green-600' : 'text-gray-900' }} truncate">
+                                <p class="font-semibold text-xs md:text-sm {{ $completeness['jurusan'] ? 'text-[#0EA5E9]' : 'text-gray-900' }} truncate">
                                     {{ $completeness['jurusan'] ? 'Terpilih' : 'Belum' }}
                                 </p>
                             </div>
@@ -114,14 +114,14 @@
                     <!-- Berkas -->
                     <div class="bg-white rounded-xl p-3 md:p-4 shadow-sm border border-gray-100">
                         <div class="flex items-center gap-2 md:gap-3">
-                            <div class="w-8 h-8 md:w-10 md:h-10 rounded-lg {{ $completeness['berkas'] ? 'bg-green-100' : 'bg-yellow-100' }} flex items-center justify-center flex-shrink-0">
-                                <svg class="w-4 h-4 md:w-5 md:h-5 {{ $completeness['berkas'] ? 'text-green-600' : 'text-yellow-600' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="w-8 h-8 md:w-10 md:h-10 rounded-lg {{ $completeness['berkas'] ? 'bg-sky-100' : 'bg-yellow-100' }} flex items-center justify-center flex-shrink-0">
+                                <svg class="w-4 h-4 md:w-5 md:h-5 {{ $completeness['berkas'] ? 'text-[#0EA5E9]' : 'text-yellow-600' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                                 </svg>
                             </div>
                             <div class="min-w-0">
                                 <p class="text-xs text-gray-500">Berkas</p>
-                                <p class="font-semibold text-xs md:text-sm {{ $completeness['berkas'] ? 'text-green-600' : 'text-yellow-600' }} truncate">
+                                <p class="font-semibold text-xs md:text-sm {{ $completeness['berkas'] ? 'text-[#0EA5E9]' : 'text-yellow-600' }} truncate">
                                     {{ $berkasProgress['uploaded'] }}/{{ $berkasProgress['total'] }}
                                 </p>
                             </div>
@@ -183,9 +183,9 @@
                     <div class="p-4 md:p-6">
                         <div class="space-y-3">
                             @foreach($berkasProgress['detail'] as $key => $item)
-                            <div class="flex items-start justify-between p-3 rounded-lg {{ $item['uploaded'] ? 'bg-green-50 border border-green-100' : 'bg-gray-50 border border-gray-100' }}">
+                            <div class="flex items-start justify-between p-3 rounded-lg {{ $item['uploaded'] ? 'bg-sky-50 border border-sky-100' : 'bg-gray-50 border border-gray-100' }}">
                                 <div class="flex items-start gap-3">
-                                    <div class="w-8 h-8 rounded-full {{ $item['uploaded'] ? 'bg-green-500' : 'bg-gray-300' }} flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <div class="w-8 h-8 rounded-full {{ $item['uploaded'] ? 'bg-[#0EA5E9]' : 'bg-gray-300' }} flex items-center justify-center flex-shrink-0 mt-0.5">
                                         @if($item['uploaded'])
                                         <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
@@ -195,14 +195,14 @@
                                         @endif
                                     </div>
                                     <div>
-                                        <span class="text-sm font-medium {{ $item['uploaded'] ? 'text-green-800' : 'text-gray-600' }}">{{ $item['label'] }}</span>
+                                        <span class="text-sm font-medium {{ $item['uploaded'] ? 'text-sky-800' : 'text-gray-600' }}">{{ $item['label'] }}</span>
                                         @if(isset($item['keterangan']) && $item['keterangan'])
                                         <p class="text-xs text-gray-500 mt-0.5">{{ $item['keterangan'] }}</p>
                                         @endif
                                     </div>
                                 </div>
                                 @if($item['uploaded'])
-                                <span class="text-xs font-medium text-green-600 flex items-center gap-1"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Uploaded</span>
+                                <span class="text-xs font-medium text-[#0EA5E9] flex items-center gap-1"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Uploaded</span>
                                 @else
                                 <span class="text-xs text-gray-400">Belum</span>
                                 @endif
@@ -210,7 +210,7 @@
                             @endforeach
                         </div>
                         @if(!$completeness['berkas'])
-                        <a href="{{ route('ppdb.berkas') }}" class="mt-4 block w-full text-center bg-primary text-white py-2.5 rounded-lg text-sm font-medium hover:bg-green-700 transition">
+                        <a href="{{ route('ppdb.berkas') }}" class="mt-4 block w-full text-center bg-primary text-white py-2.5 rounded-lg text-sm font-medium hover:bg-[#0284C7] transition">
                             Upload Berkas Sekarang
                         </a>
                         @endif
@@ -243,16 +243,16 @@
                         </div>
                     </div>
                     @else
-                    <div class="bg-green-50 border border-green-200 rounded-xl p-4 md:p-6">
+                    <div class="bg-sky-50 border border-sky-200 rounded-xl p-4 md:p-6">
                         <div class="flex items-start gap-3">
-                            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="w-10 h-10 bg-sky-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 text-[#0EA5E9]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                 </svg>
                             </div>
                             <div>
-                                <h3 class="font-semibold text-green-900 text-sm md:text-base">Tes dan Wawancara Selesai</h3>
-                                <p class="text-xs md:text-sm text-green-700 mt-1">
+                                <h3 class="font-semibold text-sky-900 text-sm md:text-base">Tes dan Wawancara Selesai</h3>
+                                <p class="text-xs md:text-sm text-sky-700 mt-1">
                                     @if($tes?->status_kelulusan === 'Lulus' || $tes?->status_kelulusan === null)
                                         Selamat! Anda dinyatakan <strong>LULUS</strong>. Silakan cek pengumuman untuk informasi lebih lanjut.
                                     @else
@@ -260,7 +260,7 @@
                                     @endif
                                 </p>
                                 @if($tes?->nilai_minat_bakat)
-                                <div class="mt-3 p-3 bg-white rounded-lg border border-green-200">
+                                <div class="mt-3 p-3 bg-white rounded-lg border border-sky-200">
                                     <p class="text-xs text-gray-600 mb-1">Minat dan Bakat:</p>
                                     <p class="text-sm text-gray-800">{{ $tes->nilai_minat_bakat }}</p>
                                 </div>
@@ -301,7 +301,7 @@
                             <div class="flex gap-3">
                                 <div class="flex flex-col items-center">
                                     <div class="w-7 h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center flex-shrink-0
-                                        @if($item['status'] === 'completed') bg-green-100 text-green-600
+                                        @if($item['status'] === 'completed') bg-sky-100 text-[#0EA5E9]
                                         @elseif($item['status'] === 'current') bg-primary text-white
                                         @else bg-gray-100 text-gray-400
                                         @endif">
@@ -362,10 +362,10 @@
                 </div>
 
                 <!-- Contact Support -->
-                <div class="bg-gradient-to-br from-primary to-green-600 rounded-xl p-4 md:p-5 text-white">
+                <div class="bg-gradient-to-br from-[#0EA5E9] to-[#1E3A5F] rounded-xl p-4 md:p-5 text-white">
                     <h3 class="font-semibold text-sm md:text-base mb-1">Butuh Bantuan?</h3>
-                    <p class="text-xs text-green-100 mb-3">Hubungi panitia SPMB jika ada kendala.</p>
-                    <a href="https://wa.me/6281234567890" target="_blank" class="inline-flex items-center gap-2 bg-white text-green-700 px-3 py-2 rounded-lg text-xs font-semibold hover:bg-green-100 transition" style="color: #15803d !important;">
+                    <p class="text-xs text-cyan-100 mb-3">Hubungi panitia SPMB jika ada kendala.</p>
+                    <a href="https://wa.me/628812489572" target="_blank" class="inline-flex items-center gap-2 bg-white text-green-700 px-3 py-2 rounded-lg text-xs font-semibold hover:bg-green-100 transition" style="color: #15803d !important;">
                         <svg class="w-3.5 h-3.5" fill="#15803d" viewBox="0 0 24 24">
                             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
                         </svg>

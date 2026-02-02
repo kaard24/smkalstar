@@ -81,7 +81,7 @@
 
                 <div class="flex justify-end gap-4 pt-4 border-t">
                     <a href="{{ route('siswa.profil') }}" class="px-6 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition">Batal</a>
-                    <button type="submit" class="px-6 py-2 bg-primary text-white rounded-lg font-bold hover:bg-green-700 transition shadow-lg">Simpan Perubahan</button>
+                    <button type="submit" class="px-6 py-2 bg-primary text-white rounded-lg font-bold hover:bg-[#0284C7] transition shadow-lg">Simpan Perubahan</button>
                 </div>
             </form>
         </div>

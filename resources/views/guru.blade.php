@@ -4,7 +4,7 @@
 
 @section('content')
     <!-- Header Page -->
-    <div class="bg-green-50 py-12 border-b border-green-100">
+    <div class="bg-sky-50 py-12 border-b border-sky-100">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Guru & Tenaga Pendidik</h1>
             <p class="text-gray-600">Pengajar dan staf profesional SMK Al-Hidayah Lestari</p>

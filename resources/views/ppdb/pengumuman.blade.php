@@ -4,7 +4,7 @@
 
 @section('content')
     <!-- Header Page -->
-    <div class="bg-green-50 py-12 border-b border-green-100">
+    <div class="bg-sky-50 py-12 border-b border-sky-100">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Pengumuman Kelulusan</h1>
             <p class="text-gray-600">Silakan masukkan NISN untuk melihat hasil seleksi Penerimaan Peserta Didik Baru</p>
@@ -24,7 +24,7 @@
                             </div>
                         </div>
                         <div class="text-center">
-                            <button type="submit" class="inline-flex items-center justify-center px-10 py-4 bg-primary text-white text-lg font-bold rounded-2xl hover:bg-green-600 transition shadow-lg hover:shadow-green-500/30 transform hover:-translate-y-1">
+                            <button type="submit" class="inline-flex items-center justify-center px-10 py-4 bg-primary text-white text-lg font-bold rounded-2xl hover:bg-[#0284C7] transition shadow-lg hover:shadow-cyan-500/30 transform hover:-translate-y-1">
                                 <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                                 Cek Hasil Seleksi
                             </button>
@@ -39,13 +39,13 @@
                 <div class="bg-white rounded-3xl shadow-xl overflow-hidden animate-fade-in-up">
                     <div class="p-10 text-center">
                         @if($hasil->status_kelulusan == 'Lulus')
-                            <div class="w-24 h-24 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner animate-bounce">
+                            <div class="w-24 h-24 bg-sky-100 text-[#0EA5E9] rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner animate-bounce">
                                 <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                             </div>
-                            <h2 class="text-3xl md:text-4xl font-bold text-green-600 mb-2 font-heading">SELAMAT!</h2>
+                            <h2 class="text-3xl md:text-4xl font-bold text-[#0EA5E9] mb-2 font-heading">SELAMAT!</h2>
                             <p class="text-xl text-gray-900 font-bold mb-2">{{ $hasil->nama }}</p>
                             <p class="text-gray-600 mb-8 max-w-md mx-auto">
-                                Anda dinyatakan <strong class="text-green-600 bg-green-50 px-2 py-1 rounded">LULUS</strong> seleksi masuk SMK Al-Hidayah Lestari pada kompetensi keahlian:
+                                Anda dinyatakan <strong class="text-[#0EA5E9] bg-sky-50 px-2 py-1 rounded">LULUS</strong> seleksi masuk SMK Al-Hidayah Lestari pada kompetensi keahlian:
                             </p>
                             
                             <div class="bg-gray-50 rounded-2xl p-6 mb-8 border border-gray-100 inline-block w-full max-w-sm">

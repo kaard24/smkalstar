@@ -433,7 +433,7 @@
                                          id="label_{{ $key }}">
                                         <span class="file-placeholder">Pilih file...</span>
                                     </div>
-                                    <div class="px-3 py-2 bg-primary text-white rounded-md text-xs font-medium hover:bg-blue-700 transition whitespace-nowrap">
+                                    <div class="px-3 py-2 bg-gradient-to-r from-primary to-primary-dark text-white rounded-md text-xs font-medium shadow-md whitespace-nowrap cursor-pointer hover:shadow-lg transition">
                                         Browse
                                     </div>
                                 </label>
@@ -473,10 +473,10 @@
         {{-- Action Buttons --}}
         <div class="mt-6 flex justify-end gap-2 pt-4 border-t border-gray-200">
             <a href="{{ route('admin.pendaftar.index') }}" 
-               class="px-4 py-2 bg-gray-100 text-gray-700 text-sm font-medium rounded-md hover:bg-gray-200 transition">
+               class="btn btn-secondary">
                 Batal
             </a>
-            <button type="submit" class="px-4 py-2 bg-primary text-white text-sm font-medium rounded-md hover:bg-blue-700 transition flex items-center gap-1.5">
+            <button type="submit" class="btn btn-primary shadow-md hover:shadow-lg">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                 </svg>

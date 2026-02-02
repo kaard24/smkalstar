@@ -29,11 +29,11 @@
                          x-transition:leave-start="transform opacity-100 scale-100"
                          x-transition:leave-end="transform opacity-0 scale-95"
                          class="absolute left-0 mt-0 w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50">
-                        <a href="{{ url('/profil') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-primary">Profil Sekolah</a>
-                        <a href="{{ url('/fasilitas') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-primary">Fasilitas</a>
-                        <a href="{{ url('/ekstrakurikuler') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-primary">Ekstrakurikuler</a>
-                        <a href="{{ url('/prestasi') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-primary">Prestasi</a>
-                        <a href="{{ url('/galeri') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-primary">Galeri</a>
+                        <a href="{{ url('/profil') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-sky-50 hover:text-primary">Profil Sekolah</a>
+                        <a href="{{ url('/fasilitas') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-sky-50 hover:text-primary">Fasilitas</a>
+                        <a href="{{ url('/ekstrakurikuler') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-sky-50 hover:text-primary">Ekstrakurikuler</a>
+                        <a href="{{ url('/prestasi') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-sky-50 hover:text-primary">Prestasi</a>
+                        <a href="{{ url('/galeri') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-sky-50 hover:text-primary">Galeri</a>
                     </div>
                 </div>
 
@@ -41,7 +41,7 @@
                 <a href="{{ url('/berita') }}" class="px-3 py-2 text-gray-700 hover:text-primary font-medium transition rounded-md hover:bg-gray-50 text-sm">Berita</a>
                 
                 <div class="pl-2 border-l border-gray-200 flex items-center ml-2">
-                    <a href="{{ url('/ppdb/info') }}" class="px-3 py-2 text-primary font-semibold hover:text-secondary transition rounded-md hover:bg-green-50 text-sm">SPMB</a>
+                    <a href="{{ url('/ppdb/info') }}" class="px-3 py-2 text-primary font-semibold hover:text-secondary transition rounded-md hover:bg-sky-50 text-sm tracking-wide">SPMB</a>
                 </div>
             </nav>
 
@@ -162,7 +162,7 @@
                     Galeri
                 </span>
             </a>
-            <a href="{{ url('/ppdb/info') }}" class="block px-4 py-3 rounded-lg text-sm font-bold {{ request()->is('ppdb*') ? 'bg-primary text-white' : 'text-primary bg-green-50' }}">
+            <a href="{{ url('/ppdb/info') }}" class="block px-4 py-3 rounded-lg text-sm font-bold {{ request()->is('ppdb*') ? 'bg-primary text-white' : 'text-primary bg-sky-50' }}">
                 <span class="flex items-center gap-2">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     Info SPMB

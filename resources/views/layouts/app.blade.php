@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
-    <meta name="theme-color" content="#16a34a">
+    <meta name="theme-color" content="#0EA5E9">
     <meta name="description" content="Sistem Penerimaan Murid Baru SMK Al-Hidayah Lestari">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -34,7 +34,7 @@
         /* Loading State */
         .page-loading{position:fixed;inset:0;background:#fff;z-index:9999;display:flex;align-items:center;justify-content:center;transition:opacity .3s,visibility .3s}
         .page-loading.hidden{opacity:0;visibility:hidden}
-        .page-loading-spinner{width:40px;height:40px;border:3px solid #e5e7eb;border-top-color:#16a34a;border-radius:50%;animation:spin 1s linear infinite}
+        .page-loading-spinner{width:40px;height:40px;border:3px solid #e5e7eb;border-top-color:#0EA5E9;border-radius:50%;animation:spin 1s linear infinite}
         @keyframes spin{to{transform:rotate(360deg)}}
         
         /* Prevent FOUC */
@@ -62,8 +62,23 @@
     <!-- Instant.page for fast navigation -->
     <script defer src="{{ asset('js/instant.page.js') }}" type="module"></script>
 
-    <!-- Vite Assets -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0EA5E9',
+                        'primary-dark': '#0284C7',
+                        navy: '#1E3A5F',
+                        accent: '#F97316',
+                        ice: '#F0F9FF',
+                    }
+                }
+            }
+        }
+    </script>
 
     <style>
         body { 
@@ -120,12 +135,12 @@
         }
         
         /* Custom primary color class */
-        .text-primary { color: #16a34a; }
-        .bg-primary { background-color: #16a34a; }
-        .border-primary { border-color: #16a34a; }
-        .hover\:text-primary:hover { color: #16a34a; }
-        .hover\:bg-primary:hover { background-color: #16a34a; }
-        .group-hover\:text-primary:hover { color: #16a34a; }
+        .text-primary { color: #0EA5E9; }
+        .bg-primary { background-color: #0EA5E9; }
+        .border-primary { border-color: #0EA5E9; }
+        .hover\:text-primary:hover { color: #0EA5E9; }
+        .hover\:bg-primary:hover { background-color: #0EA5E9; }
+        .group-hover\:text-primary:hover { color: #0EA5E9; }
     </style>
 </head>
 <body class="bg-gray-50 flex flex-col min-h-screen text-gray-800 pb-20 md:pb-0">

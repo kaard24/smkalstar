@@ -4,7 +4,7 @@
 
 @section('content')
     <!-- Header Page -->
-    <div class="bg-green-50 py-8 border-b border-green-100">
+    <div class="bg-sky-50 py-8 border-b border-sky-100">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <a href="{{ route('berita.index') }}" class="text-primary hover:text-secondary inline-flex items-center gap-1 mb-4">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
@@ -81,7 +81,7 @@
                 <h2 class="text-2xl font-bold text-gray-900 mb-8">Komentar ({{ $berita->approvedKomentar->count() }})</h2>
 
                 @if(session('success'))
-                <div class="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-xl flex items-center gap-2">
+                <div class="mb-6 p-4 bg-sky-50 border border-sky-200 text-[#0EA5E9] rounded-xl flex items-center gap-2">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                     {{ session('success') }}
                 </div>

@@ -4,7 +4,7 @@
 
 @section('content')
     <!-- Header Page -->
-    <div class="bg-green-50 py-12 border-b border-green-100">
+    <div class="bg-sky-50 py-12 border-b border-sky-100">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Kompetensi Keahlian</h1>
             <p class="text-gray-600">Pilihlah jurusan masa depan sesuai dengan minat dan bakatmu</p>
@@ -18,7 +18,7 @@
                     $colorSchemes = [
                         ['bg' => 'bg-blue-50', 'text' => 'text-blue-600', 'border' => 'border-blue-100', 'icon_bg' => 'bg-blue-100'],
                         ['bg' => 'bg-purple-50', 'text' => 'text-purple-600', 'border' => 'border-purple-100', 'icon_bg' => 'bg-purple-100'],
-                        ['bg' => 'bg-green-50', 'text' => 'text-green-600', 'border' => 'border-green-100', 'icon_bg' => 'bg-green-100'],
+                        ['bg' => 'bg-sky-50', 'text' => 'text-sky-600', 'border' => 'border-sky-100', 'icon_bg' => 'bg-sky-100'],
                         ['bg' => 'bg-orange-50', 'text' => 'text-orange-600', 'border' => 'border-orange-100', 'icon_bg' => 'bg-orange-100'],
                     ];
                 @endphp

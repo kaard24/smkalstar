@@ -63,7 +63,8 @@ class ProfilSekolahController extends Controller
              $newImages = [];
              
              foreach ($currentImages as $index => $path) {
-                 if (in_array($index, $indexesToDelete)) {
+                 // Fix: bandingkan sebagai string untuk menghindari mismatch tipe data
+                 if (in_array((string)$index, $indexesToDelete) || in_array($index, $indexesToDelete)) {
                      if (!str_starts_with($path, 'http')) {
                          Storage::disk('public')->delete($path);
                      }

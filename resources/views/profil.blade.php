@@ -4,7 +4,7 @@
 
 @section('content')
     <!-- Header Page -->
-    <div class="bg-green-50 py-12 border-b border-green-100">
+    <div class="bg-sky-50 py-12 border-b border-sky-100">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Profil Sekolah</h1>
             <p class="text-gray-600">Mengenal lebih dekat sejarah, visi, dan orang-orang hebat di balik SMK Al-Hidayah Lestari</p>
@@ -87,7 +87,7 @@
                     <!-- Visi -->
                     <div class="bg-white p-6 md:p-10 rounded-2xl md:rounded-3xl shadow-sm hover:shadow-xl transition duration-300 border border-gray-100">
                         <div class="flex items-center gap-3 md:gap-4 mb-4 md:mb-6">
-                            <div class="w-10 h-10 md:w-12 md:h-12 bg-green-100 rounded-xl md:rounded-2xl flex items-center justify-center text-primary">
+                            <div class="w-10 h-10 md:w-12 md:h-12 bg-sky-100 rounded-xl md:rounded-2xl flex items-center justify-center text-[#0EA5E9]">
                                 <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
                             </div>
                             <h3 class="text-xl md:text-2xl font-bold text-gray-900 font-heading">Visi</h3>
@@ -108,7 +108,7 @@
                         <ul class="space-y-3 md:space-y-4">
                             @foreach($profil->misi ?? [] as $index => $misi)
                             <li class="flex items-start gap-3 md:gap-4">
-                                <span class="flex-shrink-0 w-5 h-5 md:w-6 md:h-6 rounded-full bg-green-100 text-primary text-xs font-bold flex items-center justify-center mt-0.5">{{ $index + 1 }}</span>
+                                <span class="flex-shrink-0 w-5 h-5 md:w-6 md:h-6 rounded-full bg-sky-100 text-[#0EA5E9] text-xs font-bold flex items-center justify-center mt-0.5">{{ $index + 1 }}</span>
                                 <span class="text-gray-600 text-sm md:text-base leading-relaxed">{{ $misi }}</span>
                             </li>
                             @endforeach

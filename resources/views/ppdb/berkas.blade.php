@@ -3,7 +3,7 @@
 @section('title', 'Upload Berkas - SPMB SMK Al-Hidayah Lestari')
 
 @section('content')
-<div class="min-h-screen bg-gradient-to-br from-primary/5 to-green-50 py-4 md:py-8 px-4">
+<div class="min-h-screen bg-gradient-to-br from-primary/5 to-sky-50 py-4 md:py-8 px-4">
     <div class="max-w-4xl mx-auto">
         {{-- Header --}}
         <div class="mb-4 md:mb-6">
@@ -12,7 +12,7 @@
 
         {{-- Alert Messages --}}
         @if(session('success'))
-        <div class="mb-4 p-3 bg-green-50 border border-green-200 text-green-700 rounded-lg text-sm flex items-center gap-2">
+        <div class="mb-4 p-3 bg-sky-50 border border-sky-200 text-[#0EA5E9] rounded-lg text-sm flex items-center gap-2">
             <svg class="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
             </svg>
@@ -53,7 +53,7 @@
         <div class="mb-4 md:mb-6 bg-white rounded-xl p-4 shadow-sm border border-gray-100">
             <div class="flex items-center justify-between mb-2">
                 <span class="text-sm font-medium text-gray-700">Progress Upload</span>
-                <span class="text-sm font-bold {{ $progress['is_complete'] ? 'text-green-600' : 'text-primary' }}">
+                <span class="text-sm font-bold {{ $progress['is_complete'] ? 'text-[#0EA5E9]' : 'text-primary' }}">
                     {{ $progress['uploaded'] }}/{{ $progress['total'] }}
                 </span>
             </div>
@@ -61,7 +61,7 @@
                 <div class="bg-primary h-2.5 rounded-full transition-all duration-500" style="width: {{ $progress['percentage'] }}%"></div>
             </div>
             @if($progress['is_complete'])
-            <p class="text-xs text-green-600 mt-2 font-medium flex items-center gap-1">
+            <p class="text-xs text-[#0EA5E9] mt-2 font-medium flex items-center gap-1">
                                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                                 Semua berkas telah diupload! Jadwal tes akan diinformasikan via WhatsApp.
                             </p>
@@ -81,9 +81,9 @@
                     {{-- Info --}}
                     <div class="flex-1">
                         <div class="flex items-center gap-2 md:gap-3 mb-1 md:mb-2">
-                            <div class="w-8 h-8 md:w-10 md:h-10 {{ $isUploaded ? 'bg-green-100' : 'bg-primary/10' }} rounded-lg flex items-center justify-center flex-shrink-0">
+                            <div class="w-8 h-8 md:w-10 md:h-10 {{ $isUploaded ? 'bg-sky-100' : 'bg-primary/10' }} rounded-lg flex items-center justify-center flex-shrink-0">
                                 @if($isUploaded)
-                                <svg class="w-4 h-4 md:w-5 md:h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-4 h-4 md:w-5 md:h-5 text-[#0EA5E9]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                                 </svg>
                                 @else
@@ -94,7 +94,7 @@
                             </div>
                             <div class="min-w-0">
                                 <h3 class="font-semibold text-sm md:text-base text-gray-900 truncate">{{ $nama }}</h3>
-                                <span class="inline-block px-2 py-0.5 text-xs font-medium rounded-full {{ $isUploaded ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600' }}">
+                                <span class="inline-block px-2 py-0.5 text-xs font-medium rounded-full {{ $isUploaded ? 'bg-sky-100 text-[#0EA5E9]' : 'bg-gray-100 text-gray-600' }}">
                                     {{ $isUploaded ? 'Tersimpan' : 'Belum Upload' }}
                                 </span>
                             </div>
@@ -147,7 +147,7 @@
                         {{-- Upload Button --}}
                         <button type="button" 
                                 onclick="openUploadModal('{{ $kode }}', '{{ $nama }}')"
-                                class="flex-1 md:flex-none inline-flex items-center justify-center gap-1.5 px-3 py-2 bg-primary text-white rounded-lg hover:bg-green-700 transition text-xs md:text-sm font-medium shadow-sm">
+                                class="flex-1 md:flex-none inline-flex items-center justify-center gap-1.5 px-3 py-2 bg-primary text-white rounded-lg hover:bg-[#0284C7] transition text-xs md:text-sm font-medium shadow-sm">
                             <svg class="w-3.5 h-3.5 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
                             </svg>
@@ -211,7 +211,7 @@
                     {{-- File Selected State --}}
                     <div id="fileSelectedState" class="hidden">
                         <div class="flex items-center justify-center mb-3 md:mb-4">
-                            <div id="filePreviewIcon" class="w-12 h-12 md:w-16 md:h-16 bg-green-100 rounded-xl md:rounded-2xl flex items-center justify-center">
+                            <div id="filePreviewIcon" class="w-12 h-12 md:w-16 md:h-16 bg-sky-100 rounded-xl md:rounded-2xl flex items-center justify-center">
                                 {{-- Icon will be set by JS --}}
                             </div>
                         </div>
@@ -251,7 +251,7 @@
                         Batal
                     </button>
                     <button type="submit" id="submitBtn" disabled
-                            class="flex-1 px-3 md:px-4 py-2.5 md:py-3 bg-primary text-white rounded-xl hover:bg-green-700 transition font-medium shadow-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-1.5 md:gap-2 text-sm">
+                            class="flex-1 px-3 md:px-4 py-2.5 md:py-3 bg-primary text-white rounded-xl hover:bg-[#0284C7] transition font-medium shadow-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-1.5 md:gap-2 text-sm">
                         <span>Upload</span>
                         <svg class="w-3.5 h-3.5 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
@@ -366,11 +366,11 @@ function showFileSelected(file) {
         filePreviewIcon.className = 'w-12 h-12 md:w-16 md:h-16 bg-red-100 rounded-xl md:rounded-2xl flex items-center justify-center';
     } else {
         filePreviewIcon.innerHTML = `
-            <svg class="w-6 h-6 md:w-8 md:h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-6 h-6 md:w-8 md:h-8 text-[#0EA5E9]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
             </svg>
         `;
-        filePreviewIcon.className = 'w-12 h-12 md:w-16 md:h-16 bg-green-100 rounded-xl md:rounded-2xl flex items-center justify-center';
+        filePreviewIcon.className = 'w-12 h-12 md:w-16 md:h-16 bg-sky-100 rounded-xl md:rounded-2xl flex items-center justify-center';
     }
     
     submitBtn.disabled = false;

@@ -80,8 +80,8 @@
                     
                     <div class="space-y-4">
                         <!-- Step 1: Pendaftaran Akun -->
-                        <div class="flex items-center gap-4 p-4 rounded-xl bg-green-50 border border-green-100">
-                            <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 bg-green-500 text-white">
+                        <div class="flex items-center gap-4 p-4 rounded-xl bg-sky-50 border border-sky-100">
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 bg-[#0EA5E9] text-white">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
                                 </svg>
@@ -93,8 +93,8 @@
                         </div>
                         
                         <!-- Step 2: Biodata -->
-                        <div class="flex items-center gap-4 p-4 rounded-xl {{ $biodataComplete ? 'bg-green-50 border border-green-100' : 'bg-gray-50 border border-gray-100' }}">
-                            <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 {{ $biodataComplete ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-800' }}">
+                        <div class="flex items-center gap-4 p-4 rounded-xl {{ $biodataComplete ? 'bg-sky-50 border border-sky-100' : 'bg-gray-50 border border-gray-100' }}">
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 {{ $biodataComplete ? 'bg-[#0EA5E9] text-white' : 'bg-gray-200 text-gray-800' }}">
                                 @if($biodataComplete)
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
@@ -113,8 +113,8 @@
                         </div>
                         
                         <!-- Step 3: Orang Tua -->
-                        <div class="flex items-center gap-4 p-4 rounded-xl {{ $orangTuaComplete ? 'bg-green-50 border border-green-100' : 'bg-gray-50 border border-gray-100' }}">
-                            <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 {{ $orangTuaComplete ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-800' }}">
+                        <div class="flex items-center gap-4 p-4 rounded-xl {{ $orangTuaComplete ? 'bg-sky-50 border border-sky-100' : 'bg-gray-50 border border-gray-100' }}">
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 {{ $orangTuaComplete ? 'bg-[#0EA5E9] text-white' : 'bg-gray-200 text-gray-800' }}">
                                 @if($orangTuaComplete)
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
@@ -133,8 +133,8 @@
                         </div>
                         
                         <!-- Step 4: Jurusan -->
-                        <div class="flex items-center gap-4 p-4 rounded-xl {{ $jurusanComplete ? 'bg-green-50 border border-green-100' : 'bg-gray-50 border border-gray-100' }}">
-                            <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 {{ $jurusanComplete ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-800' }}">
+                        <div class="flex items-center gap-4 p-4 rounded-xl {{ $jurusanComplete ? 'bg-sky-50 border border-sky-100' : 'bg-gray-50 border border-gray-100' }}">
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 {{ $jurusanComplete ? 'bg-[#0EA5E9] text-white' : 'bg-gray-200 text-gray-800' }}">
                                 @if($jurusanComplete)
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
@@ -153,8 +153,8 @@
                         </div>
                         
                         <!-- Step 5: Berkas -->
-                        <div class="flex items-center gap-4 p-4 rounded-xl {{ $progress['is_complete'] ? 'bg-green-50 border border-green-100' : ($progress['uploaded'] > 0 ? 'bg-yellow-50 border border-yellow-100' : 'bg-gray-50 border border-gray-100') }}">
-                            <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 {{ $progress['is_complete'] ? 'bg-green-500 text-white' : ($progress['uploaded'] > 0 ? 'bg-yellow-400 text-gray-800' : 'bg-gray-200 text-gray-800') }}">
+                        <div class="flex items-center gap-4 p-4 rounded-xl {{ $progress['is_complete'] ? 'bg-sky-50 border border-sky-100' : ($progress['uploaded'] > 0 ? 'bg-yellow-50 border border-yellow-100' : 'bg-gray-50 border border-gray-100') }}">
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 {{ $progress['is_complete'] ? 'bg-[#0EA5E9] text-white' : ($progress['uploaded'] > 0 ? 'bg-yellow-400 text-gray-800' : 'bg-gray-200 text-gray-800') }}">
                                 @if($progress['is_complete'])
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
@@ -173,8 +173,8 @@
                         </div>
                         
                         <!-- Step 6: Tes & Wawancara -->
-                        <div class="flex items-center gap-4 p-4 rounded-xl {{ $wawancaraComplete ? 'bg-green-50 border border-green-100' : ($progress['is_complete'] ? 'bg-blue-50 border border-blue-100' : 'bg-gray-50 border border-gray-100') }}">
-                            <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 {{ $wawancaraComplete ? 'bg-green-500 text-white' : ($progress['is_complete'] ? 'bg-primary text-white' : 'bg-gray-200 text-gray-800') }}">
+                        <div class="flex items-center gap-4 p-4 rounded-xl {{ $wawancaraComplete ? 'bg-sky-50 border border-sky-100' : ($progress['is_complete'] ? 'bg-blue-50 border border-blue-100' : 'bg-gray-50 border border-gray-100') }}">
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 {{ $wawancaraComplete ? 'bg-[#0EA5E9] text-white' : ($progress['is_complete'] ? 'bg-primary text-white' : 'bg-gray-200 text-gray-800') }}">
                                 @if($wawancaraComplete)
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
@@ -201,8 +201,8 @@
                         </div>
                         
                         <!-- Step 7: Kelulusan -->
-                        <div class="flex items-center gap-4 p-4 rounded-xl {{ $kelulusanStatus === 'Lulus' ? 'bg-green-50 border border-green-100' : ($wawancaraComplete ? 'bg-blue-50 border border-blue-100' : 'bg-gray-50 border border-gray-100') }}">
-                            <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 {{ $kelulusanStatus === 'Lulus' ? 'bg-green-500 text-white' : ($wawancaraComplete ? 'bg-primary text-white' : 'bg-gray-200 text-gray-800') }}">
+                        <div class="flex items-center gap-4 p-4 rounded-xl {{ $kelulusanStatus === 'Lulus' ? 'bg-sky-50 border border-sky-100' : ($wawancaraComplete ? 'bg-blue-50 border border-blue-100' : 'bg-gray-50 border border-gray-100') }}">
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 {{ $kelulusanStatus === 'Lulus' ? 'bg-[#0EA5E9] text-white' : ($wawancaraComplete ? 'bg-primary text-white' : 'bg-gray-200 text-gray-800') }}">
                                 @if($kelulusanStatus === 'Lulus')
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
@@ -215,7 +215,7 @@
                                 <h4 class="font-semibold text-gray-900">Kelulusan</h4>
                                 <p class="text-sm text-gray-600">
                                     @if($kelulusanStatus === 'Lulus')
-                                        <span class="text-green-600 font-medium">Selamat! Anda dinyatakan LULUS</span>
+                                        <span class="text-[#0EA5E9] font-medium">Selamat! Anda dinyatakan LULUS</span>
                                     @elseif($wawancaraComplete)
                                         Sedang diproses
                                     @else
@@ -232,14 +232,14 @@
             @if($progress['is_complete'] && $biodataComplete && $orangTuaComplete && $jurusanComplete)
                 @if($wawancaraComplete)
                     <!-- Sudah selesai wawancara -->
-                    <div class="mt-6 bg-green-50 border border-green-200 rounded-xl p-6">
+                    <div class="mt-6 bg-sky-50 border border-sky-200 rounded-xl p-6">
                         <div class="flex items-start gap-3">
-                            <svg class="w-6 h-6 text-green-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-6 h-6 text-[#0EA5E9] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                             <div>
-                                <h4 class="font-semibold text-green-900">Tes dan Wawancara Selesai!</h4>
-                                <p class="text-sm text-green-700 mt-1">
+                                <h4 class="font-semibold text-sky-900">Tes dan Wawancara Selesai!</h4>
+                                <p class="text-sm text-[#0284C7] mt-1">
                                     @if($kelulusanStatus === 'Lulus')
                                         Selamat! Anda dinyatakan <strong>LULUS</strong>. Silakan cek pengumuman untuk informasi lebih lanjut.
                                     @else
@@ -247,7 +247,7 @@
                                     @endif
                                 </p>
                                 @if($tes?->nilai_minat_bakat)
-                                <div class="mt-3 p-3 bg-white rounded-lg border border-green-200">
+                                <div class="mt-3 p-3 bg-white rounded-lg border border-sky-200">
                                     <p class="text-xs text-gray-600 mb-1">Catatan Minat dan Bakat:</p>
                                     <p class="text-sm text-gray-800">{{ $tes->nilai_minat_bakat }}</p>
                                 </div>
