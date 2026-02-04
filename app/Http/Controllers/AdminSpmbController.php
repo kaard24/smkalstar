@@ -28,13 +28,14 @@ class AdminSpmbController extends Controller
     {
         $query = CalonSiswa::with(['pendaftaran.jurusan', 'pendaftaran.tes']);
 
-        // Search functionality
+        // Search functionality (nama, nisn, no_wa, asal_sekolah)
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('nama', 'like', "%{$search}%")
                   ->orWhere('no_wa', 'like', "%{$search}%")
                   ->orWhere('nisn', 'like', "%{$search}%")
+                  ->orWhere('asal_sekolah', 'like', "%{$search}%")
                   ->orWhereYear('tgl_lahir', $search);
             });
         }
@@ -46,6 +47,24 @@ class AdminSpmbController extends Controller
             });
         }
 
+        // Filter by gender/jk
+        if ($request->filled('gender') && in_array($request->gender, ['L', 'P'])) {
+            $query->where('jk', $request->gender);
+        }
+
+        // Filter by asal sekolah (specific)
+        if ($request->filled('asal_sekolah')) {
+            $query->where('asal_sekolah', 'like', "%{$request->asal_sekolah}%");
+        }
+
+        // Filter by tanggal daftar range
+        if ($request->filled('tgl_dari')) {
+            $query->whereDate('created_at', '>=', $request->tgl_dari);
+        }
+        if ($request->filled('tgl_sampai')) {
+            $query->whereDate('created_at', '<=', $request->tgl_sampai);
+        }
+
         // Filter by status pendaftaran
         if ($request->filled('status')) {
             $status = $request->status;
@@ -53,19 +72,18 @@ class AdminSpmbController extends Controller
                 // Siswa yang belum punya pendaftaran
                 $query->whereDoesntHave('pendaftaran');
             } elseif ($status === 'proses_data') {
-                // Siswa yang sudah punya pendaftaran tapi data belum lengkap (NIK, No KK, dll)
-                $query->whereHas('pendaftaran')
-                      ->where(function ($q) {
-                          $q->whereNull('jk')
-                            ->orWhereNull('tgl_lahir')
-                            ->orWhereNull('alamat')
-                            ->orWhereNull('asal_sekolah')
-                            ->orWhereNull('nik')
-                            ->orWhereNull('no_kk')
-                            ->orWhereNull('tempat_lahir');
-                      });
+                // Siswa yang sudah punya pendaftaran tapi data belum lengkap
+                $query->whereHas('pendaftaran')->where(function ($q) {
+                    $q->whereNull('jk')
+                      ->orWhereNull('tgl_lahir')
+                      ->orWhereNull('alamat')
+                      ->orWhereNull('asal_sekolah')
+                      ->orWhereNull('nik')
+                      ->orWhereNull('no_kk')
+                      ->orWhereNull('tempat_lahir');
+                });
             } elseif ($status === 'proses_berkas') {
-                // Siswa yang data sudah lengkap tapi berkas belum lengkap
+                // Data lengkap tapi berkas belum lengkap (< 3 berkas)
                 $query->whereHas('pendaftaran')
                       ->whereNotNull('jk')
                       ->whereNotNull('tgl_lahir')
@@ -75,24 +93,13 @@ class AdminSpmbController extends Controller
                       ->whereNotNull('no_kk')
                       ->whereNotNull('tempat_lahir')
                       ->where(function ($q) {
-                          $q->whereNotExists(function ($sub) {
-                              $sub->select(DB::raw(1))
-                                  ->from('berkas_pendaftaran')
-                                  ->whereColumn('berkas_pendaftaran.calon_siswa_id', 'calon_siswa.id')
-                                  ->groupBy('calon_siswa_id')
-                                  ->havingRaw('COUNT(CASE WHEN path_file IS NOT NULL THEN 1 END) = 4');
-                          })
-                          ->orWhereExists(function ($sub) {
-                              $sub->select(DB::raw(1))
-                                  ->from('berkas_pendaftaran')
-                                  ->whereColumn('berkas_pendaftaran.calon_siswa_id', 'calon_siswa.id')
-                                  ->groupBy('calon_siswa_id')
-                                  ->havingRaw('COUNT(CASE WHEN path_file IS NOT NULL THEN 1 END) < 4');
-                          })
-                          ->orWhereDoesntHave('berkasPendaftaran');
+                          $q->whereDoesntHave('berkasPendaftaran')
+                            ->orWhereHas('berkasPendaftaran', function ($sub) {
+                                $sub->whereNotNull('path_file');
+                            }, '<', 3);
                       });
             } elseif ($status === 'lengkap') {
-                // Siswa yang data lengkap dan berkas lengkap tapi belum wawancara/lulus
+                // Data lengkap dan berkas lengkap (3 berkas) tapi belum lulus
                 $query->whereHas('pendaftaran')
                       ->whereNotNull('jk')
                       ->whereNotNull('tgl_lahir')
@@ -103,24 +110,72 @@ class AdminSpmbController extends Controller
                       ->whereNotNull('tempat_lahir')
                       ->whereHas('berkasPendaftaran', function ($q) {
                           $q->whereNotNull('path_file');
-                      }, '=', 4)
-                      ->whereDoesntHave('pendaftaran.tes', function ($q) {
-                          $q->where('status_wawancara', 'sudah');
+                      }, '>=', 3)
+                      ->where(function ($q) {
+                          $q->whereDoesntHave('pendaftaran.tes')
+                            ->orWhereHas('pendaftaran.tes', function ($sub) {
+                                $sub->where('status_kelulusan', '!=', 'Lulus');
+                            });
                       });
             } elseif ($status === 'lulus') {
-                // Siswa yang sudah lulus wawancara
+                // Siswa yang sudah lulus
                 $query->whereHas('pendaftaran.tes', function ($q) {
-                    $q->where('status_wawancara', 'sudah')
-                      ->where('status_kelulusan', 'Lulus');
+                    $q->where('status_kelulusan', 'Lulus');
                 });
             }
         }
 
-        // Filter by status wawancara (terpisah dari status pendaftaran)
+        // Filter by upload berkas (total 3 jenis: KK, AKTA, SKL_IJAZAH)
+        if ($request->filled('berkas')) {
+            $berkas = $request->berkas;
+            if ($berkas === 'belum') {
+                // Belum upload sama sekali
+                $query->whereDoesntHave('berkasPendaftaran');
+            } elseif ($berkas === 'sebagian') {
+                // Sudah upload sebagian (1-2 file)
+                $query->whereHas('berkasPendaftaran', function ($q) {
+                    $q->whereNotNull('path_file');
+                }, '>=', 1)
+                ->whereHas('berkasPendaftaran', function ($q) {
+                    $q->whereNotNull('path_file');
+                }, '<=', 2);
+            } elseif ($berkas === 'lengkap') {
+                // Sudah upload lengkap (3 file: KK, AKTA, SKL_IJAZAH)
+                $query->whereHas('berkasPendaftaran', function ($q) {
+                    $q->whereNotNull('path_file');
+                }, '>=', 3);
+            }
+        }
+
+        // Filter by kelulusan
+        if ($request->filled('kelulusan')) {
+            $kelulusan = $request->kelulusan;
+            if ($kelulusan === 'pending') {
+                // Belum ada keputusan (belum ada tes atau status Pending)
+                $query->where(function ($q) {
+                    $q->whereDoesntHave('pendaftaran.tes')
+                      ->orWhereHas('pendaftaran.tes', function ($sub) {
+                          $sub->where('status_kelulusan', 'Pending')
+                              ->orWhereNull('status_kelulusan');
+                      });
+                });
+            } elseif ($kelulusan === 'lulus') {
+                // Sudah lulus
+                $query->whereHas('pendaftaran.tes', function ($q) {
+                    $q->where('status_kelulusan', 'Lulus');
+                });
+            } elseif ($kelulusan === 'tidak_lulus') {
+                // Tidak lulus
+                $query->whereHas('pendaftaran.tes', function ($q) {
+                    $q->where('status_kelulusan', 'Tidak Lulus');
+                });
+            }
+        }
+
+        // Filter by status wawancara
         if ($request->filled('wawancara')) {
             $wawancara = $request->wawancara;
             if ($wawancara === 'belum') {
-                // Siswa yang belum wawancara (belum ada record tes atau status_wawancara = 'belum')
                 $query->whereHas('pendaftaran')
                       ->where(function ($q) {
                           $q->whereDoesntHave('pendaftaran.tes')
@@ -129,7 +184,6 @@ class AdminSpmbController extends Controller
                             });
                       });
             } elseif ($wawancara === 'sudah') {
-                // Siswa yang sudah wawancara
                 $query->whereHas('pendaftaran.tes', function ($q) {
                     $q->where('status_wawancara', 'sudah');
                 });
@@ -137,11 +191,18 @@ class AdminSpmbController extends Controller
         }
 
         $pendaftar = $query->orderBy('created_at', 'desc')->paginate(15);
-        $pendaftar->appends($request->query()); // Preserve query params in pagination
+        $pendaftar->appends($request->query());
 
         $jurusanList = Jurusan::all();
+        
+        // Get unique asal sekolah for autocomplete
+        $asalSekolahList = CalonSiswa::whereNotNull('asal_sekolah')
+            ->distinct()
+            ->pluck('asal_sekolah')
+            ->filter()
+            ->take(50);
             
-        return view('admin.pendaftar', compact('pendaftar', 'jurusanList'));
+        return view('admin.pendaftar', compact('pendaftar', 'jurusanList', 'asalSekolahList'));
     }
 
     public function create()
@@ -588,54 +649,105 @@ class AdminSpmbController extends Controller
                 $q->where('nama', 'like', "%{$search}%")
                   ->orWhere('no_wa', 'like', "%{$search}%")
                   ->orWhere('nisn', 'like', "%{$search}%")
+                  ->orWhere('asal_sekolah', 'like', "%{$search}%")
                   ->orWhereYear('tgl_lahir', $search);
             });
         }
 
+        // Filter by jurusan
         if ($request->filled('jurusan')) {
             $query->whereHas('pendaftaran', function ($q) use ($request) {
                 $q->where('jurusan_id', $request->jurusan);
             });
         }
 
+        // Filter by gender
+        if ($request->filled('gender') && in_array($request->gender, ['L', 'P'])) {
+            $query->where('jk', $request->gender);
+        }
+
+        // Filter by asal sekolah
+        if ($request->filled('asal_sekolah')) {
+            $query->where('asal_sekolah', 'like', "%{$request->asal_sekolah}%");
+        }
+
+        // Filter by tanggal range
+        if ($request->filled('tgl_dari')) {
+            $query->whereDate('created_at', '>=', $request->tgl_dari);
+        }
+        if ($request->filled('tgl_sampai')) {
+            $query->whereDate('created_at', '<=', $request->tgl_sampai);
+        }
+
+        // Filter by status pendaftaran
         if ($request->filled('status')) {
             $status = $request->status;
             if ($status === 'baru') {
                 $query->whereDoesntHave('pendaftaran');
             } elseif ($status === 'proses_data') {
-                $query->whereHas('pendaftaran')
-                      ->where(function ($q) {
-                          $q->whereNull('jk')
-                            ->orWhereNull('tgl_lahir')
-                            ->orWhereNull('alamat')
-                            ->orWhereNull('asal_sekolah');
-                      });
+                $query->whereHas('pendaftaran')->where(function ($q) {
+                    $q->whereNull('jk')->orWhereNull('tgl_lahir')->orWhereNull('alamat')
+                      ->orWhereNull('asal_sekolah')->orWhereNull('nik')->orWhereNull('no_kk')->orWhereNull('tempat_lahir');
+                });
             } elseif ($status === 'proses_berkas') {
-                $query->whereHas('pendaftaran')
-                      ->whereNotNull('jk')
-                      ->whereNotNull('tgl_lahir')
-                      ->whereNotNull('alamat')
-                      ->whereNotNull('asal_sekolah')
-                      ->whereExists(function ($q) {
-                          $q->select(DB::raw(1))
-                            ->from('berkas_pendaftaran')
-                            ->whereColumn('berkas_pendaftaran.calon_siswa_id', 'calon_siswa.id')
-                            ->groupBy('calon_siswa_id')
-                            ->havingRaw('COUNT(CASE WHEN path_file IS NOT NULL THEN 1 END) < 4');
+                $query->whereHas('pendaftaran')->whereNotNull('jk')->whereNotNull('tgl_lahir')
+                      ->whereNotNull('alamat')->whereNotNull('asal_sekolah')->whereNotNull('nik')
+                      ->whereNotNull('no_kk')->whereNotNull('tempat_lahir')
+                      ->where(function ($q) {
+                          $q->whereDoesntHave('berkasPendaftaran')
+                            ->orWhereHas('berkasPendaftaran', function ($sub) { $sub->whereNotNull('path_file'); }, '<', 3);
                       });
             } elseif ($status === 'lengkap') {
-                $query->whereHas('pendaftaran')
-                      ->whereNotNull('jk')
-                      ->whereNotNull('tgl_lahir')
-                      ->whereNotNull('alamat')
-                      ->whereNotNull('asal_sekolah')
-                      ->whereExists(function ($q) {
-                          $q->select(DB::raw(1))
-                            ->from('berkas_pendaftaran')
-                            ->whereColumn('berkas_pendaftaran.calon_siswa_id', 'calon_siswa.id')
-                            ->groupBy('calon_siswa_id')
-                            ->havingRaw('COUNT(CASE WHEN path_file IS NOT NULL THEN 1 END) = 4');
+                $query->whereHas('pendaftaran')->whereNotNull('jk')->whereNotNull('tgl_lahir')
+                      ->whereNotNull('alamat')->whereNotNull('asal_sekolah')->whereNotNull('nik')
+                      ->whereNotNull('no_kk')->whereNotNull('tempat_lahir')
+                      ->whereHas('berkasPendaftaran', function ($q) { $q->whereNotNull('path_file'); }, '>=', 3)
+                      ->where(function ($q) {
+                          $q->whereDoesntHave('pendaftaran.tes')
+                            ->orWhereHas('pendaftaran.tes', function ($sub) { $sub->where('status_kelulusan', '!=', 'Lulus'); });
                       });
+            } elseif ($status === 'lulus') {
+                $query->whereHas('pendaftaran.tes', function ($q) { $q->where('status_kelulusan', 'Lulus'); });
+            }
+        }
+
+        // Filter by upload berkas (total 3 jenis)
+        if ($request->filled('berkas')) {
+            $berkas = $request->berkas;
+            if ($berkas === 'belum') {
+                $query->whereDoesntHave('berkasPendaftaran');
+            } elseif ($berkas === 'sebagian') {
+                $query->whereHas('berkasPendaftaran', function ($q) { $q->whereNotNull('path_file'); }, '>=', 1)
+                      ->whereHas('berkasPendaftaran', function ($q) { $q->whereNotNull('path_file'); }, '<=', 2);
+            } elseif ($berkas === 'lengkap') {
+                $query->whereHas('berkasPendaftaran', function ($q) { $q->whereNotNull('path_file'); }, '>=', 3);
+            }
+        }
+
+        // Filter by kelulusan
+        if ($request->filled('kelulusan')) {
+            $kelulusan = $request->kelulusan;
+            if ($kelulusan === 'pending') {
+                $query->where(function ($q) {
+                    $q->whereDoesntHave('pendaftaran.tes')
+                      ->orWhereHas('pendaftaran.tes', function ($sub) { $sub->where('status_kelulusan', 'Pending')->orWhereNull('status_kelulusan'); });
+                });
+            } elseif ($kelulusan === 'lulus') {
+                $query->whereHas('pendaftaran.tes', function ($q) { $q->where('status_kelulusan', 'Lulus'); });
+            } elseif ($kelulusan === 'tidak_lulus') {
+                $query->whereHas('pendaftaran.tes', function ($q) { $q->where('status_kelulusan', 'Tidak Lulus'); });
+            }
+        }
+
+        // Filter by wawancara
+        if ($request->filled('wawancara')) {
+            $wawancara = $request->wawancara;
+            if ($wawancara === 'belum') {
+                $query->whereHas('pendaftaran')->where(function ($q) {
+                    $q->whereDoesntHave('pendaftaran.tes')->orWhereHas('pendaftaran.tes', function ($q2) { $q2->where('status_wawancara', 'belum'); });
+                });
+            } elseif ($wawancara === 'sudah') {
+                $query->whereHas('pendaftaran.tes', function ($q) { $q->where('status_wawancara', 'sudah'); });
             }
         }
 
@@ -672,10 +784,7 @@ class AdminSpmbController extends Controller
                 'Jurusan Pilihan',
                 'Gelombang',
                 'Status Pendaftaran',
-                'Nilai BTQ',
                 'Nilai Minat Bakat',
-                'Nilai Kejuruan',
-                'Status BTQ',
                 'Status Wawancara',
                 'Status Kelulusan',
                 'Tanggal Daftar'
@@ -683,28 +792,31 @@ class AdminSpmbController extends Controller
 
             // Data rows
             foreach ($pendaftar as $index => $siswa) {
+                // Safely access nested relationships
+                $pendaftaran = $siswa->pendaftaran;
+                $jurusan = $pendaftaran?->jurusan;
+                $tes = $pendaftaran?->tes;
+                $orangTua = $siswa->orangTua;
+                
                 fputcsv($file, [
                     $index + 1,
-                    $siswa->nisn,
+                    "'" . $siswa->nisn,
                     $siswa->nama,
                     $siswa->jk == 'L' ? 'Laki-laki' : ($siswa->jk == 'P' ? 'Perempuan' : '-'),
                     $siswa->tgl_lahir ? $siswa->tgl_lahir->format('d/m/Y') : '-',
                     $siswa->asal_sekolah ?? '-',
                     $siswa->alamat ?? '-',
-                    $siswa->no_wa ?? '-',
-                    $siswa->orangTua->nama_ayah ?? '-',
-                    $siswa->orangTua->nama_ibu ?? '-',
-                    $siswa->orangTua->no_wa_ortu ?? '-',
-                    $siswa->pendaftaran->jurusan->nama ?? 'Belum Memilih',
-                    $siswa->pendaftaran->gelombang ?? '-',
-                    $siswa->pendaftaran->status_pendaftaran ?? 'Belum Lengkap',
-                    $siswa->pendaftaran->tes->nilai_btq ?? '-',
-                    $siswa->pendaftaran->tes->nilai_minat_bakat ?? '-',
-                    $siswa->pendaftaran->tes->nilai_kejuruan ?? '-',
-                    $siswa->pendaftaran->tes->status_btq ?? '-',
-                    $siswa->pendaftaran->tes->status_wawancara ?? 'belum',
-                    $siswa->pendaftaran->tes->status_kelulusan ?? 'Pending',
-                    $siswa->created_at->format('d/m/Y H:i')
+                    $siswa->no_wa ? "'" . $siswa->no_wa : '-',
+                    $orangTua?->nama_ayah ?? '-',
+                    $orangTua?->nama_ibu ?? '-',
+                    $orangTua?->no_wa_ortu ? "'" . $orangTua->no_wa_ortu : '-',
+                    $jurusan?->nama ?? 'Belum Memilih',
+                    $pendaftaran?->gelombang ?? '-',
+                    $pendaftaran?->status_pendaftaran ?? 'Belum Lengkap',
+                    $tes?->nilai_minat_bakat ?? '-',
+                    $tes?->status_wawancara ?? 'belum',
+                    $tes?->status_kelulusan ?? 'Pending',
+                    $siswa->created_at?->format('d/m/Y H:i') ?? '-'
                 ]);
             }
 
@@ -712,5 +824,300 @@ class AdminSpmbController extends Controller
         };
 
         return new StreamedResponse($callback, 200, $headers);
+    }
+
+    /**
+     * Bulk delete pendaftar
+     */
+    public function bulkDelete(Request $request)
+    {
+        $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'required|integer|exists:calon_siswa,id',
+        ]);
+
+        $ids = $request->ids;
+        $count = count($ids);
+
+        try {
+            DB::transaction(function () use ($ids) {
+                $siswaList = CalonSiswa::whereIn('id', $ids)->get();
+                
+                foreach ($siswaList as $siswa) {
+                    // Delete related records
+                    if ($siswa->pendaftaran) {
+                        if ($siswa->pendaftaran->tes) {
+                            $siswa->pendaftaran->tes->delete();
+                        }
+                        $siswa->pendaftaran->delete();
+                    }
+                    
+                    // Delete berkas
+                    $siswa->berkasPendaftaran()->delete();
+                    
+                    // Delete orang tua
+                    if ($siswa->orangTua) {
+                        $siswa->orangTua->delete();
+                    }
+                    
+                    // Delete calon siswa
+                    $siswa->delete();
+                }
+            });
+
+            return redirect()->route('admin.pendaftar.index')
+                ->with('success', "{$count} data calon siswa berhasil dihapus.");
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Bulk export pendaftar terpilih
+     */
+    public function bulkExport(Request $request)
+    {
+        $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'required|integer|exists:calon_siswa,id',
+        ]);
+
+        $ids = $request->ids;
+        
+        $pendaftar = CalonSiswa::with(['pendaftaran.jurusan', 'pendaftaran.tes', 'orangTua'])
+            ->whereIn('id', $ids)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $filename = 'data_pendaftar_terpilih_' . date('Y-m-d_His') . '.csv';
+        
+        $headers = [
+            'Content-Type' => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+            'Pragma' => 'no-cache',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+        ];
+
+        $callback = function () use ($pendaftar) {
+            $file = fopen('php://output', 'w');
+            
+            // Add BOM for UTF-8
+            fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
+
+            // Header row
+            fputcsv($file, [
+                'No',
+                'NISN',
+                'Nama Lengkap',
+                'Jenis Kelamin',
+                'Tanggal Lahir',
+                'Asal Sekolah',
+                'Alamat',
+                'No. WhatsApp',
+                'Nama Ayah',
+                'Nama Ibu',
+                'No. WA Ortu',
+                'Jurusan Pilihan',
+                'Gelombang',
+                'Status Pendaftaran',
+                'Nilai Minat Bakat',
+                'Status Wawancara',
+                'Status Kelulusan',
+                'Tanggal Daftar'
+            ]);
+
+            // Data rows
+            foreach ($pendaftar as $index => $siswa) {
+                // Safely access nested relationships
+                $pendaftaran = $siswa->pendaftaran;
+                $jurusan = $pendaftaran?->jurusan;
+                $tes = $pendaftaran?->tes;
+                $orangTua = $siswa->orangTua;
+                
+                fputcsv($file, [
+                    $index + 1,
+                    "'" . $siswa->nisn,
+                    $siswa->nama,
+                    $siswa->jk == 'L' ? 'Laki-laki' : ($siswa->jk == 'P' ? 'Perempuan' : '-'),
+                    $siswa->tgl_lahir ? $siswa->tgl_lahir->format('d/m/Y') : '-',
+                    $siswa->asal_sekolah ?? '-',
+                    $siswa->alamat ?? '-',
+                    $siswa->no_wa ? "'" . $siswa->no_wa : '-',
+                    $orangTua?->nama_ayah ?? '-',
+                    $orangTua?->nama_ibu ?? '-',
+                    $orangTua?->no_wa_ortu ? "'" . $orangTua->no_wa_ortu : '-',
+                    $jurusan?->nama ?? 'Belum Memilih',
+                    $pendaftaran?->gelombang ?? '-',
+                    $pendaftaran?->status_pendaftaran ?? 'Belum Lengkap',
+                    $tes?->nilai_minat_bakat ?? '-',
+                    $tes?->status_wawancara ?? 'belum',
+                    $tes?->status_kelulusan ?? 'Pending',
+                    $siswa->created_at?->format('d/m/Y H:i') ?? '-'
+                ]);
+            }
+
+            fclose($file);
+        };
+
+        return new StreamedResponse($callback, 200, $headers);
+    }
+
+    /**
+     * Bulk update status pendaftar
+     */
+    public function bulkUpdateStatus(Request $request)
+    {
+        $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'required|integer|exists:calon_siswa,id',
+            'status' => 'required|in:baru,proses_data,proses_berkas,lengkap,lulus',
+        ]);
+
+        $ids = $request->ids;
+        $status = $request->status;
+        $count = 0;
+
+        try {
+            DB::transaction(function () use ($ids, $status, &$count) {
+                $siswaList = CalonSiswa::with('pendaftaran')->whereIn('id', $ids)->get();
+                
+                foreach ($siswaList as $siswa) {
+                    // Pastikan siswa memiliki pendaftaran
+                    if (!$siswa->pendaftaran) {
+                        continue;
+                    }
+                    
+                    $pendaftaran = $siswa->pendaftaran;
+                    
+                    switch ($status) {
+                        case 'lulus':
+                            // Update atau buat record tes dengan status lulus
+                            Tes::updateOrCreate(
+                                ['pendaftaran_id' => $pendaftaran->id],
+                                [
+                                    'status_wawancara' => 'sudah',
+                                    'status_kelulusan' => 'Lulus',
+                                ]
+                            );
+                            
+                            // Update status pendaftaran
+                            $pendaftaran->update(['status_pendaftaran' => 'Selesai Tes']);
+                            
+                            // Buat pengumuman
+                            Pengumuman::updateOrCreate(
+                                ['pendaftaran_id' => $pendaftaran->id],
+                                [
+                                    'keterangan' => 'Selamat! Anda dinyatakan LULUS seleksi SPMB SMK Al-Hidayah Lestari.',
+                                    'tgl_pengumuman' => Carbon::now(),
+                                ]
+                            );
+                            $count++;
+                            break;
+                            
+                        case 'lengkap':
+                            // Update status pendaftaran
+                            $pendaftaran->update(['status_pendaftaran' => 'Diverifikasi']);
+                            $count++;
+                            break;
+                            
+                        case 'proses_berkas':
+                            $pendaftaran->update(['status_pendaftaran' => 'Menunggu Verifikasi']);
+                            $count++;
+                            break;
+                            
+                        case 'proses_data':
+                            $pendaftaran->update(['status_pendaftaran' => 'Terdaftar']);
+                            $count++;
+                            break;
+                            
+                        case 'baru':
+                            $pendaftaran->update(['status_pendaftaran' => 'Terdaftar']);
+                            $count++;
+                            break;
+                    }
+                }
+            });
+
+            $statusLabel = [
+                'baru' => 'Baru Daftar',
+                'proses_data' => 'Proses Data',
+                'proses_berkas' => 'Proses Berkas',
+                'lengkap' => 'Data Lengkap',
+                'lulus' => 'Sudah Lulus',
+            ][$status];
+
+            return redirect()->route('admin.pendaftar.index')
+                ->with('success', "{$count} data berhasil diupdate status menjadi '{$statusLabel}'.");
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Bulk send WhatsApp notification
+     */
+    public function bulkSendWA(Request $request)
+    {
+        $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'required|integer|exists:calon_siswa,id',
+            'pesan' => 'required|string|max:1000',
+        ]);
+
+        $ids = $request->ids;
+        $pesan = $request->pesan;
+        $successCount = 0;
+        $failedCount = 0;
+
+        try {
+            $siswaList = CalonSiswa::with('pendaftaran.jurusan')->whereIn('id', $ids)->get();
+            
+            foreach ($siswaList as $siswa) {
+                if (!$siswa->no_wa) {
+                    $failedCount++;
+                    continue;
+                }
+                
+                try {
+                    // Kirim notifikasi WA
+                    $this->whatsappService->sendNotification(
+                        $siswa->no_wa,
+                        $this->formatPesanWA($pesan, $siswa)
+                    );
+                    $successCount++;
+                } catch (\Exception $e) {
+                    \Log::error("WA Notification failed for {$siswa->no_wa}: " . $e->getMessage());
+                    $failedCount++;
+                }
+            }
+
+            $message = "Notifikasi WA terkirim: {$successCount} sukses";
+            if ($failedCount > 0) {
+                $message .= ", {$failedCount} gagal";
+            }
+
+            return redirect()->route('admin.pendaftar.index')
+                ->with('success', $message);
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Format pesan WA dengan variabel
+     */
+    private function formatPesanWA($pesan, $siswa)
+    {
+        $replacements = [
+            '{nama}' => $siswa->nama,
+            '{nisn}' => $siswa->nisn,
+            '{jurusan}' => $siswa->pendaftaran->jurusan->nama ?? '-',
+            '{status}' => $siswa->pendaftaran->status_pendaftaran ?? '-',
+        ];
+        
+        return str_replace(array_keys($replacements), array_values($replacements), $pesan);
     }
 }

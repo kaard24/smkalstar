@@ -13,10 +13,7 @@ class Tes extends Model
 
     protected $fillable = [
         'pendaftaran_id',
-        'nilai_btq',
         'nilai_minat_bakat',
-        'nilai_kejuruan',
-        'status_btq',
         'status_wawancara',
         'status_kelulusan'
     ];

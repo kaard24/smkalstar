@@ -313,6 +313,10 @@ Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function
     Route::get('/pendaftar/create', [AdminSpmbController::class, 'create'])->name('pendaftar.create');
     Route::post('/pendaftar', [AdminSpmbController::class, 'store'])->name('pendaftar.store');
     Route::get('/pendaftar/export', [AdminSpmbController::class, 'exportExcel'])->name('pendaftar.export');
+    Route::post('/pendaftar/bulk-delete', [AdminSpmbController::class, 'bulkDelete'])->name('pendaftar.bulk-delete');
+    Route::post('/pendaftar/bulk-export', [AdminSpmbController::class, 'bulkExport'])->name('pendaftar.bulk-export');
+    Route::post('/pendaftar/bulk-update-status', [AdminSpmbController::class, 'bulkUpdateStatus'])->name('pendaftar.bulk-update-status');
+    Route::post('/pendaftar/bulk-send-wa', [AdminSpmbController::class, 'bulkSendWA'])->name('pendaftar.bulk-send-wa');
     Route::get('/pendaftar/{id}', [AdminSpmbController::class, 'show'])->name('pendaftar.show');
     Route::get('/pendaftar/{id}/edit', [AdminSpmbController::class, 'edit'])->name('pendaftar.edit');
     Route::put('/pendaftar/{id}', [AdminSpmbController::class, 'update'])->name('pendaftar.update');
@@ -331,6 +335,8 @@ Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function
     // Berkas Module - Admin can view/download only, no verification
     Route::get('/berkas', [BerkasController::class, 'adminIndex'])->name('berkas.index');
     Route::get('/berkas/{berkas}/download', [BerkasController::class, 'adminDownload'])->name('berkas.download');
+    Route::post('/berkas/upload', [BerkasController::class, 'adminUpload'])->name('berkas.upload');
+    Route::delete('/berkas/{berkas}', [BerkasController::class, 'adminDestroy'])->name('berkas.destroy');
 
     // Kelulusan Module (deprecated - all students automatically pass)
     Route::get('/kelulusan', function() {

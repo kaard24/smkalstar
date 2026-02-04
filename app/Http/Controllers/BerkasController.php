@@ -189,4 +189,79 @@ class BerkasController extends Controller
 
         return Storage::disk('public')->download($berkas->path_file, $berkas->nama_file);
     }
+
+    /**
+     * Upload berkas oleh admin untuk siswa
+     */
+    public function adminUpload(Request $request)
+    {
+        $request->validate([
+            'calon_siswa_id' => 'required|exists:calon_siswa,id',
+            'jenis_berkas' => ['required', Rule::in(array_keys(BerkasPendaftaran::getJenisBerkas()))],
+            'file' => 'required|file|mimes:pdf,jpg,jpeg,png|max:2048',
+        ], [
+            'calon_siswa_id.required' => 'ID siswa harus diisi.',
+            'calon_siswa_id.exists' => 'Siswa tidak ditemukan.',
+            'jenis_berkas.required' => 'Jenis berkas harus dipilih.',
+            'jenis_berkas.in' => 'Jenis berkas tidak valid.',
+            'file.required' => 'File harus diupload.',
+            'file.mimes' => 'File harus berformat PDF, JPG, JPEG, atau PNG.',
+            'file.max' => 'Ukuran file maksimal 2MB.',
+        ]);
+
+        $siswa = \App\Models\CalonSiswa::findOrFail($request->calon_siswa_id);
+
+        // Cek apakah berkas dengan jenis ini sudah ada
+        $existingBerkas = $siswa->berkasPendaftaran()
+            ->where('jenis_berkas', $request->jenis_berkas)
+            ->first();
+
+        // Buat folder berdasarkan NISN
+        $folder = "berkas/spmb/{$siswa->nisn}";
+        
+        // Nama file dengan jenis berkas
+        $jenis = $request->jenis_berkas;
+        $extension = strtolower($request->file('file')->getClientOriginalExtension());
+        $filename = "{$jenis}_{$siswa->nisn}.{$extension}";
+
+        // Hapus file lama jika ada
+        if ($existingBerkas && Storage::disk('public')->exists($existingBerkas->path_file)) {
+            Storage::disk('public')->delete($existingBerkas->path_file);
+        }
+
+        // Simpan file baru
+        $path = $request->file('file')->storeAs($folder, $filename, 'public');
+
+        // Update atau create record berkas
+        if ($existingBerkas) {
+            $existingBerkas->update([
+                'nama_file' => $request->file('file')->getClientOriginalName(),
+                'path_file' => $path,
+            ]);
+        } else {
+            BerkasPendaftaran::create([
+                'calon_siswa_id' => $siswa->id,
+                'jenis_berkas' => $request->jenis_berkas,
+                'nama_file' => $request->file('file')->getClientOriginalName(),
+                'path_file' => $path,
+            ]);
+        }
+
+        return back()->with('success', 'Berkas berhasil diupload.');
+    }
+
+    /**
+     * Hapus berkas oleh admin
+     */
+    public function adminDestroy(BerkasPendaftaran $berkas)
+    {
+        // Hapus file dari storage
+        if (Storage::disk('public')->exists($berkas->path_file)) {
+            Storage::disk('public')->delete($berkas->path_file);
+        }
+
+        $berkas->delete();
+
+        return back()->with('success', 'Berkas berhasil dihapus.');
+    }
 }
