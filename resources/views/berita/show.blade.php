@@ -92,11 +92,11 @@
                     <h3 class="text-lg font-semibold text-gray-900 mb-4">Tulis Komentar</h3>
                     <form action="{{ route('berita.komentar', $berita->slug) }}" method="POST" class="space-y-4">
                         @csrf
-                        @auth('ppdb')
+                        @auth('spmb')
                         <div>
                             <p class="text-sm font-medium text-gray-700 mb-1">Berkomentar sebagai:</p>
-                            <p class="text-lg font-bold text-primary">{{ auth('ppdb')->user()->nama }}</p>
-                            <input type="hidden" name="username" value="{{ auth('ppdb')->user()->nama }}">
+                            <p class="text-lg font-bold text-primary">{{ auth('spmb')->user()->nama }}</p>
+                            <input type="hidden" name="username" value="{{ auth('spmb')->user()->nama }}">
                         </div>
                         @else
                         <div>

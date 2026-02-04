@@ -4,22 +4,22 @@
 
 @section('content')
     <!-- Header Page - Unique Design -->
-    <div class="relative bg-gradient-to-br from-fuchsia-50 via-purple-50 to-indigo-50 py-16 md:py-24 border-b border-fuchsia-100 overflow-hidden">
+    <div class="relative bg-gradient-to-br from-blue-50 via-sky-50 to-cyan-50 py-16 md:py-24 border-b border-blue-100 overflow-hidden">
         <!-- Decorative Elements -->
         <div class="absolute inset-0">
-            <div class="absolute top-1/2 left-0 w-96 h-96 bg-fuchsia-300/20 rounded-full blur-3xl -translate-y-1/2"></div>
-            <div class="absolute top-0 right-1/4 w-72 h-72 bg-indigo-300/20 rounded-full blur-3xl"></div>
+            <div class="absolute top-1/2 left-0 w-96 h-96 bg-blue-300/20 rounded-full blur-3xl -translate-y-1/2"></div>
+            <div class="absolute top-0 right-1/4 w-72 h-72 bg-sky-300/20 rounded-full blur-3xl"></div>
             <!-- Camera/Photo Pattern -->
-            <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,%3Csvg width=&quot;32&quot; height=&quot;32&quot; viewBox=&quot;0 0 32 32&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;%3E%3Ccircle cx=&quot;16&quot; cy=&quot;16&quot; r=&quot;2&quot; fill=&quot;%23d946ef&quot; fill-opacity=&quot;0.4&quot;/%3E%3C/svg%3E');"></div>
+            <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,%3Csvg width=&quot;32&quot; height=&quot;32&quot; viewBox=&quot;0 0 32 32&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;%3E%3Ccircle cx=&quot;16&quot; cy=&quot;16&quot; r=&quot;2&quot; fill=&quot;%233b82f6&quot; fill-opacity=&quot;0.4&quot;/%3E%3C/svg%3E');"></div>
         </div>
         
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-            <div class="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm border border-fuchsia-200 px-4 py-1.5 rounded-full text-sm font-medium text-fuchsia-700 mb-6">
+            <div class="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm border border-blue-200 px-4 py-1.5 rounded-full text-sm font-medium text-blue-700 mb-6">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                 Dokumentasi
             </div>
             <h1 class="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-4 font-heading">
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-500 via-purple-500 to-indigo-500">Galeri</span> Kegiatan
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-sky-500 to-cyan-500">Galeri</span> Kegiatan
             </h1>
             <p class="text-gray-600 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">Dokumentasi momen-momen berharga dan kegiatan seru di SMK Al-Hidayah Lestari</p>
         </div>

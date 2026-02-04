@@ -42,7 +42,7 @@ return [
         ],
 
         // Guard untuk siswa/calon pendaftar
-        'ppdb' => [
+        'spmb' => [
             'driver' => 'session',
             'provider' => 'calon_siswa',
         ],

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Status Pendaftaran - PPDB SMK Al-Hidayah Lestari')
+@section('title', 'Status Pendaftaran - SPMB SMK Al-Hidayah Lestari')
 
 @section('content')
 <div class="min-h-screen bg-slate-50">
@@ -18,7 +18,6 @@
         if($kelulusanStatus === 'Lulus') $completedSteps++;
         $overallProgress = ($completedSteps / $totalSteps) * 100;
         
-        $jenisOrtu = $siswa->orangTua?->jenis ?? null;
         $labelOrtu = ($jenisOrtu === 'wali') ? 'Data Wali' : 'Data Orang Tua';
     @endphp
 
@@ -141,14 +140,14 @@
                         </div>
                         <div class="flex-1 pt-1">
                             <div class="flex items-center justify-between mb-1">
-                                <h4 class="font-medium {{ $biodataComplete ? 'text-slate-800' : 'text-slate-600' }}">Data Diri</h4>
+                                <h4 class="font-medium {{ $biodataComplete ? 'text-slate-800' : 'text-slate-600' }}">Data Diri Lengkap</h4>
                                 @if($biodataComplete)
-                                    <span class="text-xs text-blue-600 bg-blue-50 px-2 py-0.5 rounded">Lengkap</span>
+                                    <span class="text-xs text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">Selesai</span>
                                 @else
-                                    <a href="{{ route('ppdb.lengkapi-data') }}" class="text-xs text-white bg-blue-500 hover:bg-blue-600 px-3 py-1 rounded transition-colors">Lengkapi</a>
+                                    <a href="{{ route('spmb.lengkapi-data') }}" class="text-xs text-white bg-blue-500 hover:bg-blue-600 px-3 py-1 rounded transition-colors">Lengkapi</a>
                                 @endif
                             </div>
-                            <p class="text-sm text-slate-500">{{ $biodataComplete ? 'Data diri sudah lengkap' : 'Silakan lengkapi data diri' }}</p>
+                            <p class="text-sm text-slate-500">{{ $biodataComplete ? 'Data diri sudah lengkap' : 'Silakan lengkapi NIK, alamat, dan data diri lainnya' }}</p>
                         </div>
                     </div>
 
@@ -167,12 +166,18 @@
                             <div class="flex items-center justify-between mb-1">
                                 <h4 class="font-medium {{ $orangTuaComplete ? 'text-slate-800' : 'text-slate-600' }}">{{ $labelOrtu }}</h4>
                                 @if($orangTuaComplete)
-                                    <span class="text-xs text-blue-600 bg-blue-50 px-2 py-0.5 rounded">Lengkap</span>
+                                    <span class="text-xs text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">Selesai</span>
                                 @else
-                                    <a href="{{ route('ppdb.lengkapi-data') }}" class="text-xs text-white bg-blue-500 hover:bg-blue-600 px-3 py-1 rounded transition-colors">Lengkapi</a>
+                                    <a href="{{ route('spmb.lengkapi-data') }}" class="text-xs text-white bg-blue-500 hover:bg-blue-600 px-3 py-1 rounded transition-colors">Lengkapi</a>
                                 @endif
                             </div>
-                            <p class="text-sm text-slate-500">{{ $orangTuaComplete ? 'Data sudah lengkap' : 'Silakan lengkapi data' }}</p>
+                            <p class="text-sm text-slate-500">
+                                @if($orangTuaComplete)
+                                    {{ $jenisOrtu === 'wali' ? 'Data wali sudah lengkap' : 'Data orang tua sudah lengkap' }}
+                                @else
+                                    Silakan lengkapi data {{ $jenisOrtu === 'wali' ? 'wali' : 'ayah dan ibu' }}
+                                @endif
+                            </p>
                         </div>
                     </div>
 
@@ -189,18 +194,23 @@
                         </div>
                         <div class="flex-1 pt-1">
                             <div class="flex items-center justify-between mb-1">
-                                <h4 class="font-medium {{ $jurusanComplete ? 'text-slate-800' : 'text-slate-600' }}">Pilihan Jurusan</h4>
+                                <h4 class="font-medium {{ $jurusanComplete ? 'text-slate-800' : 'text-slate-600' }}">Jurusan Dipilih</h4>
                                 @if($jurusanComplete)
-                                    <span class="text-xs text-blue-600 bg-blue-50 px-2 py-0.5 rounded">Terpilih</span>
+                                    <span class="text-xs text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">Selesai</span>
                                 @else
-                                    <a href="{{ route('ppdb.lengkapi-data') }}" class="text-xs text-white bg-blue-500 hover:bg-blue-600 px-3 py-1 rounded transition-colors">Pilih</a>
+                                    <a href="{{ route('spmb.lengkapi-data') }}" class="text-xs text-white bg-blue-500 hover:bg-blue-600 px-3 py-1 rounded transition-colors">Pilih</a>
                                 @endif
                             </div>
                             <p class="text-sm text-slate-500">
                                 @if($jurusanComplete)
-                                    <span class="text-blue-600 font-medium">{{ $siswa->pendaftaran->jurusan->nama ?? '' }}</span>
+                                    <span class="inline-flex items-center gap-1.5">
+                                        <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"/>
+                                        </svg>
+                                        <span class="text-blue-600 font-medium">{{ $siswa->pendaftaran->jurusan->nama ?? '' }}</span>
+                                    </span>
                                 @else
-                                    Silakan pilih jurusan
+                                    Silakan pilih jurusan yang diminati
                                 @endif
                             </p>
                         </div>
@@ -219,16 +229,33 @@
                         </div>
                         <div class="flex-1 pt-1">
                             <div class="flex items-center justify-between mb-1">
-                                <h4 class="font-medium {{ $progress['is_complete'] ? 'text-slate-800' : 'text-slate-600' }}">Upload Berkas</h4>
-                                <a href="{{ route('ppdb.berkas') }}" class="text-xs {{ $progress['is_complete'] ? 'text-blue-600 bg-blue-50' : 'text-white bg-blue-500 hover:bg-blue-600' }} px-3 py-1 rounded transition-colors">
+                                <h4 class="font-medium {{ $progress['is_complete'] ? 'text-slate-800' : 'text-slate-600' }}">Upload Berkas ({{ $progress['uploaded'] }}/{{ $progress['total'] }})</h4>
+                                <a href="{{ route('spmb.berkas') }}" class="text-xs {{ $progress['is_complete'] ? 'text-blue-600 bg-blue-50' : 'text-white bg-blue-500 hover:bg-blue-600' }} px-3 py-1 rounded transition-colors">
                                     {{ $progress['is_complete'] ? 'Kelola' : ($progress['uploaded'] > 0 ? 'Lanjut' : 'Upload') }}
                                 </a>
                             </div>
-                            <p class="text-sm text-slate-500 mb-2">{{ $progress['is_complete'] ? 'Semua berkas lengkap' : 'Upload dokumen yang diperlukan' }}</p>
-                            <div class="w-full bg-slate-100 rounded-full h-1.5">
-                                <div class="bg-blue-500 h-1.5 rounded-full transition-all" style="width: {{ ($progress['uploaded'] / $progress['total']) * 100 }}%"></div>
+                            <p class="text-sm text-slate-500 mb-3">{{ $progress['is_complete'] ? 'Semua berkas lengkap' : 'Upload dokumen yang diperlukan' }}</p>
+                            
+                            <!-- Detail Checklist Berkas -->
+                            <div class="bg-slate-50 rounded-lg p-3 space-y-2">
+                                @foreach($progress['detail'] as $key => $item)
+                                    <div class="flex items-center gap-2 text-sm">
+                                        @if($item['uploaded'])
+                                            <svg class="w-4 h-4 text-emerald-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                            </svg>
+                                            <span class="text-slate-700">{{ $item['label'] }}</span>
+                                            <span class="text-xs text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded ml-auto">Selesai</span>
+                                        @else
+                                            <svg class="w-4 h-4 text-slate-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <circle cx="12" cy="12" r="10" stroke-width="2"/>
+                                            </svg>
+                                            <span class="text-slate-500">{{ $item['label'] }}</span>
+                                            <span class="text-xs text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded ml-auto">Kurang</span>
+                                        @endif
+                                    </div>
+                                @endforeach
                             </div>
-                            <p class="text-xs text-slate-400 mt-1">{{ $progress['uploaded'] }} dari {{ $progress['total'] }} dokumen</p>
                         </div>
                     </div>
 
@@ -326,7 +353,7 @@
                         <h3 class="font-semibold text-emerald-900">Selamat! Anda Lulus!</h3>
                         <p class="text-sm text-emerald-700">Anda telah berhasil menyelesaikan semua tahapan dan dinyatakan LULUS.</p>
                     </div>
-                    <a href="{{ route('ppdb.pengumuman') }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-500 text-white rounded-lg font-medium hover:bg-emerald-600 transition-colors">
+                    <a href="{{ route('spmb.pengumuman') }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-500 text-white rounded-lg font-medium hover:bg-emerald-600 transition-colors">
                         Lihat Pengumuman
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
@@ -347,7 +374,7 @@
                         <h3 class="font-semibold text-emerald-900">Selamat atas kelulusan anda!</h3>
                         <p class="text-sm text-emerald-700">Mohon untuk lengkapi berkas Anda. Silakan upload berkas yang masih kurang.</p>
                     </div>
-                    <a href="{{ route('ppdb.berkas') }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-500 text-white rounded-lg font-medium hover:bg-emerald-600 transition-colors">
+                    <a href="{{ route('spmb.berkas') }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-500 text-white rounded-lg font-medium hover:bg-emerald-600 transition-colors">
                         Lengkapi Berkas
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
@@ -368,7 +395,7 @@
                         <h3 class="font-semibold text-amber-900">Hampir Selesai!</h3>
                         <p class="text-sm text-amber-700">Upload semua berkas. Tes dan wawancara akan diinformasikan via WhatsApp.</p>
                     </div>
-                    <a href="{{ route('ppdb.berkas') }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-amber-500 text-white rounded-lg font-medium hover:bg-amber-600 transition-colors">
+                    <a href="{{ route('spmb.berkas') }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-amber-500 text-white rounded-lg font-medium hover:bg-amber-600 transition-colors">
                         Upload Berkas
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
@@ -403,7 +430,7 @@
                         <h3 class="font-semibold text-slate-800">Mulai Perjalanan Anda</h3>
                         <p class="text-sm text-slate-600">Silakan lengkapi semua data dan upload dokumen yang diperlukan.</p>
                     </div>
-                    <a href="{{ route('ppdb.lengkapi-data') }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition-colors">
+                    <a href="{{ route('spmb.lengkapi-data') }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition-colors">
                         Mulai
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>

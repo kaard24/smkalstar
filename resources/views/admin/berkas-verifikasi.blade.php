@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Daftar Berkas - Admin PPDB')
+@section('title', 'Daftar Berkas - Admin SPMB')
 
 @section('content')
         {{-- Header --}}

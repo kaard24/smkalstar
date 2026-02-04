@@ -8,7 +8,7 @@ return new class extends Migration {
     public function up(): void {
         Schema::create('jurusan', function (Blueprint $table) {
             $table->id();
-            $table->enum('kode', ['TKJ','MPLB','AKL','BDP']);
+            $table->enum('kode', ['TKJ','MPLB','AKL','BR']);
             $table->string('nama');
             $table->timestamps();
         });

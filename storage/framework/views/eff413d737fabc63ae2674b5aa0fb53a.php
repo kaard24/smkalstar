@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <meta name="theme-color" content="#0EA5E9">
     <meta name="description" content="Sistem Penerimaan Murid Baru SMK Al-Hidayah Lestari">
     <meta name="mobile-web-app-capable" content="yes">
@@ -117,6 +117,71 @@
             body { font-size: 17px; }
         }
         
+        /* Mobile viewport height variable */
+        :root {
+            --vh: 1vh;
+        }
+        
+        /* Mobile touch targets - minimum 44x44px */
+        @media (max-width: 768px) {
+            button, a, input, select, textarea, [role="button"] {
+                min-height: 44px;
+            }
+            /* Adjust for small buttons */
+            .text-\[10px\], .text-xs {
+                min-height: auto;
+            }
+            /* Mobile-friendly height using --vh */
+            .min-h-screen-mobile {
+                min-height: calc(var(--vh) * 100);
+            }
+        }
+        
+        /* Safe area for iPhone X and newer */
+        .safe-area-inset-top {
+            padding-top: env(safe-area-inset-top);
+        }
+        .safe-area-inset-bottom {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+        .safe-area-inset-left {
+            padding-left: env(safe-area-inset-left);
+        }
+        .safe-area-inset-right {
+            padding-right: env(safe-area-inset-right);
+        }
+        
+        /* Prevent text zoom on iOS */
+        @supports (-webkit-touch-callout: none) {
+            input, select, textarea {
+                font-size: 16px;
+            }
+        }
+        
+        /* Mobile-optimized scrollbar */
+        @media (max-width: 768px) {
+            ::-webkit-scrollbar {
+                width: 4px;
+                height: 4px;
+            }
+        }
+        
+        /* Touch manipulation for better mobile experience */
+        .touch-manipulation {
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* Remove spinner from number input on mobile */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+        
         /* Glass effect */
         .glass {
             background: rgba(255, 255, 255, 0.7);
@@ -169,7 +234,7 @@
     
     <?php echo $__env->yieldPushContent('styles'); ?>
 </head>
-<body class="bg-gray-50 flex flex-col min-h-screen text-gray-800 pb-20 md:pb-0">
+<body class="bg-gray-50 flex flex-col min-h-screen text-gray-800 pb-20 md:pb-0 safe-area-inset-bottom safe-area-inset-top">
     <!-- Skip to main content -->
     <a href="#main-content" class="skip-link">Langsung ke konten utama</a>
     
@@ -216,6 +281,15 @@
                     setTimeout(() => loader.remove(), 300);
                 }, 100);
             }
+            
+            // Mobile viewport height fix for 100vh issue
+            function setMobileVH() {
+                const vh = window.innerHeight * 0.01;
+                document.documentElement.style.setProperty('--vh', `${vh}px`);
+            }
+            setMobileVH();
+            window.addEventListener('resize', setMobileVH);
+            window.addEventListener('orientationchange', setMobileVH);
         });
     </script>
 </body>

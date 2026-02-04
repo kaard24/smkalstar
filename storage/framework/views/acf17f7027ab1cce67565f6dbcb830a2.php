@@ -7,15 +7,17 @@
     </div>
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-12">
             <!-- Brand & Desc -->
-            <div class="lg:col-span-1">
+            <div class="lg:col-span-2">
                 <div class="flex items-center gap-3 mb-5">
                     <img class="h-10 w-10 rounded-full object-cover ring-2 ring-primary/30" src="<?php echo e(asset('images/logo.webp')); ?>" alt="Logo SMK Al-Hidayah Lestari" loading="lazy" decoding="async">
                     <span class="font-bold text-lg tracking-tight text-white">SMK Al-Hidayah Lestari</span>
                 </div>
                 <p class="text-gray-400 text-sm leading-relaxed mb-6">
-                    Mewujudkan generasi unggul, berakhlak mulia, dan siap kerja dengan kompetensi masa depan.
+                    Mewujudkan generasi unggul,<br>
+                    berakhlak mulia, dan siap kerja<br>
+                    dengan kompetensi masa depan.
                 </p>
                 <div class="flex space-x-3" role="list" aria-label="Media sosial SMK Al-Hidayah">
                     <a href="https://www.instagram.com/smkalstar/?hl=af" target="_blank" class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-gray-400 hover:bg-gradient-to-br hover:from-purple-500 hover:via-pink-500 hover:to-yellow-500 hover:text-white transition-all duration-300" aria-label="Instagram" rel="noopener noreferrer">
@@ -38,14 +40,13 @@
                 </h3>
                 <ul class="space-y-3 text-sm text-gray-400">
                     <li><a href="<?php echo e(url('/profil')); ?>" class="hover:text-primary transition flex items-center gap-2 group"><span class="w-1.5 h-1.5 rounded-full bg-gray-600 group-hover:bg-primary transition"></span>Profil Sekolah</a></li>
-                    <li><a href="<?php echo e(url('/jurusan')); ?>" class="hover:text-primary transition flex items-center gap-2 group"><span class="w-1.5 h-1.5 rounded-full bg-gray-600 group-hover:bg-primary transition"></span>Kompetensi Keahlian</a></li>
-                    <li><a href="<?php echo e(url('/ppdb/info')); ?>" class="hover:text-primary transition flex items-center gap-2 group"><span class="w-1.5 h-1.5 rounded-full bg-gray-600 group-hover:bg-primary transition"></span>Info SPMB</a></li>
+                    <li><a href="<?php echo e(url('/spmb/info')); ?>" class="hover:text-primary transition flex items-center gap-2 group"><span class="w-1.5 h-1.5 rounded-full bg-gray-600 group-hover:bg-primary transition"></span>Info SPMB</a></li>
                     <li><a href="<?php echo e(url('/ekstrakurikuler')); ?>" class="hover:text-primary transition flex items-center gap-2 group"><span class="w-1.5 h-1.5 rounded-full bg-gray-600 group-hover:bg-primary transition"></span>Ekstrakurikuler</a></li>
                     <li><a href="<?php echo e(url('/berita')); ?>" class="hover:text-primary transition flex items-center gap-2 group"><span class="w-1.5 h-1.5 rounded-full bg-gray-600 group-hover:bg-primary transition"></span>Berita</a></li>
                 </ul>
             </div>
 
-            <!-- Contact -->
+                       <!-- Contact -->
             <div>
                 <h3 class="text-base font-bold mb-5 text-white flex items-center gap-2">
                     <span class="w-1 h-5 bg-primary rounded-full"></span>
@@ -80,15 +81,17 @@
                     </li>
                 </ul>
             </div>
-            
-            <!-- Newsletter / PPDB CTA -->
+
+
+
+            <!-- Newsletter / SPMB CTA -->
             <div>
                 <h3 class="text-base font-bold mb-5 text-white flex items-center gap-2">
                     <span class="w-1 h-5 bg-gradient-to-b from-orange-400 to-red-500 rounded-full"></span>
                     Info SPMB
                 </h3>
                 <p class="text-gray-400 text-sm mb-4">Sitem Penerimaanan Murid Baru tahun ajaran 2026/2027 telah dibuka.</p>
-                <a href="<?php echo e(url('/ppdb/register')); ?>" class="inline-flex items-center justify-center w-full gap-2 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold px-4 py-3 rounded-xl transition-all shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40">
+                <a href="<?php echo e(url('/spmb/register')); ?>" class="inline-flex items-center justify-center w-full gap-2 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold px-4 py-3 rounded-xl transition-all shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40">
                     <span>Daftar Sekarang</span>
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
                 </a>
@@ -97,6 +100,8 @@
                     <span>Gratis Biaya Pendaftaran</span>
                 </div>
             </div>
+
+ 
         </div>
 
         <div class="border-t border-slate-700 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">

@@ -103,16 +103,6 @@
                 <span class="text-sm font-medium text-slate-700 group-hover:text-[#4276A3] transition">Data Pendaftar</span>
             </a>
 
-            {{-- Jurusan - Slate-600 --}}
-            <a href="{{ route('admin.jurusan.index') }}" class="group flex flex-col items-center gap-3 p-5 bg-slate-50 border border-slate-200 rounded-xl hover:border-slate-400 hover:shadow-sm transition text-center">
-                <div class="w-12 h-12 bg-slate-200 rounded-xl flex items-center justify-center group-hover:bg-slate-300 transition">
-                    <svg class="w-6 h-6 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
-                    </svg>
-                </div>
-                <span class="text-sm font-medium text-slate-700 group-hover:text-slate-600 transition">Jurusan</span>
-            </a>
-
             {{-- Fasilitas - Slate-600 --}}
             <a href="{{ route('admin.fasilitas.index') }}" class="group flex flex-col items-center gap-3 p-5 bg-slate-50 border border-slate-200 rounded-xl hover:border-slate-400 hover:shadow-sm transition text-center">
                 <div class="w-12 h-12 bg-slate-200 rounded-xl flex items-center justify-center group-hover:bg-slate-300 transition">
@@ -178,7 +168,7 @@
 
     {{-- Info Cards - Flat design dengan Set B colors --}}
     <div class="grid md:grid-cols-2 gap-6">
-        {{-- Alur PPDB - Brand Steel --}}
+        {{-- Alur SPMB - Brand Steel --}}
         <div class="bg-[#4276A3] rounded-xl p-6 text-white shadow-sm relative overflow-hidden">
             <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-10 -mt-10"></div>
             <div class="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full -ml-10 -mb-10"></div>
@@ -186,7 +176,7 @@
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
-                Alur PPDB
+                Alur SPMB
             </h3>
             <ol class="space-y-2 text-sm text-blue-100 list-decimal list-inside relative z-10">
                 <li>Siswa mendaftar dan melengkapi data (biodata, orang tua, jurusan)</li>

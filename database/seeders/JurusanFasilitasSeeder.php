@@ -43,12 +43,12 @@ class JurusanFasilitasSeeder extends Seeder
                 'urutan' => 3,
                 'aktif' => true,
             ],
-            'BDP' => [
-                'nama' => 'Bisnis Daring & Pemasaran (BDP)',
+            'BR' => [
+                'nama' => 'Bisnis Ritel',
                 'kategori' => 'Bisnis',
-                'deskripsi' => 'Fokus pada strategi pemasaran, digital marketing, e-commerce, dan kewirausahaan. Siswa diajarkan cara berjualan online dan mengelola bisnis ritel.',
+                'deskripsi' => 'Fokus pada operasional bisnis ritel, manajemen toko, layanan pelanggan, dan supply chain. Siswa diajarkan cara mengelola bisnis penjualan eceran.',
                 'gambar' => 'https://images.unsplash.com/photo-1556742049-0cfed4f7a07d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-                'peluang_karir' => ['Content Creator', 'Digital Marketer', 'Entrepreneur'],
+                'peluang_karir' => ['Store Manager', 'Visual Merchandiser', 'Retail Supervisor', 'Customer Service'],
                 'urutan' => 4,
                 'aktif' => true,
             ],

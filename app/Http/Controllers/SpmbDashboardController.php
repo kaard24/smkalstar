@@ -7,15 +7,15 @@ use App\Models\BerkasPendaftaran;
 use App\Models\Pengumuman;
 use Illuminate\Support\Facades\Auth;
 
-class PpdbDashboardController extends Controller
+class SpmbDashboardController extends Controller
 {
 
     /**
-     * Show PPDB Dashboard
+     * Show SPMB Dashboard
      */
     public function index()
     {
-        $siswa = Auth::guard('ppdb')->user();
+        $siswa = Auth::guard('spmb')->user();
         $siswa->load(['orangTua', 'pendaftaran.jurusan', 'pendaftaran.tes', 'berkasPendaftaran']);
 
         $pendaftaran = $siswa->pendaftaran;
@@ -44,7 +44,7 @@ class PpdbDashboardController extends Controller
         // Status timeline
         $timeline = $this->buildTimeline($siswa, $pendaftaran, $berkasProgress);
 
-        return view('ppdb.dashboard', compact(
+        return view('spmb.dashboard', compact(
             'siswa',
             'pendaftaran',
             'pengumuman',

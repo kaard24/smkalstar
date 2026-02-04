@@ -48,8 +48,8 @@
                         </div>
                         <h3 class="text-2xl font-bold text-gray-900 mb-3">Belum Ada Berita</h3>
                         <p class="text-gray-500 mb-6 max-w-md mx-auto">Nantikan update terbaru dari kami. Berita, pengumuman, dan informasi penting akan segera hadir di sini.</p>
-                        <a href="{{ url('/ppdb/info') }}" class="inline-flex items-center gap-2 text-cyan-600 hover:text-cyan-700 font-medium transition">
-                            <span>Lihat Info PPDB</span>
+                        <a href="{{ url('/spmb/info') }}" class="inline-flex items-center gap-2 text-cyan-600 hover:text-cyan-700 font-medium transition">
+                            <span>Lihat Info SPMB</span>
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                         </a>
                     </div>

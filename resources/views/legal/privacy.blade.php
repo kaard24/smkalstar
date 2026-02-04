@@ -18,7 +18,7 @@
 
                 <h2 class="text-xl font-bold text-gray-900 mt-8 mb-4">1. Pendahuluan</h2>
                 <p class="text-gray-600 mb-4">
-                    SMK Al-Hidayah Lestari berkomitmen untuk melindungi privasi Anda. Kebijakan Privasi ini menjelaskan bagaimana kami mengumpulkan, menggunakan, menyimpan, dan melindungi informasi pribadi Anda saat menggunakan website dan layanan kami, termasuk sistem PPDB (Penerimaan Peserta Didik Baru).
+                    SMK Al-Hidayah Lestari berkomitmen untuk melindungi privasi Anda. Kebijakan Privasi ini menjelaskan bagaimana kami mengumpulkan, menggunakan, menyimpan, dan melindungi informasi pribadi Anda saat menggunakan website dan layanan kami, termasuk sistem SPMB (Penerimaan Peserta Didik Baru).
                 </p>
 
                 <h2 class="text-xl font-bold text-gray-900 mt-8 mb-4">2. Informasi yang Kami Kumpulkan</h2>
@@ -37,7 +37,7 @@
                     Informasi yang kami kumpulkan digunakan untuk:
                 </p>
                 <ul class="list-disc list-inside text-gray-600 mb-4 space-y-2">
-                    <li>Proses pendaftaran dan seleksi PPDB</li>
+                    <li>Proses pendaftaran dan seleksi SPMB</li>
                     <li>Komunikasi terkait status pendaftaran</li>
                     <li>Administrasi akademik setelah diterima</li>
                     <li>Peningkatan kualitas layanan pendidikan</li>

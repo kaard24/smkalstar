@@ -51,7 +51,7 @@ class BeritaController extends Controller
     public function storeKomentar(Request $request, $slug)
     {
         $request->validate([
-            'username' => auth('ppdb')->check() ? 'nullable|string|max:100' : 'required|string|max:100',
+            'username' => auth('spmb')->check() ? 'nullable|string|max:100' : 'required|string|max:100',
             'komentar' => 'required|string|max:1000',
             'show_username' => 'nullable|boolean',
         ]);
@@ -60,7 +60,7 @@ class BeritaController extends Controller
 
         KomentarBerita::create([
             'berita_id' => $berita->id,
-            'username' => auth('ppdb')->check() ? auth('ppdb')->user()->nama : $request->username,
+            'username' => auth('spmb')->check() ? auth('spmb')->user()->nama : $request->username,
             'komentar' => $request->komentar,
             'show_username' => $request->has('show_username'),
             'is_approved' => true,

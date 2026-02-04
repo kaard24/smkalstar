@@ -4,24 +4,24 @@
 
 @section('content')
     <!-- Header Page - Unique Design -->
-    <div class="relative bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50 py-16 md:py-24 border-b border-amber-100 overflow-hidden">
+    <div class="relative bg-gradient-to-br from-blue-50 via-sky-50 to-cyan-50 py-16 md:py-24 border-b border-blue-100 overflow-hidden">
         <!-- Decorative Elements -->
         <div class="absolute inset-0">
-            <div class="absolute top-0 right-1/3 w-96 h-96 bg-yellow-300/30 rounded-full blur-3xl"></div>
-            <div class="absolute bottom-0 left-1/3 w-72 h-72 bg-amber-300/30 rounded-full blur-3xl"></div>
+            <div class="absolute top-0 right-1/3 w-96 h-96 bg-blue-300/30 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-0 left-1/3 w-72 h-72 bg-sky-300/30 rounded-full blur-3xl"></div>
             <!-- Trophy Sparkles -->
-            <div class="absolute top-20 right-20 text-yellow-400/30 text-6xl animate-pulse">✦</div>
-            <div class="absolute bottom-20 left-20 text-amber-400/30 text-4xl animate-pulse" style="animation-delay: 0.5s;">✦</div>
-            <div class="absolute top-1/2 right-1/4 text-yellow-400/20 text-3xl animate-pulse" style="animation-delay: 1s;">★</div>
+            <div class="absolute top-20 right-20 text-blue-400/30 text-6xl animate-pulse">✦</div>
+            <div class="absolute bottom-20 left-20 text-sky-400/30 text-4xl animate-pulse" style="animation-delay: 0.5s;">✦</div>
+            <div class="absolute top-1/2 right-1/4 text-blue-400/20 text-3xl animate-pulse" style="animation-delay: 1s;">★</div>
         </div>
         
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-            <div class="inline-flex items-center gap-2 bg-gradient-to-r from-amber-400 to-yellow-500 text-white px-4 py-1.5 rounded-full text-sm font-bold mb-6 shadow-lg">
+            <div class="inline-flex items-center gap-2 bg-gradient-to-r from-blue-400 to-cyan-500 text-white px-4 py-1.5 rounded-full text-sm font-bold mb-6 shadow-lg">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
                 Pencapaian Gemilang
             </div>
             <h1 class="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-4 font-heading">
-                Prestasi <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-500 via-yellow-500 to-orange-500">Sekolah</span>
+                Prestasi <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-sky-500 to-cyan-500">Sekolah</span>
             </h1>
             <p class="text-gray-600 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">Catatan kebanggaan dan bukti nyata kualitas pendidikan yang telah menghasilkan lulusan berprestasi</p>
         </div>

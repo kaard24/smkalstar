@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Input Nilai Tes - PPDB Admin')
+@section('title', 'Input Nilai Tes - SPMB Admin')
 
 @section('content')
     <div class="mb-8">

@@ -21,8 +21,8 @@ class AuthController extends Controller
      */
     public function showRegisterForm()
     {
-        if (Auth::guard('ppdb')->check()) {
-            return redirect()->route('ppdb.dashboard');
+        if (Auth::guard('spmb')->check()) {
+            return redirect()->route('spmb.dashboard');
         }
 
         $jurusan = Jurusan::aktif()->urut()->get();
@@ -124,8 +124,8 @@ class AuthController extends Controller
      */
     public function showLoginForm()
     {
-        if (Auth::guard('ppdb')->check()) {
-            return redirect()->route('ppdb.dashboard');
+        if (Auth::guard('spmb')->check()) {
+            return redirect()->route('spmb.dashboard');
         }
 
         return view('auth.login');
@@ -160,12 +160,12 @@ class AuthController extends Controller
             'password' => $request->password,
         ];
 
-        if (Auth::guard('ppdb')->attempt($credentials, $request->boolean('remember'))) {
+        if (Auth::guard('spmb')->attempt($credentials, $request->boolean('remember'))) {
             RateLimiter::clear($key);
             $request->session()->regenerate();
 
-            return redirect()->intended(route('ppdb.dashboard'))
-                ->with('success', 'Selamat datang kembali, ' . Auth::guard('ppdb')->user()->nama . '!');
+            return redirect()->intended(route('spmb.dashboard'))
+                ->with('success', 'Selamat datang kembali, ' . Auth::guard('spmb')->user()->nama . '!');
         }
 
         RateLimiter::hit($key, 60); // 1 minute decay
@@ -180,7 +180,7 @@ class AuthController extends Controller
      */
     public function logout(Request $request)
     {
-        Auth::guard('ppdb')->logout();
+        Auth::guard('spmb')->logout();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();

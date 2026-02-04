@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Input Nilai Tes - PPDB Admin')
+@section('title', 'Input Nilai Tes - SPMB Admin')
 
 @section('content')
     <div class="max-w-4xl mx-auto">
@@ -71,7 +71,7 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Status Kelulusan PPDB</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Status Kelulusan SPMB</label>
                             <select name="status_kelulusan" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary transition bg-slate-50 font-medium">
                                 <option value="Pending" {{ (old('status_kelulusan', $pendaftaran->tes->status_kelulusan ?? '') == 'Pending') ? 'selected' : '' }}>Pending</option>
                                 <option value="Lulus" {{ (old('status_kelulusan', $pendaftaran->tes->status_kelulusan ?? '') == 'Lulus') ? 'selected' : '' }}>Lulus</option>

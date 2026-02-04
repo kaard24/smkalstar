@@ -25,8 +25,8 @@ class JurusanSeeder extends Seeder
         ]);
 
         Jurusan::create([
-            'kode' => 'BDP',
-            'nama' => 'Bisnis Daring dan Pemasaran'
+            'kode' => 'BR',
+            'nama' => 'Bisnis Ritel'
         ]);
     }
 }

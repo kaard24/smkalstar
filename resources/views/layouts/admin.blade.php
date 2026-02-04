@@ -553,9 +553,7 @@
                             <a href="{{ route('admin.galeri.index') }}" class="block px-4 py-2 text-sm text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155] transition">
                                 Galeri
                             </a>
-                            <a href="{{ route('admin.jurusan.index') }}" class="block px-4 py-2 text-sm text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155] transition">
-                                Jurusan
-                            </a>
+
                             <div class="border-t border-[#E2E8F0] my-1"></div>
                             <a href="{{ route('admin.profil-sekolah.sejarah') }}" class="block px-4 py-2 text-sm text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155] transition">
                                 Sejarah
@@ -632,10 +630,7 @@
                    class="block px-4 py-2 rounded-lg text-sm font-medium {{ request()->is('admin/galeri*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
                     Galeri
                 </a>
-                <a href="{{ route('admin.jurusan.index') }}" 
-                   class="block px-4 py-2 rounded-lg text-sm font-medium {{ request()->is('admin/jurusan*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
-                    Jurusan
-                </a>
+
 
                 <div class="border-t border-[#334155] pt-3 mt-3">
                     <a href="{{ url('/') }}" target="_blank" 

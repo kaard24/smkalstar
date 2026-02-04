@@ -22,9 +22,9 @@
                 </p>
 
                 <h2 class="text-xl font-bold text-gray-900 mt-8 mb-4">2. Penggunaan Layanan</h2>
-                <h3 class="text-lg font-semibold text-gray-800 mt-6 mb-3">2.1. Sistem PPDB</h3>
+                <h3 class="text-lg font-semibold text-gray-800 mt-6 mb-3">2.1. Sistem SPMB</h3>
                 <p class="text-gray-600 mb-4">
-                    Sistem Penerimaan Peserta Didik Baru (PPDB) online tersedia untuk calon siswa yang memenuhi persyaratan administrasi. Pengguna bertanggung jawab untuk:
+                    Sistem Penerimaan Peserta Didik Baru (SPMB) online tersedia untuk calon siswa yang memenuhi persyaratan administrasi. Pengguna bertanggung jawab untuk:
                 </p>
                 <ul class="list-disc list-inside text-gray-600 mb-4 space-y-2">
                     <li>Memberikan informasi yang akurat dan lengkap</li>
@@ -91,7 +91,7 @@
                 <ul class="list-disc list-inside text-gray-600 mb-4 space-y-2">
                     <li>Mengubah, menangguhkan, atau menghentikan bagian mana pun dari layanan kapan saja</li>
                     <li>Memperbarui syarat dan ketentuan ini sewaktu-waktu</li>
-                    <li>Mengubah kebijakan PPDB sesuai dengan kebijakan pemerintah dan yayasan</li>
+                    <li>Mengubah kebijakan SPMB sesuai dengan kebijakan pemerintah dan yayasan</li>
                 </ul>
                 <p class="text-gray-600 mb-4">
                     Perubahan akan diumumkan melalui website dan/atau media komunikasi resmi kami.

@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class AdminPpdbController extends Controller
+class AdminSpmbController extends Controller
 {
     protected $whatsappService;
 
@@ -257,7 +257,7 @@ class AdminPpdbController extends Controller
                         if ($request->status_wawancara === 'sudah') {
                             Pengumuman::create([
                                 'pendaftaran_id' => $pendaftaran->id,
-                                'keterangan' => 'Selamat! Anda dinyatakan LULUS seleksi PPDB SMK Al-Hidayah Lestari.',
+                                'keterangan' => 'Selamat! Anda dinyatakan LULUS seleksi SPMB SMK Al-Hidayah Lestari.',
                                 'tgl_pengumuman' => Carbon::now(),
                             ]);
 
@@ -430,7 +430,7 @@ class AdminPpdbController extends Controller
                             Pengumuman::updateOrCreate(
                                 ['pendaftaran_id' => $pendaftaran->id],
                                 [
-                                    'keterangan' => 'Selamat! Anda dinyatakan LULUS seleksi PPDB SMK Al-Hidayah Lestari.',
+                                    'keterangan' => 'Selamat! Anda dinyatakan LULUS seleksi SPMB SMK Al-Hidayah Lestari.',
                                     'tgl_pengumuman' => Carbon::now(),
                                 ]
                             );
@@ -534,8 +534,8 @@ class AdminPpdbController extends Controller
 
                 // Generate Pengumuman
                 $keterangan = $request->status_kelulusan == 'Lulus' 
-                    ? 'Selamat! Anda dinyatakan LULUS seleksi PPDB SMK Al-Hidayah Lestari.' 
-                    : 'Mohon maaf, Anda dinyatakan TIDAK LULUS seleksi PPDB tahun ini.';
+                    ? 'Selamat! Anda dinyatakan LULUS seleksi SPMB SMK Al-Hidayah Lestari.' 
+                    : 'Mohon maaf, Anda dinyatakan TIDAK LULUS seleksi SPMB tahun ini.';
 
                 Pengumuman::updateOrCreate(
                     ['pendaftaran_id' => $pendaftaran->id],
@@ -621,7 +621,7 @@ class AdminPpdbController extends Controller
                             ->from('berkas_pendaftaran')
                             ->whereColumn('berkas_pendaftaran.calon_siswa_id', 'calon_siswa.id')
                             ->groupBy('calon_siswa_id')
-                            ->havingRaw('COUNT(CASE WHEN file_path IS NOT NULL THEN 1 END) < 4');
+                            ->havingRaw('COUNT(CASE WHEN path_file IS NOT NULL THEN 1 END) < 4');
                       });
             } elseif ($status === 'lengkap') {
                 $query->whereHas('pendaftaran')
@@ -634,14 +634,14 @@ class AdminPpdbController extends Controller
                             ->from('berkas_pendaftaran')
                             ->whereColumn('berkas_pendaftaran.calon_siswa_id', 'calon_siswa.id')
                             ->groupBy('calon_siswa_id')
-                            ->havingRaw('COUNT(CASE WHEN file_path IS NOT NULL THEN 1 END) = 4');
+                            ->havingRaw('COUNT(CASE WHEN path_file IS NOT NULL THEN 1 END) = 4');
                       });
             }
         }
 
         $pendaftar = $query->orderBy('created_at', 'desc')->get();
 
-        $filename = 'data_pendaftar_ppdb_' . date('Y-m-d_His') . '.csv';
+        $filename = 'data_pendaftar_spmb_' . date('Y-m-d_His') . '.csv';
         
         $headers = [
             'Content-Type' => 'text/csv; charset=UTF-8',

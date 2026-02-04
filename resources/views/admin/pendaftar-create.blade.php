@@ -16,7 +16,7 @@
     {{-- Header --}}
     <div class="mb-6">
         <h1 class="text-xl font-bold text-gray-900">Tambah Calon Siswa Baru</h1>
-        <p class="text-sm text-gray-500 mt-1">Isi data lengkap calon siswa untuk pendaftaran PPDB</p>
+        <p class="text-sm text-gray-500 mt-1">Isi data lengkap calon siswa untuk pendaftaran SPMB</p>
     </div>
 
     {{-- Alerts --}}

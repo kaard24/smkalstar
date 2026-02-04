@@ -15,33 +15,29 @@ class ProfilSiswaController extends Controller
 
     public function index()
     {
-        $calonSiswa = Auth::guard('ppdb')->user();
-        
-        if (!$calonSiswa->isRegistrationComplete()) {
-            return redirect()->route('ppdb.lengkapi-data')->with('info', 'Silakan lengkapi data pendaftaran Anda.');
-        }
+        $calonSiswa = Auth::guard('spmb')->user();
 
         // Load relationships
         $calonSiswa->load(['orangTua', 'pendaftaran.jurusan', 'pendaftaran.tes']);
 
-        return view('ppdb.profil', compact('calonSiswa'));
+        return view('spmb.profil', compact('calonSiswa'));
     }
 
     public function edit()
     {
-        $calonSiswa = Auth::guard('ppdb')->user();
+        $calonSiswa = Auth::guard('spmb')->user();
         $calonSiswa->load(['orangTua', 'pendaftaran.jurusan']);
         $jurusan = Jurusan::all();
         
         // Tentukan jenis data (orang_tua atau wali) berdasarkan data yang sudah ada
         $jenis = $calonSiswa->orangTua?->jenis ?? 'orang_tua';
 
-        return view('ppdb.edit-profil', compact('calonSiswa', 'jurusan', 'jenis'));
+        return view('spmb.edit-profil', compact('calonSiswa', 'jurusan', 'jenis'));
     }
 
     public function update(Request $request)
     {
-        $calonSiswa = Auth::guard('ppdb')->user();
+        $calonSiswa = Auth::guard('spmb')->user();
         
         // Load orangTua relationship
         $calonSiswa->load('orangTua');
@@ -57,6 +53,15 @@ class ProfilSiswaController extends Controller
         // Jika switch_to_ortu aktif dan data ortu diisi, baru ubah jenis ke orang_tua
         if ($switchToOrtu && $isDataOrtuFilled) {
             $jenis = 'orang_tua';
+        }
+
+        // Cek apakah user ingin switch ke wali
+        $switchToWali = $request->has('switch_to_wali') && $request->switch_to_wali == '1';
+        $isDataWaliFilled = !empty($request->nama_wali);
+        
+        // Jika switch_to_wali aktif dan data wali diisi, ubah jenis ke wali
+        if ($switchToWali && $isDataWaliFilled) {
+            $jenis = 'wali';
         }
 
         // Base validation rules
@@ -91,7 +96,7 @@ class ProfilSiswaController extends Controller
         $validated = $request->validate($rules);
 
         try {
-            DB::transaction(function () use ($request, $calonSiswa, $jenis, $switchToOrtu, $isDataOrtuFilled) {
+            DB::transaction(function () use ($request, $calonSiswa, $jenis, $switchToOrtu, $isDataOrtuFilled, $switchToWali, $isDataWaliFilled) {
                 // Update CalonSiswa
                 $calonSiswa->update([
                     'nama' => $request->nama,
@@ -154,14 +159,20 @@ class ProfilSiswaController extends Controller
             // Refresh data dari database
             $calonSiswa->refresh();
 
-            // Pesan sukses berbeda jika switch dari wali ke orang tua
+            // Pesan sukses berbeda jika switch dari wali ke orang tua atau sebaliknya
             // Hanya tampilkan pesan switch jika benar-benar switch dan data diisi
-            $actuallySwitched = ($switchToOrtu && $isDataOrtuFilled && $calonSiswa->orangTua?->jenis === 'orang_tua');
-            $successMessage = $actuallySwitched 
-                ? 'Data berhasil diperbarui! Data orang tua telah ditambahkan.' 
-                : 'Biodata berhasil diperbarui.';
+            $actuallySwitchedOrtu = ($switchToOrtu && $isDataOrtuFilled && $calonSiswa->orangTua?->jenis === 'orang_tua');
+            $actuallySwitchedWali = ($switchToWali && $isDataWaliFilled && $calonSiswa->orangTua?->jenis === 'wali');
+            
+            if ($actuallySwitchedOrtu) {
+                $successMessage = 'Data berhasil diperbarui! Data orang tua telah ditambahkan.';
+            } elseif ($actuallySwitchedWali) {
+                $successMessage = 'Data berhasil diperbarui! Data wali telah ditambahkan.';
+            } else {
+                $successMessage = 'Biodata berhasil diperbarui.';
+            }
 
-            return redirect()->route('ppdb.profil')->with('success', $successMessage);
+            return redirect()->route('spmb.profil')->with('success', $successMessage);
 
         } catch (\Exception $e) {
             Log::error('Error update profil: ' . $e->getMessage());
@@ -183,7 +194,7 @@ class ProfilSiswaController extends Controller
             'foto.max' => 'Ukuran foto maksimal 2MB',
         ]);
 
-        $calonSiswa = Auth::guard('ppdb')->user();
+        $calonSiswa = Auth::guard('spmb')->user();
 
         // Hapus foto lama jika ada
         if ($calonSiswa->foto) {
@@ -206,7 +217,7 @@ class ProfilSiswaController extends Controller
      */
     public function hapusFoto()
     {
-        $calonSiswa = Auth::guard('ppdb')->user();
+        $calonSiswa = Auth::guard('spmb')->user();
 
         if ($calonSiswa->foto) {
             Storage::disk('public')->delete('foto/' . $calonSiswa->foto);

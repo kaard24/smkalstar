@@ -18,11 +18,11 @@ class BerkasController extends Controller
      */
     public function index()
     {
-        $siswa = Auth::guard('ppdb')->user();
+        $siswa = Auth::guard('spmb')->user();
         $berkas = $siswa->berkasPendaftaran()->get()->keyBy('jenis_berkas');
         $jenisBerkas = BerkasPendaftaran::getJenisBerkas();
 
-        return view('ppdb.berkas', compact('siswa', 'berkas', 'jenisBerkas'));
+        return view('spmb.berkas', compact('siswa', 'berkas', 'jenisBerkas'));
     }
 
     /**
@@ -30,7 +30,7 @@ class BerkasController extends Controller
      */
     public function upload(Request $request)
     {
-        $siswa = Auth::guard('ppdb')->user();
+        $siswa = Auth::guard('spmb')->user();
 
         $request->validate([
             'jenis_berkas' => ['required', Rule::in(array_keys(BerkasPendaftaran::getJenisBerkas()))],
@@ -49,7 +49,7 @@ class BerkasController extends Controller
             ->first();
 
         // Buat folder berdasarkan NISN (gunakan disk public agar bisa diakses)
-        $folder = "berkas/ppdb/{$siswa->nisn}";
+        $folder = "berkas/spmb/{$siswa->nisn}";
         
         // Nama file dengan jenis berkas
         $jenis = $request->jenis_berkas;
@@ -93,7 +93,7 @@ class BerkasController extends Controller
      */
     public function download(BerkasPendaftaran $berkas)
     {
-        $siswa = Auth::guard('ppdb')->user();
+        $siswa = Auth::guard('spmb')->user();
         
         // Cek kepemilikan berkas
         if ($berkas->calon_siswa_id !== $siswa->id) {
@@ -112,7 +112,7 @@ class BerkasController extends Controller
      */
     public function destroy(BerkasPendaftaran $berkas)
     {
-        $siswa = Auth::guard('ppdb')->user();
+        $siswa = Auth::guard('spmb')->user();
         
         // Cek kepemilikan berkas
         if ($berkas->calon_siswa_id !== $siswa->id) {

@@ -38,15 +38,26 @@ class PublicPageController extends Controller
     }
 
     /**
-     * Jurusan page (cached)
+     * Detail jurusan page
      */
-    public function jurusan()
+    public function jurusanDetail($slug)
     {
-        $jurusan = Cache::remember('jurusan_aktif', self::CACHE_DURATION, function () {
+        $jurusanList = Cache::remember('jurusan_aktif', self::CACHE_DURATION, function () {
             return Jurusan::aktif()->urut()->get();
         });
 
-        return view('jurusan', compact('jurusan'));
+        $searchSlug = strtolower($slug);
+        
+        $jurusanDetail = $jurusanList->first(function ($item) use ($searchSlug) {
+            return strtolower($item->kode) === $searchSlug || 
+                   str_replace(' ', '-', strtolower($item->nama)) === $searchSlug;
+        });
+
+        if (!$jurusanDetail) {
+            abort(404);
+        }
+
+        return view('jurusan.detail', compact('jurusanDetail', 'jurusanList'));
     }
 
     /**

@@ -1,14 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AdminPpdbController;
+use App\Http\Controllers\AdminSpmbController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminVerifikasiController;
 use App\Http\Controllers\AdminKelulusanController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminCacheController;
-use App\Http\Controllers\PpdbController;
-use App\Http\Controllers\PpdbDashboardController;
+use App\Http\Controllers\SpmbController;
+use App\Http\Controllers\SpmbDashboardController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfilSiswaController;
 use App\Http\Controllers\BerkasController;
@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use App\Models\CalonSiswa;
 use App\Models\Pendaftaran;
 use App\Models\Tes;
+use App\Models\Jurusan;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +28,8 @@ use App\Models\Tes;
 // Public Pages (with caching)
 Route::get('/', [PublicPageController::class, 'home']);
 Route::get('/profil', [PublicPageController::class, 'profil'])->name('profil');
-Route::get('/jurusan', [PublicPageController::class, 'jurusan'])->name('jurusan');
+
+Route::get('/jurusan/{slug}', [PublicPageController::class, 'jurusanDetail'])->name('jurusan.detail');
 Route::get('/fasilitas', [PublicPageController::class, 'fasilitas'])->name('fasilitas');
 Route::get('/ekstrakurikuler', [PublicPageController::class, 'ekstrakurikuler'])->name('ekstrakurikuler');
 Route::get('/prestasi', [PublicPageController::class, 'prestasi'])->name('prestasi');
@@ -54,29 +56,105 @@ Route::post('/berita/{slug}/komentar', [\App\Http\Controllers\BeritaController::
 // ============================================
 // Auth Routes - Siswa (NISN + Password)
 // ============================================
-Route::middleware('guest:ppdb')->group(function () {
+Route::middleware('guest:spmb')->group(function () {
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
     Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
     Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
     
-    // Alias routes untuk /ppdb prefix
-    Route::get('/ppdb/login', fn() => redirect()->route('login'));
-    Route::get('/ppdb/register', fn() => redirect()->route('register'));
+    // Alias routes untuk /spmb prefix
+    Route::get('/spmb/login', fn() => redirect()->route('login'));
+    Route::get('/spmb/register', fn() => redirect()->route('register'));
 });
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // ============================================
-// PPDB Public Pages (tanpa auth)
+// SPMB Public Pages (tanpa auth)
 // ============================================
-Route::prefix('ppdb')->name('ppdb.')->group(function () {
-    Route::get('/', function () { return view('ppdb.info'); })->name('index');
-    Route::get('/info', function () { return view('ppdb.info'); })->name('info');
+Route::prefix('spmb')->name('spmb.')->group(function () {
+    Route::get('/', function () { 
+        $jurusan = Jurusan::aktif()->urut()->get();
+        return view('spmb.info', compact('jurusan')); 
+    })->name('index');
+    Route::get('/info', function () { 
+        $jurusan = Jurusan::aktif()->urut()->get();
+        return view('spmb.info', compact('jurusan')); 
+    })->name('info');
+
+    // Kalender Akademik
+    Route::get('/kalender', function () {
+        // Data jadwal SPMB 2026/2027 - 2 Gelombang
+        $jadwal = [
+            [
+                'gelombang' => 1,
+                'nama' => 'Gelombang 1',
+                'pendaftaran_start' => '2026-01-01',
+                'pendaftaran_end' => '2026-05-23',
+                'tes_mulai' => '2026-05-26',
+                'tes_selesai' => '2026-05-28',
+                'pengumuman' => '2026-06-01',
+            ],
+            [
+                'gelombang' => 2,
+                'nama' => 'Gelombang 2',
+                'pendaftaran_start' => '2026-05-24',
+                'pendaftaran_end' => '2026-07-04',
+                'tes_mulai' => '2026-07-07',
+                'tes_selesai' => '2026-07-09',
+                'pengumuman' => '2026-07-12',
+            ],
+        ];
+        
+        return view('spmb.kalender', compact('jadwal'));
+    })->name('kalender');
 
     // Pengumuman (public check)
-    Route::get('/pengumuman', function () { 
-        return view('ppdb.pengumuman'); 
+    Route::get('/pengumuman', function () {
+        // Statistik Pendaftaran
+        $totalPendaftar = Pendaftaran::count();
+        
+        // Statistik per Jurusan
+        $statistikJurusan = Pendaftaran::selectRaw('jurusan_id, COUNT(*) as total')
+            ->with('jurusan:id,nama,kode')
+            ->groupBy('jurusan_id')
+            ->orderByDesc('total')
+            ->get()
+            ->map(function($item) use ($totalPendaftar) {
+                return [
+                    'nama' => $item->jurusan->nama ?? 'Unknown',
+                    'kode' => $item->jurusan->kode ?? '-',
+                    'total' => $item->total,
+                    'persentase' => $totalPendaftar > 0 ? round(($item->total / $totalPendaftar) * 100, 1) : 0,
+                ];
+            });
+        
+        // Statistik per Gelombang
+        $statistikGelombang = Pendaftaran::selectRaw('gelombang, COUNT(*) as total')
+            ->groupBy('gelombang')
+            ->orderBy('gelombang')
+            ->get();
+        
+        // Pendaftar terbaru (5 terakhir, dengan inisial untuk privasi)
+        $pendaftarTerbaru = Pendaftaran::with(['calonSiswa:id,nama,asal_sekolah', 'jurusan:id,nama'])
+            ->latest()
+            ->take(5)
+            ->get()
+            ->map(function($item) {
+                $nama = $item->calonSiswa->nama ?? 'Anonim';
+                $inisial = implode('', array_map(function($word) {
+                    return strtoupper(substr($word, 0, 1));
+                }, array_slice(explode(' ', $nama), 0, 2))); // Max 2 huruf inisial
+                
+                return [
+                    'inisial' => $inisial,
+                    'asal_sekolah' => $item->calonSiswa->asal_sekolah ?? '-',
+                    'jurusan' => $item->jurusan->nama ?? '-',
+                    'waktu' => $item->created_at->diffForHumans(),
+                ];
+            });
+        
+        return view('spmb.pengumuman', compact('totalPendaftar', 'statistikJurusan', 'statistikGelombang', 'pendaftarTerbaru'));
     })->name('pengumuman');
 
     Route::get('/pengumuman/cek', function (Request $request) {
@@ -85,13 +163,13 @@ Route::prefix('ppdb')->name('ppdb.')->group(function () {
         $calonSiswa = CalonSiswa::where('nisn', $request->nisn)->first();
         
         if (!$calonSiswa) {
-            return redirect()->route('ppdb.pengumuman')->with('error', 'NISN tidak ditemukan.');
+            return redirect()->route('spmb.pengumuman')->with('error', 'NISN tidak ditemukan.');
         }
         
         $pendaftaran = Pendaftaran::with('jurusan')->where('calon_siswa_id', $calonSiswa->id)->first();
         
         if (!$pendaftaran) {
-             return redirect()->route('ppdb.pengumuman')->with('error', 'Data pendaftaran tidak ditemukan.');
+             return redirect()->route('spmb.pengumuman')->with('error', 'Data pendaftaran tidak ditemukan.');
         }
         
         $tes = Tes::where('pendaftaran_id', $pendaftaran->id)->first();
@@ -107,24 +185,49 @@ Route::prefix('ppdb')->name('ppdb.')->group(function () {
             'status_kelulusan' => $status
         ];
         
-        return redirect()->route('ppdb.pengumuman')->with('hasil', $hasil);
+        return redirect()->route('spmb.pengumuman')->with('hasil', $hasil);
     })->name('pengumuman.cek');
+    
+    // API Statistik Real-time
+    Route::get('/api/statistik', function () {
+        $totalPendaftar = Pendaftaran::count();
+        
+        $statistikJurusan = Pendaftaran::selectRaw('jurusan_id, COUNT(*) as total')
+            ->with('jurusan:id,nama,kode')
+            ->groupBy('jurusan_id')
+            ->orderByDesc('total')
+            ->get()
+            ->map(function($item) use ($totalPendaftar) {
+                return [
+                    'nama' => $item->jurusan->nama ?? 'Unknown',
+                    'kode' => $item->jurusan->kode ?? '-',
+                    'total' => $item->total,
+                    'persentase' => $totalPendaftar > 0 ? round(($item->total / $totalPendaftar) * 100, 1) : 0,
+                ];
+            });
+        
+        return response()->json([
+            'total_pendaftar' => $totalPendaftar,
+            'jurusan_favorit' => $statistikJurusan,
+            'updated_at' => now()->toISOString(),
+        ]);
+    })->name('api.statistik');
 });
 
 // ============================================
-// Protected PPDB Routes (memerlukan login dengan guard ppdb)
+// Protected SPMB Routes (memerlukan login dengan guard spmb)
 // ============================================
-Route::middleware('auth:ppdb')->prefix('ppdb')->name('ppdb.')->group(function () {
+Route::middleware('auth:spmb')->prefix('spmb')->name('spmb.')->group(function () {
     // Dashboard
-    Route::get('/dashboard', [PpdbDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [SpmbDashboardController::class, 'index'])->name('dashboard');
     
     // Lengkapi Data Pendaftaran
-    Route::get('/lengkapi-data', [PpdbController::class, 'create'])->name('lengkapi-data');
-    Route::post('/lengkapi-data', [PpdbController::class, 'store'])->name('lengkapi-data.store');
+    Route::get('/lengkapi-data', [SpmbController::class, 'create'])->name('lengkapi-data');
+    Route::post('/lengkapi-data', [SpmbController::class, 'store'])->name('lengkapi-data.store');
     
     // Status
     Route::get('/status', function () { 
-        $siswa = auth('ppdb')->user();
+        $siswa = auth('spmb')->user();
         $siswa->load(['pendaftaran.jurusan', 'pendaftaran.tes', 'orangTua']);
         
         // Calculate progress
@@ -148,7 +251,7 @@ Route::middleware('auth:ppdb')->prefix('ppdb')->name('ppdb.')->group(function ()
         $wawancaraComplete = $tes?->status_wawancara === 'sudah';
         $kelulusanStatus = $tes?->status_kelulusan ?? 'Pending';
         
-        return view('ppdb.status', compact('siswa', 'progress', 'biodataComplete', 'orangTuaComplete', 'jurusanComplete', 'wawancaraComplete', 'kelulusanStatus', 'tes')); 
+        return view('spmb.status', compact('siswa', 'progress', 'biodataComplete', 'orangTuaComplete', 'jurusanComplete', 'wawancaraComplete', 'kelulusanStatus', 'tes', 'jenisOrtu')); 
     })->name('status');
     
     // Upload Berkas
@@ -159,10 +262,10 @@ Route::middleware('auth:ppdb')->prefix('ppdb')->name('ppdb.')->group(function ()
     
     // Nilai
     Route::get('/nilai', function () {
-        $siswa = auth('ppdb')->user();
+        $siswa = auth('spmb')->user();
         $pendaftaran = Pendaftaran::where('calon_siswa_id', $siswa->id)->first();
         $tes = $pendaftaran ? Tes::where('pendaftaran_id', $pendaftaran->id)->first() : null;
-        return view('ppdb.nilai', compact('tes'));
+        return view('spmb.nilai', compact('tes'));
     })->name('nilai');
     
     // Student Profile
@@ -175,12 +278,12 @@ Route::middleware('auth:ppdb')->prefix('ppdb')->name('ppdb.')->group(function ()
 
 // Legacy route redirects
 Route::get('/siswa/profil', function () {
-    return redirect()->route('ppdb.profil');
+    return redirect()->route('spmb.profil');
 });
 
 // Redirect dari route lama
-Route::get('/ppdb/upload-berkas', function () {
-    return redirect()->route('ppdb.berkas');
+Route::get('/spmb/upload-berkas', function () {
+    return redirect()->route('spmb.berkas');
 });
 
 // ============================================
@@ -206,19 +309,19 @@ Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function
     Route::get('/dashboard', [AdminDashboardController::class, 'index']);
 
     // Pendaftar Module (CRUD)
-    Route::get('/pendaftar', [AdminPpdbController::class, 'index'])->name('pendaftar.index');
-    Route::get('/pendaftar/create', [AdminPpdbController::class, 'create'])->name('pendaftar.create');
-    Route::post('/pendaftar', [AdminPpdbController::class, 'store'])->name('pendaftar.store');
-    Route::get('/pendaftar/export', [AdminPpdbController::class, 'exportExcel'])->name('pendaftar.export');
-    Route::get('/pendaftar/{id}', [AdminPpdbController::class, 'show'])->name('pendaftar.show');
-    Route::get('/pendaftar/{id}/edit', [AdminPpdbController::class, 'edit'])->name('pendaftar.edit');
-    Route::put('/pendaftar/{id}', [AdminPpdbController::class, 'update'])->name('pendaftar.update');
-    Route::delete('/pendaftar/{id}', [AdminPpdbController::class, 'destroy'])->name('pendaftar.destroy');
+    Route::get('/pendaftar', [AdminSpmbController::class, 'index'])->name('pendaftar.index');
+    Route::get('/pendaftar/create', [AdminSpmbController::class, 'create'])->name('pendaftar.create');
+    Route::post('/pendaftar', [AdminSpmbController::class, 'store'])->name('pendaftar.store');
+    Route::get('/pendaftar/export', [AdminSpmbController::class, 'exportExcel'])->name('pendaftar.export');
+    Route::get('/pendaftar/{id}', [AdminSpmbController::class, 'show'])->name('pendaftar.show');
+    Route::get('/pendaftar/{id}/edit', [AdminSpmbController::class, 'edit'])->name('pendaftar.edit');
+    Route::put('/pendaftar/{id}', [AdminSpmbController::class, 'update'])->name('pendaftar.update');
+    Route::delete('/pendaftar/{id}', [AdminSpmbController::class, 'destroy'])->name('pendaftar.destroy');
     
     // Input Nilai (kept for optional use)
-    Route::get('/input-nilai', [AdminPpdbController::class, 'inputNilaiList'])->name('input_nilai.index');
-    Route::get('/input-nilai/{id}', [AdminPpdbController::class, 'formNilai'])->name('input_nilai');
-    Route::post('/simpan-nilai/{id}', [AdminPpdbController::class, 'simpanNilai'])->name('simpan_nilai');
+    Route::get('/input-nilai', [AdminSpmbController::class, 'inputNilaiList'])->name('input_nilai.index');
+    Route::get('/input-nilai/{id}', [AdminSpmbController::class, 'formNilai'])->name('input_nilai');
+    Route::post('/simpan-nilai/{id}', [AdminSpmbController::class, 'simpanNilai'])->name('simpan_nilai');
 
     // Verifikasi Pendaftaran Module (deprecated - but keep routes for backward compatibility)
     Route::get('/verifikasi', function() {
@@ -260,8 +363,7 @@ Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function
     // Legacy struktur routes (redirect to new route)
     Route::get('/profil-sekolah/struktur', fn() => redirect()->route('admin.struktur-organisasi.index'))->name('profil-sekolah.struktur');
 
-    // Jurusan Module
-    Route::resource('jurusan', \App\Http\Controllers\Admin\JurusanController::class)->except(['show']);
+
 
     // Fasilitas Module
     Route::resource('fasilitas', \App\Http\Controllers\Admin\FasilitasController::class)->except(['show']);

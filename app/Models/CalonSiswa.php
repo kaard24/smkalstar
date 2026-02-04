@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 /**
  * Model CalonSiswa
  * 
- * Model untuk calon siswa yang mendaftar PPDB
+ * Model untuk calon siswa yang mendaftar SPMB
  * Login menggunakan NISN + Password
  */
 class CalonSiswa extends Authenticatable

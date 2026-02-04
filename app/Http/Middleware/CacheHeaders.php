@@ -18,7 +18,7 @@ class CacheHeaders
         $response = $next($request);
         
         // Skip jika request adalah untuk admin atau memiliki session
-        if ($request->is('admin/*') || $request->is('ppdb/dashboard') || $request->is('ppdb/status') || $request->is('ppdb/profil')) {
+        if ($request->is('admin/*') || $request->is('spmb/dashboard') || $request->is('spmb/status') || $request->is('spmb/profil')) {
             return $response;
         }
         

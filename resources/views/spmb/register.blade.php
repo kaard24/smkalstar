@@ -32,7 +32,7 @@
             </div>
             @endif
 
-            <form action="{{ route('ppdb.store') }}" method="POST" @submit="isSubmitting = true">
+            <form action="{{ route('spmb.store') }}" method="POST" @submit="isSubmitting = true">
                 @csrf
 
                 <!-- Data Diri -->
@@ -134,8 +134,8 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Gelombang <span class="text-red-500">*</span></label>
                         <select name="gelombang" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all" required>
-                            <option value="Gelombang 1" {{ old('gelombang') == 'Gelombang 1' ? 'selected' : '' }}>Gelombang 1 (Januari - Maret)</option>
-                            <option value="Gelombang 2" {{ old('gelombang') == 'Gelombang 2' ? 'selected' : '' }}>Gelombang 2 (April - Juni)</option>
+                            <option value="Gelombang 1" {{ old('gelombang') == 'Gelombang 1' ? 'selected' : '' }}>Gelombang 1 (Januari - 23 Mei 2026)</option>
+                            <option value="Gelombang 2" {{ old('gelombang') == 'Gelombang 2' ? 'selected' : '' }}>Gelombang 2 (24 Mei - 4 Juli 2026)</option>
                         </select>
                     </div>
                 </div>

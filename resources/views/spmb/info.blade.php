@@ -3,45 +3,49 @@
 @section('title', 'Informasi SPMB - SMK Al-Hidayah Lestari')
 
 @section('content')
-    <!-- Header Page - Unique PPDB Design -->
-    <div class="relative bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 py-16 md:py-24 border-b border-orange-100 overflow-hidden">
+    <!-- Header Page - SPMB Design -->
+    <div class="relative bg-gradient-to-br from-blue-50 via-sky-50 to-cyan-50 py-16 md:py-24 border-b border-blue-100 overflow-hidden">
         <!-- Decorative Elements -->
         <div class="absolute inset-0">
-            <div class="absolute top-0 right-1/4 w-96 h-96 bg-orange-300/20 rounded-full blur-3xl"></div>
-            <div class="absolute bottom-0 left-1/4 w-72 h-72 bg-amber-300/20 rounded-full blur-3xl"></div>
-            <!-- Diagonal Lines Pattern -->
+            <div class="absolute top-0 right-1/4 w-96 h-96 bg-blue-300/20 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-0 left-1/4 w-72 h-72 bg-sky-300/20 rounded-full blur-3xl"></div>
+            <!-- Education Steps Pattern - Representasi tangga pendidikan/menuju cita-cita -->
             <svg class="absolute inset-0 w-full h-full opacity-10" xmlns="http://www.w3.org/2000/svg">
                 <defs>
-                    <pattern id="diagonal-lines" patternUnits="userSpaceOnUse" width="40" height="40" patternTransform="rotate(45)">
-                        <line x1="0" y1="0" x2="0" y2="40" stroke="#f97316" stroke-width="2" />
+                    <pattern id="education-steps" patternUnits="userSpaceOnUse" width="60" height="60">
+                        <!-- Steps/Graduation motif -->
+                        <path d="M0 45 L15 45 L15 30 L30 30 L30 15 L45 15 L45 0 L60 0" stroke="#3b82f6" stroke-width="1.5" fill="none"/>
+                        <circle cx="45" cy="45" r="3" fill="#3b82f6"/>
+                        <circle cx="15" cy="15" r="2" fill="#3b82f6"/>
+                        <path d="M5 55 L10 50 L15 55" stroke="#3b82f6" stroke-width="1" fill="none"/>
                     </pattern>
                 </defs>
-                <rect width="100%" height="100%" fill="url(#diagonal-lines)" />
+                <rect width="100%" height="100%" fill="url(#education-steps)" />
             </svg>
         </div>
         
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-            <div class="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-amber-500 text-white px-5 py-2 rounded-full text-sm font-bold mb-6 shadow-lg shadow-orange-200">
+            <div class="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-5 py-2 rounded-full text-sm font-bold mb-6 shadow-lg shadow-blue-200">
                 <span class="w-2 h-2 bg-white rounded-full animate-pulse"></span>
                 Pendaftaran Dibuka!
             </div>
             <h1 class="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-4 font-heading">
                 Sistem Penerimaan <br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500">Murid Baru 2026/2027</span>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-sky-500 to-cyan-500">Murid Baru 2026/2027</span>
             </h1>
             <p class="text-gray-600 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed mb-8">Informasi lengkap mengenai pendaftaran, jadwal, persyaratan, dan biaya pendidikan di SMK Al-Hidayah Lestari</p>
             
             <!-- Countdown/Quick Info -->
             <div class="flex flex-wrap justify-center gap-4 md:gap-6">
-                <div class="bg-white/80 backdrop-blur-sm rounded-2xl px-6 py-4 shadow-lg border border-orange-100">
-                    <div class="text-2xl font-bold text-orange-600">Gelombang 1</div>
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl px-6 py-4 shadow-lg border border-blue-100">
+                    <div class="text-2xl font-bold text-blue-600">Gelombang 1</div>
                     <div class="text-sm text-gray-600">Jan - Mei 2026</div>
                 </div>
-                <div class="bg-white/80 backdrop-blur-sm rounded-2xl px-6 py-4 shadow-lg border border-amber-100">
-                    <div class="text-2xl font-bold text-amber-600">Gelombang 2</div>
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl px-6 py-4 shadow-lg border border-sky-100">
+                    <div class="text-2xl font-bold text-sky-600">Gelombang 2</div>
                     <div class="text-sm text-gray-600">Mei - Juli 2026</div>
                 </div>
-                <div class="bg-gradient-to-r from-orange-500 to-amber-500 rounded-2xl px-6 py-4 shadow-lg text-white">
+                <div class="bg-gradient-to-r from-blue-500 to-cyan-500 rounded-2xl px-6 py-4 shadow-lg text-white">
                     <div class="text-2xl font-bold">100%</div>
                     <div class="text-sm opacity-90">Gratis Pendaftaran</div>
                 </div>
@@ -56,36 +60,50 @@
                 <div class="lg:col-span-2 space-y-16">
                     
                     <!-- Program Keahlian -->
+                    @php
+                        $jurusanImages = [
+                            'TKJ' => ['img' => 'images/tkj.png', 'logo' => 'images/logo/tkj.jpeg', 'border' => 'border-blue-900', 'bg' => 'bg-blue-50', 'text' => 'text-blue-900', 'hover' => 'group-hover:bg-blue-900'],
+                            'MPLB' => ['img' => 'images/mplb.png', 'logo' => 'images/logo/mplb.jpeg', 'border' => 'border-green-500', 'bg' => 'bg-green-50', 'text' => 'text-green-600', 'hover' => 'group-hover:bg-green-600'],
+                            'AKL' => ['img' => 'images/akl.png', 'logo' => 'images/logo/akl.jpeg', 'border' => 'border-purple-500', 'bg' => 'bg-purple-50', 'text' => 'text-purple-600', 'hover' => 'group-hover:bg-purple-600'],
+                            'BR' => ['img' => 'images/br.png', 'logo' => 'images/logo/br.jpeg', 'border' => 'border-cyan-500', 'bg' => 'bg-cyan-50', 'text' => 'text-cyan-600', 'hover' => 'group-hover:bg-cyan-600'],
+                        ];
+                    @endphp
                     <div>
                         <div class="flex items-center gap-4 mb-8">
                             <span class="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center text-xl font-bold">1</span>
                             <h2 class="text-3xl font-bold text-gray-900 font-heading">Program Keahlian</h2>
                         </div>
                         <div class="grid sm:grid-cols-2 gap-6">
-                            <div class="p-6 border border-sky-100 rounded-3xl bg-white hover:shadow-lg transition duration-300 group">
-                                <div class="w-10 h-10 rounded-full bg-sky-50 mb-4 flex items-center justify-center text-sky-600 group-hover:bg-sky-600 group-hover:text-white transition">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                            @forelse($jurusan as $j)
+                                @php
+                                    $data = $jurusanImages[$j->kode] ?? [
+                                        'img' => null,
+                                        'logo' => 'images/logo/default.jpeg',
+                                        'border' => 'border-gray-100', 
+                                        'bg' => 'bg-gray-50', 
+                                        'text' => 'text-gray-600',
+                                        'hover' => 'group-hover:bg-gray-600',
+                                    ];
+                                @endphp
+                                {{-- Layout 4:1 - Gambar 80%, Konten 20% --}}
+                                <a href="{{ url('/jurusan/' . strtolower($j->kode)) }}" class="flex flex-col border {{ $data['border'] }} rounded-3xl bg-white hover:shadow-lg transition duration-300 group overflow-hidden cursor-pointer">
+                                    {{-- Gambar Jurusan (4 bagian - 80%) --}}
+                                    <div class="relative h-48 bg-gray-50 overflow-hidden flex items-center justify-center p-2">
+                                        <img src="{{ asset($data['img']) }}" alt="{{ $j->nama }}" class="w-full h-full object-contain scale-125 group-hover:scale-[1.35] transition duration-300">
+                                    </div>
+                                    {{-- Konten (1 bagian - 20%) --}}
+                                    <div class="p-3 flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-full {{ $data['bg'] }} flex items-center justify-center overflow-hidden flex-shrink-0 ring-2 ring-white shadow-sm {{ $data['hover'] }} transition">
+                                            <img src="{{ asset($data['logo']) }}" alt="Logo {{ $j->nama }}" class="w-full h-full object-cover">
+                                        </div>
+                                        <h3 class="font-bold text-gray-900 text-sm group-hover:{{ $data['text'] }} transition leading-tight">{{ $j->nama }}</h3>
+                                    </div>
+                                </a>
+                            @empty
+                                <div class="col-span-2 p-6 border border-gray-100 rounded-3xl bg-gray-50 text-center text-gray-500">
+                                    Belum ada data program keahlian.
                                 </div>
-                                <h3 class="font-bold text-gray-900 text-lg group-hover:text-primary transition">Teknik Komputer & Jaringan (TKJ)</h3>
-                            </div>
-                            <div class="p-6 border border-blue-100 rounded-3xl bg-white hover:shadow-lg transition duration-300 group">
-                                <div class="w-10 h-10 rounded-full bg-blue-50 mb-4 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
-                                </div>
-                                <h3 class="font-bold text-gray-900 text-lg group-hover:text-blue-600 transition">Manajemen Perkantoran (MPLB)</h3>
-                            </div>
-                            <div class="p-6 border border-orange-100 rounded-3xl bg-white hover:shadow-lg transition duration-300 group">
-                                <div class="w-10 h-10 rounded-full bg-orange-50 mb-4 flex items-center justify-center text-orange-600 group-hover:bg-orange-600 group-hover:text-white transition">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08.402-2.599 1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                </div>
-                                <h3 class="font-bold text-gray-900 text-lg group-hover:text-orange-600 transition">Akuntansi Keuangan (AKL)</h3>
-                            </div>
-                            <div class="p-6 border border-cyan-100 rounded-3xl bg-white hover:shadow-lg transition duration-300 group">
-                                <div class="w-10 h-10 rounded-full bg-cyan-50 mb-4 flex items-center justify-center text-cyan-600 group-hover:bg-cyan-600 group-hover:text-white transition">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
-                                </div>
-                                <h3 class="font-bold text-gray-900 text-lg group-hover:text-cyan-600 transition">Bisnis Daring & Pemasaran (BDP)</h3>
-                            </div>
+                            @endforelse
                         </div>
                     </div>
 
@@ -190,6 +208,29 @@
 
                 <!-- Sidebar Fees & Contact -->
                 <div class="lg:col-span-1 space-y-8">
+                    <!-- Kalender Akademik Card -->
+                    <a href="{{ route('spmb.kalender') }}" class="block bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-3xl p-6 shadow-xl relative overflow-hidden group hover:shadow-2xl transition duration-300">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-3xl transform translate-x-10 -translate-y-10"></div>
+                        <div class="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full blur-2xl transform -translate-x-5 translate-y-5"></div>
+                        
+                        <div class="relative z-10">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-bold font-heading">Kalender Akademik</h3>
+                            </div>
+                            <p class="text-indigo-100 text-sm mb-4">Lihat jadwal lengkap pendaftaran, tes masuk, dan pengumuman untuk semua gelombang.</p>
+                            <div class="flex items-center gap-2 text-sm font-semibold">
+                                <span>Lihat Timeline</span>
+                                <svg class="w-4 h-4 group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </a>
                     <!-- Biaya -->
                     <div class="bg-gradient-to-br from-[#0EA5E9] to-[#1E3A5F] text-white rounded-3xl p-8 shadow-xl relative overflow-hidden group">
                         <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-3xl transform translate-x-10 -translate-y-10"></div>
@@ -218,7 +259,7 @@
                             </div>
                         </div>
                         
-                         <a href="{{ url('/ppdb/register') }}" class="block w-full text-center bg-[#F97316] text-white font-bold py-4 rounded-xl hover:bg-orange-600 transition shadow-lg relative z-10 hover:shadow-xl transform group-hover:-translate-y-1 duration-300">
+                         <a href="{{ url('/spmb/register') }}" class="block w-full text-center bg-[#F97316] text-white font-bold py-4 rounded-xl hover:bg-orange-600 transition shadow-lg relative z-10 hover:shadow-xl transform group-hover:-translate-y-1 duration-300">
                             Daftar Sekarang
                         </a>
                     </div>

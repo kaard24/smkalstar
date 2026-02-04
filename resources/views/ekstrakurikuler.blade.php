@@ -4,22 +4,22 @@
 
 @section('content')
     <!-- Header Page - Unique Design -->
-    <div class="relative bg-gradient-to-br from-rose-50 via-pink-50 to-purple-50 py-16 md:py-24 border-b border-rose-100 overflow-hidden">
+    <div class="relative bg-gradient-to-br from-blue-50 via-sky-50 to-cyan-50 py-16 md:py-24 border-b border-blue-100 overflow-hidden">
         <!-- Decorative Elements -->
         <div class="absolute inset-0">
-            <div class="absolute top-1/2 left-10 w-64 h-64 bg-rose-300/20 rounded-full blur-3xl -translate-y-1/2"></div>
-            <div class="absolute top-1/4 right-20 w-80 h-80 bg-purple-300/20 rounded-full blur-3xl"></div>
+            <div class="absolute top-1/2 left-10 w-64 h-64 bg-blue-300/20 rounded-full blur-3xl -translate-y-1/2"></div>
+            <div class="absolute top-1/4 right-20 w-80 h-80 bg-sky-300/20 rounded-full blur-3xl"></div>
             <!-- Stars Pattern -->
-            <div class="absolute inset-0 opacity-20" style="background-image: url('data:image/svg+xml,%3Csvg width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;%3E%3Cpath d=&quot;M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6-4.8-6 4.8 2.4-7.2-6-4.8h7.6z&quot; fill=&quot;%23f43f5e&quot; fill-opacity=&quot;0.3&quot;/%3E%3C/svg%3E'); background-size: 48px 48px;"></div>
+            <div class="absolute inset-0 opacity-20" style="background-image: url('data:image/svg+xml,%3Csvg width=&quot;24&quot; height=&quot;24&quot; viewBox=&quot;0 0 24 24&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;%3E%3Cpath d=&quot;M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6-4.8-6 4.8 2.4-7.2-6-4.8h7.6z&quot; fill=&quot;%233b82f6&quot; fill-opacity=&quot;0.3&quot;/%3E%3C/svg%3E'); background-size: 48px 48px;"></div>
         </div>
         
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-            <div class="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm border border-rose-200 px-4 py-1.5 rounded-full text-sm font-medium text-rose-700 mb-6">
+            <div class="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm border border-blue-200 px-4 py-1.5 rounded-full text-sm font-medium text-blue-700 mb-6">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
                 Pengembangan Diri
             </div>
             <h1 class="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-4 font-heading">
-                Ekstra<span class="text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-purple-600">kurikuler</span>
+                Ekstra<span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-cyan-600">kurikuler</span>
             </h1>
             <p class="text-gray-600 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">Wadah pengembangan bakat dan minat siswa di luar jam pelajaran untuk membentuk karakter yang unggul</p>
         </div>

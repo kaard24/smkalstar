@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  * Model BerkasPendaftaran
  * 
  * Menyimpan dokumen-dokumen yang diupload oleh calon siswa
- * File disimpan di: storage/app/ppdb/berkas/{nisn}/
+ * File disimpan di: storage/app/spmb/berkas/{nisn}/
  */
 class BerkasPendaftaran extends Model
 {
@@ -176,5 +176,28 @@ class BerkasPendaftaran extends Model
     {
         $progress = self::getUploadProgress($calonSiswaId);
         return $progress['is_complete'];
+    }
+
+    /**
+     * Mendapatkan ukuran file dalam format readable (KB/MB)
+     */
+    public function getFileSize(): string
+    {
+        $path = $this->path_file;
+        $fullPath = storage_path('app/public/' . $path);
+        
+        if (!file_exists($fullPath)) {
+            return '-';
+        }
+        
+        $bytes = filesize($fullPath);
+        
+        if ($bytes === 0) return '0 Bytes';
+        
+        $k = 1024;
+        $sizes = ['Bytes', 'KB', 'MB'];
+        $i = floor(log($bytes) / log($k));
+        
+        return round($bytes / pow($k, $i), 2) . ' ' . $sizes[$i];
     }
 }

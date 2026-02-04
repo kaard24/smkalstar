@@ -8,10 +8,10 @@ Sitemap: https://smk-alstar.sch.id/sitemap.xml
 Disallow: /admin/
 Disallow: /login
 Disallow: /register
-Disallow: /ppdb/dashboard
-Disallow: /ppdb/status
-Disallow: /ppdb/berkas
-Disallow: /ppdb/profil
+Disallow: /spmb/dashboard
+Disallow: /spmb/status
+Disallow: /spmb/berkas
+Disallow: /spmb/profil
 
 # Disallow search queries
 Disallow: /search

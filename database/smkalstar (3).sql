@@ -82,7 +82,7 @@ CREATE TABLE `calon_siswa` (
 
 CREATE TABLE `jurusan` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `kode` enum('TKJ','MPLB','AKL','BDP') NOT NULL,
+  `kode` enum('TKJ','MPLB','AKL','BR') NOT NULL,
   `nama` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -96,11 +96,11 @@ INSERT INTO `jurusan` (`id`, `kode`, `nama`, `created_at`, `updated_at`) VALUES
 (1, 'TKJ', 'Teknik Komputer dan Jaringan', '2026-01-26 19:57:11', '2026-01-26 19:57:11'),
 (2, 'MPLB', 'Manajemen Perkantoran dan Layanan Bisnis', '2026-01-26 19:57:11', '2026-01-26 19:57:11'),
 (3, 'AKL', 'Akuntansi Keuangan dan Lembaga', '2026-01-26 19:57:11', '2026-01-26 19:57:11'),
-(4, 'BDP', 'Bisnis Daring dan Pemasaran', '2026-01-26 19:57:11', '2026-01-26 19:57:11'),
+(4, 'BR', 'Bisnis Ritel', '2026-01-26 19:57:11', '2026-01-26 19:57:11'),
 (5, 'TKJ', 'Teknik Komputer dan Jaringan', '2026-01-26 19:26:59', '2026-01-26 19:26:59'),
 (6, 'MPLB', 'Manajemen Perkantoran dan Layanan Bisnis', '2026-01-26 19:26:59', '2026-01-26 19:26:59'),
 (7, 'AKL', 'Akuntansi Keuangan dan Lembaga', '2026-01-26 19:26:59', '2026-01-26 19:26:59'),
-(8, 'BDP', 'Bisnis Daring dan Pemasaran', '2026-01-26 19:26:59', '2026-01-26 19:26:59');
+(8, 'BR', 'Bisnis Ritel', '2026-01-26 19:26:59', '2026-01-26 19:26:59');
 
 -- --------------------------------------------------------
 

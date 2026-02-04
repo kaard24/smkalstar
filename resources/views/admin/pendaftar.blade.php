@@ -8,7 +8,7 @@
         <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div>
                 <h1 class="text-2xl font-bold text-slate-800">Data Calon Siswa</h1>
-                <p class="text-sm text-slate-500 mt-1">Kelola data pendaftar PPDB SMK Al-Hidayah Lestari</p>
+                <p class="text-sm text-slate-500 mt-1">Kelola data pendaftar SPMB SMK Al-Hidayah Lestari</p>
             </div>
             <div class="flex flex-wrap gap-2 items-center">
                 <a href="{{ route('admin.pendaftar.create') }}" 

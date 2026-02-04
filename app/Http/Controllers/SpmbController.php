@@ -9,7 +9,7 @@ use App\Models\Pendaftaran;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
-class PpdbController extends Controller
+class SpmbController extends Controller
 {
 
     /**
@@ -17,16 +17,16 @@ class PpdbController extends Controller
      */
     public function create()
     {
-        $siswa = Auth::guard('ppdb')->user();
+        $siswa = Auth::guard('spmb')->user();
         
         // If already fully registered, redirect to dashboard
         if ($siswa->isRegistrationComplete() && $siswa->pendaftaran?->jurusan_id) {
-            return redirect()->route('ppdb.dashboard')->with('info', 'Data Anda sudah lengkap.');
+            return redirect()->route('spmb.dashboard')->with('info', 'Data Anda sudah lengkap.');
         }
 
         $siswa->load(['orangTua', 'pendaftaran']);
         
-        return view('ppdb.lengkapi-data', compact('siswa'));
+        return view('spmb.lengkapi-data', compact('siswa'));
     }
 
     /**
@@ -34,7 +34,7 @@ class PpdbController extends Controller
      */
     public function store(Request $request)
     {
-        $siswa = Auth::guard('ppdb')->user();
+        $siswa = Auth::guard('spmb')->user();
 
         $rules = [
             'nik' => 'required|string|size:16',
@@ -156,7 +156,7 @@ class PpdbController extends Controller
                 }
             });
 
-            return redirect()->route('ppdb.dashboard')->with('success', 'Data berhasil disimpan! Pendaftaran Anda sudah lengkap.');
+            return redirect()->route('spmb.dashboard')->with('success', 'Data berhasil disimpan! Pendaftaran Anda sudah lengkap.');
         } catch (\Exception $e) {
             return back()->with('error', 'Terjadi kesalahan saat menyimpan data: ' . $e->getMessage())->withInput();
         }

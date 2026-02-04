@@ -22,7 +22,7 @@ class GenerateSitemap extends Command
             ['url' => '/', 'priority' => '1.0', 'freq' => 'weekly'],
             ['url' => '/profil', 'priority' => '0.9', 'freq' => 'monthly'],
             ['url' => '/jurusan', 'priority' => '0.9', 'freq' => 'monthly'],
-            ['url' => '/ppdb/info', 'priority' => '1.0', 'freq' => 'weekly'],
+            ['url' => '/spmb/info', 'priority' => '1.0', 'freq' => 'weekly'],
             ['url' => '/fasilitas', 'priority' => '0.8', 'freq' => 'monthly'],
             ['url' => '/ekstrakurikuler', 'priority' => '0.7', 'freq' => 'monthly'],
             ['url' => '/prestasi', 'priority' => '0.8', 'freq' => 'weekly'],

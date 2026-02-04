@@ -31,7 +31,7 @@
         </div>
         @endif
 
-        <form action="{{ route('ppdb.profil.update') }}" method="POST" class="space-y-6">
+        <form action="{{ route('spmb.profil.update') }}" method="POST" class="space-y-6">
             @csrf
             @method('PUT')
             <input type="hidden" name="jenis" value="{{ $jenis }}">
@@ -45,7 +45,7 @@
                     <!-- No Pendaftaran (readonly) -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Nomor Pendaftaran</label>
-                        <input type="text" value="PPDB-{{ $calonSiswa->pendaftaran->id ?? $calonSiswa->id }}/{{ date('Y') }}" readonly
+                        <input type="text" value="SPMB-{{ $calonSiswa->pendaftaran->id ?? $calonSiswa->id }}/{{ date('Y') }}" readonly
                             class="w-full px-4 py-3 border border-gray-200 rounded-xl bg-gray-50 text-gray-500">
                     </div>
 
@@ -294,6 +294,103 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Switch ke Wali - Hanya muncul jika jenis = orang_tua -->
+            <div class="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl shadow-sm border border-amber-100 overflow-hidden">
+                <div class="p-6">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                        <div class="flex items-start gap-3">
+                            <div class="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-900">Ingin menggunakan data Wali?</h3>
+                                <p class="text-sm text-gray-600 mt-1">Anda dapat mengubah data orang tua menjadi data wali</p>
+                            </div>
+                        </div>
+                        <button type="button" onclick="document.getElementById('formSwitchWali').classList.toggle('hidden')" 
+                            class="px-4 py-2 bg-amber-600 text-white rounded-lg font-medium hover:bg-amber-700 transition text-sm whitespace-nowrap">
+                            + Tambah Data Wali
+                        </button>
+                    </div>
+
+                    <!-- Form Data Wali (Hidden by default) -->
+                    <div id="formSwitchWali" class="hidden mt-6 pt-6 border-t border-amber-200">
+                        <div class="bg-white rounded-xl p-6 border border-amber-100">
+                            <h4 class="font-medium text-gray-900 mb-4 flex items-center gap-2">
+                                <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                Data Wali Baru
+                            </h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <!-- Nama Wali -->
+                                <div>
+                                    <label for="nama_wali" class="block text-sm font-medium text-gray-700 mb-2">
+                                        Nama Wali <span class="text-red-500">*</span>
+                                    </label>
+                                    <input type="text" id="nama_wali" name="nama_wali" 
+                                        value="{{ old('nama_wali') }}"
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition @error('nama_wali') border-red-500 @enderror">
+                                    @error('nama_wali')
+                                    <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <!-- Pekerjaan Wali -->
+                                <div>
+                                    <label for="pekerjaan_wali" class="block text-sm font-medium text-gray-700 mb-2">
+                                        Pekerjaan Wali <span class="text-red-500">*</span>
+                                    </label>
+                                    <input type="text" id="pekerjaan_wali" name="pekerjaan_wali" 
+                                        value="{{ old('pekerjaan_wali') }}"
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition @error('pekerjaan_wali') border-red-500 @enderror">
+                                    @error('pekerjaan_wali')
+                                    <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <!-- No HP Wali -->
+                                <div>
+                                    <label for="no_hp_wali" class="block text-sm font-medium text-gray-700 mb-2">
+                                        No. HP Wali <span class="text-red-500">*</span>
+                                    </label>
+                                    <input type="text" id="no_hp_wali" name="no_hp_wali" 
+                                        value="{{ old('no_hp_wali') }}"
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition @error('no_hp_wali') border-red-500 @enderror">
+                                    @error('no_hp_wali')
+                                    <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                <!-- Hubungan Wali -->
+                                <div>
+                                    <label for="hubungan_wali" class="block text-sm font-medium text-gray-700 mb-2">
+                                        Hubungan dengan Wali <span class="text-red-500">*</span>
+                                    </label>
+                                    <input type="text" id="hubungan_wali" name="hubungan_wali" 
+                                        value="{{ old('hubungan_wali') }}"
+                                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition @error('hubungan_wali') border-red-500 @enderror">
+                                    @error('hubungan_wali')
+                                    <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+                            <input type="hidden" name="switch_to_wali" value="1">
+                            <div class="mt-4 p-3 bg-yellow-50 rounded-lg border border-yellow-200">
+                                <p class="text-xs text-yellow-700 flex items-start gap-2">
+                                    <svg class="w-4 h-4 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                    <span>Dengan mengisi data di atas, data orang tua akan diganti dengan data wali.</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             @endif
 
             <!-- Data Wali - Hanya jika jenis = wali -->
@@ -472,7 +569,7 @@
 
             <!-- Submit Button -->
             <div class="flex justify-end gap-4">
-                <a href="{{ route('ppdb.profil') }}" 
+                <a href="{{ route('spmb.profil') }}" 
                     class="px-6 py-3 border border-gray-300 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition">
                     Batal
                 </a>

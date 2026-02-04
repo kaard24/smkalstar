@@ -12,7 +12,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
-            'auth.ppdb' => \Illuminate\Auth\Middleware\Authenticate::class . ':ppdb',
+            'auth.spmb' => \Illuminate\Auth\Middleware\Authenticate::class . ':spmb',
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

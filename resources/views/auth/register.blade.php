@@ -300,7 +300,32 @@
                     <div x-show="step === 2" x-cloak x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-x-4" x-transition:enter-end="opacity-100 translate-x-0">
                         <div class="space-y-5">
                             <!-- No WhatsApp -->
-                            <div>
+                            <div x-data="{ 
+                                noWa: '{{ old('no_wa') }}',
+                                isValid: null,
+                                formatWA(value) {
+                                    // Hapus semua karakter non-digit
+                                    let cleaned = value.replace(/\D/g, '');
+                                    
+                                    // Auto-format: jika diawali dengan 0, ganti dengan 62
+                                    if (cleaned.startsWith('0')) {
+                                        cleaned = '62' + cleaned.substring(1);
+                                    }
+                                    // Jika diawali dengan 8, tambahkan 62 di depan
+                                    else if (cleaned.startsWith('8')) {
+                                        cleaned = '62' + cleaned;
+                                    }
+                                    
+                                    return cleaned;
+                                },
+                                validateWA(value) {
+                                    const formatted = this.formatWA(value);
+                                    this.noWa = formatted;
+                                    // Validasi: harus diawali 62 dan panjang 10-14 digit setelah 62
+                                    const regex = /^62[0-9]{9,12}$/;
+                                    this.isValid = regex.test(formatted);
+                                }
+                            }">
                                 <label for="no_wa" class="block text-sm font-semibold text-gray-700 mb-2">
                                     Nomor WhatsApp <span class="text-red-500">*</span>
                                 </label>
@@ -314,16 +339,37 @@
                                         type="tel" 
                                         id="no_wa" 
                                         name="no_wa"
+                                        x-model="noWa"
+                                        @input="validateWA($event.target.value)"
+                                        @blur="validateWA($event.target.value)"
                                         placeholder="6281234567890"
-                                        minlength="12"
+                                        minlength="11"
                                         maxlength="14"
                                         required
-                                        class="w-full pl-11 pr-4 py-3.5 bg-gray-50 border-2 border-gray-200 rounded-xl focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
+                                        :class="{
+                                            'w-full pl-11 pr-10 py-3.5 bg-gray-50 border-2 rounded-xl focus:bg-white focus:ring-4 transition-all': true,
+                                            'border-gray-200 focus:border-primary focus:ring-primary/10': isValid === null,
+                                            'border-emerald-500 focus:border-emerald-500 focus:ring-emerald-500/10 bg-emerald-50': isValid === true,
+                                            'border-red-500 focus:border-red-500 focus:ring-red-500/10 bg-red-50': isValid === false
+                                        }"
                                     >
+                                    <!-- Icon Valid/Invalid -->
+                                    <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+                                        <svg x-show="isValid === true" class="h-5 w-5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                        <svg x-show="isValid === false" class="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                        </svg>
+                                    </div>
                                 </div>
-                                <p class="mt-1.5 text-xs text-gray-500 flex items-center gap-1">
+                                <p class="mt-1.5 text-xs flex items-center gap-1" :class="{
+                                    'text-gray-500': isValid === null,
+                                    'text-emerald-600': isValid === true,
+                                    'text-red-600': isValid === false
+                                }">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                                    Format: 12-14 digit diawali dengan 62
+                                    <span x-text="isValid === false ? 'Format salah. Contoh: 628123456789' : 'Format: diawali 62 (min 11 digit, max 14 digit)'"></span>
                                 </p>
                             </div>
 

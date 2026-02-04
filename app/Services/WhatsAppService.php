@@ -62,7 +62,7 @@ class WhatsAppService
      */
     public function sendOtp(string $noWa, string $otp): bool
     {
-        $message = "Kode OTP PPDB SMK Al-Hidayah Lestari: {$otp}. Berlaku 5 menit. Jangan bagikan ke siapapun.";
+        $message = "Kode OTP SPMB SMK Al-Hidayah Lestari: {$otp}. Berlaku 5 menit. Jangan bagikan ke siapapun.";
         return $this->sendMessage($noWa, $message);
     }
 
@@ -72,7 +72,7 @@ class WhatsAppService
     public function sendKelulusanNotification(string $noWa, string $nama, string $status, array $nilai = []): bool
     {
         $message = "Assalamualaikum, Ananda {$nama}.\n\n";
-        $message .= "Berdasarkan hasil seleksi PPDB SMK Al-Hidayah Lestari, Anda dinyatakan: {$status}.\n\n";
+        $message .= "Berdasarkan hasil seleksi SPMB SMK Al-Hidayah Lestari, Anda dinyatakan: {$status}.\n\n";
         
         if (!empty($nilai)) {
             $message .= "Rincian Nilai:\n";
@@ -93,7 +93,7 @@ class WhatsAppService
     public function sendVerifikasiNotification(string $noWa, string $nama, string $status): bool
     {
         $statusText = $status === 'verified' ? 'TERVERIFIKASI' : 'BELUM LENGKAP';
-        $message = "Assalamualaikum, Ananda {$nama}. Berkas pendaftaran PPDB Anda telah {$statusText}. Silakan cek status di website resmi.";
+        $message = "Assalamualaikum, Ananda {$nama}. Berkas pendaftaran SPMB Anda telah {$statusText}. Silakan cek status di website resmi.";
 
         return $this->sendMessage($noWa, $message);
     }

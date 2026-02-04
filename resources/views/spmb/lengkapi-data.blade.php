@@ -78,7 +78,7 @@
         </div>
         @endif
 
-        <form action="{{ route('ppdb.lengkapi-data.store') }}" method="POST" @submit="isLoading = true">
+        <form action="{{ route('spmb.lengkapi-data.store') }}" method="POST" @submit="isLoading = true">
             @csrf
 
             <!-- Step 1: Data yang Perlu Dilengkapi -->
@@ -202,7 +202,7 @@
 
                 <!-- Navigation Buttons -->
                 <div class="flex justify-end gap-4">
-                    <a href="{{ route('ppdb.dashboard') }}" 
+                    <a href="{{ route('spmb.dashboard') }}" 
                         class="px-6 py-3 border-2 border-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 hover:border-gray-300 transition">
                         Batal
                     </a>
@@ -428,7 +428,25 @@
                             </div>
 
                             <!-- No WA Ortu -->
-                            <div>
+                            <div x-data="{
+                                noWaOrtu: '{{ old('no_wa_ortu', $siswa->orangTua?->no_wa_ortu) }}',
+                                isValid: null,
+                                formatWA(value) {
+                                    let cleaned = value.replace(/\D/g, '');
+                                    if (cleaned.startsWith('0')) {
+                                        cleaned = '62' + cleaned.substring(1);
+                                    } else if (cleaned.startsWith('8')) {
+                                        cleaned = '62' + cleaned;
+                                    }
+                                    return cleaned;
+                                },
+                                validateWA(value) {
+                                    const formatted = this.formatWA(value);
+                                    this.noWaOrtu = formatted;
+                                    const regex = /^62[0-9]{9,12}$/;
+                                    this.isValid = regex.test(formatted);
+                                }
+                            }">
                                 <label for="no_wa_ortu" class="block text-sm font-semibold text-gray-700 mb-2">
                                     No. WhatsApp Orang Tua <span class="text-red-500">*</span>
                                 </label>
@@ -438,15 +456,35 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
                                         </svg>
                                     </div>
-                                    <input type="text" id="no_wa_ortu" name="no_wa_ortu" 
-                                        value="{{ old('no_wa_ortu', $siswa->orangTua?->no_wa_ortu) }}"
-                                        placeholder="Contoh: 6281234567890"
+                                    <input type="tel" id="no_wa_ortu" name="no_wa_ortu" 
+                                        x-model="noWaOrtu"
+                                        @input="validateWA($event.target.value)"
+                                        @blur="validateWA($event.target.value)"
+                                        placeholder="6281234567890"
                                         x-bind:required="jenis === 'orang_tua'"
-                                        class="w-full pl-11 pr-4 py-3.5 bg-gray-50 border-2 border-gray-200 rounded-xl focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all @error('no_wa_ortu') border-red-500 @enderror">
+                                        :class="{
+                                            'w-full pl-11 pr-10 py-3.5 bg-gray-50 border-2 rounded-xl focus:bg-white focus:ring-4 transition-all': true,
+                                            'border-gray-200 focus:border-primary focus:ring-primary/10': isValid === null,
+                                            'border-emerald-500 focus:border-emerald-500 focus:ring-emerald-500/10 bg-emerald-50': isValid === true,
+                                            'border-red-500 focus:border-red-500 focus:ring-red-500/10 bg-red-50': isValid === false
+                                        }">
+                                    <!-- Icon Valid/Invalid -->
+                                    <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+                                        <svg x-show="isValid === true" class="h-5 w-5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                        <svg x-show="isValid === false" class="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                        </svg>
+                                    </div>
                                 </div>
-                                @error('no_wa_ortu')
-                                <p class="mt-1.5 text-sm text-red-500">{{ $message }}</p>
-                                @enderror
+                                <p class="mt-1.5 text-xs" :class="{
+                                    'text-gray-500': isValid === null,
+                                    'text-emerald-600': isValid === true,
+                                    'text-red-600': isValid === false
+                                }">
+                                    <span x-text="isValid === false ? 'Format salah. Contoh: 628123456789' : 'Format: 62xxxxxxxxxx (11-14 digit)'"></span>
+                                </p>
                             </div>
                         </div>
 
@@ -496,7 +534,25 @@
                             </div>
 
                             <!-- No HP Wali -->
-                            <div>
+                            <div x-data="{
+                                noHpWali: '{{ old('no_hp_wali', $siswa->orangTua?->no_hp_wali) }}',
+                                isValid: null,
+                                formatWA(value) {
+                                    let cleaned = value.replace(/\D/g, '');
+                                    if (cleaned.startsWith('0')) {
+                                        cleaned = '62' + cleaned.substring(1);
+                                    } else if (cleaned.startsWith('8')) {
+                                        cleaned = '62' + cleaned;
+                                    }
+                                    return cleaned;
+                                },
+                                validateWA(value) {
+                                    const formatted = this.formatWA(value);
+                                    this.noHpWali = formatted;
+                                    const regex = /^62[0-9]{9,12}$/;
+                                    this.isValid = regex.test(formatted);
+                                }
+                            }">
                                 <label for="no_hp_wali" class="block text-sm font-semibold text-gray-700 mb-2">
                                     No. HP Wali <span class="text-red-500">*</span>
                                 </label>
@@ -506,15 +562,35 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
                                         </svg>
                                     </div>
-                                    <input type="text" id="no_hp_wali" name="no_hp_wali" 
-                                        value="{{ old('no_hp_wali', $siswa->orangTua?->no_hp_wali) }}"
-                                        placeholder="Contoh: 6281234567890"
+                                    <input type="tel" id="no_hp_wali" name="no_hp_wali" 
+                                        x-model="noHpWali"
+                                        @input="validateWA($event.target.value)"
+                                        @blur="validateWA($event.target.value)"
+                                        placeholder="6281234567890"
                                         x-bind:required="jenis === 'wali'"
-                                        class="w-full pl-11 pr-4 py-3.5 bg-gray-50 border-2 border-gray-200 rounded-xl focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all @error('no_hp_wali') border-red-500 @enderror">
+                                        :class="{
+                                            'w-full pl-11 pr-10 py-3.5 bg-gray-50 border-2 rounded-xl focus:bg-white focus:ring-4 transition-all': true,
+                                            'border-gray-200 focus:border-primary focus:ring-primary/10': isValid === null,
+                                            'border-emerald-500 focus:border-emerald-500 focus:ring-emerald-500/10 bg-emerald-50': isValid === true,
+                                            'border-red-500 focus:border-red-500 focus:ring-red-500/10 bg-red-50': isValid === false
+                                        }">
+                                    <!-- Icon Valid/Invalid -->
+                                    <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+                                        <svg x-show="isValid === true" class="h-5 w-5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                        <svg x-show="isValid === false" class="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                        </svg>
+                                    </div>
                                 </div>
-                                @error('no_hp_wali')
-                                <p class="mt-1.5 text-sm text-red-500">{{ $message }}</p>
-                                @enderror
+                                <p class="mt-1.5 text-xs" :class="{
+                                    'text-gray-500': isValid === null,
+                                    'text-emerald-600': isValid === true,
+                                    'text-red-600': isValid === false
+                                }">
+                                    <span x-text="isValid === false ? 'Format salah. Contoh: 628123456789' : 'Format: 62xxxxxxxxxx (11-14 digit)'"></span>
+                                </p>
                             </div>
 
                             <!-- Hubungan dengan Wali -->
@@ -552,7 +628,7 @@
                         Kembali
                     </button>
                     <div class="flex gap-4">
-                        <a href="{{ route('ppdb.dashboard') }}" 
+                        <a href="{{ route('spmb.dashboard') }}" 
                             class="px-6 py-3 border-2 border-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 hover:border-gray-300 transition">
                             Batal
                         </a>
@@ -571,4 +647,234 @@
         </form>
     </div>
 </div>
+
+{{-- Auto-save Notification Toast --}}
+<div id="autosave-toast" class="fixed bottom-4 right-4 z-50 transform translate-y-20 opacity-0 transition-all duration-300" style="display: none;">
+    <div class="bg-gray-800 text-white px-4 py-3 rounded-xl shadow-lg flex items-center gap-3">
+        <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+        </svg>
+        <div>
+            <p class="text-sm font-medium">Data tersimpan otomatis</p>
+            <p class="text-xs text-gray-400" id="autosave-time">Terakhir disimpan: -</p>
+        </div>
+    </div>
+</div>
+
+{{-- Restore Confirmation Modal --}}
+<div id="restore-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm" style="display: none;">
+    <div class="bg-white rounded-2xl p-6 max-w-md mx-4 shadow-2xl">
+        <div class="flex items-center gap-3 mb-4">
+            <div class="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+            </div>
+            <div>
+                <h3 class="text-lg font-bold text-gray-900">Pulihkan Data?</h3>
+                <p class="text-sm text-gray-500">Ada data yang belum tersimpan</p>
+            </div>
+        </div>
+        <p class="text-gray-600 mb-6">Kami menemukan data formulir yang tersimpan secara otomatis. Apakah Anda ingin memulihkan data tersebut?</p>
+        <div class="flex gap-3">
+            <button onclick="clearSavedData()" class="flex-1 px-4 py-2 border border-gray-200 text-gray-700 rounded-xl font-medium hover:bg-gray-50 transition">
+                Hapus Data
+            </button>
+            <button onclick="restoreFormData()" class="flex-1 px-4 py-2 bg-primary text-white rounded-xl font-medium hover:bg-primary/90 transition">
+                Pulihkan
+            </button>
+        </div>
+    </div>
+</div>
+
+@push('scripts')
+<script>
+(function() {
+    'use strict';
+    
+    const STORAGE_KEY = 'spmb_form_data_lengkapi';
+    const TIMESTAMP_KEY = 'spmb_form_timestamp';
+    const SAVE_INTERVAL = 5000; // 5 detik
+    
+    const form = document.querySelector('form');
+    const toast = document.getElementById('autosave-toast');
+    const toastTime = document.getElementById('autosave-time');
+    const restoreModal = document.getElementById('restore-modal');
+    
+    // Fungsi untuk mengumpulkan data form
+    function collectFormData() {
+        const formData = new FormData(form);
+        const data = {};
+        
+        // Simpan semua input text, textarea, select
+        form.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], textarea, select').forEach(input => {
+            if (input.name && !input.name.startsWith('_')) {
+                data[input.name] = input.value;
+            }
+        });
+        
+        // Simpan radio buttons
+        form.querySelectorAll('input[type="radio"]:checked').forEach(radio => {
+            if (radio.name) {
+                data[radio.name] = radio.value;
+            }
+        });
+        
+        // Simpan checkbox
+        form.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            if (checkbox.name) {
+                data[checkbox.name] = checkbox.checked;
+            }
+        });
+        
+        // Simpan step yang aktif
+        const stepElement = document.querySelector('[x-data]');
+        if (stepElement) {
+            const alpineData = Alpine.getData(stepElement);
+            if (alpineData && alpineData.step) {
+                data._currentStep = alpineData.step;
+            }
+        }
+        
+        return data;
+    }
+    
+    // Fungsi untuk menyimpan ke localStorage
+    function saveToLocalStorage() {
+        const data = collectFormData();
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        localStorage.setItem(TIMESTAMP_KEY, new Date().toISOString());
+        showToast();
+    }
+    
+    // Fungsi untuk menampilkan toast
+    function showToast() {
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        toastTime.textContent = 'Terakhir disimpan: ' + timeStr;
+        
+        toast.style.display = 'block';
+        setTimeout(() => {
+            toast.classList.remove('translate-y-20', 'opacity-0');
+        }, 10);
+        
+        setTimeout(() => {
+            toast.classList.add('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 300);
+        }, 3000);
+    }
+    
+    // Fungsi untuk memulihkan data form
+    function restoreFormData() {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (!saved) return;
+        
+        try {
+            const data = JSON.parse(saved);
+            
+            // Restore text inputs, textareas, selects
+            Object.keys(data).forEach(key => {
+                if (key.startsWith('_')) return; // Skip metadata
+                
+                const input = form.querySelector(`[name="${key}"]`);
+                if (input) {
+                    if (input.type === 'radio') {
+                        const radio = form.querySelector(`[name="${key}"][value="${data[key]}"]`);
+                        if (radio) radio.checked = true;
+                    } else if (input.type === 'checkbox') {
+                        input.checked = data[key];
+                    } else {
+                        input.value = data[key];
+                    }
+                }
+            });
+            
+            // Restore step
+            if (data._currentStep) {
+                const stepElement = document.querySelector('[x-data]');
+                if (stepElement) {
+                    const alpineData = Alpine.getData(stepElement);
+                    if (alpineData && alpineData.step !== undefined) {
+                        alpineData.step = parseInt(data._currentStep);
+                    }
+                }
+            }
+            
+            // Trigger change events untuk Alpine.js
+            form.querySelectorAll('input, select, textarea').forEach(el => {
+                el.dispatchEvent(new Event('input', { bubbles: true }));
+                el.dispatchEvent(new Event('change', { bubbles: true }));
+            });
+            
+        } catch (e) {
+            console.error('Error restoring form data:', e);
+        }
+        
+        closeRestoreModal();
+    }
+    
+    // Fungsi untuk menghapus data tersimpan
+    function clearSavedData() {
+        localStorage.removeItem(STORAGE_KEY);
+        localStorage.removeItem(TIMESTAMP_KEY);
+        closeRestoreModal();
+    }
+    
+    // Fungsi untuk menutup modal
+    function closeRestoreModal() {
+        restoreModal.style.display = 'none';
+    }
+    
+    // Fungsi untuk memeriksa data yang tersimpan
+    function checkSavedData() {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        const timestamp = localStorage.getItem(TIMESTAMP_KEY);
+        
+        if (saved && timestamp) {
+            const savedTime = new Date(timestamp);
+            const now = new Date();
+            const hoursDiff = (now - savedTime) / (1000 * 60 * 60);
+            
+            // Tampilkan modal jika data kurang dari 24 jam
+            if (hoursDiff < 24) {
+                restoreModal.style.display = 'flex';
+            } else {
+                // Hapus data yang terlalu lama
+                clearSavedData();
+            }
+        }
+    }
+    
+    // Event listeners
+    if (form) {
+        // Auto-save setiap 5 detik
+        setInterval(saveToLocalStorage, SAVE_INTERVAL);
+        
+        // Save saat input berubah (debounced)
+        let debounceTimer;
+        form.addEventListener('input', function() {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(saveToLocalStorage, 1000);
+        });
+        
+        // Hapus localStorage saat form berhasil disubmit
+        form.addEventListener('submit', function() {
+            localStorage.removeItem(STORAGE_KEY);
+            localStorage.removeItem(TIMESTAMP_KEY);
+        });
+    }
+    
+    // Periksa data tersimpan saat halaman dimuat
+    document.addEventListener('DOMContentLoaded', function() {
+        checkSavedData();
+    });
+    
+    // Expose fungsi ke global scope untuk onclick handlers
+    window.restoreFormData = restoreFormData;
+    window.clearSavedData = clearSavedData;
+})();
+</script>
+@endpush
 @endsection
