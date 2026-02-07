@@ -1,2 +1,9 @@
-*
-!.gitignore
+# Ignore all files except these folders
+!foto/
+!berkas/
+
+# But track all files inside foto and berkas
+foto/*
+!foto/.gitignore
+berkas/*
+!berkas/.gitignore

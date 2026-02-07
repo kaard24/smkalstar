@@ -167,71 +167,8 @@
         </div>
     </div>
 
-    {{-- Analytics & Lists Row --}}
-    <div class="grid lg:grid-cols-3 gap-6 mb-6">
-        {{-- Conversion Funnel --}}
-        <div class="card p-5">
-            <h3 class="text-sm font-semibold text-slate-800 mb-4 flex items-center gap-2">
-                <svg class="w-4 h-4 text-[#4276A3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/>
-                </svg>
-                Conversion Rate
-            </h3>
-            <div class="space-y-3">
-                {{-- Pendaftar -> Data Lengkap --}}
-                <div>
-                    <div class="flex justify-between text-xs mb-1">
-                        <span class="text-slate-600">Pendaftar → Data Lengkap</span>
-                        <span class="font-medium text-[#4276A3]">{{ $conversionRate ?? 0 }}%</span>
-                    </div>
-                    <div class="w-full bg-slate-100 rounded-full h-2">
-                        <div class="bg-[#4276A3] h-2 rounded-full transition-all" style="width: {{ $conversionRate ?? 0 }}%"></div>
-                    </div>
-                </div>
-
-                {{-- Data Lengkap -> Berkas Lengkap --}}
-                <div>
-                    <div class="flex justify-between text-xs mb-1">
-                        <span class="text-slate-600">Data → Berkas Lengkap</span>
-                        <span class="font-medium text-[#B45309]">{{ $berkasConversionRate ?? 0 }}%</span>
-                    </div>
-                    <div class="w-full bg-slate-100 rounded-full h-2">
-                        <div class="bg-[#B45309] h-2 rounded-full transition-all" style="width: {{ $berkasConversionRate ?? 0 }}%"></div>
-                    </div>
-                </div>
-
-                {{-- Berkas -> Lulus --}}
-                <div>
-                    <div class="flex justify-between text-xs mb-1">
-                        <span class="text-slate-600">Berkas → Lulus</span>
-                        <span class="font-medium text-green-600">{{ $lulusConversionRate ?? 0 }}%</span>
-                    </div>
-                    <div class="w-full bg-slate-100 rounded-full h-2">
-                        <div class="bg-green-500 h-2 rounded-full transition-all" style="width: {{ $lulusConversionRate ?? 0 }}%"></div>
-                    </div>
-                </div>
-            </div>
-
-            {{-- Drop-off Info --}}
-            <div class="mt-4 pt-4 border-t border-slate-200">
-                <h4 class="text-xs font-medium text-slate-500 mb-2">Drop-off Rate</h4>
-                <div class="space-y-2">
-                    @if(isset($dropOffData['pendaftaran_ke_data']))
-                    <div class="flex items-center justify-between text-xs">
-                        <span class="text-slate-600">Belum lengkap data</span>
-                        <span class="text-red-500 font-medium">{{ $dropOffData['pendaftaran_ke_data']['count'] }} ({{ $dropOffData['pendaftaran_ke_data']['rate'] }}%)</span>
-                    </div>
-                    @endif
-                    @if(isset($dropOffData['data_ke_berkas']))
-                    <div class="flex items-center justify-between text-xs">
-                        <span class="text-slate-600">Belum upload berkas</span>
-                        <span class="text-orange-500 font-medium">{{ $dropOffData['data_ke_berkas']['count'] }} ({{ $dropOffData['data_ke_berkas']['rate'] }}%)</span>
-                    </div>
-                    @endif
-                </div>
-            </div>
-        </div>
-
+    {{-- Top Asal Sekolah --}}
+    <div class="mb-6">
         {{-- Top 10 Asal Sekolah --}}
         <div class="card p-5">
             <h3 class="text-sm font-semibold text-slate-800 mb-4 flex items-center gap-2">
@@ -256,64 +193,9 @@
                 @endforelse
             </div>
         </div>
-
-        {{-- Additional Metrics --}}
-        <div class="card p-5">
-            <h3 class="text-sm font-semibold text-slate-800 mb-4 flex items-center gap-2">
-                <svg class="w-4 h-4 text-[#4276A3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-                </svg>
-                Metrik Tambahan
-            </h3>
-            
-            {{-- Average Completion Time --}}
-            <div class="mb-4 p-3 bg-slate-50 rounded-lg">
-                <p class="text-xs text-slate-500 mb-1">Rata-rata Waktu Penyelesaian</p>
-                <p class="text-lg font-bold text-slate-800">
-                    @if($avgCompletionTime)
-                        {{ $avgCompletionTime }} <span class="text-sm font-normal text-slate-500">hari</span>
-                    @else
-                        <span class="text-sm font-normal text-slate-400">Belum ada data</span>
-                    @endif
-                </p>
-                <p class="text-xs text-slate-400 mt-1">Dari daftar sampai berkas lengkap</p>
-            </div>
-
-            {{-- Siap Tes Count --}}
-            <div class="mb-4 p-3 bg-slate-50 rounded-lg">
-                <p class="text-xs text-slate-500 mb-1">Siap Tes</p>
-                <p class="text-lg font-bold text-slate-800">{{ $siapTes ?? 0 }}</p>
-                <p class="text-xs text-slate-400 mt-1">Data & berkas lengkap</p>
-            </div>
-
-            {{-- Total Stats Summary --}}
-            <div class="grid grid-cols-2 gap-2">
-                <div class="text-center p-2 bg-blue-50 rounded-lg">
-                    <p class="text-xs text-blue-600 mb-1">Conversion</p>
-                    <p class="text-lg font-bold text-blue-800">{{ $conversionRate ?? 0 }}%</p>
-                </div>
-                <div class="text-center p-2 bg-green-50 rounded-lg">
-                    <p class="text-xs text-green-600 mb-1">Kelulusan</p>
-                    <p class="text-lg font-bold text-green-800">{{ $lulusConversionRate ?? 0 }}%</p>
-                </div>
-            </div>
-        </div>
     </div>
 
-    {{-- Peak Hours Chart --}}
-    <div class="card p-5 mb-6">
-        <div class="flex items-center justify-between mb-4">
-            <h3 class="text-sm font-semibold text-slate-800 flex items-center gap-2">
-                <svg class="w-4 h-4 text-[#4276A3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-                Peak Hours (Jam Paling Ramai)
-            </h3>
-        </div>
-        <div class="h-48">
-            <canvas id="peakHoursChart"></canvas>
-        </div>
-    </div>
+
 
     {{-- Menu Cepat --}}
     <div class="card p-6 mb-6">
@@ -489,37 +371,6 @@
         }
     });
 
-    // Peak Hours Chart
-    const peakCtx = document.getElementById('peakHoursChart').getContext('2d');
-    new Chart(peakCtx, {
-        type: 'bar',
-        data: {
-            labels: {!! json_encode(($peakHours ?? collect())->pluck('hour')) !!},
-            datasets: [{
-                label: 'Pendaftar',
-                data: {!! json_encode(($peakHours ?? collect())->pluck('total')) !!},
-                backgroundColor: '#4276A3',
-                borderRadius: 4,
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: { display: false }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: { stepSize: 1, font: { size: 11 } },
-                    grid: { color: 'rgba(0,0,0,0.05)' }
-                },
-                x: {
-                    ticks: { font: { size: 10 }, maxRotation: 45 },
-                    grid: { display: false }
-                }
-            }
-        }
-    });
+
 </script>
 @endpush

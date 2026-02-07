@@ -116,7 +116,7 @@
             <div class="text-xs md:text-sm text-cyan-100">Kompetensi Keahlian</div>
         </div>
         <div>
-            <div class="text-xl md:text-3xl font-bold font-heading mb-0.5 md:mb-1">A</div>
+            <div class="text-xl md:text-3xl font-bold font-heading mb-0.5 md:mb-1">B</div>
             <div class="text-xs md:text-sm text-cyan-100">Akreditasi Sekolah</div>
         </div>
     </div>

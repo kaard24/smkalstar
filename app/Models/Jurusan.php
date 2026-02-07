@@ -62,6 +62,12 @@ class Jurusan extends Model
             return $this->gambar;
         }
         
+        // If path starts with 'images/', it's in public folder
+        if (str_starts_with($this->gambar, 'images/')) {
+            return asset($this->gambar);
+        }
+        
+        // Otherwise assume it's in storage
         return asset('storage/' . $this->gambar);
     }
 

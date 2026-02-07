@@ -1,0 +1,11 @@
+*
+!.gitignore
+!*.jpg
+!*.jpeg
+!*.png
+!*.gif
+!*.webp
+!*.svg
+!*.pdf
+!*.doc
+!*.docx

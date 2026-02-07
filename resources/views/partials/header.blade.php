@@ -5,7 +5,7 @@
             <a href="{{ url('/') }}" class="flex-shrink-0 flex items-center gap-2">
                 <img class="h-8 w-8 md:h-9 md:w-9 rounded-full object-cover" src="{{ asset('images/logo.webp') }}" alt="Logo SMK Al-Hidayah Lestari" loading="lazy" decoding="async">
                 <span class="font-bold text-sm md:text-lg text-primary tracking-tight truncate max-w-[140px] md:max-w-none leading-none">
-                    SMK Al-Hidayah
+                    SMK Al-Hidayah Lestari
                 </span>
             </a>
 

@@ -1,11 +1,31 @@
 <?php $__env->startSection('title', 'Profil Sekolah - SMK Al-Hidayah Lestari'); ?>
 
 <?php $__env->startSection('content'); ?>
-    <!-- Header Page -->
-    <div class="bg-green-50 py-12 border-b border-green-100">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Profil Sekolah</h1>
-            <p class="text-gray-600">Mengenal lebih dekat sejarah, visi, dan orang-orang hebat di balik SMK Al-Hidayah Lestari</p>
+    <!-- Header Page - Unique Design -->
+    <div class="relative bg-gradient-to-br from-blue-50 via-sky-50 to-cyan-50 py-16 md:py-24 border-b border-blue-100 overflow-hidden">
+        <!-- Decorative Elements -->
+        <div class="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-blue-200/30 to-sky-200/30 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+        <div class="absolute bottom-0 left-0 w-72 h-72 bg-gradient-to-tr from-cyan-200/30 to-blue-200/30 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+        <div class="absolute inset-0 opacity-30" style="background-image: url('data:image/svg+xml,%3Csvg width=&quot;40&quot; height=&quot;40&quot; viewBox=&quot;0 0 40 40&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;%3E%3Cg fill=&quot;%233b82f6&quot; fill-opacity=&quot;0.05&quot; fill-rule=&quot;evenodd&quot;%3E%3Cpath d=&quot;M0 40L40 0H20L0 20M40 40V20L20 40&quot;/%3E%3C/g%3E%3C/svg%3E');"></div>
+        
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <div class="inline-flex items-center gap-2 bg-white/70 backdrop-blur-sm border border-blue-200 px-4 py-1.5 rounded-full text-sm font-medium text-blue-700 mb-6">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                Tentang Kami
+            </div>
+            <h1 class="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-4 font-heading">
+                Profil <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-cyan-600">Sekolah</span>
+            </h1>
+            <p class="text-gray-600 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">Mengenal lebih dekat sejarah, visi, dan orang-orang hebat di balik SMK Al-Hidayah Lestari</p>
+            
+            <!-- Breadcrumb -->
+            <nav class="mt-8 flex justify-center">
+                <ol class="flex items-center space-x-2 text-sm">
+                    <li><a href="/" class="text-blue-600 hover:text-blue-700">Beranda</a></li>
+                    <li><svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></li>
+                    <li class="text-gray-500">Profil Sekolah</li>
+                </ol>
+            </nav>
         </div>
     </div>
 
@@ -85,7 +105,7 @@
                     <!-- Visi -->
                     <div class="bg-white p-6 md:p-10 rounded-2xl md:rounded-3xl shadow-sm hover:shadow-xl transition duration-300 border border-gray-100">
                         <div class="flex items-center gap-3 md:gap-4 mb-4 md:mb-6">
-                            <div class="w-10 h-10 md:w-12 md:h-12 bg-green-100 rounded-xl md:rounded-2xl flex items-center justify-center text-primary">
+                            <div class="w-10 h-10 md:w-12 md:h-12 bg-sky-100 rounded-xl md:rounded-2xl flex items-center justify-center text-[#0EA5E9]">
                                 <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
                             </div>
                             <h3 class="text-xl md:text-2xl font-bold text-gray-900 font-heading">Visi</h3>
@@ -106,7 +126,7 @@
                         <ul class="space-y-3 md:space-y-4">
                             <?php $__currentLoopData = $profil->misi ?? []; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $misi): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <li class="flex items-start gap-3 md:gap-4">
-                                <span class="flex-shrink-0 w-5 h-5 md:w-6 md:h-6 rounded-full bg-green-100 text-primary text-xs font-bold flex items-center justify-center mt-0.5"><?php echo e($index + 1); ?></span>
+                                <span class="flex-shrink-0 w-5 h-5 md:w-6 md:h-6 rounded-full bg-sky-100 text-[#0EA5E9] text-xs font-bold flex items-center justify-center mt-0.5"><?php echo e($index + 1); ?></span>
                                 <span class="text-gray-600 text-sm md:text-base leading-relaxed"><?php echo e($misi); ?></span>
                             </li>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -194,41 +214,11 @@
             <svg class="w-8 h-8 md:w-10 md:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
         <div class="max-w-5xl md:max-w-6xl max-h-[90vh]" onclick="event.stopPropagation()">
-            <img id="lightbox-img" src="" alt="" class="max-h-[80vh] md:max-h-[85vh] w-auto mx-auto rounded-lg shadow-2xl">
+            <img id="lightbox-img" src="" alt="Foto profil - tampilan penuh" class="max-h-[80vh] md:max-h-[85vh] w-auto mx-auto rounded-lg shadow-2xl">
             <p id="lightbox-caption" class="text-center text-white/80 mt-3 md:mt-4 text-sm md:text-lg font-light tracking-wide"></p>
         </div>
     </div>
 
-    <script>
-        function openLightbox(src, caption) {
-            const lightbox = document.getElementById('lightbox');
-            const img = document.getElementById('lightbox-img');
-            const cap = document.getElementById('lightbox-caption');
-            
-            img.src = src;
-            cap.textContent = caption;
-            lightbox.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-            
-            img.style.opacity = 0;
-            img.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                img.style.transition = 'all 0.3s ease-out';
-                img.style.opacity = 1;
-                img.style.transform = 'scale(1)';
-            }, 10);
-        }
-
-        function closeLightbox() {
-            const lightbox = document.getElementById('lightbox');
-            lightbox.classList.add('hidden');
-            document.body.style.overflow = 'auto';
-        }
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeLightbox();
-        });
-    </script>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\user\.gemini\antigravity\scratch\smkalstar\smkalstar\resources\views/profil.blade.php ENDPATH**/ ?>
