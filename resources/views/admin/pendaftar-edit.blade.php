@@ -3,20 +3,10 @@
 @section('title', 'Edit Data Siswa - Admin Panel')
 
 @section('content')
-    {{-- Breadcrumb --}}
-    <div class="mb-4">
-        <a href="{{ route('admin.pendaftar.index') }}" class="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-[#4276A3] transition">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-            </svg>
-            Kembali ke Daftar Pendaftar
-        </a>
-    </div>
-
     {{-- Header --}}
     <div class="mb-6">
-        <h1 class="text-xl font-bold text-slate-800">Edit Data Calon Siswa</h1>
-        <div class="flex items-center gap-2 mt-1">
+        <h1 class="text-lg font-semibold text-slate-800">Edit Data Calon Siswa</h1>
+        <div class="flex items-center gap-2 mt-0.5">
             <span class="text-sm text-slate-600">{{ $siswa->nama }}</span>
             <span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs font-mono">{{ $siswa->nisn }}</span>
         </div>
@@ -210,66 +200,6 @@
                     </div>
                 </div>
 
-                {{-- Status Wawancara & Minat Bakat --}}
-                <div class="card p-4 border-l-4 border-[#4276A3]">
-                    <h3 class="font-semibold text-sm text-slate-800 mb-4 flex items-center gap-2 pb-2 border-b border-slate-100">
-                        <svg class="w-4 h-4 text-[#4276A3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
-                        </svg>
-                        Status Tes & Wawancara
-                    </h3>
-                    <div class="space-y-3">
-                        {{-- Status Wawancara --}}
-                        <div>
-                            <label class="block text-xs font-medium text-slate-600 mb-1">
-                                Status Wawancara <span class="text-[#991B1B]">*</span>
-                            </label>
-                            <select name="status_wawancara" required
-                                    class="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:border-[#4276A3] focus:ring-1 focus:ring-[#4276A3] bg-white">
-                                <option value="belum" {{ old('status_wawancara', $siswa->pendaftaran?->tes?->status_wawancara ?? 'belum') == 'belum' ? 'selected' : '' }}>
-                                    Belum
-                                </option>
-                                <option value="sudah" {{ old('status_wawancara', $siswa->pendaftaran?->tes?->status_wawancara) == 'sudah' ? 'selected' : '' }}>
-                                    Sudah
-                                </option>
-                            </select>
-                            <p class="text-xs text-slate-500 mt-1">
-                                * Jika diubah ke "Sudah", siswa otomatis dinyatakan <strong>LULUS</strong>
-                            </p>
-                        </div>
-
-                        {{-- Nilai Minat Bakat --}}
-                        <div>
-                            <label class="block text-xs font-medium text-slate-600 mb-1">
-                                Minat dan Bakat
-                            </label>
-                            <textarea name="nilai_minat_bakat" rows="3"
-                                   placeholder="Deskripsikan minat dan bakat siswa..."
-                                   class="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:border-[#4276A3] focus:ring-1 focus:ring-[#4276A3]">{{ old('nilai_minat_bakat', $siswa->pendaftaran?->tes?->nilai_minat_bakat) }}</textarea>
-                            <p class="text-xs text-slate-500 mt-1">Isi secara manual berdasarkan hasil tes</p>
-                        </div>
-
-                        {{-- Status Saat Ini --}}
-                        @if($siswa->pendaftaran?->tes)
-                        <div class="p-3 bg-slate-50 rounded-lg mt-3">
-                            <p class="text-xs text-slate-600">Status Saat Ini:</p>
-                            <div class="flex items-center gap-2 mt-1">
-                                <span class="px-2 py-1 text-xs rounded font-medium 
-                                    {{ $siswa->pendaftaran->tes->status_wawancara === 'sudah' ? 'bg-[#4276A3]/10 text-[#4276A3]' : 'bg-[#B45309]/10 text-[#B45309]' }}">
-                                    Wawancara: {{ $siswa->pendaftaran->tes->status_wawancara === 'sudah' ? 'Sudah' : 'Belum' }}
-                                </span>
-                                @if($siswa->pendaftaran->tes->status_kelulusan)
-                                <span class="px-2 py-1 text-xs rounded font-medium 
-                                    {{ $siswa->pendaftaran->tes->status_kelulusan === 'Lulus' ? 'bg-[#4276A3]/10 text-[#4276A3]' : 'bg-[#991B1B]/10 text-[#991B1B]' }}">
-                                    {{ $siswa->pendaftaran->tes->status_kelulusan }}
-                                </span>
-                                @endif
-                            </div>
-                        </div>
-                        @endif
-                    </div>
-                </div>
-
                 {{-- Data Orang Tua / Wali --}}
                 <div class="card p-4">
                     <h3 class="font-semibold text-sm text-slate-800 mb-4 flex items-center gap-2 pb-2 border-b border-slate-100">
@@ -447,14 +377,16 @@
                 </div>
             </div>
 
-            {{-- Berkas Siswa --}}
-            <div class="card p-4">
-                <h3 class="font-semibold text-sm text-slate-800 mb-4 flex items-center gap-2 pb-2 border-b border-slate-100">
-                    <svg class="w-4 h-4 text-[#4276A3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                    </svg>
-                    Berkas Pendaftaran (CRUD)
-                </h3>
+            {{-- Kolom 3: Berkas & Wawancara --}}
+            <div class="space-y-4">
+                {{-- Berkas Siswa --}}
+                <div class="card p-4">
+                    <h3 class="font-semibold text-sm text-slate-800 mb-4 flex items-center gap-2 pb-2 border-b border-slate-100">
+                        <svg class="w-4 h-4 text-[#4276A3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        Berkas Pendaftaran
+                    </h3>
                 
                 @php
                     $berkasList = \App\Models\BerkasPendaftaran::getJenisBerkas();
@@ -565,6 +497,66 @@
                         </p>
                     @endif
                 </div>
+
+                {{-- Status Tes & Wawancara --}}
+                <div class="card p-4 border-l-4 border-[#4276A3]">
+                    <h3 class="font-semibold text-sm text-slate-800 mb-4 flex items-center gap-2 pb-2 border-b border-slate-100">
+                        <svg class="w-4 h-4 text-[#4276A3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+                        </svg>
+                        Status Tes & Wawancara
+                    </h3>
+                    <div class="space-y-3">
+                        {{-- Status Wawancara --}}
+                        <div>
+                            <label class="block text-xs font-medium text-slate-600 mb-1">
+                                Status Wawancara <span class="text-[#991B1B]">*</span>
+                            </label>
+                            <select name="status_wawancara" required
+                                    class="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:border-[#4276A3] focus:ring-1 focus:ring-[#4276A3] bg-white">
+                                <option value="belum" {{ old('status_wawancara', $siswa->pendaftaran?->tes?->status_wawancara ?? 'belum') == 'belum' ? 'selected' : '' }}>
+                                    Belum
+                                </option>
+                                <option value="sudah" {{ old('status_wawancara', $siswa->pendaftaran?->tes?->status_wawancara) == 'sudah' ? 'selected' : '' }}>
+                                    Sudah
+                                </option>
+                            </select>
+                            <p class="text-xs text-slate-500 mt-1">
+                                * Jika diubah ke "Sudah", siswa otomatis dinyatakan <strong>LULUS</strong>
+                            </p>
+                        </div>
+
+                        {{-- Nilai Minat Bakat --}}
+                        <div>
+                            <label class="block text-xs font-medium text-slate-600 mb-1">
+                                Minat dan Bakat
+                            </label>
+                            <textarea name="nilai_minat_bakat" rows="3"
+                                   placeholder="Deskripsikan minat dan bakat siswa..."
+                                   class="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:border-[#4276A3] focus:ring-1 focus:ring-[#4276A3]">{{ old('nilai_minat_bakat', $siswa->pendaftaran?->tes?->nilai_minat_bakat) }}</textarea>
+                            <p class="text-xs text-slate-500 mt-1">Isi secara manual berdasarkan hasil tes</p>
+                        </div>
+
+                        {{-- Status Saat Ini --}}
+                        @if($siswa->pendaftaran?->tes)
+                        <div class="p-3 bg-slate-50 rounded-lg mt-3">
+                            <p class="text-xs text-slate-600">Status Saat Ini:</p>
+                            <div class="flex items-center gap-2 mt-1">
+                                <span class="px-2 py-1 text-xs rounded font-medium 
+                                    {{ $siswa->pendaftaran->tes->status_wawancara === 'sudah' ? 'bg-[#4276A3]/10 text-[#4276A3]' : 'bg-[#B45309]/10 text-[#B45309]' }}">
+                                    Wawancara: {{ $siswa->pendaftaran->tes->status_wawancara === 'sudah' ? 'Sudah' : 'Belum' }}
+                                </span>
+                                @if($siswa->pendaftaran->tes->status_kelulusan)
+                                <span class="px-2 py-1 text-xs rounded font-medium 
+                                    {{ $siswa->pendaftaran->tes->status_kelulusan === 'Lulus' ? 'bg-[#4276A3]/10 text-[#4276A3]' : 'bg-[#991B1B]/10 text-[#991B1B]' }}">
+                                    {{ $siswa->pendaftaran->tes->status_kelulusan }}
+                                </span>
+                                @endif
+                            </div>
+                        </div>
+                        @endif
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -574,7 +566,7 @@
                class="btn btn-secondary">
                 Batal
             </a>
-            <button type="submit" class="btn btn-primary shadow-md hover:shadow-lg">
+            <button type="submit" class="btn btn-primary">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                 </svg>

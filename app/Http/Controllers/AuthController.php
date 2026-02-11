@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
@@ -30,10 +31,61 @@ class AuthController extends Controller
     }
 
     /**
+     * Verify Google reCAPTCHA response
+     */
+    protected function verifyRecaptcha(string $token): bool
+    {
+        // Skip verification if reCAPTCHA is disabled
+        if (env('RECAPTCHA_ENABLED', true) === false) {
+            return true;
+        }
+
+        // Skip if no secret key configured (development mode)
+        $secretKey = env('RECAPTCHA_SECRET_KEY');
+        if (empty($secretKey)) {
+            return true;
+        }
+
+        try {
+            $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+                'secret' => $secretKey,
+                'response' => $token,
+                'remoteip' => request()->ip(),
+            ]);
+
+            if ($response->successful()) {
+                $data = $response->json();
+                return $data['success'] === true && $data['score'] >= 0.5;
+            }
+        } catch (\Exception $e) {
+            \Log::error('reCAPTCHA verification failed: ' . $e->getMessage());
+        }
+
+        return false;
+    }
+
+    /**
      * Handle registration
      */
     public function register(Request $request)
     {
+        // Rate limiting for registration
+        $key = 'register-attempt:' . $request->ip();
+        if (RateLimiter::tooManyAttempts($key, 3)) {
+            $seconds = RateLimiter::availableIn($key);
+            return back()
+                ->withInput($request->except(['password', 'password_confirmation']))
+                ->with('error', "Terlalu banyak percobaan registrasi. Coba lagi dalam {$seconds} detik.");
+        }
+
+        // Verify reCAPTCHA
+        $recaptchaToken = $request->input('g-recaptcha-response');
+        if (!$this->verifyRecaptcha($recaptchaToken)) {
+            return back()
+                ->withInput($request->except(['password', 'password_confirmation']))
+                ->with('error', 'Verifikasi keamanan gagal. Silakan coba lagi.');
+        }
+
         // Normalize phone number first for validation
         $noWa = $this->normalizePhoneNumber($request->no_wa);
         $request->merge(['no_wa' => $noWa]);
@@ -95,11 +147,10 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
+            RateLimiter::hit($key, 300); // 5 menit decay
             return back()
                 ->withErrors($validator)
-                ->withInput($request->except(['password', 'password_confirmation']))
-                ->with('password', $request->password)
-                ->with('password_confirmation', $request->password_confirmation);
+                ->withInput($request->except(['password', 'password_confirmation']));
         }
 
         // Normalize phone number
@@ -135,20 +186,22 @@ class AuthController extends Controller
                 ]);
             });
 
+            // Clear rate limiter on success
+            RateLimiter::clear($key);
+
             // Simpan session flash untuk login form
             Session::flash('registration_success', true);
             Session::flash('registered_nisn', $request->nisn);
             Session::flash('registered_nama_lengkap', $request->nama_lengkap);
-            Session::flash('registered_password', $request->password);
 
             // Redirect ke halaman login
             return redirect()->route('login');
         } catch (\Exception $e) {
+            RateLimiter::hit($key, 300);
+            \Log::error('Registration error: ' . $e->getMessage(), ['ip' => $request->ip()]);
             return back()
-                ->with('error', 'Terjadi kesalahan saat mendaftar: ' . $e->getMessage())
-                ->withInput($request->except(['password', 'password_confirmation']))
-                ->with('password', $request->password)
-                ->with('password_confirmation', $request->password_confirmation);
+                ->with('error', 'Terjadi kesalahan saat mendaftar. Silakan coba lagi.')
+                ->withInput($request->except(['password', 'password_confirmation']));
         }
     }
 

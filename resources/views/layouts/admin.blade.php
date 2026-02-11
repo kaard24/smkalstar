@@ -517,22 +517,6 @@
                         Pembayaran
                     </a>
 
-                    <a href="{{ route('admin.struktur-organisasi.index') }}" 
-                       class="nav-item flex items-center gap-2 {{ request()->is('admin/struktur-organisasi*') ? 'bg-[#4276A3]/20 text-white border-l-2 border-[#4276A3]' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
-                        </svg>
-                        Struktur
-                    </a>
-
-                    <a href="{{ route('admin.fasilitas.index') }}" 
-                       class="nav-item flex items-center gap-2 {{ request()->is('admin/fasilitas*') ? 'bg-[#4276A3]/20 text-white border-l-2 border-[#4276A3]' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
-                        </svg>
-                        Fasilitas
-                    </a>
-
                     <a href="{{ route('admin.berita.index') }}" 
                        class="nav-item flex items-center gap-2 {{ request()->is('admin/berita*') ? 'bg-[#4276A3]/20 text-white border-l-2 border-[#4276A3]' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -542,9 +526,9 @@
                     </a>
 
                     <!-- More Menu Dropdown -->
-                    <div class="relative" x-data="{ open: false }">
+                    <div class="relative" x-data="{ open: false }" :class="{'bg-[#4276A3]/20 rounded-lg border-l-2 border-[#4276A3]': {{ request()->is('admin/struktur-organisasi*') || request()->is('admin/fasilitas*') || request()->is('admin/ekstrakurikuler*') || request()->is('admin/prestasi*') || request()->is('admin/galeri*') || request()->is('admin/profil-sekolah*') ? 'true' : 'false' }}">
                         <button @click="open = !open" 
-                                class="nav-item flex items-center gap-1 text-slate-300 hover:bg-white/5 hover:text-white">
+                                class="nav-item flex items-center gap-1 {{ request()->is('admin/struktur-organisasi*') || request()->is('admin/fasilitas*') || request()->is('admin/ekstrakurikuler*') || request()->is('admin/prestasi*') || request()->is('admin/galeri*') || request()->is('admin/profil-sekolah*') ? 'text-white' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
                             <span>Lainnya</span>
                             <svg :class="{'rotate-180': open}" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -552,21 +536,28 @@
                         </button>
                         <div x-show="open" @click.away="open = false" x-cloak
                              class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-[#E2E8F0] py-2 z-50 overflow-hidden">
-                            <a href="{{ route('admin.ekstrakurikuler.index') }}" class="block px-4 py-2 text-sm text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155] transition">
+                            <a href="{{ route('admin.struktur-organisasi.index') }}" class="block px-4 py-2 text-sm {{ request()->is('admin/struktur-organisasi*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]' }} transition">
+                                Struktur
+                            </a>
+                            <a href="{{ route('admin.fasilitas.index') }}" class="block px-4 py-2 text-sm {{ request()->is('admin/fasilitas*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]' }} transition">
+                                Fasilitas
+                            </a>
+                            <div class="border-t border-[#E2E8F0] my-1"></div>
+                            <a href="{{ route('admin.ekstrakurikuler.index') }}" class="block px-4 py-2 text-sm {{ request()->is('admin/ekstrakurikuler*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]' }} transition">
                                 Ekstrakurikuler
                             </a>
-                            <a href="{{ route('admin.prestasi.index') }}" class="block px-4 py-2 text-sm text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155] transition">
+                            <a href="{{ route('admin.prestasi.index') }}" class="block px-4 py-2 text-sm {{ request()->is('admin/prestasi*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]' }} transition">
                                 Prestasi
                             </a>
-                            <a href="{{ route('admin.galeri.index') }}" class="block px-4 py-2 text-sm text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155] transition">
+                            <a href="{{ route('admin.galeri.index') }}" class="block px-4 py-2 text-sm {{ request()->is('admin/galeri*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]' }} transition">
                                 Galeri
                             </a>
 
                             <div class="border-t border-[#E2E8F0] my-1"></div>
-                            <a href="{{ route('admin.profil-sekolah.sejarah') }}" class="block px-4 py-2 text-sm text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155] transition">
+                            <a href="{{ route('admin.profil-sekolah.sejarah') }}" class="block px-4 py-2 text-sm {{ request()->is('admin/profil-sekolah/sejarah*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]' }} transition">
                                 Sejarah
                             </a>
-                            <a href="{{ route('admin.profil-sekolah.visi-misi') }}" class="block px-4 py-2 text-sm text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155] transition">
+                            <a href="{{ route('admin.profil-sekolah.visi-misi') }}" class="block px-4 py-2 text-sm {{ request()->is('admin/profil-sekolah/visi-misi*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]' }} transition">
                                 Visi Misi
                             </a>
                         </div>
@@ -618,31 +609,41 @@
                    class="block px-4 py-2 rounded-lg text-sm font-medium {{ request()->is('admin/pembayaran*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
                     Pembayaran
                 </a>
-                <a href="{{ route('admin.struktur-organisasi.index') }}" 
-                   class="block px-4 py-2 rounded-lg text-sm font-medium {{ request()->is('admin/struktur-organisasi*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
-                    Struktur Organisasi
-                </a>
-                <a href="{{ route('admin.fasilitas.index') }}" 
-                   class="block px-4 py-2 rounded-lg text-sm font-medium {{ request()->is('admin/fasilitas*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
-                    Fasilitas
-                </a>
+
                 <a href="{{ route('admin.berita.index') }}" 
                    class="block px-4 py-2 rounded-lg text-sm font-medium {{ request()->is('admin/berita*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
                     Berita
                 </a>
+
+                <div class="px-4 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">Lainnya</div>
+                <a href="{{ route('admin.struktur-organisasi.index') }}" 
+                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium {{ request()->is('admin/struktur-organisasi*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
+                    Struktur
+                </a>
+                <a href="{{ route('admin.fasilitas.index') }}" 
+                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium {{ request()->is('admin/fasilitas*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
+                    Fasilitas
+                </a>
                 <a href="{{ route('admin.ekstrakurikuler.index') }}" 
-                   class="block px-4 py-2 rounded-lg text-sm font-medium {{ request()->is('admin/ekstrakurikuler*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
+                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium {{ request()->is('admin/ekstrakurikuler*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
                     Ekstrakurikuler
                 </a>
                 <a href="{{ route('admin.prestasi.index') }}" 
-                   class="block px-4 py-2 rounded-lg text-sm font-medium {{ request()->is('admin/prestasi*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
+                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium {{ request()->is('admin/prestasi*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
                     Prestasi
                 </a>
                 <a href="{{ route('admin.galeri.index') }}" 
-                   class="block px-4 py-2 rounded-lg text-sm font-medium {{ request()->is('admin/galeri*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
+                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium {{ request()->is('admin/galeri*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
                     Galeri
                 </a>
-
+                <a href="{{ route('admin.profil-sekolah.sejarah') }}" 
+                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium {{ request()->is('admin/profil-sekolah/sejarah*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
+                    Sejarah
+                </a>
+                <a href="{{ route('admin.profil-sekolah.visi-misi') }}" 
+                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium {{ request()->is('admin/profil-sekolah/visi-misi*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
+                    Visi Misi
+                </a>
 
                 <div class="border-t border-[#334155] pt-3 mt-3">
                     <a href="{{ url('/') }}" target="_blank" 

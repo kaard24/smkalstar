@@ -5,6 +5,10 @@
 @php($hide_footer = true)
 @php($hide_bottom_nav = true)
 
+@if(env('RECAPTCHA_SITE_KEY'))
+<script src="https://www.google.com/recaptcha/api.js?render={{ env('RECAPTCHA_SITE_KEY') }}"></script>
+@endif
+
 @section('content')
 <div class="min-h-screen flex" x-data="{
     showPassword: false,
@@ -12,6 +16,7 @@
     isLoading: false,
     step: 1,
     totalSteps: 2,
+    recaptchaError: false,
     formData: {
         nisn: '{{ old('nisn') }}',
         nama_lengkap: '{{ old('nama_lengkap') }}',
@@ -28,6 +33,28 @@
         asal_sekolah: { isValid: null, message: '' },
         password: { isValid: null, message: '' },
         password_confirmation: { isValid: null, message: '' }
+    },
+    handleSubmit(e) {
+        this.recaptchaError = false;
+        @if(env('RECAPTCHA_SITE_KEY'))
+        e.preventDefault();
+        this.isLoading = true;
+        
+        grecaptcha.ready(() => {
+            grecaptcha.execute('{{ env('RECAPTCHA_SITE_KEY') }}', {action: 'register'})
+                .then((token) => {
+                    document.getElementById('recaptchaToken').value = token;
+                    document.getElementById('registerForm').submit();
+                })
+                .catch((error) => {
+                    console.error('reCAPTCHA error:', error);
+                    this.recaptchaError = true;
+                    this.isLoading = false;
+                });
+        });
+        @else
+        this.isLoading = true;
+        @endif
     },
     validateNisn(value) {
         const nisn = value.replace(/\D/g, '');
@@ -207,6 +234,14 @@
                 </div>
                 @endif
 
+                <!-- reCAPTCHA Error -->
+                <div x-show="recaptchaError" x-cloak class="mb-6 p-4 bg-red-50 border border-red-100 rounded-xl flex items-start gap-3">
+                    <svg class="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <p class="text-red-700 text-sm">Verifikasi keamanan gagal. Mohon refresh halaman dan coba lagi.</p>
+                </div>
+
                 @if($errors->any())
                 <div class="mb-6 p-4 bg-red-50 border border-red-100 rounded-xl">
                     <ul class="text-red-700 text-sm space-y-1">
@@ -220,8 +255,9 @@
                 </div>
                 @endif
 
-                <form action="{{ route('register.submit') }}" method="POST" @submit="isLoading = true" novalidate>
+                <form action="{{ route('register.submit') }}" method="POST" @submit="handleSubmit" novalidate id="registerForm">
                     @csrf
+                    <input type="hidden" name="g-recaptcha-response" id="recaptchaToken">
                     
                     <!-- Step 1: Data Pribadi -->
                     <div x-show="step === 1" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-x-4" x-transition:enter-end="opacity-100 translate-x-0">
