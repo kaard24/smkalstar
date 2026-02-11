@@ -1,4 +1,4 @@
-<footer class="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-gray-300 pt-16 pb-32 md:pb-16 border-t border-slate-700 overflow-hidden">
+<footer class="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-gray-300 pt-12 pb-8 border-t border-slate-700 overflow-hidden">
     <!-- Decorative Elements -->
     <div class="absolute inset-0 overflow-hidden pointer-events-none">
         <div class="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
@@ -7,7 +7,7 @@
     </div>
     
     <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-6">
             <!-- Brand & Desc -->
             <div class="lg:col-span-2">
                 <div class="flex items-center gap-3 mb-5">
@@ -46,7 +46,7 @@
                 </ul>
             </div>
 
-                       <!-- Contact -->
+            <!-- Contact -->
             <div>
                 <h3 class="text-base font-bold mb-5 text-white flex items-center gap-2">
                     <span class="w-1 h-5 bg-primary rounded-full"></span>
@@ -82,8 +82,6 @@
                 </ul>
             </div>
 
-
-
             <!-- Newsletter / PPDB CTA -->
             <div>
                 <h3 class="text-base font-bold mb-5 text-white flex items-center gap-2">
@@ -95,16 +93,9 @@
                     <span>Daftar Sekarang</span>
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
                 </a>
-                <div class="mt-4 flex items-center gap-2 text-xs text-gray-500">
-                    <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    <span>Gratis Biaya Pendaftaran</span>
-                </div>
             </div>
-
- 
         </div>
-
-        <div class="border-t border-slate-700 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="border-t border-slate-700 pt-3 flex flex-col md:flex-row justify-between items-center gap-2">
             <p class="text-gray-500 text-sm text-center md:text-left">
                 &copy; <?php echo e(date('Y')); ?> SMK Al-Hidayah Lestari. All rights reserved.
             </p>

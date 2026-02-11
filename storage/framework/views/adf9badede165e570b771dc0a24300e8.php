@@ -1,8 +1,8 @@
-@extends('layouts.app')
 
-@section('title', 'Informasi SPMB - SMK Al-Hidayah Lestari')
 
-@section('content')
+<?php $__env->startSection('title', 'Informasi SPMB - SMK Al-Hidayah Lestari'); ?>
+
+<?php $__env->startSection('content'); ?>
     <!-- Header Page - SPMB Design -->
     <div class="relative bg-gradient-to-br from-blue-50 via-sky-50 to-cyan-50 py-16 md:py-24 border-b border-blue-100 overflow-hidden">
         <!-- Decorative Elements -->
@@ -57,22 +57,22 @@
                 <div class="lg:col-span-2 space-y-16">
                     
                     <!-- Program Keahlian -->
-                    @php
+                    <?php
                         $jurusanImages = [
                             'TKJ' => ['img' => 'images/tkj.png', 'logo' => 'images/logo/tkj.jpeg', 'border' => 'border-blue-900', 'bg' => 'bg-blue-50', 'text' => 'text-blue-900', 'hover' => 'group-hover:bg-blue-900'],
                             'MPLB' => ['img' => 'images/mplb.png', 'logo' => 'images/logo/mplb.jpeg', 'border' => 'border-green-500', 'bg' => 'bg-green-50', 'text' => 'text-green-600', 'hover' => 'group-hover:bg-green-600'],
                             'AKL' => ['img' => 'images/akl.png', 'logo' => 'images/logo/akl.jpeg', 'border' => 'border-purple-500', 'bg' => 'bg-purple-50', 'text' => 'text-purple-600', 'hover' => 'group-hover:bg-purple-600'],
                             'BR' => ['img' => 'images/br.png', 'logo' => 'images/logo/br.jpeg', 'border' => 'border-cyan-500', 'bg' => 'bg-cyan-50', 'text' => 'text-cyan-600', 'hover' => 'group-hover:bg-cyan-600'],
                         ];
-                    @endphp
+                    ?>
                     <div>
                         <div class="flex items-center gap-4 mb-8">
                             <span class="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center text-xl font-bold">1</span>
                             <h2 class="text-3xl font-bold text-gray-900 font-heading">Program Keahlian</h2>
                         </div>
                         <div class="grid sm:grid-cols-2 gap-6">
-                            @forelse($jurusan as $j)
-                                @php
+                            <?php $__empty_1 = true; $__currentLoopData = $jurusan; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $j): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                                <?php
                                     $data = $jurusanImages[$j->kode] ?? [
                                         'img' => null,
                                         'logo' => 'images/logo/default.jpeg',
@@ -81,26 +81,26 @@
                                         'text' => 'text-gray-600',
                                         'hover' => 'group-hover:bg-gray-600',
                                     ];
-                                @endphp
-                                {{-- Layout 4:1 - Gambar 80%, Konten 20% --}}
-                                <a href="{{ url('/jurusan/' . strtolower($j->kode)) }}" class="flex flex-col border {{ $data['border'] }} rounded-3xl bg-white hover:shadow-lg transition duration-300 group overflow-hidden cursor-pointer">
-                                    {{-- Gambar Jurusan (4 bagian - 80%) --}}
+                                ?>
+                                
+                                <a href="<?php echo e(url('/jurusan/' . strtolower($j->kode))); ?>" class="flex flex-col border <?php echo e($data['border']); ?> rounded-3xl bg-white hover:shadow-lg transition duration-300 group overflow-hidden cursor-pointer">
+                                    
                                     <div class="relative h-48 bg-gray-50 overflow-hidden flex items-center justify-center p-2">
-                                        <img src="{{ asset($data['img']) }}" alt="{{ $j->nama }}" class="w-full h-full object-contain scale-125 group-hover:scale-[1.35] transition duration-300">
+                                        <img src="<?php echo e(asset($data['img'])); ?>" alt="<?php echo e($j->nama); ?>" class="w-full h-full object-contain scale-125 group-hover:scale-[1.35] transition duration-300">
                                     </div>
-                                    {{-- Konten (1 bagian - 20%) --}}
+                                    
                                     <div class="p-3 flex items-center gap-3">
-                                        <div class="w-10 h-10 rounded-full {{ $data['bg'] }} flex items-center justify-center overflow-hidden flex-shrink-0 ring-2 ring-white shadow-sm {{ $data['hover'] }} transition">
-                                            <img src="{{ asset($data['logo']) }}" alt="Logo {{ $j->nama }}" class="w-full h-full object-cover">
+                                        <div class="w-10 h-10 rounded-full <?php echo e($data['bg']); ?> flex items-center justify-center overflow-hidden flex-shrink-0 ring-2 ring-white shadow-sm <?php echo e($data['hover']); ?> transition">
+                                            <img src="<?php echo e(asset($data['logo'])); ?>" alt="Logo <?php echo e($j->nama); ?>" class="w-full h-full object-cover">
                                         </div>
-                                        <h3 class="font-bold text-gray-900 text-sm group-hover:{{ $data['text'] }} transition leading-tight">{{ $j->nama }}</h3>
+                                        <h3 class="font-bold text-gray-900 text-sm group-hover:<?php echo e($data['text']); ?> transition leading-tight"><?php echo e($j->nama); ?></h3>
                                     </div>
                                 </a>
-                            @empty
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                                 <div class="col-span-2 p-6 border border-gray-100 rounded-3xl bg-gray-50 text-center text-gray-500">
                                     Belum ada data program keahlian.
                                 </div>
-                            @endforelse
+                            <?php endif; ?>
                         </div>
                     </div>
 
@@ -218,7 +218,7 @@
                 <!-- Sidebar Fees & Contact -->
                 <div class="lg:col-span-1 space-y-8">
                     <!-- Kalender Akademik Card -->
-                    <a href="{{ route('spmb.kalender') }}" class="block bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-3xl p-6 shadow-xl relative overflow-hidden group hover:shadow-2xl transition duration-300">
+                    <a href="<?php echo e(route('spmb.kalender')); ?>" class="block bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-3xl p-6 shadow-xl relative overflow-hidden group hover:shadow-2xl transition duration-300">
                         <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-3xl transform translate-x-10 -translate-y-10"></div>
                         <div class="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full blur-2xl transform -translate-x-5 translate-y-5"></div>
                         
@@ -268,7 +268,7 @@
                             </div>
                         </div>
                         
-                         <a href="{{ url('/spmb/register') }}" class="block w-full text-center bg-[#F97316] text-white font-bold py-4 rounded-xl hover:bg-orange-600 transition shadow-lg relative z-10 hover:shadow-xl transform group-hover:-translate-y-1 duration-300">
+                         <a href="<?php echo e(url('/spmb/register')); ?>" class="block w-full text-center bg-[#F97316] text-white font-bold py-4 rounded-xl hover:bg-orange-600 transition shadow-lg relative z-10 hover:shadow-xl transform group-hover:-translate-y-1 duration-300">
                             Daftar Sekarang
                         </a>
                     </div>
@@ -302,4 +302,6 @@
             </div>
         </div>
     </section>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\eka\.gemini\antigravity\scratch\smk-alstar\resources\views/spmb/info.blade.php ENDPATH**/ ?>

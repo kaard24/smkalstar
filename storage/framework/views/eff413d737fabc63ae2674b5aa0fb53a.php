@@ -61,9 +61,9 @@
         .animate-fade-in-up{animation:fade-in-up .8s ease-out forwards;opacity:0}
         .animate-float{animation:float 6s ease-in-out infinite}
         
-        /* Skip link */
-        .skip-link{position:absolute;top:-40px;left:0;background:#0EA5E9;color:white;padding:8px 16px;z-index:100;transition:top .3s}
-        .skip-link:focus{top:0}
+        /* Skip link - hidden by default, only visible on focus */
+        .skip-link{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+        .skip-link:focus{position:fixed;left:0;top:0;width:auto;height:auto;background:#0EA5E9;color:white;padding:8px 16px;z-index:9999}
         
         /* Reduced motion */
         @media (prefers-reduced-motion: reduce) {

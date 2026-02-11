@@ -40,6 +40,7 @@ class CalonSiswa extends Authenticatable
         'berat_badan',
         'riwayat_penyakit',
         'npsn_sekolah',
+        'minat_bakat',
     ];
 
     /**

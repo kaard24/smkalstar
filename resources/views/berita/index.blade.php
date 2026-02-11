@@ -22,6 +22,29 @@
                 Berita & <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-blue-600">Informasi</span>
             </h1>
             <p class="text-gray-600 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">Ikuti perkembangan terbaru, kegiatan, dan informasi penting seputar SMK Al-Hidayah Lestari</p>
+            
+            <!-- Search Form -->
+            <form action="{{ route('berita.index') }}" method="GET" class="mt-8 max-w-2xl mx-auto">
+                <div class="relative flex items-center">
+                    <input type="text" name="search" value="{{ request('search') }}" 
+                           placeholder="Cari berita..." 
+                           class="w-full px-6 py-4 pr-32 rounded-full border border-gray-200 shadow-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition text-gray-700"
+                           aria-label="Cari berita">
+                    <button type="submit" 
+                            class="absolute right-2 top-1/2 -translate-y-1/2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-6 py-2.5 rounded-full font-medium hover:shadow-lg hover:scale-105 transition duration-200">
+                        Cari
+                    </button>
+                </div>
+                @if(request('search'))
+                <div class="mt-3 flex items-center justify-center gap-2 text-sm text-gray-600">
+                    <span>Hasil pencarian untuk: <strong class="text-cyan-600">"{{ request('search') }}"</strong></span>
+                    <a href="{{ route('berita.index') }}" class="text-red-500 hover:text-red-600 flex items-center gap-1 ml-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                        Reset
+                    </a>
+                </div>
+                @endif
+            </form>
         </div>
     </div>
 

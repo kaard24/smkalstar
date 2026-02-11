@@ -491,7 +491,7 @@ class AdminSpmbController extends Controller
                         ]
                     );
 
-                    // Update or Create Tes (Status Wawancara & Nilai Minat Bakat)
+                    // Update or Create Tes (Status Wawancara)
                     if ($request->has('status_wawancara')) {
                         $statusKelulusan = $request->status_wawancara === 'sudah' ? 'Lulus' : 'Pending';
                         
@@ -499,7 +499,6 @@ class AdminSpmbController extends Controller
                             ['pendaftaran_id' => $pendaftaran->id],
                             [
                                 'status_wawancara' => $request->status_wawancara,
-                                'nilai_minat_bakat' => $request->nilai_minat_bakat,
                                 'status_kelulusan' => $statusKelulusan,
                             ]
                         );

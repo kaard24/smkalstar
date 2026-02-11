@@ -306,62 +306,7 @@
                 @endforeach
             </div>
 
-            <!-- Legend -->
-            <div class="mt-12 bg-white rounded-2xl p-6 border border-gray-100">
-                <h3 class="font-bold text-gray-900 mb-4 flex items-center gap-2">
-                    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                    Keterangan Status
-                </h3>
-                <div class="flex flex-wrap gap-4">
-                    <div class="flex items-center gap-2">
-                        <span class="w-3 h-3 rounded-full bg-green-500"></span>
-                        <span class="text-sm text-gray-600"><strong>SELESAI</strong> - Tahapan telah selesai</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <span class="w-3 h-3 rounded-full bg-blue-500 animate-pulse"></span>
-                        <span class="text-sm text-gray-600"><strong>BERLANGSUNG</strong> - Sedang berlangsung</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <span class="w-3 h-3 rounded-full bg-gray-400"></span>
-                        <span class="text-sm text-gray-600"><strong>MENDATANG</strong> - Belum dimulai</span>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Quick Actions -->
-            <div class="mt-12 grid md:grid-cols-2 gap-6">
-                <a href="{{ route('spmb.info') }}" class="group flex items-center gap-4 bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg hover:border-blue-200 transition duration-300">
-                    <div class="w-14 h-14 rounded-xl bg-blue-50 text-blue-500 flex items-center justify-center group-hover:bg-blue-500 group-hover:text-white transition">
-                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-gray-900 group-hover:text-blue-600 transition">Informasi Lengkap</h4>
-                        <p class="text-sm text-gray-500">Lihat syarat dan alur pendaftaran</p>
-                    </div>
-                    <svg class="w-5 h-5 text-gray-400 ml-auto group-hover:text-blue-500 group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
-                </a>
-                
-                <a href="{{ route('spmb.pengumuman') }}" class="group flex items-center gap-4 bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg hover:border-blue-200 transition duration-300">
-                    <div class="w-14 h-14 rounded-xl bg-orange-50 text-orange-500 flex items-center justify-center group-hover:bg-orange-500 group-hover:text-white transition">
-                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                        </svg>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-gray-900 group-hover:text-orange-600 transition">Cek Pengumuman</h4>
-                        <p class="text-sm text-gray-500">Lihat hasil seleksi masuk</p>
-                    </div>
-                    <svg class="w-5 h-5 text-gray-400 ml-auto group-hover:text-orange-500 group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
-                </a>
-            </div>
         </div>
     </section>
 

@@ -1,4 +1,4 @@
-<header class="bg-white/95 shadow-sm sticky top-0 z-50 border-b border-gray-100 md:backdrop-blur-md safe-area-inset-top">
+<header class="bg-white sticky top-0 z-50 safe-area-inset-top">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-14 md:h-16">
             <!-- Logo -->
@@ -34,7 +34,7 @@
                         <a href="{{ url('/ekstrakurikuler') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-sky-50 hover:text-primary">Ekstrakurikuler</a>
                         <a href="{{ url('/prestasi') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-sky-50 hover:text-primary">Prestasi</a>
                         <a href="{{ url('/galeri') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-sky-50 hover:text-primary">Galeri</a>
-                        <a href="{{ url('/seragam') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-sky-50 hover:text-primary {{ request()->is('seragam') ? 'bg-sky-50 text-primary' : '' }}">👔 Seragam</a>
+                        <a href="{{ url('/seragam') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-sky-50 hover:text-primary {{ request()->is('seragam') ? 'bg-sky-50 text-primary' : '' }}">Seragam</a>
                     </div>
                 </div>
 
@@ -249,7 +249,6 @@
                     Galeri
                 </a>
                 <a href="{{ url('/seragam') }}" class="flex flex-col items-center justify-center p-3 rounded-lg text-xs font-medium {{ request()->is('seragam') ? 'bg-primary text-white' : 'text-gray-700 hover:bg-gray-50' }}">
-                    <span class="text-lg mb-0.5">👔</span>
                     Seragam
                 </a>
                 {{-- SPMB Dropdown Mobile --}}

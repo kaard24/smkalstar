@@ -526,17 +526,6 @@
                             </p>
                         </div>
 
-                        {{-- Nilai Minat Bakat --}}
-                        <div>
-                            <label class="block text-xs font-medium text-slate-600 mb-1">
-                                Minat dan Bakat
-                            </label>
-                            <textarea name="nilai_minat_bakat" rows="3"
-                                   placeholder="Deskripsikan minat dan bakat siswa..."
-                                   class="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:border-[#4276A3] focus:ring-1 focus:ring-[#4276A3]">{{ old('nilai_minat_bakat', $siswa->pendaftaran?->tes?->nilai_minat_bakat) }}</textarea>
-                            <p class="text-xs text-slate-500 mt-1">Isi secara manual berdasarkan hasil tes</p>
-                        </div>
-
                         {{-- Status Saat Ini --}}
                         @if($siswa->pendaftaran?->tes)
                         <div class="p-3 bg-slate-50 rounded-lg mt-3">

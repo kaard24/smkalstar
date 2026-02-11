@@ -223,17 +223,7 @@
                         </div>
                     </div>
 
-                    <!-- Info Update -->
-                    <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl sm:rounded-2xl p-3 sm:p-4 border border-green-100">
-                        <div class="flex items-start gap-2 sm:gap-3">
-                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-green-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                            <p class="text-xs sm:text-sm text-green-700 leading-relaxed">
-                                Data statistik diperbarui secara real-time setiap ada pendaftaran baru.
-                            </p>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div>

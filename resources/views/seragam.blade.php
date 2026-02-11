@@ -113,26 +113,6 @@
             </div>
         </div>
 
-        <!-- Info Card -->
-        <div class="mt-8 bg-white/5 backdrop-blur rounded-2xl p-6 border border-white/10">
-            <div class="flex items-start gap-4">
-                <div class="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                </div>
-                <div>
-                    <h3 class="text-white font-semibold mb-1">Informasi Penting</h3>
-                    <ul class="text-gray-400 text-sm space-y-1">
-                        <li>• Seragam wajib dikenakan setiap hari sesuai jadwal</li>
-                        <li>• Pastikan seragam dalam keadaan bersih dan rapi</li>
-                        <li>• Gunakan sepatu hitam dan kaos kaki putih</li>
-                        <li>• Untuk hari Jumat, pramuka wajib lengkap dengan atribut</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
     </div>
 </div>
 
