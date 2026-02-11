@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
@@ -31,40 +30,6 @@ class AuthController extends Controller
     }
 
     /**
-     * Verify Google reCAPTCHA response
-     */
-    protected function verifyRecaptcha(string $token): bool
-    {
-        // Skip verification if reCAPTCHA is disabled
-        if (env('RECAPTCHA_ENABLED', true) === false) {
-            return true;
-        }
-
-        // Skip if no secret key configured (development mode)
-        $secretKey = env('RECAPTCHA_SECRET_KEY');
-        if (empty($secretKey)) {
-            return true;
-        }
-
-        try {
-            $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-                'secret' => $secretKey,
-                'response' => $token,
-                'remoteip' => request()->ip(),
-            ]);
-
-            if ($response->successful()) {
-                $data = $response->json();
-                return $data['success'] === true && $data['score'] >= 0.5;
-            }
-        } catch (\Exception $e) {
-            \Log::error('reCAPTCHA verification failed: ' . $e->getMessage());
-        }
-
-        return false;
-    }
-
-    /**
      * Handle registration
      */
     public function register(Request $request)
@@ -76,14 +41,6 @@ class AuthController extends Controller
             return back()
                 ->withInput($request->except(['password', 'password_confirmation']))
                 ->with('error', "Terlalu banyak percobaan registrasi. Coba lagi dalam {$seconds} detik.");
-        }
-
-        // Verify reCAPTCHA
-        $recaptchaToken = $request->input('g-recaptcha-response');
-        if (!$this->verifyRecaptcha($recaptchaToken)) {
-            return back()
-                ->withInput($request->except(['password', 'password_confirmation']))
-                ->with('error', 'Verifikasi keamanan gagal. Silakan coba lagi.');
         }
 
         // Normalize phone number first for validation
