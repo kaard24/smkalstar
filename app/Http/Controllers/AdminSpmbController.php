@@ -98,6 +98,24 @@ class AdminSpmbController extends Controller
                                 $sub->whereNotNull('path_file');
                             }, '<', 3);
                       });
+            } elseif ($status === 'menunggu_pembayaran') {
+                // Berkas lengkap tapi belum bayar
+                $query->whereHas('pendaftaran', function ($q) {
+                    $q->where('status_pendaftaran', 'Menunggu Pembayaran');
+                })->whereHas('berkasPendaftaran', function ($q) {
+                    $q->whereNotNull('path_file');
+                }, '>=', 3)
+                  ->whereDoesntHave('pembayaran');
+            } elseif ($status === 'menunggu_verifikasi_pembayaran') {
+                // Sudah bayar, menunggu verifikasi
+                $query->whereHas('pembayaran', function ($q) {
+                    $q->where('status', 'pending');
+                });
+            } elseif ($status === 'pembayaran_diverifikasi') {
+                // Pembayaran sudah diverifikasi
+                $query->whereHas('pembayaran', function ($q) {
+                    $q->where('status', 'verified');
+                });
             } elseif ($status === 'lengkap') {
                 // Data lengkap dan berkas lengkap (3 berkas) tapi belum lulus
                 $query->whereHas('pendaftaran')

@@ -1,3 +1,5 @@
+
+
 <?php $__env->startSection('title', 'Galeri - SMK Al-Hidayah Lestari'); ?>
 
 <?php $__env->startSection('content'); ?>
@@ -89,4 +91,4 @@
 
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\user\.gemini\antigravity\scratch\smkalstar\smkalstar\resources\views/galeri.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\eka\.gemini\antigravity\scratch\smk-alstar\resources\views/galeri.blade.php ENDPATH**/ ?>

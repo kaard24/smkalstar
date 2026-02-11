@@ -76,6 +76,14 @@ class ProfilSiswaController extends Controller
             'alamat_sekolah' => 'required|string',
             'no_wa' => 'required|string|max:15',
             'asal_sekolah' => 'required|string|max:100',
+            'npsn' => 'required|string|size:8',
+            'agama' => 'required|in:Islam,Kristen,Katolik,Hindu,Buddha,Konghucu',
+            'golongan_darah' => 'nullable|in:A,B,AB,O',
+            'anak_ke' => 'required|integer|min:1',
+            'jumlah_saudara' => 'required|integer|min:0',
+            'tinggi_badan' => 'required|integer|min:100|max:250',
+            'berat_badan' => 'required|integer|min:20|max:200',
+            'riwayat_penyakit' => 'nullable|string',
         ];
 
         // Validation rules based on jenis
@@ -85,6 +93,10 @@ class ProfilSiswaController extends Controller
             $rules['no_wa_ortu'] = 'required|string|max:15';
             $rules['pekerjaan_ayah'] = 'required|string|max:100';
             $rules['pekerjaan_ibu'] = 'required|string|max:100';
+            $rules['pendidikan_ayah'] = 'required|in:Tidak Sekolah,SD,SMP,SMA,D1,D2,D3,S1,S2,S3';
+            $rules['pendidikan_ibu'] = 'required|in:Tidak Sekolah,SD,SMP,SMA,D1,D2,D3,S1,S2,S3';
+            $rules['penghasilan_ayah'] = 'required|in:<1jt,1jt-3jt,3jt-5jt,5jt-10jt,>10jt';
+            $rules['penghasilan_ibu'] = 'required|in:<1jt,1jt-3jt,3jt-5jt,5jt-10jt,>10jt';
         } else {
             // Wali
             $rules['nama_wali'] = 'required|string|max:100';
@@ -109,6 +121,14 @@ class ProfilSiswaController extends Controller
                     'alamat_sekolah' => $request->alamat_sekolah,
                     'no_wa' => $request->no_wa,
                     'asal_sekolah' => $request->asal_sekolah,
+                    'npsn_sekolah' => $request->npsn,
+                    'agama' => $request->agama,
+                    'golongan_darah' => $request->golongan_darah,
+                    'anak_ke' => (int) $request->anak_ke,
+                    'jumlah_saudara' => (int) $request->jumlah_saudara,
+                    'tinggi_badan' => (int) $request->tinggi_badan,
+                    'berat_badan' => (int) $request->berat_badan,
+                    'riwayat_penyakit' => $request->riwayat_penyakit,
                 ]);
 
                 // Update OrangTua/Wali
@@ -120,6 +140,10 @@ class ProfilSiswaController extends Controller
                         'no_wa_ortu' => $request->no_wa_ortu,
                         'pekerjaan_ayah' => $request->pekerjaan_ayah,
                         'pekerjaan_ibu' => $request->pekerjaan_ibu,
+                        'pendidikan_ayah' => $request->pendidikan_ayah,
+                        'pendidikan_ibu' => $request->pendidikan_ibu,
+                        'penghasilan_ayah' => $request->penghasilan_ayah,
+                        'penghasilan_ibu' => $request->penghasilan_ibu,
                         // Kosongkan field wali
                         'nama_wali' => null,
                         'pekerjaan_wali' => null,

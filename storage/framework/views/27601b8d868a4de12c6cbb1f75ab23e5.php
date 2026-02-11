@@ -116,4 +116,4 @@
             min-height: 44px;
         }
     }
-</style><?php /**PATH C:\Users\user\.gemini\antigravity\scratch\smkalstar\smkalstar\resources\views/partials/bottom-nav.blade.php ENDPATH**/ ?>
+</style><?php /**PATH C:\Users\eka\.gemini\antigravity\scratch\smk-alstar\resources\views/partials/bottom-nav.blade.php ENDPATH**/ ?>

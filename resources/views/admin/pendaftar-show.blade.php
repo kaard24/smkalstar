@@ -187,4 +187,58 @@
             </div>
         </div>
     </div>
+
+    {{-- Status Pembayaran --}}
+    @php
+        $pembayaran = $siswa->pembayaranPendaftaran;
+        $statusColors = [
+            'belum_bayar' => 'bg-gray-100 text-gray-700',
+            'menunggu_verifikasi' => 'bg-yellow-100 text-yellow-700',
+            'diterima' => 'bg-green-100 text-green-700',
+            'ditolak' => 'bg-red-100 text-red-700',
+        ];
+        $statusLabels = [
+            'belum_bayar' => 'Belum Bayar',
+            'menunggu_verifikasi' => 'Menunggu Verifikasi',
+            'diterima' => 'Diterima',
+            'ditolak' => 'Ditolak',
+        ];
+    @endphp
+    <div class="mt-6 bg-white rounded-xl shadow-sm border border-slate-100 p-6">
+        <h3 class="font-bold text-slate-800 mb-4 border-b pb-2">Status Pembayaran</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+                <span class="block text-slate-500 text-sm">Status</span>
+                <span class="inline-flex px-2 py-1 rounded text-xs font-bold {{ $statusColors[$pembayaran?->status] ?? 'bg-gray-100 text-gray-700' }}">
+                    {{ $statusLabels[$pembayaran?->status] ?? 'Belum Bayar' }}
+                </span>
+            </div>
+            <div>
+                <span class="block text-slate-500 text-sm">Metode Pembayaran</span>
+                <span class="font-medium text-slate-800">{{ $pembayaran?->metode_pembayaran ?? '-' }}</span>
+            </div>
+            <div>
+                <span class="block text-slate-500 text-sm">Tanggal Bayar</span>
+                <span class="font-medium text-slate-800">{{ $pembayaran?->tanggal_bayar?->format('d M Y') ?? '-' }}</span>
+            </div>
+        </div>
+        @if($pembayaran && $pembayaran->bukti_pembayaran)
+        <div class="mt-4">
+            <span class="block text-slate-500 text-sm mb-2">Bukti Pembayaran</span>
+            <a href="{{ route('admin.pembayaran.preview', $pembayaran->id) }}" target="_blank" class="inline-flex items-center text-[#4276A3] hover:underline">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                </svg>
+                Lihat Bukti Pembayaran
+            </a>
+        </div>
+        @endif
+        @if($pembayaran && $pembayaran->keterangan)
+        <div class="mt-4 p-3 bg-slate-50 rounded">
+            <span class="block text-slate-500 text-xs">Keterangan:</span>
+            <p class="text-sm text-slate-700">{{ $pembayaran->keterangan }}</p>
+        </div>
+        @endif
+    </div>
 @endsection

@@ -21,6 +21,99 @@
         asal_sekolah: '{{ old('asal_sekolah') }}',
         no_wa: '{{ old('no_wa') }}'
     },
+    validation: {
+        nisn: { isValid: null, message: '' },
+        nama_lengkap: { isValid: null, message: '' },
+        tempat_lahir: { isValid: null, message: '' },
+        asal_sekolah: { isValid: null, message: '' },
+        password: { isValid: null, message: '' },
+        password_confirmation: { isValid: null, message: '' }
+    },
+    validateNisn(value) {
+        const nisn = value.replace(/\D/g, '');
+        this.formData.nisn = nisn;
+        if (nisn.length === 0) {
+            this.validation.nisn = { isValid: null, message: '' };
+        } else if (nisn.length !== 10) {
+            this.validation.nisn = { isValid: false, message: 'NISN harus 10 digit angka' };
+        } else {
+            this.validation.nisn = { isValid: true, message: 'NISN valid' };
+        }
+    },
+    validateNama(value) {
+        if (value.length === 0) {
+            this.validation.nama_lengkap = { isValid: null, message: '' };
+        } else if (value.length < 3) {
+            this.validation.nama_lengkap = { isValid: false, message: 'Nama minimal 3 karakter' };
+        } else if (value.length > 39) {
+            this.validation.nama_lengkap = { isValid: false, message: 'Nama maksimal 39 karakter' };
+        } else if (!/^[a-zA-Z\s'\-]+$/u.test(value)) {
+            this.validation.nama_lengkap = { isValid: false, message: 'Nama hanya boleh berisi huruf, spasi, petik, dan tanda hubung' };
+        } else {
+            this.validation.nama_lengkap = { isValid: true, message: 'Nama valid' };
+        }
+    },
+    validateTempatLahir(value) {
+        if (value.length === 0) {
+            this.validation.tempat_lahir = { isValid: null, message: '' };
+        } else if (value.length < 3) {
+            this.validation.tempat_lahir = { isValid: false, message: 'Tempat lahir minimal 3 karakter' };
+        } else if (value.length > 50) {
+            this.validation.tempat_lahir = { isValid: false, message: 'Tempat lahir maksimal 50 karakter' };
+        } else if (!/^[a-zA-Z\s\-]+$/u.test(value)) {
+            this.validation.tempat_lahir = { isValid: false, message: 'Hanya boleh berisi huruf, spasi, dan tanda hubung' };
+        } else {
+            this.validation.tempat_lahir = { isValid: true, message: 'Tempat lahir valid' };
+        }
+    },
+    validateAsalSekolah(value) {
+        if (value.length === 0) {
+            this.validation.asal_sekolah = { isValid: null, message: '' };
+        } else if (value.length < 5) {
+            this.validation.asal_sekolah = { isValid: false, message: 'Asal sekolah minimal 5 karakter' };
+        } else if (value.length > 100) {
+            this.validation.asal_sekolah = { isValid: false, message: 'Asal sekolah maksimal 100 karakter' };
+        } else if (!/^[a-zA-Z0-9\s\-\.]+$/u.test(value)) {
+            this.validation.asal_sekolah = { isValid: false, message: 'Hanya boleh berisi huruf, angka, spasi, titik, dan tanda hubung' };
+        } else {
+            this.validation.asal_sekolah = { isValid: true, message: 'Asal sekolah valid' };
+        }
+    },
+    validatePassword(value) {
+        if (value.length === 0) {
+            this.validation.password = { isValid: null, message: '' };
+        } else if (value.length < 8) {
+            this.validation.password = { isValid: false, message: 'Password minimal 8 karakter' };
+        } else if (!/[a-z]/.test(value) || !/[A-Z]/.test(value)) {
+            this.validation.password = { isValid: false, message: 'Password harus mengandung huruf besar dan kecil' };
+        } else if (!/[0-9]/.test(value)) {
+            this.validation.password = { isValid: false, message: 'Password harus mengandung minimal 1 angka' };
+        } else if (!/[^a-zA-Z0-9]/.test(value)) {
+            this.validation.password = { isValid: false, message: 'Password harus mengandung minimal 1 simbol' };
+        } else {
+            this.validation.password = { isValid: true, message: 'Password kuat' };
+        }
+        // Re-validate confirmation when password changes
+        this.validatePasswordConfirmation($refs.passwordConfirmation.value);
+    },
+    validatePasswordConfirmation(value) {
+        const password = $refs.password.value;
+        if (value.length === 0) {
+            this.validation.password_confirmation = { isValid: null, message: '' };
+        } else if (value !== password) {
+            this.validation.password_confirmation = { isValid: false, message: 'Password tidak cocok' };
+        } else {
+            this.validation.password_confirmation = { isValid: true, message: 'Password cocok' };
+        }
+    },
+    canProceedStep1() {
+        return this.validation.nisn.isValid === true && 
+               this.validation.nama_lengkap.isValid === true &&
+               this.formData.jurusan_id !== '' &&
+               this.validation.tempat_lahir.isValid === true &&
+               this.formData.tgl_lahir !== '' &&
+               this.validation.asal_sekolah.isValid === true;
+    },
     nextStep() {
         if (this.step < this.totalSteps) this.step++
     },
@@ -127,7 +220,7 @@
                 </div>
                 @endif
 
-                <form action="{{ route('register.submit') }}" method="POST" @submit="isLoading = true">
+                <form action="{{ route('register.submit') }}" method="POST" @submit="isLoading = true" novalidate>
                     @csrf
                     
                     <!-- Step 1: Data Pribadi -->
@@ -149,13 +242,33 @@
                                         id="nisn" 
                                         name="nisn"
                                         x-model="formData.nisn"
+                                        @input="validateNisn($event.target.value)"
+                                        @blur="validateNisn($event.target.value)"
                                         placeholder="Masukkan 10 digit NISN"
                                         maxlength="10"
-                                        pattern="[0-9]{10}"
                                         required
-                                        class="w-full pl-11 pr-4 py-3.5 bg-gray-50 border-2 border-gray-200 rounded-xl focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
+                                        :class="{
+                                            'w-full pl-11 pr-10 py-3.5 bg-gray-50 border-2 rounded-xl focus:bg-white focus:ring-4 transition-all': true,
+                                            'border-gray-200 focus:border-primary focus:ring-primary/10': validation.nisn.isValid === null,
+                                            'border-emerald-500 focus:border-emerald-500 focus:ring-emerald-500/10 bg-emerald-50': validation.nisn.isValid === true,
+                                            'border-red-500 focus:border-red-500 focus:ring-red-500/10 bg-red-50': validation.nisn.isValid === false
+                                        }"
                                     >
+                                    <!-- Icon Valid/Invalid -->
+                                    <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+                                        <svg x-show="validation.nisn.isValid === true" class="h-5 w-5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                        <svg x-show="validation.nisn.isValid === false" class="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                        </svg>
+                                    </div>
                                 </div>
+                                <p class="mt-1.5 text-xs" :class="{
+                                    'text-gray-500': validation.nisn.isValid === null,
+                                    'text-emerald-600': validation.nisn.isValid === true,
+                                    'text-red-600': validation.nisn.isValid === false
+                                }" x-text="validation.nisn.message || 'Masukkan 10 digit nomor NISN'"></p>
                             </div>
 
                             <!-- Nama Lengkap -->
@@ -174,18 +287,67 @@
                                         id="nama_lengkap" 
                                         name="nama_lengkap"
                                         x-model="formData.nama_lengkap"
+                                        @input="validateNama($event.target.value)"
+                                        @blur="validateNama($event.target.value)"
                                         placeholder="Nama lengkap sesuai ijazah"
-                                        minlength="3"
+                                        maxlength="39"
                                         required
-                                        class="w-full pl-11 pr-4 py-3.5 bg-gray-50 border-2 border-gray-200 rounded-xl focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
+                                        :class="{
+                                            'w-full pl-11 pr-10 py-3.5 bg-gray-50 border-2 rounded-xl focus:bg-white focus:ring-4 transition-all': true,
+                                            'border-gray-200 focus:border-primary focus:ring-primary/10': validation.nama_lengkap.isValid === null,
+                                            'border-emerald-500 focus:border-emerald-500 focus:ring-emerald-500/10 bg-emerald-50': validation.nama_lengkap.isValid === true,
+                                            'border-red-500 focus:border-red-500 focus:ring-red-500/10 bg-red-50': validation.nama_lengkap.isValid === false
+                                        }"
                                     >
+                                    <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+                                        <svg x-show="validation.nama_lengkap.isValid === true" class="h-5 w-5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                        <svg x-show="validation.nama_lengkap.isValid === false" class="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <p class="mt-1.5 text-xs" :class="{
+                                    'text-gray-500': validation.nama_lengkap.isValid === null,
+                                    'text-emerald-600': validation.nama_lengkap.isValid === true,
+                                    'text-red-600': validation.nama_lengkap.isValid === false
+                                }" x-text="validation.nama_lengkap.message || 'Minimal 3 karakter, maksimal 39 karakter'"></p>
+                            </div>
+
+                            <!-- Jenis Kelamin -->
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-semibold text-gray-700 mb-3">
+                                    Jenis Kelamin <span class="text-red-500">*</span>
+                                </label>
+                                <div class="flex gap-6">
+                                    <label class="flex items-center gap-3 cursor-pointer group p-3 border-2 border-gray-200 rounded-xl hover:border-primary/50 transition-all flex-1 has-[:checked]:border-primary has-[:checked]:bg-primary/5">
+                                        <input type="radio" name="jk" value="L" {{ old('jk') === 'L' ? 'checked' : '' }}
+                                            class="w-5 h-5 text-primary border-gray-300 focus:ring-primary cursor-pointer">
+                                        <span class="flex items-center gap-2 text-gray-700 group-hover:text-gray-900">
+                                            <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                                            </svg>
+                                            Laki-laki
+                                        </span>
+                                    </label>
+                                    <label class="flex items-center gap-3 cursor-pointer group p-3 border-2 border-gray-200 rounded-xl hover:border-primary/50 transition-all flex-1 has-[:checked]:border-primary has-[:checked]:bg-primary/5">
+                                        <input type="radio" name="jk" value="P" {{ old('jk') === 'P' ? 'checked' : '' }}
+                                            class="w-5 h-5 text-primary border-gray-300 focus:ring-primary cursor-pointer">
+                                        <span class="flex items-center gap-2 text-gray-700 group-hover:text-gray-900">
+                                            <svg class="w-5 h-5 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                                            </svg>
+                                            Perempuan
+                                        </span>
+                                    </label>
                                 </div>
                             </div>
 
-                            <!-- Jurusan -->
+                            <!-- Pilihan Jurusan 1 -->
                             <div class="md:col-span-2">
                                 <label for="jurusan_id" class="block text-sm font-semibold text-gray-700 mb-2">
-                                    Pilihan Jurusan <span class="text-red-500">*</span>
+                                    Pilihan Jurusan 1 <span class="text-red-500">*</span>
                                 </label>
                                 <div class="relative group">
                                     <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -200,7 +362,7 @@
                                         required
                                         class="w-full pl-11 pr-10 py-3.5 bg-gray-50 border-2 border-gray-200 rounded-xl focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all appearance-none cursor-pointer"
                                     >
-                                        <option value="">-- Pilih Jurusan --</option>
+                                        <option value="">-- Pilih Jurusan 1 --</option>
                                         @foreach($jurusan as $j)
                                         <option value="{{ $j->id }}">{{ $j->nama }}</option>
                                         @endforeach
@@ -211,6 +373,37 @@
                                         </svg>
                                     </div>
                                 </div>
+                            </div>
+
+                            <!-- Pilihan Jurusan 2 -->
+                            <div class="md:col-span-2">
+                                <label for="jurusan_id_2" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    Pilihan Jurusan 2 (Alternatif) <span class="text-red-500">*</span>
+                                </label>
+                                <div class="relative group">
+                                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                        <svg class="h-5 w-5 text-gray-400 group-focus-within:text-primary transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                                        </svg>
+                                    </div>
+                                    <select 
+                                        id="jurusan_id_2" 
+                                        name="jurusan_id_2"
+                                        required
+                                        class="w-full pl-11 pr-10 py-3.5 bg-gray-50 border-2 border-gray-200 rounded-xl focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all appearance-none cursor-pointer"
+                                    >
+                                        <option value="">-- Pilih Jurusan 2 --</option>
+                                        @foreach($jurusan as $j)
+                                        <option value="{{ $j->id }}">{{ $j->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                    <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+                                        <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">Pilih jurusan alternatif yang berbeda dengan pilihan 1</p>
                             </div>
 
                             <!-- Tempat Lahir -->
@@ -230,11 +423,32 @@
                                         id="tempat_lahir" 
                                         name="tempat_lahir"
                                         x-model="formData.tempat_lahir"
+                                        @input="validateTempatLahir($event.target.value)"
+                                        @blur="validateTempatLahir($event.target.value)"
                                         placeholder="Kota kelahiran"
+                                        maxlength="50"
                                         required
-                                        class="w-full pl-11 pr-4 py-3.5 bg-gray-50 border-2 border-gray-200 rounded-xl focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
+                                        :class="{
+                                            'w-full pl-11 pr-10 py-3.5 bg-gray-50 border-2 rounded-xl focus:bg-white focus:ring-4 transition-all': true,
+                                            'border-gray-200 focus:border-primary focus:ring-primary/10': validation.tempat_lahir.isValid === null,
+                                            'border-emerald-500 focus:border-emerald-500 focus:ring-emerald-500/10 bg-emerald-50': validation.tempat_lahir.isValid === true,
+                                            'border-red-500 focus:border-red-500 focus:ring-red-500/10 bg-red-50': validation.tempat_lahir.isValid === false
+                                        }"
                                     >
+                                    <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+                                        <svg x-show="validation.tempat_lahir.isValid === true" class="h-5 w-5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                        <svg x-show="validation.tempat_lahir.isValid === false" class="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                        </svg>
+                                    </div>
                                 </div>
+                                <p class="mt-1.5 text-xs" :class="{
+                                    'text-gray-500': validation.tempat_lahir.isValid === null,
+                                    'text-emerald-600': validation.tempat_lahir.isValid === true,
+                                    'text-red-600': validation.tempat_lahir.isValid === false
+                                }" x-text="validation.tempat_lahir.message || 'Minimal 3 karakter, maksimal 50 karakter'"></p>
                             </div>
 
                             <!-- Tanggal Lahir -->
@@ -257,6 +471,7 @@
                                         class="w-full pl-11 pr-4 py-3.5 bg-gray-50 border-2 border-gray-200 rounded-xl focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
                                     >
                                 </div>
+                                <p class="mt-1.5 text-xs text-gray-500">Umur minimal 13 tahun, maksimal 20 tahun</p>
                             </div>
 
                             <!-- Asal Sekolah -->
@@ -275,11 +490,32 @@
                                         id="asal_sekolah" 
                                         name="asal_sekolah"
                                         x-model="formData.asal_sekolah"
+                                        @input="validateAsalSekolah($event.target.value)"
+                                        @blur="validateAsalSekolah($event.target.value)"
                                         placeholder="Contoh: SMPN 1 Jakarta"
+                                        maxlength="100"
                                         required
-                                        class="w-full pl-11 pr-4 py-3.5 bg-gray-50 border-2 border-gray-200 rounded-xl focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
+                                        :class="{
+                                            'w-full pl-11 pr-10 py-3.5 bg-gray-50 border-2 rounded-xl focus:bg-white focus:ring-4 transition-all': true,
+                                            'border-gray-200 focus:border-primary focus:ring-primary/10': validation.asal_sekolah.isValid === null,
+                                            'border-emerald-500 focus:border-emerald-500 focus:ring-emerald-500/10 bg-emerald-50': validation.asal_sekolah.isValid === true,
+                                            'border-red-500 focus:border-red-500 focus:ring-red-500/10 bg-red-50': validation.asal_sekolah.isValid === false
+                                        }"
                                     >
+                                    <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+                                        <svg x-show="validation.asal_sekolah.isValid === true" class="h-5 w-5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                        <svg x-show="validation.asal_sekolah.isValid === false" class="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                        </svg>
+                                    </div>
                                 </div>
+                                <p class="mt-1.5 text-xs" :class="{
+                                    'text-gray-500': validation.asal_sekolah.isValid === null,
+                                    'text-emerald-600': validation.asal_sekolah.isValid === true,
+                                    'text-red-600': validation.asal_sekolah.isValid === false
+                                }" x-text="validation.asal_sekolah.message || 'Minimal 5 karakter, maksimal 100 karakter'"></p>
                             </div>
                         </div>
 
@@ -287,7 +523,12 @@
                         <button 
                             type="button"
                             @click="nextStep()"
-                            class="w-full mt-6 flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-blue-600 text-white px-6 py-4 rounded-xl font-semibold hover:shadow-lg hover:shadow-primary/30 hover:-translate-y-0.5 transition-all duration-200"
+                            :disabled="!canProceedStep1()"
+                            :class="{
+                                'w-full mt-6 flex items-center justify-center gap-2 px-6 py-4 rounded-xl font-semibold transition-all duration-200': true,
+                                'bg-gradient-to-r from-primary to-blue-600 text-white hover:shadow-lg hover:shadow-primary/30 hover:-translate-y-0.5': canProceedStep1(),
+                                'bg-gray-300 text-gray-500 cursor-not-allowed': !canProceedStep1()
+                            }"
                         >
                             Lanjutkan
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -388,11 +629,18 @@
                                         :type="showPassword ? 'text' : 'password'" 
                                         id="password" 
                                         name="password" 
+                                        x-ref="password"
+                                        @input="validatePassword($event.target.value)"
+                                        @blur="validatePassword($event.target.value)"
                                         value="{{ old('password', session('password', '')) }}"
                                         placeholder="Minimal 8 karakter"
-                                        minlength="8"
                                         required
-                                        class="w-full pl-11 pr-12 py-3.5 bg-gray-50 border-2 border-gray-200 rounded-xl focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
+                                        :class="{
+                                            'w-full pl-11 pr-12 py-3.5 bg-gray-50 border-2 rounded-xl focus:bg-white focus:ring-4 transition-all': true,
+                                            'border-gray-200 focus:border-primary focus:ring-primary/10': validation.password.isValid === null,
+                                            'border-emerald-500 focus:border-emerald-500 focus:ring-emerald-500/10 bg-emerald-50': validation.password.isValid === true,
+                                            'border-red-500 focus:border-red-500 focus:ring-red-500/10 bg-red-50': validation.password.isValid === false
+                                        }"
                                     >
                                     <button 
                                         type="button" 
@@ -408,6 +656,11 @@
                                         </svg>
                                     </button>
                                 </div>
+                                <p class="mt-1.5 text-xs" :class="{
+                                    'text-gray-500': validation.password.isValid === null,
+                                    'text-emerald-600': validation.password.isValid === true,
+                                    'text-red-600': validation.password.isValid === false
+                                }" x-text="validation.password.message || 'Minimal 8 karakter, huruf besar & kecil, angka, dan simbol'"></p>
                             </div>
 
                             <!-- Confirm Password -->
@@ -425,10 +678,18 @@
                                         :type="showConfirmPassword ? 'text' : 'password'" 
                                         id="password_confirmation" 
                                         name="password_confirmation" 
+                                        x-ref="passwordConfirmation"
+                                        @input="validatePasswordConfirmation($event.target.value)"
+                                        @blur="validatePasswordConfirmation($event.target.value)"
                                         value="{{ old('password_confirmation', session('password_confirmation', '')) }}"
                                         placeholder="Ulangi password"
                                         required
-                                        class="w-full pl-11 pr-12 py-3.5 bg-gray-50 border-2 border-gray-200 rounded-xl focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
+                                        :class="{
+                                            'w-full pl-11 pr-12 py-3.5 bg-gray-50 border-2 rounded-xl focus:bg-white focus:ring-4 transition-all': true,
+                                            'border-gray-200 focus:border-primary focus:ring-primary/10': validation.password_confirmation.isValid === null,
+                                            'border-emerald-500 focus:border-emerald-500 focus:ring-emerald-500/10 bg-emerald-50': validation.password_confirmation.isValid === true,
+                                            'border-red-500 focus:border-red-500 focus:ring-red-500/10 bg-red-50': validation.password_confirmation.isValid === false
+                                        }"
                                     >
                                     <button 
                                         type="button" 
@@ -444,6 +705,11 @@
                                         </svg>
                                     </button>
                                 </div>
+                                <p class="mt-1.5 text-xs" :class="{
+                                    'text-gray-500': validation.password_confirmation.isValid === null,
+                                    'text-emerald-600': validation.password_confirmation.isValid === true,
+                                    'text-red-600': validation.password_confirmation.isValid === false
+                                }" x-text="validation.password_confirmation.message || 'Masukkan ulang password untuk konfirmasi'"></p>
                             </div>
                         </div>
 

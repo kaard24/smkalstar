@@ -124,6 +124,9 @@
                         <option value="baru" {{ request('status') == 'baru' ? 'selected' : '' }}>Baru Daftar</option>
                         <option value="proses_data" {{ request('status') == 'proses_data' ? 'selected' : '' }}>Proses Data</option>
                         <option value="proses_berkas" {{ request('status') == 'proses_berkas' ? 'selected' : '' }}>Proses Berkas</option>
+                        <option value="menunggu_pembayaran" {{ request('status') == 'menunggu_pembayaran' ? 'selected' : '' }}>Menunggu Pembayaran</option>
+                        <option value="menunggu_verifikasi_pembayaran" {{ request('status') == 'menunggu_verifikasi_pembayaran' ? 'selected' : '' }}>Menunggu Verifikasi</option>
+                        <option value="pembayaran_diverifikasi" {{ request('status') == 'pembayaran_diverifikasi' ? 'selected' : '' }}>Pembayaran OK</option>
                         <option value="lengkap" {{ request('status') == 'lengkap' ? 'selected' : '' }}>Data Lengkap</option>
                         <option value="lulus" {{ request('status') == 'lulus' ? 'selected' : '' }}>Sudah Lulus</option>
                     </select>

@@ -82,7 +82,14 @@ class BerkasController extends Controller
         // Check if all berkas uploaded
         $progress = BerkasPendaftaran::getUploadProgress($siswa->id);
         if ($progress['is_complete']) {
-            return back()->with('success', 'Berkas berhasil diupload. Semua dokumen telah lengkap! Jadwal tes akan diinformasikan melalui WhatsApp.');
+            // Update status pendaftaran menjadi Menunggu Pembayaran
+            if ($siswa->pendaftaran) {
+                $siswa->pendaftaran->update([
+                    'status_pendaftaran' => 'Menunggu Pembayaran',
+                ]);
+            }
+            return redirect()->route('spmb.pembayaran')
+                ->with('success', 'Semua berkas telah lengkap! Silakan lakukan pembayaran untuk melanjutkan.');
         }
 
         return back()->with('success', 'Berkas berhasil diupload. Progress: ' . $progress['uploaded'] . '/' . $progress['total']);

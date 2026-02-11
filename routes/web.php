@@ -12,6 +12,8 @@ use App\Http\Controllers\SpmbDashboardController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfilSiswaController;
 use App\Http\Controllers\BerkasController;
+use App\Http\Controllers\SpmbPembayaranController;
+use App\Http\Controllers\AdminPembayaranController;
 use App\Http\Controllers\PublicPageController;
 use Illuminate\Http\Request;
 use App\Models\CalonSiswa;
@@ -34,6 +36,58 @@ Route::get('/fasilitas', [PublicPageController::class, 'fasilitas'])->name('fasi
 Route::get('/ekstrakurikuler', [PublicPageController::class, 'ekstrakurikuler'])->name('ekstrakurikuler');
 Route::get('/prestasi', [PublicPageController::class, 'prestasi'])->name('prestasi');
 Route::get('/galeri', [PublicPageController::class, 'galeri'])->name('galeri');
+
+// Seragam - Info Seragam Sekolah (Public)
+Route::get('/seragam', function() {
+    $seragam = [
+        [
+            'hari' => 'Senin',
+            'nama' => 'Seragam Putih Abu-abu',
+            'warna' => 'Putih - Abu-abu',
+            'icon' => '👔',
+            'deskripsi' => 'Kemeja putih dengan celana/rok abu-abu. Dikenakan setiap hari Senin.',
+            'warna_bg' => 'from-gray-100 to-gray-300',
+            'warna_text' => 'text-gray-800'
+        ],
+        [
+            'hari' => 'Selasa',
+            'nama' => 'Seragam Batik',
+            'warna' => 'Batik Sekolah',
+            'icon' => '🌺',
+            'deskripsi' => 'Kemeja batik khas sekolah dengan celana/rok hitam. Memperkenalkan budaya Indonesia.',
+            'warna_bg' => 'from-amber-100 to-orange-200',
+            'warna_text' => 'text-amber-900'
+        ],
+        [
+            'hari' => 'Rabu',
+            'nama' => 'Seragam Olahraga',
+            'warna' => 'Biru - Putih',
+            'icon' => '🏃',
+            'deskripsi' => 'Kaos olahraga biru dengan celana/rok putih. Untuk aktivitas fisik dan olahraga.',
+            'warna_bg' => 'from-blue-100 to-cyan-200',
+            'warna_text' => 'text-blue-900'
+        ],
+        [
+            'hari' => 'Kamis',
+            'nama' => 'Seragam Muslim',
+            'warna' => 'Putih - Biru',
+            'icon' => '🧕',
+            'deskripsi' => 'Baju koko putih dengan celana/rok biru. Mengenakan peci atau kerudung sesuai agama.',
+            'warna_bg' => 'from-sky-100 to-blue-200',
+            'warna_text' => 'text-sky-900'
+        ],
+        [
+            'hari' => 'Jumat',
+            'nama' => 'Seragam Pramuka',
+            'warna' => 'Coklat - Krem',
+            'icon' => '🧭',
+            'deskripsi' => 'Seragam pramuka lengkap dengan atributnya. Membangung karakter disiplin dan mandiri.',
+            'warna_bg' => 'from-amber-200 to-yellow-300',
+            'warna_text' => 'text-amber-900'
+        ],
+    ];
+    return view('seragam', compact('seragam'));
+})->name('seragam');
 
 // Legal Pages
 Route::get('/privacy-policy', function () {
@@ -228,7 +282,7 @@ Route::middleware('auth:spmb')->prefix('spmb')->name('spmb.')->group(function ()
     // Status
     Route::get('/status', function () { 
         $siswa = auth('spmb')->user();
-        $siswa->load(['pendaftaran.jurusan', 'pendaftaran.tes', 'orangTua']);
+        $siswa->load(['pendaftaran.jurusan', 'pendaftaran.tes', 'orangTua', 'pembayaran']);
         
         // Calculate progress
         $progress = \App\Models\BerkasPendaftaran::getUploadProgress($siswa->id);
@@ -246,12 +300,16 @@ Route::middleware('auth:spmb')->prefix('spmb')->name('spmb.')->group(function ()
         }
         $jurusanComplete = $siswa->pendaftaran && $siswa->pendaftaran->jurusan_id;
         
+        // Check pembayaran status
+        $pembayaran = $siswa->pembayaran;
+        $pembayaranComplete = $pembayaran && $pembayaran->isVerified();
+        
         // Check tes & wawancara status
         $tes = $siswa->pendaftaran?->tes;
         $wawancaraComplete = $tes?->status_wawancara === 'sudah';
         $kelulusanStatus = $tes?->status_kelulusan ?? 'Pending';
         
-        return view('spmb.status', compact('siswa', 'progress', 'biodataComplete', 'orangTuaComplete', 'jurusanComplete', 'wawancaraComplete', 'kelulusanStatus', 'tes', 'jenisOrtu')); 
+        return view('spmb.status', compact('siswa', 'progress', 'biodataComplete', 'orangTuaComplete', 'jurusanComplete', 'wawancaraComplete', 'kelulusanStatus', 'tes', 'jenisOrtu', 'pembayaran', 'pembayaranComplete')); 
     })->name('status');
     
     // Upload Berkas
@@ -260,13 +318,11 @@ Route::middleware('auth:spmb')->prefix('spmb')->name('spmb.')->group(function ()
     Route::get('/berkas/{berkas}/download', [BerkasController::class, 'download'])->name('berkas.download');
     Route::delete('/berkas/{berkas}', [BerkasController::class, 'destroy'])->name('berkas.destroy');
     
-    // Nilai
-    Route::get('/nilai', function () {
-        $siswa = auth('spmb')->user();
-        $pendaftaran = Pendaftaran::where('calon_siswa_id', $siswa->id)->first();
-        $tes = $pendaftaran ? Tes::where('pendaftaran_id', $pendaftaran->id)->first() : null;
-        return view('spmb.nilai', compact('tes'));
-    })->name('nilai');
+    // Pembayaran
+    Route::get('/pembayaran', [SpmbPembayaranController::class, 'index'])->name('pembayaran');
+    Route::post('/pembayaran', [SpmbPembayaranController::class, 'store'])->name('pembayaran.store');
+    Route::get('/pembayaran/{pembayaran}/download', [SpmbPembayaranController::class, 'download'])->name('pembayaran.download');
+    Route::get('/pembayaran/{pembayaran}/preview', [SpmbPembayaranController::class, 'preview'])->name('pembayaran.preview');
     
     // Student Profile
     Route::get('/profil', [ProfilSiswaController::class, 'index'])->name('profil');
@@ -337,6 +393,14 @@ Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function
     Route::get('/berkas/{berkas}/download', [BerkasController::class, 'adminDownload'])->name('berkas.download');
     Route::post('/berkas/upload', [BerkasController::class, 'adminUpload'])->name('berkas.upload');
     Route::delete('/berkas/{berkas}', [BerkasController::class, 'adminDestroy'])->name('berkas.destroy');
+
+    // Pembayaran Module
+    Route::get('/pembayaran', [AdminPembayaranController::class, 'index'])->name('pembayaran.index');
+    Route::get('/pembayaran/{pembayaran}', [AdminPembayaranController::class, 'show'])->name('pembayaran.show');
+    Route::patch('/pembayaran/{pembayaran}/verify', [AdminPembayaranController::class, 'verify'])->name('pembayaran.verify');
+    Route::post('/pembayaran/bulk-verify', [AdminPembayaranController::class, 'bulkVerify'])->name('pembayaran.bulk-verify');
+    Route::get('/pembayaran/{pembayaran}/download', [AdminPembayaranController::class, 'download'])->name('pembayaran.download');
+    Route::get('/pembayaran/{pembayaran}/preview', [AdminPembayaranController::class, 'preview'])->name('pembayaran.preview');
 
     // Kelulusan Module (deprecated - all students automatically pass)
     Route::get('/kelulusan', function() {

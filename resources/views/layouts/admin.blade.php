@@ -509,6 +509,14 @@
                         Data Pendaftar
                     </a>
 
+                    <a href="{{ route('admin.pembayaran.index') }}" 
+                       class="nav-item flex items-center gap-2 {{ request()->is('admin/pembayaran*') ? 'bg-[#4276A3]/20 text-white border-l-2 border-[#4276A3]' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
+                        Pembayaran
+                    </a>
+
                     <a href="{{ route('admin.struktur-organisasi.index') }}" 
                        class="nav-item flex items-center gap-2 {{ request()->is('admin/struktur-organisasi*') ? 'bg-[#4276A3]/20 text-white border-l-2 border-[#4276A3]' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -605,6 +613,10 @@
                 <a href="{{ route('admin.pendaftar.index') }}" 
                    class="block px-4 py-2 rounded-lg text-sm font-medium {{ request()->is('admin/pendaftar*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
                     Data Pendaftar
+                </a>
+                <a href="{{ route('admin.pembayaran.index') }}" 
+                   class="block px-4 py-2 rounded-lg text-sm font-medium {{ request()->is('admin/pembayaran*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
+                    Pembayaran
                 </a>
                 <a href="{{ route('admin.struktur-organisasi.index') }}" 
                    class="block px-4 py-2 rounded-lg text-sm font-medium {{ request()->is('admin/struktur-organisasi*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">

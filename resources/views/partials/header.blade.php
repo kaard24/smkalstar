@@ -34,6 +34,7 @@
                         <a href="{{ url('/ekstrakurikuler') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-sky-50 hover:text-primary">Ekstrakurikuler</a>
                         <a href="{{ url('/prestasi') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-sky-50 hover:text-primary">Prestasi</a>
                         <a href="{{ url('/galeri') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-sky-50 hover:text-primary">Galeri</a>
+                        <a href="{{ url('/seragam') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-sky-50 hover:text-primary {{ request()->is('seragam') ? 'bg-sky-50 text-primary' : '' }}">👔 Seragam</a>
                     </div>
                 </div>
 
@@ -246,6 +247,10 @@
                 <a href="{{ url('/galeri') }}" class="flex flex-col items-center justify-center p-3 rounded-lg text-xs font-medium {{ request()->is('galeri') ? 'bg-primary text-white' : 'text-gray-700 hover:bg-gray-50' }}">
                     <svg class="w-5 h-5 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                     Galeri
+                </a>
+                <a href="{{ url('/seragam') }}" class="flex flex-col items-center justify-center p-3 rounded-lg text-xs font-medium {{ request()->is('seragam') ? 'bg-primary text-white' : 'text-gray-700 hover:bg-gray-50' }}">
+                    <span class="text-lg mb-0.5">👔</span>
+                    Seragam
                 </a>
                 {{-- SPMB Dropdown Mobile --}}
                 <div class="relative" x-data="{ open: false }">

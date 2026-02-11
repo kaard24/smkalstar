@@ -32,6 +32,14 @@ class CalonSiswa extends Authenticatable
         'alamat_sekolah',
         'password',
         'foto',
+        'agama',
+        'golongan_darah',
+        'anak_ke',
+        'jumlah_saudara',
+        'tinggi_badan',
+        'berat_badan',
+        'riwayat_penyakit',
+        'npsn_sekolah',
     ];
 
     /**
@@ -47,6 +55,10 @@ class CalonSiswa extends Authenticatable
      */
     protected $casts = [
         'tgl_lahir' => 'date',
+        'anak_ke' => 'integer',
+        'jumlah_saudara' => 'integer',
+        'tinggi_badan' => 'integer',
+        'berat_badan' => 'integer',
     ];
 
     /**
@@ -87,6 +99,14 @@ class CalonSiswa extends Authenticatable
     public function berkasPendaftaran()
     {
         return $this->hasMany(BerkasPendaftaran::class);
+    }
+
+    /**
+     * Relasi ke Pembayaran (hasOne)
+     */
+    public function pembayaran()
+    {
+        return $this->hasOne(Pembayaran::class);
     }
 
     /**
