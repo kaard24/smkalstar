@@ -1,13 +1,13 @@
-@extends('layouts.app')
 
-@section('title', 'Login - SMK Al-Hidayah Lestari')
 
-@php($hide_footer = true)
-@php($hide_bottom_nav = true)
+<?php $__env->startSection('title', 'Login - SMK Al-Hidayah Lestari'); ?>
 
-@section('content')
+<?php ($hide_footer = true); ?>
+<?php ($hide_bottom_nav = true); ?>
+
+<?php $__env->startSection('content'); ?>
 <div class="min-h-screen flex" x-data="{ 
-    showRegPopup: {{ session('registration_success') ? 'true' : 'false' }},
+    showRegPopup: <?php echo e(session('registration_success') ? 'true' : 'false'); ?>,
     showPassword: false,
     isLoading: false,
     focusedField: null
@@ -31,7 +31,7 @@
         <div class="relative z-10 flex flex-col justify-center px-16 xl:px-24">
             <div class="mb-8">
                 <div class="inline-flex items-center justify-center w-20 h-20 bg-white/20 backdrop-blur-sm rounded-2xl mb-6 ring-1 ring-white/30">
-                    <img src="{{ asset('images/logo.webp') }}" alt="Logo" class="w-14 h-14 object-contain rounded-xl">
+                    <img src="<?php echo e(asset('images/logo.webp')); ?>" alt="Logo" class="w-14 h-14 object-contain rounded-xl">
                 </div>
                 <h1 class="text-4xl xl:text-5xl font-bold text-white mb-4 leading-tight">
                     Selamat Datang<br>di <span class="text-cyan-300">SMK Al-Hidayah</span>
@@ -65,7 +65,7 @@
         
         <!-- Bottom Text -->
         <div class="absolute bottom-8 left-16 xl:left-24 text-white/60 text-sm">
-            © {{ date('Y') }} SMK Al-Hidayah Lestari. All rights reserved.
+            © <?php echo e(date('Y')); ?> SMK Al-Hidayah Lestari. All rights reserved.
         </div>
     </div>
 
@@ -75,7 +75,7 @@
             <!-- Mobile Logo -->
             <div class="lg:hidden text-center mb-8">
                 <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-primary to-blue-600 rounded-2xl shadow-lg mb-4">
-                    <img src="{{ asset('images/logo.webp') }}" alt="Logo" class="w-11 h-11 object-contain rounded-lg">
+                    <img src="<?php echo e(asset('images/logo.webp')); ?>" alt="Logo" class="w-11 h-11 object-contain rounded-lg">
                 </div>
                 <h1 class="text-2xl font-bold text-gray-900">SMK Al-Hidayah Lestari</h1>
             </div>
@@ -87,20 +87,20 @@
                     <p class="text-gray-500">Silakan masukkan data login Anda</p>
                 </div>
 
-                @if(session('error'))
+                <?php if(session('error')): ?>
                 <div class="mb-6 p-4 bg-red-50 border border-red-100 rounded-xl flex items-start gap-3 animate-pulse">
                     <svg class="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
-                    <p class="text-red-700 text-sm">{{ session('error') }}</p>
+                    <p class="text-red-700 text-sm"><?php echo e(session('error')); ?></p>
                 </div>
-                @endif
+                <?php endif; ?>
 
-                <form action="{{ route('login.submit') }}" method="POST" @submit="isLoading = true" class="space-y-5">
-                    @csrf
+                <form action="<?php echo e(route('login.submit')); ?>" method="POST" @submit="isLoading = true" class="space-y-5">
+                    <?php echo csrf_field(); ?>
                     
                     <!-- Nama Lengkap (readonly, dari register) -->
-                    @if(session('registered_nama_lengkap'))
+                    <?php if(session('registered_nama_lengkap')): ?>
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Nama Lengkap</label>
                         <div class="relative">
@@ -111,13 +111,13 @@
                             </div>
                             <input 
                                 type="text" 
-                                value="{{ session('registered_nama_lengkap') }}"
+                                value="<?php echo e(session('registered_nama_lengkap')); ?>"
                                 readonly
                                 class="w-full pl-11 pr-4 py-3.5 bg-sky-50 border-2 border-sky-200 rounded-xl text-sky-800 font-semibold"
                             >
                         </div>
                     </div>
-                    @endif
+                    <?php endif; ?>
 
                     <!-- NISN -->
                     <div>
@@ -134,7 +134,7 @@
                                 type="text" 
                                 id="nisn" 
                                 name="nisn" 
-                                value="{{ session('registered_nisn', old('nisn')) }}"
+                                value="<?php echo e(session('registered_nisn', old('nisn'))); ?>"
                                 placeholder="Masukkan 10 digit NISN"
                                 maxlength="10"
                                 pattern="[0-9]{10}"
@@ -144,12 +144,20 @@
                                 class="w-full pl-11 pr-4 py-3.5 bg-gray-50 border-2 border-gray-200 rounded-xl focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all duration-200"
                             >
                         </div>
-                        @error('nisn')
+                        <?php $__errorArgs = ['nisn'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                         <p class="mt-1.5 text-sm text-red-500 flex items-center gap-1">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01"/></svg>
-                            {{ $message }}
+                            <?php echo e($message); ?>
+
                         </p>
-                        @enderror
+                        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                     </div>
 
                     <!-- Password -->
@@ -169,7 +177,7 @@
                                 :type="showPassword ? 'text' : 'password'" 
                                 id="password" 
                                 name="password" 
-                                value="{{ session('registered_password', '') }}"
+                                value="<?php echo e(session('registered_password', '')); ?>"
                                 placeholder="Masukkan password"
                                 required
                                 @focus="focusedField = 'password'"
@@ -190,12 +198,20 @@
                                 </svg>
                             </button>
                         </div>
-                        @error('password')
+                        <?php $__errorArgs = ['password'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                         <p class="mt-1.5 text-sm text-red-500 flex items-center gap-1">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01"/></svg>
-                            {{ $message }}
+                            <?php echo e($message); ?>
+
                         </p>
-                        @enderror
+                        <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                     </div>
 
                     <!-- Remember Me -->
@@ -236,7 +252,7 @@
                 <!-- Register Link -->
                 <p class="text-center text-gray-600">
                     Belum punya akun?
-                    <a href="{{ route('register') }}" class="text-primary font-bold hover:text-primary-dark transition ml-1 inline-flex items-center gap-1 group">
+                    <a href="<?php echo e(route('register')); ?>" class="text-primary font-bold hover:text-primary-dark transition ml-1 inline-flex items-center gap-1 group">
                         Daftar Sekarang
                         <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
@@ -277,7 +293,7 @@
                     </svg>
                 </div>
                 <h3 class="text-2xl font-bold text-gray-900 mb-2">Pendaftaran Berhasil!</h3>
-                <p class="text-gray-600 mb-2">Selamat datang, <strong class="text-primary">{{ session('registered_nama_lengkap') }}</strong>!</p>
+                <p class="text-gray-600 mb-2">Selamat datang, <strong class="text-primary"><?php echo e(session('registered_nama_lengkap')); ?></strong>!</p>
                 <p class="text-gray-500 text-sm mb-8">Akun Anda telah dibuat. Data login sudah terisi otomatis.</p>
                 <button 
                     @click="showRegPopup = false" 
@@ -289,4 +305,6 @@
         </div>
     </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\eka\.gemini\antigravity\scratch\smk-alstar\resources\views/auth/login.blade.php ENDPATH**/ ?>

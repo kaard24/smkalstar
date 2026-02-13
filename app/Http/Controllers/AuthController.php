@@ -150,6 +150,7 @@ class AuthController extends Controller
             Session::flash('registration_success', true);
             Session::flash('registered_nisn', $request->nisn);
             Session::flash('registered_nama_lengkap', $request->nama_lengkap);
+            Session::flash('registered_password', $request->password);
 
             // Redirect ke halaman login
             return redirect()->route('login');
