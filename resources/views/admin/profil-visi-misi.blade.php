@@ -4,10 +4,6 @@
 
 @section('content')
 <div class="max-w-4xl mx-auto">
-    <div class="mb-8">
-        <h1 class="text-2xl font-bold text-slate-800">Edit Visi & Misi</h1>
-        <p class="text-slate-600">Kelola visi dan misi sekolah yang ditampilkan ke publik.</p>
-    </div>
 
     @if(session('success'))
     <div class="mb-6 p-4 bg-[#047857]/10 border border-[#047857]/20 text-[#047857] rounded-xl flex items-center gap-2">

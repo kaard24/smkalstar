@@ -169,7 +169,7 @@
                                 :type="showPassword ? 'text' : 'password'" 
                                 id="password" 
                                 name="password" 
-                                value="{{ session('registered_password') }}"
+                                value="{{ session('registered_password', '') }}"
                                 placeholder="Masukkan password"
                                 required
                                 @focus="focusedField = 'password'"

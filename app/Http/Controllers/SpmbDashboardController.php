@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pendaftaran;
 use App\Models\BerkasPendaftaran;
+use App\Models\Pembayaran;
 use App\Models\Pengumuman;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,7 +17,7 @@ class SpmbDashboardController extends Controller
     public function index()
     {
         $siswa = Auth::guard('spmb')->user();
-        $siswa->load(['orangTua', 'pendaftaran.jurusan', 'pendaftaran.tes', 'berkasPendaftaran']);
+        $siswa->load(['orangTua', 'pendaftaran.jurusan', 'pendaftaran.tes', 'berkasPendaftaran', 'pembayaran']);
 
         $pendaftaran = $siswa->pendaftaran;
         
@@ -26,7 +27,11 @@ class SpmbDashboardController extends Controller
         // Get latest pengumuman
         $pengumuman = Pengumuman::latest()->first();
 
-        // Calculate registration completeness (now includes berkas)
+        // Get pembayaran from loaded relation
+        $pembayaran = $siswa->pembayaran;
+        $pembayaranComplete = $pembayaran && $pembayaran->isVerified();
+
+        // Calculate registration completeness (now includes berkas and pembayaran)
         $biodataComplete = $siswa->isRegistrationComplete();
         $orangTuaComplete = $siswa->orangTua !== null;
         $jurusanSelected = $pendaftaran?->jurusan_id !== null;
@@ -37,12 +42,14 @@ class SpmbDashboardController extends Controller
             'orang_tua' => $orangTuaComplete,
             'jurusan' => $jurusanSelected,
             'berkas' => $berkasComplete,
-            'percentage' => $this->calculateCompleteness($biodataComplete, $orangTuaComplete, $jurusanSelected, $berkasComplete),
+            'pembayaran' => $pembayaranComplete,
+            'percentage' => $this->calculateCompleteness($biodataComplete, $orangTuaComplete, $jurusanSelected, $berkasComplete, $pembayaranComplete),
             'berkas_progress' => $berkasProgress,
+            'pembayaran_status' => $pembayaran?->status ?? null,
         ];
 
         // Status timeline
-        $timeline = $this->buildTimeline($siswa, $pendaftaran, $berkasProgress);
+        $timeline = $this->buildTimeline($siswa, $pendaftaran, $berkasProgress, $pembayaran);
 
         return view('spmb.dashboard', compact(
             'siswa',
@@ -57,17 +64,17 @@ class SpmbDashboardController extends Controller
     /**
      * Calculate registration completeness percentage
      */
-    protected function calculateCompleteness(bool $biodata, bool $orangTua, bool $jurusan, bool $berkas): int
+    protected function calculateCompleteness(bool $biodata, bool $orangTua, bool $jurusan, bool $berkas, bool $pembayaran = false): int
     {
-        $total = 4;
-        $completed = ($biodata ? 1 : 0) + ($orangTua ? 1 : 0) + ($jurusan ? 1 : 0) + ($berkas ? 1 : 0);
+        $total = 5;
+        $completed = ($biodata ? 1 : 0) + ($orangTua ? 1 : 0) + ($jurusan ? 1 : 0) + ($berkas ? 1 : 0) + ($pembayaran ? 1 : 0);
         return (int) round(($completed / $total) * 100);
     }
 
     /**
      * Build registration timeline - Simplified version
      */
-    protected function buildTimeline($siswa, $pendaftaran, array $berkasProgress): array
+    protected function buildTimeline($siswa, $pendaftaran, array $berkasProgress, ?Pembayaran $pembayaran): array
     {
         $timeline = [];
         $tes = $pendaftaran?->tes;
@@ -115,8 +122,48 @@ class SpmbDashboardController extends Controller
             ];
         }
 
-        // 4. Tes & Wawancara (gabungan, tanpa menunggu jadwal)
+        // 4. Pembayaran
         if ($berkasProgress['is_complete']) {
+            if ($pembayaran && $pembayaran->isVerified()) {
+                $timeline[] = [
+                    'title' => 'Pembayaran',
+                    'status' => 'completed',
+                    'date' => $pembayaran->verified_at?->format('d M Y') ?? $pembayaran->updated_at->format('d M Y'),
+                    'description' => 'Pembayaran telah diverifikasi',
+                ];
+            } elseif ($pembayaran && $pembayaran->isPending()) {
+                $timeline[] = [
+                    'title' => 'Pembayaran',
+                    'status' => 'current',
+                    'date' => null,
+                    'description' => 'Menunggu verifikasi pembayaran',
+                ];
+            } elseif ($pembayaran && $pembayaran->isRejected()) {
+                $timeline[] = [
+                    'title' => 'Pembayaran',
+                    'status' => 'current',
+                    'date' => null,
+                    'description' => 'Pembayaran ditolak, silakan upload ulang',
+                ];
+            } else {
+                $timeline[] = [
+                    'title' => 'Pembayaran',
+                    'status' => 'current',
+                    'date' => null,
+                    'description' => 'Silakan lakukan pembayaran',
+                ];
+            }
+        } else {
+            $timeline[] = [
+                'title' => 'Pembayaran',
+                'status' => 'upcoming',
+                'date' => null,
+                'description' => 'Lengkapi upload berkas terlebih dahulu',
+            ];
+        }
+
+        // 5. Tes & Wawancara
+        if ($pembayaran && $pembayaran->isVerified()) {
             $tesStatus = $tes?->status_wawancara ?? 'belum';
             if ($tesStatus === 'sudah') {
                 $timeline[] = [
@@ -138,11 +185,11 @@ class SpmbDashboardController extends Controller
                 'title' => 'Tes & Wawancara',
                 'status' => 'upcoming',
                 'date' => null,
-                'description' => 'Lengkapi upload berkas terlebih dahulu',
+                'description' => 'Selesaikan pembayaran terlebih dahulu',
             ];
         }
 
-        // 5. Kelulusan - Berdasarkan status wawancara
+        // 6. Kelulusan - Berdasarkan status wawancara
         if ($tes?->status_wawancara === 'sudah') {
             $statusKelulusan = $tes?->status_kelulusan ?? 'Lulus';
             $timeline[] = [

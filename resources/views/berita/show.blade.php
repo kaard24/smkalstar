@@ -3,16 +3,6 @@
 @section('title', $berita->judul . ' - SMK Al-Hidayah Lestari')
 
 @section('content')
-    <!-- Header Page -->
-    <div class="bg-sky-50 py-8 border-b border-sky-100">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <a href="{{ route('berita.index') }}" class="text-primary hover:text-secondary inline-flex items-center gap-1 mb-4">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                Kembali ke Berita
-            </a>
-        </div>
-    </div>
-
     <!-- Article Content -->
     <article class="py-12 md:py-16">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -56,20 +46,7 @@
                     {!! $berita->isi !!}
                 </div>
 
-                <!-- Share Section -->
-                <div class="mt-12 pt-8 border-t border-gray-200">
-                    <p class="text-sm font-medium text-gray-600 mb-3">Bagikan berita ini:</p>
-                    <div class="flex gap-2">
-                        <a href="https://wa.me/?text={{ urlencode($berita->judul . ' - ' . url()->current()) }}" target="_blank" 
-                           class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition text-sm font-medium">
-                            WhatsApp
-                        </a>
-                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}" target="_blank"
-                           class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm font-medium">
-                            Facebook
-                        </a>
-                    </div>
-                </div>
+
             </div>
         </div>
     </article>
@@ -81,16 +58,44 @@
                 <h2 class="text-2xl font-bold text-gray-900 mb-8">Komentar ({{ $berita->approvedKomentar->count() }})</h2>
 
                 @if(session('success'))
-                <div class="mb-6 p-4 bg-sky-50 border border-sky-200 text-[#0EA5E9] rounded-xl flex items-center gap-2">
+                <div class="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-xl flex items-center gap-2">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                     {{ session('success') }}
                 </div>
                 @endif
 
+                @if(session('error'))
+                <div class="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-xl flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    {{ session('error') }}
+                </div>
+                @endif
+
+                @if($errors->any())
+                <div class="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-xl">
+                    <ul class="list-disc list-inside space-y-1">
+                        @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
+
                 <!-- Comment Form -->
+                @if($hasCommented)
+                <div class="bg-blue-50 rounded-2xl border border-blue-200 p-6 mb-8">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <div>
+                            <h3 class="font-semibold text-blue-900">Anda sudah berkomentar</h3>
+                            <p class="text-sm text-blue-700">Terima kasih! Anda hanya dapat memberikan 1 komentar per berita.</p>
+                        </div>
+                    </div>
+                </div>
+                @else
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8">
                     <h3 class="text-lg font-semibold text-gray-900 mb-4">Tulis Komentar</h3>
-                    <form action="{{ route('berita.komentar', $berita->slug) }}" method="POST" class="space-y-4">
+                    <form action="{{ route('berita.komentar', $berita->slug) }}" method="POST" class="space-y-4" id="commentForm">
                         @csrf
                         @auth('spmb')
                         <div>
@@ -100,18 +105,31 @@
                         </div>
                         @else
                         <div>
-                            <label for="username" class="block text-sm font-medium text-gray-700 mb-1">Nama Anda <span class="text-red-500">*</span></label>
-                            <input type="text" id="username" name="username" required maxlength="100"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition"
-                                placeholder="Masukkan nama Anda">
+                            <label for="username" class="block text-sm font-medium text-gray-700 mb-1">
+                                Nama Anda <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" id="username" name="username" required 
+                                maxlength="50" pattern="[a-zA-Z\s]+" title="Hanya huruf dan spasi yang diperbolehkan"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition @error('username') border-red-500 @enderror"
+                                placeholder="Masukkan nama Anda (hanya huruf)"
+                                oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')">
+                            <p class="text-xs text-gray-500 mt-1">* Hanya huruf dan spasi, maksimal 50 karakter</p>
                         </div>
                         @endauth
                         <div>
-                            <label for="komentar" class="block text-sm font-medium text-gray-700 mb-1">Komentar <span class="text-red-500" aria-hidden="true">*</span></label>
-                            <textarea id="komentar" name="komentar" rows="4" required maxlength="1000"
-                                class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition"
-                                placeholder="Tulis komentar Anda..."
-                                aria-required="true"></textarea>
+                            <label for="komentar" class="block text-sm font-medium text-gray-700 mb-1">
+                                Komentar <span class="text-red-500" aria-hidden="true">*</span>
+                            </label>
+                            <textarea id="komentar" name="komentar" rows="3" required 
+                                maxlength="100" pattern="[a-zA-Z\s]+" title="Hanya huruf dan spasi yang diperbolehkan"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition @error('komentar') border-red-500 @enderror"
+                                placeholder="Tulis komentar Anda (hanya huruf, tanpa link)..."
+                                aria-required="true"
+                                oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, ''); updateCharCount(this);"></textarea>
+                            <div class="flex justify-between mt-1">
+                                <p class="text-xs text-gray-500">* Hanya huruf dan spasi, tanpa angka/simbol/link</p>
+                                <p class="text-xs text-gray-500"><span id="charCount">0</span>/100</p>
+                            </div>
                         </div>
                         <div class="flex items-center gap-2">
                             <input type="checkbox" id="show_username" name="show_username" value="1" checked
@@ -125,6 +143,7 @@
                         </div>
                     </form>
                 </div>
+                @endif
 
                 <!-- Comments List -->
                 @if($berita->approvedKomentar->isEmpty())
@@ -200,5 +219,23 @@
         </button>
         <img id="modalImage" src="" alt="Gambar berita - tampilan penuh" class="max-w-full max-h-[90vh] object-contain rounded-lg" onclick="event.stopPropagation()">
     </div>
+
+    @push('scripts')
+    <script>
+        // Character counter for comment textarea
+        function updateCharCount(textarea) {
+            const count = textarea.value.length;
+            document.getElementById('charCount').textContent = count;
+        }
+        
+        // Initialize character count on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const textarea = document.getElementById('komentar');
+            if (textarea) {
+                updateCharCount(textarea);
+            }
+        });
+    </script>
+    @endpush
 
 @endsection

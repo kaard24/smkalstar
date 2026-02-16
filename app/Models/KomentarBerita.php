@@ -14,6 +14,7 @@ class KomentarBerita extends Model
 
     protected $fillable = [
         'berita_id',
+        'user_id',
         'username',
         'komentar',
         'show_username',

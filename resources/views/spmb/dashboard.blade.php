@@ -81,12 +81,20 @@
                                     ['key' => 'orang_tua', 'label' => 'Orang Tua/Wali', 'icon' => 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z'],
                                     ['key' => 'jurusan', 'label' => 'Jurusan', 'icon' => 'M12 14l9-5-9-5-9 5 9 5z'],
                                     ['key' => 'berkas', 'label' => 'Berkas', 'icon' => 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'],
+                                    ['key' => 'pembayaran', 'label' => 'Pembayaran', 'icon' => 'M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a1 1 0 11-2 0 1 1 0 012 0z'],
                                 ];
                             @endphp
                             
                             @foreach($statusItems as $item)
-                            @php $isComplete = $completeness[$item['key']]; @endphp
-                            <a href="{{ $item['key'] === 'berkas' ? route('spmb.berkas') : route('spmb.profil.edit') }}" 
+                            @php 
+                                $isComplete = $completeness[$item['key']];
+                                $itemUrl = match($item['key']) {
+                                    'berkas' => route('spmb.berkas'),
+                                    'pembayaran' => route('spmb.pembayaran'),
+                                    default => route('spmb.profil.edit'),
+                                };
+                            @endphp
+                            <a href="{{ $itemUrl }}" 
                                class="block p-4 rounded-lg border {{ $isComplete ? 'bg-emerald-50 border-emerald-200' : 'bg-slate-50 border-slate-200' }} hover:border-blue-300 transition-colors">
                                 <div class="flex items-center justify-between mb-2">
                                     <div class="w-8 h-8 rounded-lg {{ $isComplete ? 'bg-emerald-500' : 'bg-slate-300' }} flex items-center justify-center">
@@ -347,6 +355,33 @@
                             <div class="flex-1 min-w-0">
                                 <p class="text-sm font-medium text-slate-800">Upload Berkas</p>
                                 <p class="text-xs text-slate-500">KK, Akta, Ijazah</p>
+                            </div>
+                        </a>
+                        
+                        @php
+                            $pembayaranStatus = $completeness['pembayaran_status'] ?? null;
+                            $pembayaranColor = match($pembayaranStatus) {
+                                'verified' => 'emerald',
+                                'rejected' => 'red',
+                                'pending' => 'amber',
+                                default => 'slate',
+                            };
+                            $pembayaranLabel = match($pembayaranStatus) {
+                                'verified' => 'Pembayaran Terverifikasi',
+                                'rejected' => 'Pembayaran Ditolak',
+                                'pending' => 'Menunggu Verifikasi',
+                                default => 'Belum Bayar',
+                            };
+                        @endphp
+                        <a href="{{ route('spmb.pembayaran') }}" class="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 transition-colors group">
+                            <div class="w-10 h-10 bg-{{ $pembayaranColor }}-100 text-{{ $pembayaranColor }}-600 rounded-lg flex items-center justify-center group-hover:bg-{{ $pembayaranColor }}-500 group-hover:text-white transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a1 1 0 11-2 0 1 1 0 012 0z"/>
+                                </svg>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-slate-800">Pembayaran</p>
+                                <p class="text-xs text-{{ $pembayaranColor }}-600">{{ $pembayaranLabel }}</p>
                             </div>
                         </a>
                         

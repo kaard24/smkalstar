@@ -45,10 +45,7 @@
                     <div class="text-2xl font-bold text-sky-600">Gelombang 2</div>
                     <div class="text-sm text-gray-600">Mei - Juli 2026</div>
                 </div>
-                <div class="bg-gradient-to-r from-blue-500 to-cyan-500 rounded-2xl px-6 py-4 shadow-lg text-white">
-                    <div class="text-2xl font-bold">100%</div>
-                    <div class="text-sm opacity-90">Gratis Pendaftaran</div>
-                </div>
+
             </div>
         </div>
     </div>
@@ -156,22 +153,37 @@
                         <div class="relative pl-6 sm:pl-10 space-y-10 before:absolute before:left-2 sm:before:left-4 before:top-2 before:bottom-2 before:w-0.5 before:bg-gradient-to-b before:from-primary before:to-slate-200">
                             <div class="relative group">
                                 <span class="absolute -left-[33px] sm:-left-[41px] top-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-primary border-4 border-white shadow-md flex items-center justify-center text-white text-xs sm:text-sm font-bold z-10">1</span>
-                                <h3 class="font-bold text-gray-900 text-lg mb-1 group-hover:text-primary transition">Pendaftaran Online</h3>
-                                <p class="text-gray-600 leading-relaxed">Calon siswa membuat akun & mengisi formulir pendaftaran awal melalui website.</p>
+                                <h3 class="font-bold text-gray-900 text-lg mb-1 group-hover:text-primary transition">Pendaftaran Akun</h3>
+                                <p class="text-gray-600 leading-relaxed">Calon siswa membuat akun dengan NISN dan mengisi formulir pendaftaran awal.</p>
                             </div>
                             <div class="relative group">
                                 <span class="absolute -left-[33px] sm:-left-[41px] top-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white border-4 border-gray-200 shadow-sm flex items-center justify-center text-gray-500 text-xs sm:text-sm font-bold z-10 group-hover:border-primary group-hover:text-primary transition">2</span>
-                                <h3 class="font-bold text-gray-900 text-lg mb-1 group-hover:text-primary transition">Lengkapi Biodata</h3>
-                                <p class="text-gray-600 leading-relaxed">Melengkapi data diri secara detail dan mengunggah dokumen persyaratan.</p>
+                                <h3 class="font-bold text-gray-900 text-lg mb-1 group-hover:text-primary transition">Data Diri Lengkap</h3>
+                                <p class="text-gray-600 leading-relaxed">Melengkapi NIK, alamat, data sekolah asal, dan informasi pribadi lainnya.</p>
                             </div>
                             <div class="relative group">
                                 <span class="absolute -left-[33px] sm:-left-[41px] top-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white border-4 border-gray-200 shadow-sm flex items-center justify-center text-gray-500 text-xs sm:text-sm font-bold z-10 group-hover:border-primary group-hover:text-primary transition">3</span>
-                                <h3 class="font-bold text-gray-900 text-lg mb-1 group-hover:text-primary transition">Tes Seleksi</h3>
-                                <p class="text-gray-600 leading-relaxed">Mengikuti tes akademik, minat bakat, dan wawancara di sekolah.</p>
+                                <h3 class="font-bold text-gray-900 text-lg mb-1 group-hover:text-primary transition">Data Orang Tua/Wali</h3>
+                                <p class="text-gray-600 leading-relaxed">Mengisi data lengkap orang tua atau wali beserta informasi kontak.</p>
                             </div>
                             <div class="relative group">
                                 <span class="absolute -left-[33px] sm:-left-[41px] top-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white border-4 border-gray-200 shadow-sm flex items-center justify-center text-gray-500 text-xs sm:text-sm font-bold z-10 group-hover:border-primary group-hover:text-primary transition">4</span>
-                                <h3 class="font-bold text-gray-900 text-lg mb-1 group-hover:text-primary transition">Pengumuman & Daftar Ulang</h3>
+                                <h3 class="font-bold text-gray-900 text-lg mb-1 group-hover:text-primary transition">Upload Berkas</h3>
+                                <p class="text-gray-600 leading-relaxed">Mengunggah dokumen persyaratan seperti ijazah, KK, dan akta kelahiran.</p>
+                            </div>
+                            <div class="relative group">
+                                <span class="absolute -left-[33px] sm:-left-[41px] top-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white border-4 border-gray-200 shadow-sm flex items-center justify-center text-gray-500 text-xs sm:text-sm font-bold z-10 group-hover:border-primary group-hover:text-primary transition">5</span>
+                                <h3 class="font-bold text-gray-900 text-lg mb-1 group-hover:text-primary transition">Pembayaran</h3>
+                                <p class="text-gray-600 leading-relaxed">Melakukan pembayaran biaya pendaftaran dan mengunggah bukti transfer.</p>
+                            </div>
+                            <div class="relative group">
+                                <span class="absolute -left-[33px] sm:-left-[41px] top-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white border-4 border-gray-200 shadow-sm flex items-center justify-center text-gray-500 text-xs sm:text-sm font-bold z-10 group-hover:border-primary group-hover:text-primary transition">6</span>
+                                <h3 class="font-bold text-gray-900 text-lg mb-1 group-hover:text-primary transition">Tes & Wawancara</h3>
+                                <p class="text-gray-600 leading-relaxed">Mengikuti tes akademik, minat bakat, dan wawancara di sekolah.</p>
+                            </div>
+                            <div class="relative group">
+                                <span class="absolute -left-[33px] sm:-left-[41px] top-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white border-4 border-gray-200 shadow-sm flex items-center justify-center text-gray-500 text-xs sm:text-sm font-bold z-10 group-hover:border-primary group-hover:text-primary transition">7</span>
+                                <h3 class="font-bold text-gray-900 text-lg mb-1 group-hover:text-primary transition">Pengumuman Kelulusan</h3>
                                 <p class="text-gray-600 leading-relaxed">Melihat hasil seleksi dan melakukan daftar ulang bagi yang dinyatakan lulus.</p>
                             </div>
                         </div>
@@ -187,7 +199,7 @@
                             <ul class="space-y-4">
                                 <li class="flex items-start gap-3">
                                     <svg class="w-6 h-6 text-[#0EA5E9] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                    <span class="text-gray-700 font-medium">Fotokopi Ijazah SMP/MTs (Legalisir)</span>
+                                    <span class="text-gray-700 font-medium">Fotokopi SKL/Ijazah SMP/MTs</span>
                                 </li>
                                 <li class="flex items-start gap-3">
                                     <svg class="w-6 h-6 text-[#0EA5E9] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
@@ -197,10 +209,7 @@
                                     <svg class="w-6 h-6 text-[#0EA5E9] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                                     <span class="text-gray-700 font-medium">Fotokopi Kartu Keluarga (KK)</span>
                                 </li>
-                                <li class="flex items-start gap-3">
-                                    <svg class="w-6 h-6 text-[#0EA5E9] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                    <span class="text-gray-700 font-medium">Pas Foto 3x4 (4 lembar)</span>
-                                </li>
+
                             </ul>
                         </div>
                     </div>

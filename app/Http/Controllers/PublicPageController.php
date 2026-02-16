@@ -8,6 +8,7 @@ use App\Models\Fasilitas;
 use App\Models\Ekstrakurikuler;
 use App\Models\Prestasi;
 use App\Models\Galeri;
+use App\Models\Berita;
 use Illuminate\Support\Facades\Cache;
 
 class PublicPageController extends Controller
@@ -22,7 +23,27 @@ class PublicPageController extends Controller
      */
     public function home()
     {
-        return view('home');
+        // Get profil sekolah for sejarah section
+        $profil = Cache::remember('profil_sekolah', self::CACHE_DURATION, function () {
+            return ProfilSekolah::getInstance();
+        });
+
+        // Get fasilitas (limited to 6)
+        $fasilitas = Cache::remember('fasilitas_home', self::CACHE_DURATION, function () {
+            return Fasilitas::aktif()->urut()->limit(6)->get();
+        });
+
+        // Get galeri (limited to 8)
+        $galeri = Cache::remember('galeri_home', self::CACHE_DURATION, function () {
+            return Galeri::aktif()->urut()->limit(8)->get();
+        });
+
+        // Get berita (limited to 3 latest)
+        $berita = Cache::remember('berita_home', self::CACHE_DURATION, function () {
+            return Berita::aktif()->published()->terbaru()->limit(3)->get();
+        });
+
+        return view('home', compact('profil', 'fasilitas', 'galeri', 'berita'));
     }
 
     /**

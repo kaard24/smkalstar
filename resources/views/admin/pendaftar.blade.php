@@ -7,8 +7,8 @@
     <div class="mb-6">
         <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div>
-                <h1 class="text-2xl font-bold text-slate-800">Data Calon Siswa</h1>
-                <p class="text-sm text-slate-500 mt-1">Kelola data pendaftar SPMB SMK Al-Hidayah Lestari</p>
+                <h1 class="text-lg font-semibold text-slate-800">Data Calon Siswa</h1>
+                <p class="text-xs text-slate-500 mt-0.5">Kelola data pendaftar SPMB SMK Al-Hidayah Lestari</p>
             </div>
             <div class="flex flex-wrap gap-2 items-center">
                 <a href="{{ route('admin.pendaftar.create') }}" class="btn btn-primary">
@@ -23,9 +23,6 @@
                     </svg>
                     Export Excel
                 </a>
-                <div class="px-4 py-2 bg-slate-100 text-slate-700 rounded-lg font-medium text-sm border border-slate-200">
-                    Total: {{ $pendaftar->total() }} siswa
-                </div>
             </div>
         </div>
     </div>
@@ -49,7 +46,7 @@
     @endif
 
     {{-- Advanced Filter Section --}}
-    <div class="mb-4 card p-4">
+    <div class="mb-4 bg-white rounded-xl border border-slate-200 p-4">
         <div class="flex items-center justify-between mb-4">
             <h3 class="text-sm font-semibold text-slate-800 flex items-center gap-2">
                 <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -58,9 +55,7 @@
                 Filter Data Pendaftar
             </h3>
             @php
-                $hasFilter = request('search') || request('jurusan') || request('status') || request('gender') || 
-                            request('asal_sekolah') || request('tgl_dari') || request('tgl_sampai') || 
-                            request('berkas') || request('kelulusan') || request('wawancara');
+                $hasFilter = request('search') || request('jurusan') || request('gender') || request('wawancara');
             @endphp
             @if($hasFilter)
             <span class="text-xs bg-[#4276A3]/10 text-[#4276A3] px-2 py-1 rounded-full font-medium">Filter Aktif</span>
@@ -68,8 +63,8 @@
         </div>
         
         <form action="{{ route('admin.pendaftar.index') }}" method="GET">
-            {{-- Row 1: Search, Jurusan, Gender, Asal Sekolah --}}
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 mb-3">
+            {{-- Row 1: Search, Jurusan, Gender, Wawancara --}}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
                 {{-- Search Input --}}
                 <div>
                     <label for="search" class="block text-xs font-medium text-slate-600 mb-1">Cari (Nama/NISN/No.WA)</label>
@@ -100,70 +95,6 @@
                         <option value="L" {{ request('gender') == 'L' ? 'selected' : '' }}>Laki-laki</option>
                         <option value="P" {{ request('gender') == 'P' ? 'selected' : '' }}>Perempuan</option>
                     </select>
-                </div>
-
-                {{-- Asal Sekolah Filter --}}
-                <div>
-                    <label for="asal_sekolah" class="block text-xs font-medium text-slate-600 mb-1">Asal Sekolah</label>
-                    <input type="text" name="asal_sekolah" id="asal_sekolah" value="{{ request('asal_sekolah') }}" placeholder="Nama sekolah..." class="form-input w-full" list="sekolah-list">
-                    <datalist id="sekolah-list">
-                        @foreach($asalSekolahList as $sekolah)
-                            <option value="{{ $sekolah }}">
-                        @endforeach
-                    </datalist>
-                </div>
-            </div>
-
-            {{-- Row 2: Status, Berkas, Kelulusan --}}
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
-                {{-- Status Pendaftaran --}}
-                <div>
-                    <label for="status" class="block text-xs font-medium text-slate-600 mb-1">Status Pendaftaran</label>
-                    <select name="status" id="status" class="form-input w-full">
-                        <option value="">Semua Status</option>
-                        <option value="baru" {{ request('status') == 'baru' ? 'selected' : '' }}>Baru Daftar</option>
-                        <option value="proses_data" {{ request('status') == 'proses_data' ? 'selected' : '' }}>Proses Data</option>
-                        <option value="proses_berkas" {{ request('status') == 'proses_berkas' ? 'selected' : '' }}>Proses Berkas</option>
-                        <option value="lengkap" {{ request('status') == 'lengkap' ? 'selected' : '' }}>Data Lengkap</option>
-                        <option value="lulus" {{ request('status') == 'lulus' ? 'selected' : '' }}>Sudah Lulus</option>
-                    </select>
-                </div>
-
-                {{-- Upload Berkas Filter --}}
-                <div>
-                    <label for="berkas" class="block text-xs font-medium text-slate-600 mb-1">Upload Berkas</label>
-                    <select name="berkas" id="berkas" class="form-input w-full">
-                        <option value="">Semua</option>
-                        <option value="belum" {{ request('berkas') == 'belum' ? 'selected' : '' }}>Belum Upload</option>
-                        <option value="sebagian" {{ request('berkas') == 'sebagian' ? 'selected' : '' }}>Sebagian</option>
-                        <option value="lengkap" {{ request('berkas') == 'lengkap' ? 'selected' : '' }}>Lengkap</option>
-                    </select>
-                </div>
-
-                {{-- Kelulusan Filter --}}
-                <div>
-                    <label for="kelulusan" class="block text-xs font-medium text-slate-600 mb-1">Status Kelulusan</label>
-                    <select name="kelulusan" id="kelulusan" class="form-input w-full">
-                        <option value="">Semua</option>
-                        <option value="pending" {{ request('kelulusan') == 'pending' ? 'selected' : '' }}>Pending</option>
-                        <option value="lulus" {{ request('kelulusan') == 'lulus' ? 'selected' : '' }}>Lulus</option>
-                        <option value="tidak_lulus" {{ request('kelulusan') == 'tidak_lulus' ? 'selected' : '' }}>Tidak Lulus</option>
-                    </select>
-                </div>
-            </div>
-
-            {{-- Row 3: Tanggal Range & Wawancara --}}
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
-                {{-- Tanggal Dari --}}
-                <div>
-                    <label for="tgl_dari" class="block text-xs font-medium text-slate-600 mb-1">Tanggal Daftar Dari</label>
-                    <input type="date" name="tgl_dari" id="tgl_dari" value="{{ request('tgl_dari') }}" class="form-input w-full">
-                </div>
-
-                {{-- Tanggal Sampai --}}
-                <div>
-                    <label for="tgl_sampai" class="block text-xs font-medium text-slate-600 mb-1">Tanggal Daftar Sampai</label>
-                    <input type="date" name="tgl_sampai" id="tgl_sampai" value="{{ request('tgl_sampai') }}" class="form-input w-full">
                 </div>
 
                 {{-- Wawancara Filter --}}
@@ -207,21 +138,7 @@
                     @if(request('gender'))
                         <span class="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded">{{ request('gender') == 'L' ? 'Laki-laki' : 'Perempuan' }}</span>
                     @endif
-                    @if(request('status'))
-                        @php $statusLabels = ['baru' => 'Baru', 'proses_data' => 'Proses Data', 'proses_berkas' => 'Proses Berkas', 'lengkap' => 'Lengkap', 'lulus' => 'Lulus']; @endphp
-                        <span class="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded">{{ $statusLabels[request('status')] ?? request('status') }}</span>
-                    @endif
-                    @if(request('berkas'))
-                        @php $berkasLabels = ['belum' => 'Belum Upload', 'sebagian' => 'Sebagian', 'lengkap' => 'Berkas Lengkap']; @endphp
-                        <span class="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded">{{ $berkasLabels[request('berkas')] }}</span>
-                    @endif
-                    @if(request('kelulusan'))
-                        @php $lulusLabels = ['pending' => 'Pending', 'lulus' => 'Lulus', 'tidak_lulus' => 'Tidak Lulus']; @endphp
-                        <span class="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded">{{ $lulusLabels[request('kelulusan')] }}</span>
-                    @endif
-                    @if(request('tgl_dari') || request('tgl_sampai'))
-                        <span class="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded">{{ request('tgl_dari') }} - {{ request('tgl_sampai') }}</span>
-                    @endif
+
                 </div>
                 @endif
             </div>
@@ -229,7 +146,7 @@
     </div>
 
     {{-- Bulk Operations Toolbar --}}
-    <div id="bulk-toolbar" class="mb-4 card p-3 bg-[#4276A3]/5 border-[#4276A3]/20 hidden">
+    <div id="bulk-toolbar" class="mb-4 bg-[#4276A3]/5 border border-[#4276A3]/20 rounded-xl p-3 hidden">
         <div class="flex flex-wrap items-center justify-between gap-3">
             <div class="flex items-center gap-3">
                 <label class="flex items-center gap-2 cursor-pointer">
@@ -269,7 +186,7 @@
     </div>
 
     {{-- Data Table --}}
-    <div class="card overflow-hidden">
+    <div class="bg-white rounded-xl border border-slate-200 overflow-hidden">
         <div class="overflow-x-auto">
             <table class="data-table">
                 <thead>
@@ -294,29 +211,29 @@
                         $berkasProgress = \App\Models\BerkasPendaftaran::getUploadProgress($siswa->id);
                         $nomor = ($pendaftar->currentPage() - 1) * $pendaftar->perPage() + $index + 1;
                     @endphp
-                    <tr class="hover:bg-slate-50 transition-colors" data-id="{{ $siswa->id }}">
+                    <tr data-id="{{ $siswa->id }}">
                         <td class="text-center" onclick="event.stopPropagation();">
                             <input type="checkbox" name="ids[]" value="{{ $siswa->id }}" class="row-checkbox w-4 h-4 text-[#4276A3] rounded border-slate-300 focus:ring-[#4276A3]" onclick="event.stopPropagation(); updateSelection();">
                         </td>
-                        <td class="text-center text-slate-500 cursor-pointer" onclick="window.location='{{ route('admin.pendaftar.show', $siswa->id) }}'">{{ $nomor }}</td>
-                        <td class="cursor-pointer" onclick="window.location='{{ route('admin.pendaftar.show', $siswa->id) }}'">
+                        <td class="text-center text-slate-500" onclick="window.location='{{ route('admin.pendaftar.show', $siswa->id) }}'">{{ $nomor }}</td>
+                        <td onclick="window.location='{{ route('admin.pendaftar.show', $siswa->id) }}'">
                             <div class="font-medium text-slate-800">{{ $siswa->nama }}</div>
                             <div class="text-xs text-slate-400 mt-0.5">{{ $siswa->no_wa ?? '-' }}</div>
                         </td>
-                        <td class="cursor-pointer" onclick="window.location='{{ route('admin.pendaftar.show', $siswa->id) }}'">
+                        <td onclick="window.location='{{ route('admin.pendaftar.show', $siswa->id) }}'">
                             <span class="font-mono text-slate-600 text-xs">{{ $siswa->nisn }}</span>
                         </td>
-                        <td class="cursor-pointer" onclick="window.location='{{ route('admin.pendaftar.show', $siswa->id) }}'">
+                        <td onclick="window.location='{{ route('admin.pendaftar.show', $siswa->id) }}'">
                             @if($siswa->pendaftaran && $siswa->pendaftaran->jurusan)
                                 <span class="badge badge-info">{{ $siswa->pendaftaran->jurusan->kode }}</span>
                             @else
                                 <span class="badge badge-secondary">Belum Pilih</span>
                             @endif
                         </td>
-                        <td class="cursor-pointer" onclick="window.location='{{ route('admin.pendaftar.show', $siswa->id) }}'">
+                        <td onclick="window.location='{{ route('admin.pendaftar.show', $siswa->id) }}'">
                             <div class="flex items-center gap-2">
                                 <div class="flex-1 w-20 bg-slate-200 rounded-full h-1.5">
-                                    <div class="bg-[#4276A3] h-1.5 rounded-full transition-all" style="width: {{ $berkasProgress['percentage'] }}%"></div>
+                                    <div class="bg-[#4276A3] h-1.5 rounded-full" style="width: {{ $berkasProgress['percentage'] }}%"></div>
                                 </div>
                                 <span class="text-xs font-medium text-slate-600 whitespace-nowrap">{{ $berkasProgress['uploaded'] }}/{{ $berkasProgress['total'] }}</span>
                             </div>
@@ -328,7 +245,7 @@
                                 <span class="text-xs text-slate-400">Belum Upload</span>
                             @endif
                         </td>
-                        <td class="cursor-pointer" onclick="window.location='{{ route('admin.pendaftar.show', $siswa->id) }}'">
+                        <td onclick="window.location='{{ route('admin.pendaftar.show', $siswa->id) }}'">
                             @if($hasPendaftaran && $isComplete && $berkasProgress['is_complete'])
                                 <span class="badge badge-success">
                                     <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
@@ -394,7 +311,7 @@
 
     {{-- Bulk Delete Modal --}}
     <div id="delete-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-xl shadow-xl max-w-md w-full p-6">
+        <div class="bg-white rounded-xl border border-slate-200 max-w-md w-full p-6">
             <div class="flex items-center gap-3 mb-4">
                 <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
                     <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -420,7 +337,7 @@
 
     {{-- Status Update Modal --}}
     <div id="status-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-xl shadow-xl max-w-md w-full p-6">
+        <div class="bg-white rounded-xl border border-slate-200 max-w-md w-full p-6">
             <div class="flex items-center gap-3 mb-4">
                 <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
                     <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -455,7 +372,7 @@
 
     {{-- WA Notification Modal --}}
     <div id="wa-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-xl shadow-xl max-w-lg w-full p-6">
+        <div class="bg-white rounded-xl border border-slate-200 max-w-lg w-full p-6">
             <div class="flex items-center gap-3 mb-4">
                 <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
                     <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 24 24">
@@ -483,37 +400,7 @@
         </div>
     </div>
 
-    {{-- Info Cards --}}
-    <div class="mt-4 grid md:grid-cols-4 gap-3">
-        <div class="bg-[#047857]/10 border border-[#047857]/20 rounded-lg p-3">
-            <h4 class="font-semibold text-[#047857] mb-1 flex items-center gap-2 text-xs">
-                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-                Siap Tes
-            </h4>
-            <p class="text-[#047857]/80 text-xs">Data & berkas lengkap</p>
-        </div>
-        <div class="bg-[#4276A3]/10 border border-[#4276A3]/20 rounded-lg p-3">
-            <h4 class="font-semibold text-[#4276A3] mb-1 flex items-center gap-2 text-xs">
-                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"/></svg>
-                Data Lengkap
-            </h4>
-            <p class="text-[#4276A3]/80 text-xs">Biodata lengkap, berkas belum</p>
-        </div>
-        <div class="bg-[#B45309]/10 border border-[#B45309]/20 rounded-lg p-3">
-            <h4 class="font-semibold text-[#B45309] mb-1 flex items-center gap-2 text-xs">
-                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>
-                Proses
-            </h4>
-            <p class="text-[#B45309]/80 text-xs">Data belum lengkap</p>
-        </div>
-        <div class="bg-slate-100 border border-slate-200 rounded-lg p-3">
-            <h4 class="font-semibold text-slate-700 mb-1 flex items-center gap-2 text-xs">
-                <svg class="w-3 h-3 text-slate-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
-                Baru
-            </h4>
-            <p class="text-slate-500 text-xs">Siswa baru mendaftar</p>
-        </div>
-    </div>
+
 
     @push('scripts')
     <script>
