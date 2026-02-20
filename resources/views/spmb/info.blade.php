@@ -37,15 +37,22 @@
             
             <!-- Countdown/Quick Info -->
             <div class="flex flex-wrap justify-center gap-4 md:gap-6">
-                <div class="bg-white/80 backdrop-blur-sm rounded-2xl px-6 py-4 shadow-lg border border-blue-100">
-                    <div class="text-2xl font-bold text-blue-600">Gelombang 1</div>
-                    <div class="text-sm text-gray-600">Jan - Mei 2026</div>
+                @foreach($gelombang->take(2) as $g)
+                @php
+                    $isAktif = $g->is_aktif;
+                    $statusColor = $isAktif ? 'blue' : 'slate';
+                @endphp
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl px-6 py-4 shadow-lg border border-{{ $isAktif ? 'blue' : 'slate' }}-100">
+                    <div class="text-2xl font-bold text-{{ $isAktif ? 'blue' : 'slate' }}-600">{{ $g->nama }}</div>
+                    <div class="text-sm text-gray-600">{{ $g->pendaftaran_start->format('M') }} - {{ $g->pendaftaran_end->format('M Y') }}</div>
+                    @if($isAktif)
+                    <div class="mt-2 inline-flex items-center gap-1 text-xs font-bold text-blue-600">
+                        <span class="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse"></span>
+                        BERLANGSUNG
+                    </div>
+                    @endif
                 </div>
-                <div class="bg-white/80 backdrop-blur-sm rounded-2xl px-6 py-4 shadow-lg border border-sky-100">
-                    <div class="text-2xl font-bold text-sky-600">Gelombang 2</div>
-                    <div class="text-sm text-gray-600">Mei - Juli 2026</div>
-                </div>
-
+                @endforeach
             </div>
         </div>
     </div>
@@ -113,33 +120,30 @@
                         
                         <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
                             <div class="p-6 md:p-8 space-y-6">
-                                <!-- Gelombang 1 -->
-                                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 rounded-2xl bg-sky-50/50 border border-sky-100">
+                                @foreach($gelombang as $g)
+                                @php
+                                    $isBerlangsung = $g->status_pendaftaran === 'BERLANGSUNG';
+                                    $isSelesai = $g->status_pendaftaran === 'SELESAI';
+                                @endphp
+                                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 rounded-2xl {{ $isBerlangsung ? 'bg-sky-50/50 border border-sky-100' : ($isSelesai ? 'bg-gray-50 border border-gray-100' : 'border border-gray-100 hover:bg-gray-50 transition') }}">
                                     <div class="flex items-center gap-4">
-                                        <div class="w-12 h-12 rounded-full bg-sky-100 flex items-center justify-center text-sky-600">
-                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                        <div class="w-12 h-12 rounded-full {{ $isBerlangsung ? 'bg-sky-100 text-sky-600' : ($isSelesai ? 'bg-gray-200 text-gray-500' : 'bg-gray-100 text-gray-400') }} flex items-center justify-center">
+                                            <span class="text-lg font-bold">{{ $g->nomor }}</span>
                                         </div>
                                         <div>
-                                            <h4 class="font-bold text-gray-900 text-lg">Gelombang 1</h4>
-                                            <p class="text-sm text-gray-600 font-medium">Januari – 23 Mei 2026</p>
+                                            <h4 class="font-bold text-gray-900 text-lg">{{ $g->nama }}</h4>
+                                            <p class="text-sm text-gray-600 font-medium">{{ $g->pendaftaran_start->translatedFormat('d M Y') }} - {{ $g->pendaftaran_end->translatedFormat('d M Y') }}</p>
                                         </div>
                                     </div>
+                                    @if($isBerlangsung)
                                     <span class="px-4 py-2 bg-[#0EA5E9] text-white rounded-xl text-xs font-bold shadow-sm md:self-center self-start">SEDANG DIBUKA</span>
-                                </div>
-
-                                <!-- Gelombang 2 -->
-                                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 rounded-2xl border border-gray-100 hover:bg-gray-50 transition">
-                                    <div class="flex items-center gap-4">
-                                        <div class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-400">
-                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                        </div>
-                                        <div>
-                                            <h4 class="font-bold text-gray-900 text-lg">Gelombang 2</h4>
-                                            <p class="text-sm text-gray-600 font-medium">24 Mei – 4 Juli 2026</p>
-                                        </div>
-                                    </div>
+                                    @elseif($isSelesai)
+                                    <span class="px-4 py-2 bg-gray-200 text-gray-600 rounded-xl text-xs font-bold md:self-center self-start">SELESAI</span>
+                                    @else
                                     <span class="px-4 py-2 bg-gray-100 text-gray-500 rounded-xl text-xs font-bold border border-gray-200 md:self-center self-start">AKAN DATANG</span>
+                                    @endif
                                 </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -151,41 +155,18 @@
                             <h2 class="text-3xl font-bold text-gray-900 font-heading">Alur Pendaftaran</h2>
                         </div>
                         <div class="relative pl-6 sm:pl-10 space-y-10 before:absolute before:left-2 sm:before:left-4 before:top-2 before:bottom-2 before:w-0.5 before:bg-gradient-to-b before:from-primary before:to-slate-200">
+                            @forelse($alur as $index => $item)
+                            @php
+                                $isFirst = $index === 0;
+                            @endphp
                             <div class="relative group">
-                                <span class="absolute -left-[33px] sm:-left-[41px] top-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-primary border-4 border-white shadow-md flex items-center justify-center text-white text-xs sm:text-sm font-bold z-10">1</span>
-                                <h3 class="font-bold text-gray-900 text-lg mb-1 group-hover:text-primary transition">Pendaftaran Akun</h3>
-                                <p class="text-gray-600 leading-relaxed">Calon siswa membuat akun dengan NISN dan mengisi formulir pendaftaran awal.</p>
+                                <span class="absolute -left-[33px] sm:-left-[41px] top-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full {{ $isFirst ? 'bg-primary border-4 border-white shadow-md text-white' : 'bg-white border-4 border-gray-200 shadow-sm text-gray-500 group-hover:border-primary group-hover:text-primary' }} flex items-center justify-center text-xs sm:text-sm font-bold z-10 transition">{{ $item->nomor }}</span>
+                                <h3 class="font-bold text-gray-900 text-lg mb-1 group-hover:text-primary transition">{{ $item->judul }}</h3>
+                                <p class="text-gray-600 leading-relaxed">{{ $item->deskripsi }}</p>
                             </div>
-                            <div class="relative group">
-                                <span class="absolute -left-[33px] sm:-left-[41px] top-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white border-4 border-gray-200 shadow-sm flex items-center justify-center text-gray-500 text-xs sm:text-sm font-bold z-10 group-hover:border-primary group-hover:text-primary transition">2</span>
-                                <h3 class="font-bold text-gray-900 text-lg mb-1 group-hover:text-primary transition">Data Diri Lengkap</h3>
-                                <p class="text-gray-600 leading-relaxed">Melengkapi NIK, alamat, data sekolah asal, dan informasi pribadi lainnya.</p>
-                            </div>
-                            <div class="relative group">
-                                <span class="absolute -left-[33px] sm:-left-[41px] top-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white border-4 border-gray-200 shadow-sm flex items-center justify-center text-gray-500 text-xs sm:text-sm font-bold z-10 group-hover:border-primary group-hover:text-primary transition">3</span>
-                                <h3 class="font-bold text-gray-900 text-lg mb-1 group-hover:text-primary transition">Data Orang Tua/Wali</h3>
-                                <p class="text-gray-600 leading-relaxed">Mengisi data lengkap orang tua atau wali beserta informasi kontak.</p>
-                            </div>
-                            <div class="relative group">
-                                <span class="absolute -left-[33px] sm:-left-[41px] top-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white border-4 border-gray-200 shadow-sm flex items-center justify-center text-gray-500 text-xs sm:text-sm font-bold z-10 group-hover:border-primary group-hover:text-primary transition">4</span>
-                                <h3 class="font-bold text-gray-900 text-lg mb-1 group-hover:text-primary transition">Upload Berkas</h3>
-                                <p class="text-gray-600 leading-relaxed">Mengunggah dokumen persyaratan seperti ijazah, KK, dan akta kelahiran.</p>
-                            </div>
-                            <div class="relative group">
-                                <span class="absolute -left-[33px] sm:-left-[41px] top-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white border-4 border-gray-200 shadow-sm flex items-center justify-center text-gray-500 text-xs sm:text-sm font-bold z-10 group-hover:border-primary group-hover:text-primary transition">5</span>
-                                <h3 class="font-bold text-gray-900 text-lg mb-1 group-hover:text-primary transition">Pembayaran</h3>
-                                <p class="text-gray-600 leading-relaxed">Melakukan pembayaran biaya pendaftaran dan mengunggah bukti transfer.</p>
-                            </div>
-                            <div class="relative group">
-                                <span class="absolute -left-[33px] sm:-left-[41px] top-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white border-4 border-gray-200 shadow-sm flex items-center justify-center text-gray-500 text-xs sm:text-sm font-bold z-10 group-hover:border-primary group-hover:text-primary transition">6</span>
-                                <h3 class="font-bold text-gray-900 text-lg mb-1 group-hover:text-primary transition">Tes & Wawancara</h3>
-                                <p class="text-gray-600 leading-relaxed">Mengikuti tes akademik, minat bakat, dan wawancara di sekolah.</p>
-                            </div>
-                            <div class="relative group">
-                                <span class="absolute -left-[33px] sm:-left-[41px] top-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white border-4 border-gray-200 shadow-sm flex items-center justify-center text-gray-500 text-xs sm:text-sm font-bold z-10 group-hover:border-primary group-hover:text-primary transition">7</span>
-                                <h3 class="font-bold text-gray-900 text-lg mb-1 group-hover:text-primary transition">Pengumuman Kelulusan</h3>
-                                <p class="text-gray-600 leading-relaxed">Melihat hasil seleksi dan melakukan daftar ulang bagi yang dinyatakan lulus.</p>
-                            </div>
+                            @empty
+                            <div class="text-center text-gray-500 py-4">Belum ada data alur pendaftaran.</div>
+                            @endforelse
                         </div>
                     </div>
 
@@ -197,19 +178,24 @@
                         </div>
                         <div class="bg-white rounded-3xl border border-gray-100 p-8 shadow-sm">
                             <ul class="space-y-4">
+                                @forelse($persyaratan as $item)
                                 <li class="flex items-start gap-3">
-                                    <svg class="w-6 h-6 text-[#0EA5E9] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                    <span class="text-gray-700 font-medium">Fotokopi SKL/Ijazah SMP/MTs</span>
+                                    <svg class="w-6 h-6 text-[#0EA5E9] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                    </svg>
+                                    <div>
+                                        <span class="text-gray-700 font-medium">{{ $item->nama }}</span>
+                                        @if($item->keterangan)
+                                        <p class="text-sm text-gray-500 mt-1">{{ $item->keterangan }}</p>
+                                        @endif
+                                    </div>
+                                    @if($item->wajib)
+                                    <span class="ml-auto px-2 py-0.5 bg-rose-100 text-rose-700 text-xs rounded-full font-medium">Wajib</span>
+                                    @endif
                                 </li>
-                                <li class="flex items-start gap-3">
-                                    <svg class="w-6 h-6 text-[#0EA5E9] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                    <span class="text-gray-700 font-medium">Fotokopi Akta Kelahiran</span>
-                                </li>
-                                <li class="flex items-start gap-3">
-                                    <svg class="w-6 h-6 text-[#0EA5E9] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                                    <span class="text-gray-700 font-medium">Fotokopi Kartu Keluarga (KK)</span>
-                                </li>
-
+                                @empty
+                                <li class="text-center text-gray-500 py-4">Belum ada data persyaratan.</li>
+                                @endforelse
                             </ul>
                         </div>
                     </div>
@@ -240,35 +226,32 @@
                             </div>
                         </div>
                     </a>
+                    @php
+                        $totalBiaya = $biaya->sum('nominal');
+                    @endphp
                     <!-- Biaya -->
                     <div class="bg-gradient-to-br from-[#0EA5E9] to-[#1E3A5F] text-white rounded-3xl p-8 shadow-xl relative overflow-hidden group">
                         <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-3xl transform translate-x-10 -translate-y-10"></div>
                         
                         <h3 class="text-2xl font-bold mb-6 font-heading relative z-10">Rincian Biaya</h3>
                         <div class="space-y-4 mb-8 relative z-10">
+                            @forelse($biaya as $item)
                             <div class="flex justify-between items-center py-2 border-b border-white/20">
-                                <span class="text-cyan-50">Uang Gedung</span>
-                                <span class="font-bold">Rp 1.500.000</span>
+                                <span class="text-cyan-50">{{ $item->nama }}</span>
+                                <span class="font-bold">{{ $item->nominal_formatted }}</span>
                             </div>
-                            <div class="flex justify-between items-center py-2 border-b border-white/20">
-                                <span class="text-cyan-50">SPP Juli</span>
-                                <span class="font-bold">Rp 400.000</span>
-                            </div>
-                            <div class="flex justify-between items-center py-2 border-b border-white/20">
-                                <span class="text-cyan-50">Seragam (5 Set)</span>
-                                <span class="font-bold">Rp 1.150.000</span>
-                            </div>
-                            <div class="flex justify-between items-center py-2 border-b border-white/20">
-                                <span class="text-cyan-50">Kegiatan Awal</span>
-                                <span class="font-bold">Rp 550.000</span>
-                            </div>
+                            @empty
+                            <div class="text-center py-4 text-cyan-100">Belum ada data biaya.</div>
+                            @endforelse
+                            @if($biaya->isNotEmpty())
                             <div class="flex justify-between items-center pt-4">
                                 <span class="font-bold text-lg">TOTAL</span>
-                                <span class="font-bold text-2xl">Rp 3.600.000</span>
+                                <span class="font-bold text-2xl">Rp {{ number_format($totalBiaya, 0, ',', '.') }}</span>
                             </div>
+                            @endif
                         </div>
                         
-                         <a href="{{ url('/spmb/register') }}" class="block w-full text-center bg-[#F97316] text-white font-bold py-4 rounded-xl hover:bg-orange-600 transition shadow-lg relative z-10 hover:shadow-xl transform group-hover:-translate-y-1 duration-300">
+                        <a href="{{ url('/spmb/register') }}" class="block w-full text-center bg-[#F97316] text-white font-bold py-4 rounded-xl hover:bg-orange-600 transition shadow-lg relative z-10 hover:shadow-xl transform group-hover:-translate-y-1 duration-300">
                             Daftar Sekarang
                         </a>
                     </div>
@@ -278,24 +261,22 @@
                         <h3 class="text-xl font-bold text-gray-900 mb-6 font-heading">Butuh Bantuan?</h3>
                         <p class="text-gray-600 mb-6 leading-relaxed">Jika ada kendala saat mendaftar, hubungi panitia kami:</p>
                         <div class="space-y-4">
-                            <a href="https://wa.me/628812489572" target="_blank" class="flex items-center p-4 bg-gray-50 rounded-2xl hover:bg-green-50 group transition duration-300">
+                            @forelse($kontak as $item)
+                            <a href="{{ $item->whatsapp_link }}" target="_blank" class="flex items-center p-4 bg-gray-50 rounded-2xl hover:bg-green-50 group transition duration-300">
                                 <div class="w-10 h-10 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-4 group-hover:bg-green-500 group-hover:text-white transition flex-shrink-0">
-                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                                    </svg>
                                 </div>
                                 <div class="min-w-0">
-                                    <p class="text-sm text-gray-500 font-medium">Pak Kaffa</p>
-                                    <p class="font-bold text-gray-900">0881-2489-572</p>
+                                    <p class="text-sm text-gray-500 font-medium">{{ $item->jabatan ?? 'Panitia' }}</p>
+                                    <p class="font-bold text-gray-900">{{ $item->nama }}</p>
+                                    <p class="text-gray-600 text-sm">{{ $item->telepon_formatted }}</p>
                                 </div>
                             </a>
-                            <a href="https://wa.me/6289651626030" target="_blank" class="flex items-center p-4 bg-gray-50 rounded-2xl hover:bg-green-50 group transition duration-300">
-                                <div class="w-10 h-10 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-4 group-hover:bg-green-500 group-hover:text-white transition flex-shrink-0">
-                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                                </div>
-                                <div class="min-w-0">
-                                    <p class="text-sm text-gray-500 font-medium">Pak Akbar</p>
-                                    <p class="font-bold text-gray-900">0896-5162-6030</p>
-                                </div>
-                            </a>
+                            @empty
+                            <div class="text-center text-gray-500 py-4">Belum ada data kontak.</div>
+                            @endforelse
                         </div>
                     </div>
                 </div>

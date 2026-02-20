@@ -9,6 +9,12 @@ use App\Models\Ekstrakurikuler;
 use App\Models\Prestasi;
 use App\Models\Galeri;
 use App\Models\Berita;
+use App\Models\Seragam;
+use App\Models\SpmbGelombang;
+use App\Models\SpmbAlur;
+use App\Models\SpmbPersyaratan;
+use App\Models\SpmbBiaya;
+use App\Models\SpmbKontak;
 use Illuminate\Support\Facades\Cache;
 
 class PublicPageController extends Controller
@@ -127,5 +133,39 @@ class PublicPageController extends Controller
         });
 
         return view('galeri', compact('galeri'));
+    }
+
+    /**
+     * Seragam page (cached)
+     */
+    public function seragam()
+    {
+        $seragam = Cache::remember('seragam_aktif', self::CACHE_DURATION, function () {
+            return Seragam::active()->ordered()->get();
+        });
+
+        return view('seragam', compact('seragam'));
+    }
+
+    /**
+     * SPMB Info page (cached)
+     */
+    public function spmbInfo()
+    {
+        $spmbData = Cache::remember('spmb_data', self::CACHE_DURATION, function () {
+            return [
+                'gelombang' => SpmbGelombang::active()->ordered()->get(),
+                'alur' => SpmbAlur::active()->ordered()->get(),
+                'persyaratan' => SpmbPersyaratan::active()->ordered()->get(),
+                'biaya' => SpmbBiaya::active()->ordered()->get(),
+                'kontak' => SpmbKontak::active()->ordered()->get(),
+            ];
+        });
+
+        $jurusan = Cache::remember('jurusan_aktif', self::CACHE_DURATION, function () {
+            return Jurusan::aktif()->urut()->get();
+        });
+
+        return view('spmb.info', array_merge($spmbData, ['jurusan' => $jurusan]));
     }
 }

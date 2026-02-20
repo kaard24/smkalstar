@@ -15,6 +15,7 @@ use App\Http\Controllers\BerkasController;
 use App\Http\Controllers\SpmbPembayaranController;
 use App\Http\Controllers\AdminPembayaranController;
 use App\Http\Controllers\PublicPageController;
+use App\Http\Controllers\Admin\SeragamController;
 use Illuminate\Http\Request;
 use App\Models\CalonSiswa;
 use App\Models\Pendaftaran;
@@ -38,56 +39,7 @@ Route::get('/prestasi', [PublicPageController::class, 'prestasi'])->name('presta
 Route::get('/galeri', [PublicPageController::class, 'galeri'])->name('galeri');
 
 // Seragam - Info Seragam Sekolah (Public)
-Route::get('/seragam', function() {
-    $seragam = [
-        [
-            'hari' => 'Senin',
-            'nama' => 'Seragam Putih Abu-abu',
-            'warna' => 'Putih - Abu-abu',
-            'icon' => '👔',
-            'deskripsi' => 'Kemeja putih dengan celana/rok abu-abu. Dikenakan setiap hari Senin.',
-            'warna_bg' => 'from-gray-100 to-gray-300',
-            'warna_text' => 'text-gray-800'
-        ],
-        [
-            'hari' => 'Selasa',
-            'nama' => 'Seragam Batik',
-            'warna' => 'Batik Sekolah',
-            'icon' => '🌺',
-            'deskripsi' => 'Kemeja batik khas sekolah dengan celana/rok hitam. Memperkenalkan budaya Indonesia.',
-            'warna_bg' => 'from-amber-100 to-orange-200',
-            'warna_text' => 'text-amber-900'
-        ],
-        [
-            'hari' => 'Rabu',
-            'nama' => 'Seragam Olahraga',
-            'warna' => 'Biru - Putih',
-            'icon' => '🏃',
-            'deskripsi' => 'Kaos olahraga biru dengan celana/rok putih. Untuk aktivitas fisik dan olahraga.',
-            'warna_bg' => 'from-blue-100 to-cyan-200',
-            'warna_text' => 'text-blue-900'
-        ],
-        [
-            'hari' => 'Kamis',
-            'nama' => 'Seragam Muslim',
-            'warna' => 'Putih - Biru',
-            'icon' => '🧕',
-            'deskripsi' => 'Baju koko putih dengan celana/rok biru. Mengenakan peci atau kerudung sesuai agama.',
-            'warna_bg' => 'from-sky-100 to-blue-200',
-            'warna_text' => 'text-sky-900'
-        ],
-        [
-            'hari' => 'Jumat',
-            'nama' => 'Seragam Pramuka',
-            'warna' => 'Coklat - Krem',
-            'icon' => '🧭',
-            'deskripsi' => 'Seragam pramuka lengkap dengan atributnya. Membangung karakter disiplin dan mandiri.',
-            'warna_bg' => 'from-amber-200 to-yellow-300',
-            'warna_text' => 'text-amber-900'
-        ],
-    ];
-    return view('seragam', compact('seragam'));
-})->name('seragam');
+Route::get('/seragam', [PublicPageController::class, 'seragam'])->name('seragam');
 
 // Legal Pages
 Route::get('/privacy-policy', function () {
@@ -131,36 +83,13 @@ Route::prefix('spmb')->name('spmb.')->group(function () {
         $jurusan = Jurusan::aktif()->urut()->get();
         return view('spmb.info', compact('jurusan')); 
     })->name('index');
-    Route::get('/info', function () { 
-        $jurusan = Jurusan::aktif()->urut()->get();
-        return view('spmb.info', compact('jurusan')); 
-    })->name('info');
+    Route::get('/info', [PublicPageController::class, 'spmbInfo'])->name('info');
 
     // Kalender Akademik
     Route::get('/kalender', function () {
-        // Data jadwal SPMB 2026/2027 - 2 Gelombang
-        $jadwal = [
-            [
-                'gelombang' => 1,
-                'nama' => 'Gelombang 1',
-                'pendaftaran_start' => '2026-01-01',
-                'pendaftaran_end' => '2026-05-23',
-                'tes_mulai' => '2026-05-26',
-                'tes_selesai' => '2026-05-28',
-                'pengumuman' => '2026-06-01',
-            ],
-            [
-                'gelombang' => 2,
-                'nama' => 'Gelombang 2',
-                'pendaftaran_start' => '2026-05-24',
-                'pendaftaran_end' => '2026-07-04',
-                'tes_mulai' => '2026-07-07',
-                'tes_selesai' => '2026-07-09',
-                'pengumuman' => '2026-07-12',
-            ],
-        ];
+        $gelombang = \App\Models\SpmbGelombang::active()->ordered()->get();
         
-        return view('spmb.kalender', compact('jadwal'));
+        return view('spmb.kalender', compact('gelombang'));
     })->name('kalender');
 
     // Pengumuman (public check)
@@ -451,6 +380,47 @@ Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function
     Route::resource('berita', \App\Http\Controllers\Admin\BeritaController::class)->except(['show']);
     Route::get('berita/{id}/komentar', [\App\Http\Controllers\Admin\BeritaController::class, 'komentar'])->name('berita.komentar');
     Route::delete('berita/komentar/{id}', [\App\Http\Controllers\Admin\BeritaController::class, 'destroyKomentar'])->name('berita.komentar.destroy');
+
+    // Seragam Module
+    Route::resource('seragam', SeragamController::class)->except(['show']);
+
+    // SPMB Module
+    Route::prefix('spmb')->name('spmb.')->group(function () {
+        // Dashboard
+        Route::get('/', [\App\Http\Controllers\Admin\SpmbController::class, 'index'])->name('index');
+        
+        // Gelombang
+        Route::get('/gelombang', [\App\Http\Controllers\Admin\SpmbController::class, 'gelombangIndex'])->name('gelombang.index');
+        Route::get('/gelombang/create', [\App\Http\Controllers\Admin\SpmbController::class, 'gelombangCreate'])->name('gelombang.create');
+        Route::post('/gelombang', [\App\Http\Controllers\Admin\SpmbController::class, 'gelombangStore'])->name('gelombang.store');
+        Route::get('/gelombang/{gelombang}/edit', [\App\Http\Controllers\Admin\SpmbController::class, 'gelombangEdit'])->name('gelombang.edit');
+        Route::put('/gelombang/{gelombang}', [\App\Http\Controllers\Admin\SpmbController::class, 'gelombangUpdate'])->name('gelombang.update');
+        Route::delete('/gelombang/{gelombang}', [\App\Http\Controllers\Admin\SpmbController::class, 'gelombangDestroy'])->name('gelombang.destroy');
+        
+        // Alur
+        Route::get('/alur', [\App\Http\Controllers\Admin\SpmbController::class, 'alurIndex'])->name('alur.index');
+        Route::post('/alur', [\App\Http\Controllers\Admin\SpmbController::class, 'alurStore'])->name('alur.store');
+        Route::put('/alur/{alur}', [\App\Http\Controllers\Admin\SpmbController::class, 'alurUpdate'])->name('alur.update');
+        Route::delete('/alur/{alur}', [\App\Http\Controllers\Admin\SpmbController::class, 'alurDestroy'])->name('alur.destroy');
+        
+        // Persyaratan
+        Route::get('/persyaratan', [\App\Http\Controllers\Admin\SpmbController::class, 'persyaratanIndex'])->name('persyaratan.index');
+        Route::post('/persyaratan', [\App\Http\Controllers\Admin\SpmbController::class, 'persyaratanStore'])->name('persyaratan.store');
+        Route::put('/persyaratan/{persyaratan}', [\App\Http\Controllers\Admin\SpmbController::class, 'persyaratanUpdate'])->name('persyaratan.update');
+        Route::delete('/persyaratan/{persyaratan}', [\App\Http\Controllers\Admin\SpmbController::class, 'persyaratanDestroy'])->name('persyaratan.destroy');
+        
+        // Biaya
+        Route::get('/biaya', [\App\Http\Controllers\Admin\SpmbController::class, 'biayaIndex'])->name('biaya.index');
+        Route::post('/biaya', [\App\Http\Controllers\Admin\SpmbController::class, 'biayaStore'])->name('biaya.store');
+        Route::put('/biaya/{biaya}', [\App\Http\Controllers\Admin\SpmbController::class, 'biayaUpdate'])->name('biaya.update');
+        Route::delete('/biaya/{biaya}', [\App\Http\Controllers\Admin\SpmbController::class, 'biayaDestroy'])->name('biaya.destroy');
+        
+        // Kontak
+        Route::get('/kontak', [\App\Http\Controllers\Admin\SpmbController::class, 'kontakIndex'])->name('kontak.index');
+        Route::post('/kontak', [\App\Http\Controllers\Admin\SpmbController::class, 'kontakStore'])->name('kontak.store');
+        Route::put('/kontak/{kontak}', [\App\Http\Controllers\Admin\SpmbController::class, 'kontakUpdate'])->name('kontak.update');
+        Route::delete('/kontak/{kontak}', [\App\Http\Controllers\Admin\SpmbController::class, 'kontakDestroy'])->name('kontak.destroy');
+    });
 
     // Cache Management
     Route::post('/cache/clear-frontend', [AdminCacheController::class, 'clearFrontend'])->name('cache.clear-frontend');

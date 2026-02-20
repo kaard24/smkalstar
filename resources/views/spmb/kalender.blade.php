@@ -31,12 +31,12 @@
         $activeGelombang = null;
         $nextEvent = null;
         
-        foreach ($jadwal as $g) {
-            $pendaftaranStart = \Carbon\Carbon::parse($g['pendaftaran_start']);
-            $pendaftaranEnd = \Carbon\Carbon::parse($g['pendaftaran_end']);
-            $tesStart = \Carbon\Carbon::parse($g['tes_mulai']);
-            $tesEnd = \Carbon\Carbon::parse($g['tes_selesai']);
-            $pengumuman = \Carbon\Carbon::parse($g['pengumuman']);
+        foreach ($gelombang as $g) {
+            $pendaftaranStart = $g->pendaftaran_start;
+            $pendaftaranEnd = $g->pendaftaran_end;
+            $tesStart = $g->tes_mulai;
+            $tesEnd = $g->tes_selesai;
+            $pengumuman = $g->pengumuman;
             
             // Cek pendaftaran berlangsung
             if ($now->between($pendaftaranStart, $pendaftaranEnd)) {
@@ -120,24 +120,18 @@
 
             <!-- Timeline Cards -->
             <div class="space-y-8">
-                @foreach($jadwal as $index => $g)
+                @foreach($gelombang as $index => $g)
                     @php
-                        $pendaftaranStart = \Carbon\Carbon::parse($g['pendaftaran_start']);
-                        $pendaftaranEnd = \Carbon\Carbon::parse($g['pendaftaran_end']);
-                        $tesStart = \Carbon\Carbon::parse($g['tes_mulai']);
-                        $tesEnd = \Carbon\Carbon::parse($g['tes_selesai']);
-                        $pengumuman = \Carbon\Carbon::parse($g['pengumuman']);
+                        $pendaftaranStart = $g->pendaftaran_start;
+                        $pendaftaranEnd = $g->pendaftaran_end;
+                        $tesStart = $g->tes_mulai;
+                        $tesEnd = $g->tes_selesai;
+                        $pengumuman = $g->pengumuman;
                         
-                        // Tentukan status setiap tahap
-                        $statusPendaftaran = $now->lt($pendaftaranStart) ? 'MENDATANG' : 
-                            ($now->between($pendaftaranStart, $pendaftaranEnd) ? 'BERLANGSUNG' : 
-                            ($now->gt($pendaftaranEnd) ? 'SELESAI' : 'BUKA'));
-                        
-                        $statusTes = $now->lt($tesStart) ? 'MENDATANG' : 
-                            ($now->between($tesStart, $tesEnd) ? 'BERLANGSUNG' : 
-                            ($now->gt($tesEnd) ? 'SELESAI' : 'BUKA'));
-                        
-                        $statusPengumuman = $now->lt($pengumuman) ? 'MENDATANG' : 'SELESAI';
+                        // Gunakan accessor dari model
+                        $statusPendaftaran = $g->status_pendaftaran;
+                        $statusTes = $g->status_tes;
+                        $statusPengumuman = $g->status_pengumuman;
                         
                         $statusColors = [
                             'SELESAI' => ['bg' => 'bg-green-100', 'text' => 'text-green-700', 'border' => 'border-green-200', 'icon' => 'text-green-500'],
@@ -146,20 +140,20 @@
                             'BUKA' => ['bg' => 'bg-emerald-100', 'text' => 'text-emerald-700', 'border' => 'border-emerald-200', 'icon' => 'text-emerald-500']
                         ];
                         
-                        $gelombangAktif = $now->between($pendaftaranStart, $pengumuman);
+                        $gelombangAktif = $g->is_aktif;
                     @endphp
 
-                    <div class="bg-white rounded-3xl shadow-lg border {{ $gelombangAktif ? 'border-blue-200 ring-2 ring-blue-100' : 'border-gray-100' }} overflow-hidden hover:shadow-xl transition duration-300" id="gelombang-{{ $g['gelombang'] }}">
+                    <div class="bg-white rounded-3xl shadow-lg border {{ $gelombangAktif ? 'border-blue-200 ring-2 ring-blue-100' : 'border-gray-100' }} overflow-hidden hover:shadow-xl transition duration-300" id="gelombang-{{ $g->nomor }}">
                         <!-- Header Gelombang -->
                         <div class="p-6 md:p-8 border-b {{ $gelombangAktif ? 'bg-gradient-to-r from-blue-50 to-cyan-50 border-blue-100' : 'border-gray-100' }}">
                             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                                 <div class="flex items-center gap-4">
                                     <div class="w-16 h-16 rounded-2xl {{ $gelombangAktif ? 'bg-gradient-to-br from-blue-500 to-cyan-500 text-white' : 'bg-gray-100 text-gray-500' }} flex items-center justify-center text-2xl font-bold font-heading">
-                                        {{ $g['gelombang'] }}
+                                        {{ $g->nomor }}
                                     </div>
                                     <div>
-                                        <h3 class="text-2xl font-bold text-gray-900 font-heading">{{ $g['nama'] }}</h3>
-                                        <p class="text-gray-500 text-sm mt-1">Tahun Ajaran 2026/2027</p>
+                                        <h3 class="text-2xl font-bold text-gray-900 font-heading">{{ $g->nama }}</h3>
+                                        <p class="text-gray-500 text-sm mt-1">Tahun Ajaran {{ $g->tahun_ajaran }}</p>
                                     </div>
                                 </div>
                                 @if($gelombangAktif)
