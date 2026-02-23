@@ -18,6 +18,7 @@ class Jurusan extends Model
         'kategori',
         'deskripsi',
         'gambar',
+        'logo',
         'peluang_karir',
         'urutan',
         'aktif',
@@ -69,6 +70,28 @@ class Jurusan extends Model
         
         // Otherwise assume it's in storage
         return asset('storage/' . $this->gambar);
+    }
+
+    /**
+     * Get logo URL
+     */
+    public function getLogoUrlAttribute()
+    {
+        if (!$this->logo) {
+            return null;
+        }
+        
+        if (str_starts_with($this->logo, 'http')) {
+            return $this->logo;
+        }
+        
+        // If path starts with 'images/', it's in public folder
+        if (str_starts_with($this->logo, 'images/')) {
+            return asset($this->logo);
+        }
+        
+        // Otherwise assume it's in storage
+        return asset('storage/' . $this->logo);
     }
 
     /**

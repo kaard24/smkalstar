@@ -517,6 +517,14 @@
                         Pembayaran
                     </a>
 
+                    <a href="{{ route('admin.beranda.index') }}" 
+                       class="nav-item flex items-center gap-2 {{ request()->is('admin/beranda*') ? 'bg-[#4276A3]/20 text-white border-l-2 border-[#4276A3]' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                        </svg>
+                        Beranda
+                    </a>
+
                     <a href="{{ route('admin.berita.index') }}" 
                        class="nav-item flex items-center gap-2 {{ request()->is('admin/berita*') ? 'bg-[#4276A3]/20 text-white border-l-2 border-[#4276A3]' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -543,6 +551,12 @@
                                 Dashboard
                             </a>
                             <div class="border-t border-[#E2E8F0] my-1"></div>
+                            <a href="{{ route('admin.spmb.hero.index') }}" class="block px-4 py-2 text-sm {{ request()->is('admin/spmb/hero*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]' }} transition">
+                                Hero / Banner
+                            </a>
+                            <a href="{{ route('admin.spmb.jurusan.index') }}" class="block px-4 py-2 text-sm {{ request()->is('admin/spmb/jurusan*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]' }} transition">
+                                Program Keahlian
+                            </a>
                             <a href="{{ route('admin.spmb.gelombang.index') }}" class="block px-4 py-2 text-sm {{ request()->is('admin/spmb/gelombang*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]' }} transition">
                                 Info & Gelombang
                             </a>
@@ -599,6 +613,10 @@
                             <a href="{{ route('admin.profil-sekolah.visi-misi') }}" class="block px-4 py-2 text-sm {{ request()->is('admin/profil-sekolah/visi-misi*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]' }} transition">
                                 Visi Misi
                             </a>
+                            <div class="border-t border-[#E2E8F0] my-1"></div>
+                            <a href="{{ route('admin.jurusan.index') }}" class="block px-4 py-2 text-sm {{ request()->is('admin/jurusan*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]' }} transition">
+                                Program Keahlian
+                            </a>
                         </div>
                     </div>
                 </nav>
@@ -649,6 +667,11 @@
                     Pembayaran
                 </a>
 
+                <a href="{{ route('admin.beranda.index') }}" 
+                   class="block px-4 py-2 rounded-lg text-sm font-medium {{ request()->is('admin/beranda*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
+                    Beranda
+                </a>
+
                 <a href="{{ route('admin.berita.index') }}" 
                    class="block px-4 py-2 rounded-lg text-sm font-medium {{ request()->is('admin/berita*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
                     Berita
@@ -658,6 +681,14 @@
                 <a href="{{ route('admin.spmb.index') }}" 
                    class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium {{ request()->is('admin/spmb') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
                     Dashboard SPMB
+                </a>
+                <a href="{{ route('admin.spmb.hero.index') }}" 
+                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium {{ request()->is('admin/spmb/hero*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
+                    Hero / Banner
+                </a>
+                <a href="{{ route('admin.spmb.jurusan.index') }}" 
+                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium {{ request()->is('admin/spmb/jurusan*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
+                    Program Keahlian
                 </a>
                 <a href="{{ route('admin.spmb.gelombang.index') }}" 
                    class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium {{ request()->is('admin/spmb/gelombang*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
@@ -712,6 +743,10 @@
                 <a href="{{ route('admin.profil-sekolah.visi-misi') }}" 
                    class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium {{ request()->is('admin/profil-sekolah/visi-misi*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
                     Visi Misi
+                </a>
+                <a href="{{ route('admin.jurusan.index') }}" 
+                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium {{ request()->is('admin/jurusan*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
+                    Program Keahlian
                 </a>
 
                 <div class="border-t border-[#334155] pt-3 mt-3">

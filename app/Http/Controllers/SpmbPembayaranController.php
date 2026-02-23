@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pembayaran;
 use App\Models\BerkasPendaftaran;
+use App\Models\PengaturanPembayaran;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -21,10 +22,11 @@ class SpmbPembayaranController extends Controller
         $berkasProgress = BerkasPendaftaran::getUploadProgress($siswa->id);
         $berkasLengkap = $berkasProgress['is_complete'];
         
-        // Ambil biaya pendaftaran dari config
-        $biayaPendaftaran = config('spmb.biaya_pendaftaran', 250000);
+        // Ambil pengaturan pembayaran aktif dari database
+        $pengaturanPembayaran = PengaturanPembayaran::getActive();
+        $biayaPendaftaran = $pengaturanPembayaran?->biaya ?? config('spmb.biaya_pendaftaran', 250000);
         
-        return view('spmb.pembayaran', compact('siswa', 'pembayaran', 'berkasLengkap', 'biayaPendaftaran'));
+        return view('spmb.pembayaran', compact('siswa', 'pembayaran', 'berkasLengkap', 'biayaPendaftaran', 'pengaturanPembayaran'));
     }
 
     /**
@@ -47,7 +49,7 @@ class SpmbPembayaranController extends Controller
 
         try {
             $data = [
-                'jumlah' => config('spmb.biaya_pendaftaran', 250000),
+                'jumlah' => PengaturanPembayaran::getActive()?->biaya ?? config('spmb.biaya_pendaftaran', 250000),
                 'status' => Pembayaran::STATUS_PENDING,
                 'catatan_admin' => $validated['catatan'] ?? null,
             ];

@@ -103,11 +103,11 @@
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <span class="block text-xs text-slate-500">Tinggi (cm)</span>
-                        <span class="font-medium text-slate-800">{{ $siswa->tinggi ?? '-' }}</span>
+                        <span class="font-medium text-slate-800">{{ $siswa->tinggi_badan ?? '-' }}</span>
                     </div>
                     <div>
                         <span class="block text-xs text-slate-500">Berat (kg)</span>
-                        <span class="font-medium text-slate-800">{{ $siswa->berat ?? '-' }}</span>
+                        <span class="font-medium text-slate-800">{{ $siswa->berat_badan ?? '-' }}</span>
                     </div>
                 </div>
             </div>
@@ -125,8 +125,12 @@
                 <div class="space-y-3 text-sm">
                     @if($siswa->pendaftaran)
                     <div>
-                        <span class="block text-xs text-slate-500">Jurusan Pilihan</span>
+                        <span class="block text-xs text-slate-500">Jurusan Pilihan 1</span>
                         <span class="font-medium text-[#4276A3]">{{ $siswa->pendaftaran->jurusan->nama ?? '-' }}</span>
+                    </div>
+                    <div>
+                        <span class="block text-xs text-slate-500">Jurusan Pilihan 2</span>
+                        <span class="font-medium text-[#4276A3]">{{ $siswa->pendaftaran->jurusan2->nama ?? '-' }}</span>
                     </div>
                     <div>
                         <span class="block text-xs text-slate-500">Gelombang</span>
@@ -339,18 +343,16 @@
 
             {{-- Status Pembayaran --}}
             @php
-                $pembayaran = $siswa->pembayaranPendaftaran;
+                $pembayaran = $siswa->pembayaran;
                 $statusColors = [
-                    'belum_bayar' => 'bg-gray-100 text-gray-700',
-                    'menunggu_verifikasi' => 'bg-yellow-100 text-yellow-700',
-                    'diterima' => 'bg-green-100 text-green-700',
-                    'ditolak' => 'bg-red-100 text-red-700',
+                    'pending' => 'bg-amber-100 text-amber-700',
+                    'verified' => 'bg-emerald-100 text-emerald-700',
+                    'rejected' => 'bg-red-100 text-red-700',
                 ];
                 $statusLabels = [
-                    'belum_bayar' => 'Belum Bayar',
-                    'menunggu_verifikasi' => 'Menunggu Verifikasi',
-                    'diterima' => 'Diterima',
-                    'ditolak' => 'Ditolak',
+                    'pending' => 'Menunggu Verifikasi',
+                    'verified' => 'Terverifikasi',
+                    'rejected' => 'Ditolak',
                 ];
             @endphp
             <div class="card p-4">
@@ -368,17 +370,22 @@
                         </span>
                     </div>
                     <div>
-                        <span class="block text-xs text-slate-500">Metode Pembayaran</span>
-                        <span class="font-medium text-slate-800">{{ $pembayaran?->metode_pembayaran ?? '-' }}</span>
+                        <span class="block text-xs text-slate-500">Jumlah</span>
+                        <span class="font-medium text-slate-800">{{ $pembayaran?->jumlah_formatted ?? '-' }}</span>
                     </div>
                     <div>
-                        <span class="block text-xs text-slate-500">Tanggal Bayar</span>
-                        <span class="font-medium text-slate-800">{{ $pembayaran?->tanggal_bayar?->format('d M Y') ?? '-' }}</span>
+                        <span class="block text-xs text-slate-500">Tanggal Upload</span>
+                        <span class="font-medium text-slate-800">{{ $pembayaran?->created_at?->format('d M Y') ?? '-' }}</span>
                     </div>
                 </div>
                 @if($pembayaran && $pembayaran->bukti_pembayaran)
                 <div class="mt-3 pt-3 border-t border-slate-100">
-                    <span class="block text-xs text-slate-500 mb-2">Bukti Pembayaran</span>
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="block text-xs text-slate-500">Bukti Pembayaran</span>
+                        @if($pembayaran->isVerified())
+                        <span class="text-xs text-slate-500">Diverifikasi: {{ $pembayaran->verified_at?->format('d M Y H:i') }}</span>
+                        @endif
+                    </div>
                     <a href="{{ route('admin.pembayaran.preview', $pembayaran->id) }}" target="_blank" class="inline-flex items-center text-sm text-[#4276A3]">
                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>

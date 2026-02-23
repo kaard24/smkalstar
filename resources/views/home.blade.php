@@ -150,9 +150,12 @@
                 @endphp
 
                 @foreach($jurusanList as $j)
+                @php
+                    $logoFile = $j['kode'] === 'MPLB' ? 'mplb1.jpeg' : strtolower($j['kode']) . '.jpeg';
+                @endphp
                 <a href="{{ url('/jurusan/' . strtolower($j['kode'])) }}" class="group bg-white border border-gray-100 rounded-2xl p-6 hover:shadow-xl transition-all hover:-translate-y-1">
                     <div class="w-full aspect-square {{ $j['bg'] }} rounded-xl flex items-center justify-center mb-6 overflow-hidden">
-                        <img src="{{ asset('images/logo/' . strtolower($j['kode']) . '.jpeg') }}" alt="{{ $j['kode'] }}" class="w-3/4 h-3/4 object-contain group-hover:scale-110 transition-transform duration-300">
+                        <img src="{{ asset('images/logo/' . $logoFile) }}" alt="{{ $j['kode'] }}" class="w-3/4 h-3/4 object-contain group-hover:scale-110 transition-transform duration-300">
                     </div>
                     <h3 class="font-bold text-slate-900 mb-1">{{ $j['kode'] }}</h3>
                     <p class="text-sm text-gray-600 mb-4">{{ $j['nama'] }}</p>

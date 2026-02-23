@@ -166,6 +166,15 @@
                         <textarea name="alamat" rows="3" placeholder="Alamat lengkap..."
                                   class="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:border-[#4276A3] focus:ring-1 focus:ring-[#4276A3]">{{ old('alamat', $siswa->alamat) }}</textarea>
                     </div>
+
+                    {{-- Password --}}
+                    <div>
+                        <label class="block text-xs font-medium text-slate-600 mb-1">Password</label>
+                        <input type="password" name="password"
+                               placeholder="********"
+                               class="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:border-[#4276A3] focus:ring-1 focus:ring-[#4276A3]">
+                        <p class="text-xs text-slate-500 mt-1">Kosongkan jika tidak ingin mengubah password</p>
+                    </div>
                 </div>
             </div>
 
@@ -325,6 +334,70 @@
                             </div>
                         </div>
 
+                        <div class="grid grid-cols-2 gap-3">
+                            {{-- Pendidikan Ayah --}}
+                            <div>
+                                <label class="block text-xs font-medium text-slate-600 mb-1">Pendidikan Ayah</label>
+                                <select id="pendidikan_ayah" name="pendidikan_ayah" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:border-[#4276A3] focus:ring-1 focus:ring-[#4276A3] bg-white">
+                                    <option value="">-- Pilih Pendidikan --</option>
+                                    <option value="Tidak Sekolah" {{ old('pendidikan_ayah', $siswa->orangTua?->pendidikan_ayah) == 'Tidak Sekolah' ? 'selected' : '' }}>Tidak Sekolah</option>
+                                    <option value="SD" {{ old('pendidikan_ayah', $siswa->orangTua?->pendidikan_ayah) == 'SD' ? 'selected' : '' }}>SD</option>
+                                    <option value="SMP" {{ old('pendidikan_ayah', $siswa->orangTua?->pendidikan_ayah) == 'SMP' ? 'selected' : '' }}>SMP</option>
+                                    <option value="SMA" {{ old('pendidikan_ayah', $siswa->orangTua?->pendidikan_ayah) == 'SMA' ? 'selected' : '' }}>SMA</option>
+                                    <option value="D1" {{ old('pendidikan_ayah', $siswa->orangTua?->pendidikan_ayah) == 'D1' ? 'selected' : '' }}>D1</option>
+                                    <option value="D2" {{ old('pendidikan_ayah', $siswa->orangTua?->pendidikan_ayah) == 'D2' ? 'selected' : '' }}>D2</option>
+                                    <option value="D3" {{ old('pendidikan_ayah', $siswa->orangTua?->pendidikan_ayah) == 'D3' ? 'selected' : '' }}>D3</option>
+                                    <option value="S1" {{ old('pendidikan_ayah', $siswa->orangTua?->pendidikan_ayah) == 'S1' ? 'selected' : '' }}>S1</option>
+                                    <option value="S2" {{ old('pendidikan_ayah', $siswa->orangTua?->pendidikan_ayah) == 'S2' ? 'selected' : '' }}>S2</option>
+                                    <option value="S3" {{ old('pendidikan_ayah', $siswa->orangTua?->pendidikan_ayah) == 'S3' ? 'selected' : '' }}>S3</option>
+                                </select>
+                            </div>
+                            {{-- Penghasilan Ayah --}}
+                            <div>
+                                <label class="block text-xs font-medium text-slate-600 mb-1">Penghasilan Ayah</label>
+                                <select id="penghasilan_ayah" name="penghasilan_ayah" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:border-[#4276A3] focus:ring-1 focus:ring-[#4276A3] bg-white">
+                                    <option value="">-- Pilih Penghasilan --</option>
+                                    <option value="<1jt" {{ old('penghasilan_ayah', $siswa->orangTua?->penghasilan_ayah) == '<1jt' ? 'selected' : '' }}>&lt;1jt (Kurang dari Rp 1.000.000)</option>
+                                    <option value="1jt-3jt" {{ old('penghasilan_ayah', $siswa->orangTua?->penghasilan_ayah) == '1jt-3jt' ? 'selected' : '' }}>1jt-3jt (Rp 1.000.000 - Rp 3.000.000)</option>
+                                    <option value="3jt-5jt" {{ old('penghasilan_ayah', $siswa->orangTua?->penghasilan_ayah) == '3jt-5jt' ? 'selected' : '' }}>3jt-5jt (Rp 3.000.000 - Rp 5.000.000)</option>
+                                    <option value="5jt-10jt" {{ old('penghasilan_ayah', $siswa->orangTua?->penghasilan_ayah) == '5jt-10jt' ? 'selected' : '' }}>5jt-10jt (Rp 5.000.000 - Rp 10.000.000)</option>
+                                    <option value=">10jt" {{ old('penghasilan_ayah', $siswa->orangTua?->penghasilan_ayah) == '>10jt' ? 'selected' : '' }}>&gt;10jt (Lebih dari Rp 10.000.000)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            {{-- Pendidikan Ibu --}}
+                            <div>
+                                <label class="block text-xs font-medium text-slate-600 mb-1">Pendidikan Ibu</label>
+                                <select id="pendidikan_ibu" name="pendidikan_ibu" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:border-[#4276A3] focus:ring-1 focus:ring-[#4276A3] bg-white">
+                                    <option value="">-- Pilih Pendidikan --</option>
+                                    <option value="Tidak Sekolah" {{ old('pendidikan_ibu', $siswa->orangTua?->pendidikan_ibu) == 'Tidak Sekolah' ? 'selected' : '' }}>Tidak Sekolah</option>
+                                    <option value="SD" {{ old('pendidikan_ibu', $siswa->orangTua?->pendidikan_ibu) == 'SD' ? 'selected' : '' }}>SD</option>
+                                    <option value="SMP" {{ old('pendidikan_ibu', $siswa->orangTua?->pendidikan_ibu) == 'SMP' ? 'selected' : '' }}>SMP</option>
+                                    <option value="SMA" {{ old('pendidikan_ibu', $siswa->orangTua?->pendidikan_ibu) == 'SMA' ? 'selected' : '' }}>SMA</option>
+                                    <option value="D1" {{ old('pendidikan_ibu', $siswa->orangTua?->pendidikan_ibu) == 'D1' ? 'selected' : '' }}>D1</option>
+                                    <option value="D2" {{ old('pendidikan_ibu', $siswa->orangTua?->pendidikan_ibu) == 'D2' ? 'selected' : '' }}>D2</option>
+                                    <option value="D3" {{ old('pendidikan_ibu', $siswa->orangTua?->pendidikan_ibu) == 'D3' ? 'selected' : '' }}>D3</option>
+                                    <option value="S1" {{ old('pendidikan_ibu', $siswa->orangTua?->pendidikan_ibu) == 'S1' ? 'selected' : '' }}>S1</option>
+                                    <option value="S2" {{ old('pendidikan_ibu', $siswa->orangTua?->pendidikan_ibu) == 'S2' ? 'selected' : '' }}>S2</option>
+                                    <option value="S3" {{ old('pendidikan_ibu', $siswa->orangTua?->pendidikan_ibu) == 'S3' ? 'selected' : '' }}>S3</option>
+                                </select>
+                            </div>
+                            {{-- Penghasilan Ibu --}}
+                            <div>
+                                <label class="block text-xs font-medium text-slate-600 mb-1">Penghasilan Ibu</label>
+                                <select id="penghasilan_ibu" name="penghasilan_ibu" class="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:border-[#4276A3] focus:ring-1 focus:ring-[#4276A3] bg-white">
+                                    <option value="">-- Pilih Penghasilan --</option>
+                                    <option value="<1jt" {{ old('penghasilan_ibu', $siswa->orangTua?->penghasilan_ibu) == '<1jt' ? 'selected' : '' }}>&lt;1jt (Kurang dari Rp 1.000.000)</option>
+                                    <option value="1jt-3jt" {{ old('penghasilan_ibu', $siswa->orangTua?->penghasilan_ibu) == '1jt-3jt' ? 'selected' : '' }}>1jt-3jt (Rp 1.000.000 - Rp 3.000.000)</option>
+                                    <option value="3jt-5jt" {{ old('penghasilan_ibu', $siswa->orangTua?->penghasilan_ibu) == '3jt-5jt' ? 'selected' : '' }}>3jt-5jt (Rp 3.000.000 - Rp 5.000.000)</option>
+                                    <option value="5jt-10jt" {{ old('penghasilan_ibu', $siswa->orangTua?->penghasilan_ibu) == '5jt-10jt' ? 'selected' : '' }}>5jt-10jt (Rp 5.000.000 - Rp 10.000.000)</option>
+                                    <option value=">10jt" {{ old('penghasilan_ibu', $siswa->orangTua?->penghasilan_ibu) == '>10jt' ? 'selected' : '' }}>&gt;10jt (Lebih dari Rp 10.000.000)</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <div>
                             {{-- No WA Ortu --}}
                             <label class="block text-xs font-medium text-slate-600 mb-1">No. WA Ortu <span class="text-[#991B1B]">*</span></label>
@@ -427,8 +500,22 @@
                                 
                                 {{-- Actions --}}
                                 <div class="flex gap-2">
+                                    @php
+                                        $isImage = $berkas && in_array(strtolower(pathinfo($berkas->nama_file, PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png']);
+                                    @endphp
+                                    @if($isImage)
+                                    <button type="button" 
+                                            onclick="previewImage('{{ asset('storage/' . $berkas->path_file) }}', '{{ $berkas->nama_file }}')"
+                                            class="btn btn-sm btn-success flex-1">
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                        </svg>
+                                        Preview
+                                    </button>
+                                    @endif
                                     <a href="{{ route('admin.berkas.download', $berkas->id) }}" 
-                                       class="btn btn-sm btn-info flex-1">
+                                       class="btn btn-sm btn-info {{ $isImage ? 'flex-1' : 'flex-1' }}">
                                         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
                                         </svg>
@@ -527,40 +614,47 @@
                         </div>
 
                         {{-- Status Saat Ini --}}
-                        @if($siswa->pendaftaran?->tes)
-                        <div class="p-3 bg-slate-50 rounded-lg mt-3">
-                            <p class="text-xs text-slate-600">Status Saat Ini:</p>
-                            <div class="flex items-center gap-2 mt-1">
-                                <span class="px-2 py-1 text-xs rounded font-medium 
-                                    {{ $siswa->pendaftaran->tes->status_wawancara === 'sudah' ? 'bg-[#4276A3]/10 text-[#4276A3]' : 'bg-[#B45309]/10 text-[#B45309]' }}">
-                                    Wawancara: {{ $siswa->pendaftaran->tes->status_wawancara === 'sudah' ? 'Sudah' : 'Belum' }}
-                                </span>
-                                @if($siswa->pendaftaran->tes->status_kelulusan)
-                                <span class="px-2 py-1 text-xs rounded font-medium 
-                                    {{ $siswa->pendaftaran->tes->status_kelulusan === 'Lulus' ? 'bg-[#4276A3]/10 text-[#4276A3]' : 'bg-[#991B1B]/10 text-[#991B1B]' }}">
-                                    {{ $siswa->pendaftaran->tes->status_kelulusan }}
-                                </span>
-                                @endif
+                        <div>
+                            <label class="block text-xs font-medium text-slate-600 mb-1">Status Saat Ini</label>
+                            @if($siswa->pendaftaran?->tes)
+                            <div class="p-3 bg-slate-50 rounded-lg">
+                                <div class="flex items-center gap-2">
+                                    <span class="px-2 py-1 text-xs rounded font-medium 
+                                        {{ $siswa->pendaftaran->tes->status_wawancara === 'sudah' ? 'bg-[#4276A3]/10 text-[#4276A3]' : 'bg-[#B45309]/10 text-[#B45309]' }}">
+                                        Wawancara: {{ $siswa->pendaftaran->tes->status_wawancara === 'sudah' ? 'Sudah' : 'Belum' }}
+                                    </span>
+                                    @if($siswa->pendaftaran->tes->status_kelulusan)
+                                    <span class="px-2 py-1 text-xs rounded font-medium 
+                                        {{ $siswa->pendaftaran->tes->status_kelulusan === 'Lulus' ? 'bg-[#4276A3]/10 text-[#4276A3]' : 'bg-[#991B1B]/10 text-[#991B1B]' }}">
+                                        {{ $siswa->pendaftaran->tes->status_kelulusan }}
+                                    </span>
+                                    @endif
+                                </div>
                             </div>
+                            @else
+                            <div class="p-3 bg-slate-50 rounded-lg text-xs text-slate-500">
+                                Belum ada data tes/wawancara
+                            </div>
+                            @endif
                         </div>
-                        @endif
                     </div>
                 </div>
-            </div>
-        </div>
 
-        {{-- Action Buttons --}}
-        <div class="mt-6 flex justify-end gap-2 pt-4 border-t border-slate-200">
-            <a href="{{ route('admin.pendaftar.index') }}" 
-               class="btn btn-secondary">
-                Batal
-            </a>
-            <button type="submit" class="btn btn-primary">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                </svg>
-                Simpan Perubahan
-            </button>
+                {{-- Action Buttons --}}
+                <div class="flex gap-2 pt-2">
+                    <a href="{{ route('admin.pendaftar.index') }}" 
+                       class="btn btn-secondary flex-1">
+                        Batal
+                    </a>
+                    <button type="submit" class="btn btn-primary flex-1">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        Simpan
+                    </button>
+                </div>
+
+            </div>
         </div>
     </form>
 
@@ -638,7 +732,77 @@ function hapusBerkas(url) {
     form.submit();
 }
 
+// Fungsi preview gambar
+function previewImage(url, filename) {
+    const modal = document.getElementById('image-preview-modal');
+    const img = document.getElementById('preview-image');
+    const title = document.getElementById('preview-filename');
+    const downloadBtn = document.getElementById('preview-download');
+    
+    img.src = url;
+    title.textContent = filename;
+    downloadBtn.href = url;
+    downloadBtn.setAttribute('download', filename);
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+function closePreview() {
+    const modal = document.getElementById('image-preview-modal');
+    const img = document.getElementById('preview-image');
+    
+    modal.classList.add('hidden');
+    img.src = '';
+    document.body.style.overflow = '';
+}
+
+// Close modal on escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closePreview();
+    }
+});
+
+// Close modal on click outside
+document.addEventListener('click', function(e) {
+    const modal = document.getElementById('image-preview-modal');
+    if (e.target === modal) {
+        closePreview();
+    }
+});
+
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', toggleJenis);
 </script>
+
+{{-- Image Preview Modal --}}
+<div id="image-preview-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="relative max-w-4xl w-full bg-white rounded-lg shadow-2xl overflow-hidden">
+        {{-- Header --}}
+        <div class="flex items-center justify-between px-4 py-3 bg-slate-100 border-b border-slate-200">
+            <h3 id="preview-filename" class="text-sm font-medium text-slate-700 truncate pr-4">Nama File</h3>
+            <button type="button" onclick="closePreview()" class="text-slate-500 hover:text-slate-700 transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
+        {{-- Image Container --}}
+        <div class="bg-slate-900 flex items-center justify-center p-2 max-h-[70vh]">
+            <img id="preview-image" src="" alt="Preview" class="max-w-full max-h-[68vh] object-contain rounded">
+        </div>
+        {{-- Footer --}}
+        <div class="px-4 py-3 bg-slate-50 border-t border-slate-200 flex justify-end gap-2">
+            <a id="preview-download" href="#" download class="btn btn-sm btn-primary">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                </svg>
+                Download
+            </a>
+            <button type="button" onclick="closePreview()" class="btn btn-sm btn-secondary">
+                Tutup
+            </button>
+        </div>
+    </div>
+</div>
 @endsection

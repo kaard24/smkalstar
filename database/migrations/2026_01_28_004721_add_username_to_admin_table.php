@@ -11,16 +11,26 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('admin', function (Blueprint $table) {
-            // Cek apakah kolom username belum ada
-            if (!Schema::hasColumn('admin', 'username')) {
-                $table->string('username')->unique()->after('id');
-            }
-            // Cek apakah kolom remember_token belum ada
-            if (!Schema::hasColumn('admin', 'remember_token')) {
-                $table->rememberToken()->after('password');
-            }
-        });
+        // Migration ini ditinggalkan karena kolom username sudah dibuat
+        // di migration create_admin_table yang lebih baru.
+        // Jika tabel admin sudah ada dengan struktur lama, tambahkan kolom yang kurang.
+        
+        if (Schema::hasTable('admin')) {
+            Schema::table('admin', function (Blueprint $table) {
+                // Cek apakah kolom username belum ada
+                if (!Schema::hasColumn('admin', 'username')) {
+                    $table->string('username')->unique()->after('id');
+                }
+                // Cek apakah kolom remember_token belum ada
+                if (!Schema::hasColumn('admin', 'remember_token')) {
+                    $table->rememberToken()->after('password');
+                }
+                // Cek apakah kolom avatar belum ada
+                if (!Schema::hasColumn('admin', 'avatar')) {
+                    $table->string('avatar')->nullable()->after('name');
+                }
+            });
+        }
     }
 
     /**
@@ -28,13 +38,18 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('admin', function (Blueprint $table) {
-            if (Schema::hasColumn('admin', 'username')) {
-                $table->dropColumn('username');
-            }
-            if (Schema::hasColumn('admin', 'remember_token')) {
-                $table->dropColumn('remember_token');
-            }
-        });
+        if (Schema::hasTable('admin')) {
+            Schema::table('admin', function (Blueprint $table) {
+                if (Schema::hasColumn('admin', 'username')) {
+                    $table->dropColumn('username');
+                }
+                if (Schema::hasColumn('admin', 'remember_token')) {
+                    $table->dropColumn('remember_token');
+                }
+                if (Schema::hasColumn('admin', 'avatar')) {
+                    $table->dropColumn('avatar');
+                }
+            });
+        }
     }
 };

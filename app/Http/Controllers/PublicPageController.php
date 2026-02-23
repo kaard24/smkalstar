@@ -15,6 +15,8 @@ use App\Models\SpmbAlur;
 use App\Models\SpmbPersyaratan;
 use App\Models\SpmbBiaya;
 use App\Models\SpmbKontak;
+use App\Models\SpmbHero;
+use App\Models\SpmbJurusan;
 use Illuminate\Support\Facades\Cache;
 
 class PublicPageController extends Controller
@@ -154,6 +156,8 @@ class PublicPageController extends Controller
     {
         $spmbData = Cache::remember('spmb_data', self::CACHE_DURATION, function () {
             return [
+                'hero' => SpmbHero::getHeroUtama(),
+                'jurusan' => SpmbJurusan::active()->ordered()->get(),
                 'gelombang' => SpmbGelombang::active()->ordered()->get(),
                 'alur' => SpmbAlur::active()->ordered()->get(),
                 'persyaratan' => SpmbPersyaratan::active()->ordered()->get(),

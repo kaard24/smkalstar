@@ -8,6 +8,8 @@ use App\Models\SpmbAlur;
 use App\Models\SpmbPersyaratan;
 use App\Models\SpmbBiaya;
 use App\Models\SpmbKontak;
+use App\Models\SpmbHero;
+use App\Models\SpmbJurusan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
@@ -20,7 +22,19 @@ class SpmbController extends Controller
         $totalGelombang = $gelombang->count();
         $gelombangAktif = $gelombang->where('is_aktif', true)->count();
         
-        return view('admin.spmb.index', compact('gelombang', 'totalGelombang', 'gelombangAktif'));
+        $hero = SpmbHero::ordered()->get();
+        $totalHero = $hero->count();
+        $heroAktif = $hero->where('aktif', true)->count();
+        
+        $jurusan = SpmbJurusan::ordered()->get();
+        $totalJurusan = $jurusan->count();
+        $jurusanAktif = $jurusan->where('aktif', true)->count();
+        
+        return view('admin.spmb.index', compact(
+            'gelombang', 'totalGelombang', 'gelombangAktif',
+            'hero', 'totalHero', 'heroAktif',
+            'jurusan', 'totalJurusan', 'jurusanAktif'
+        ));
     }
 
     // ==================== GELOMBANG ====================
@@ -328,5 +342,81 @@ class SpmbController extends Controller
 
         return redirect()->route('admin.spmb.kontak.index')
             ->with('success', 'Kontak berhasil dihapus.');
+    }
+
+    // ==================== HERO / BANNER ====================
+    public function heroIndex()
+    {
+        $heroes = SpmbHero::ordered()->get();
+        return view('admin.spmb.hero.index', compact('heroes'));
+    }
+
+    public function heroCreate()
+    {
+        return view('admin.spmb.hero.create');
+    }
+
+    public function heroStore(Request $request)
+    {
+        $validated = $request->validate([
+            'badge_text' => 'required|string|max:255',
+            'badge_warna' => 'required|in:blue,green,orange,purple,red,indigo',
+            'judul_baris1' => 'required|string|max:255',
+            'judul_baris2' => 'required|string|max:255',
+            'deskripsi' => 'required|string',
+            'tahun_ajaran' => 'required|string|max:20',
+            'jumlah_gelombang_tampil' => 'required|integer|min:1|max:5',
+            'urutan' => 'nullable|integer|min:0',
+        ]);
+
+        $validated['aktif'] = $request->has('aktif');
+        $validated['tampilkan_gelombang'] = $request->has('tampilkan_gelombang');
+        $validated['urutan'] = $validated['urutan'] ?? (SpmbHero::max('urutan') + 1);
+
+        SpmbHero::create($validated);
+        Cache::forget('spmb_data');
+
+        return redirect()->route('admin.spmb.hero.index')
+            ->with('success', 'Hero/Banner berhasil ditambahkan.');
+    }
+
+    public function heroEdit(SpmbHero $hero)
+    {
+        return view('admin.spmb.hero.edit', compact('hero'));
+    }
+
+    public function heroUpdate(Request $request, SpmbHero $hero)
+    {
+        $validated = $request->validate([
+            'badge_text' => 'required|string|max:255',
+            'badge_warna' => 'required|in:blue,green,orange,purple,red,indigo',
+            'judul_baris1' => 'required|string|max:255',
+            'judul_baris2' => 'required|string|max:255',
+            'deskripsi' => 'required|string',
+            'tahun_ajaran' => 'required|string|max:20',
+            'jumlah_gelombang_tampil' => 'required|integer|min:1|max:5',
+            'urutan' => 'nullable|integer|min:0',
+        ]);
+
+        $validated['aktif'] = $request->has('aktif');
+        $validated['tampilkan_gelombang'] = $request->has('tampilkan_gelombang');
+        $validated['urutan'] = $validated['urutan'] ?? $hero->urutan;
+
+        $hero->update($validated);
+        Cache::forget('spmb_data');
+
+        return redirect()->route('admin.spmb.hero.index')
+            ->with('success', 'Hero/Banner berhasil diperbarui.');
+    }
+
+    public function heroDestroy(SpmbHero $hero)
+    {
+        $hero->delete();
+        Cache::forget('spmb_data');
+
+        return redirect()->route('admin.spmb.hero.index')
+            ->with('success', 'Hero/Banner berhasil dihapus.');
+    }
+            ->with('success', 'Program keahlian berhasil dihapus.');
     }
 }

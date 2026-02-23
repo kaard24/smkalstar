@@ -14,6 +14,8 @@ use App\Http\Controllers\ProfilSiswaController;
 use App\Http\Controllers\BerkasController;
 use App\Http\Controllers\SpmbPembayaranController;
 use App\Http\Controllers\AdminPembayaranController;
+use App\Http\Controllers\AdminPengaturanPembayaranController;
+use App\Http\Controllers\AdminBerandaController;
 use App\Http\Controllers\PublicPageController;
 use App\Http\Controllers\Admin\SeragamController;
 use Illuminate\Http\Request;
@@ -331,10 +333,28 @@ Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function
     Route::get('/pembayaran/{pembayaran}/download', [AdminPembayaranController::class, 'download'])->name('pembayaran.download');
     Route::get('/pembayaran/{pembayaran}/preview', [AdminPembayaranController::class, 'preview'])->name('pembayaran.preview');
 
+    // Pengaturan Pembayaran Module
+    Route::get('/pembayaran-pengaturan', [AdminPengaturanPembayaranController::class, 'index'])->name('pembayaran-pengaturan.index');
+    Route::get('/pembayaran-pengaturan/create', [AdminPengaturanPembayaranController::class, 'create'])->name('pembayaran-pengaturan.create');
+    Route::post('/pembayaran-pengaturan', [AdminPengaturanPembayaranController::class, 'store'])->name('pembayaran-pengaturan.store');
+    Route::get('/pembayaran-pengaturan/{pengaturan}/edit', [AdminPengaturanPembayaranController::class, 'edit'])->name('pembayaran-pengaturan.edit');
+    Route::put('/pembayaran-pengaturan/{pengaturan}', [AdminPengaturanPembayaranController::class, 'update'])->name('pembayaran-pengaturan.update');
+    Route::delete('/pembayaran-pengaturan/{pengaturan}', [AdminPengaturanPembayaranController::class, 'destroy'])->name('pembayaran-pengaturan.destroy');
+    Route::patch('/pembayaran-pengaturan/{pengaturan}/toggle-active', [AdminPengaturanPembayaranController::class, 'toggleActive'])->name('pembayaran-pengaturan.toggle-active');
+
     // Kelulusan Module (deprecated - all students automatically pass)
     Route::get('/kelulusan', function() {
         return redirect()->route('admin.pendaftar.index')->with('info', 'Semua siswa otomatis lulus. Tidak perlu pengumuman kelulusan.');
     })->name('kelulusan');
+
+    // Beranda Module
+    Route::get('/beranda', [AdminBerandaController::class, 'index'])->name('beranda.index');
+    Route::get('/beranda/create', [AdminBerandaController::class, 'create'])->name('beranda.create');
+    Route::post('/beranda', [AdminBerandaController::class, 'store'])->name('beranda.store');
+    Route::get('/beranda/{beranda}/edit', [AdminBerandaController::class, 'edit'])->name('beranda.edit');
+    Route::put('/beranda/{beranda}', [AdminBerandaController::class, 'update'])->name('beranda.update');
+    Route::delete('/beranda/{beranda}', [AdminBerandaController::class, 'destroy'])->name('beranda.destroy');
+    Route::patch('/beranda/{beranda}/toggle-active', [AdminBerandaController::class, 'toggleActive'])->name('beranda.toggle-active');
 
     // Profil Sekolah Module (Split into 3 pages)
     Route::get('/profil-sekolah', [\App\Http\Controllers\Admin\ProfilSekolahController::class, 'edit'])->name('profil-sekolah.edit');
@@ -381,6 +401,9 @@ Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function
     Route::get('berita/{id}/komentar', [\App\Http\Controllers\Admin\BeritaController::class, 'komentar'])->name('berita.komentar');
     Route::delete('berita/komentar/{id}', [\App\Http\Controllers\Admin\BeritaController::class, 'destroyKomentar'])->name('berita.komentar.destroy');
 
+    // Jurusan/Program Keahlian Module
+    Route::resource('jurusan', \App\Http\Controllers\Admin\JurusanController::class);
+
     // Seragam Module
     Route::resource('seragam', SeragamController::class)->except(['show']);
 
@@ -388,6 +411,23 @@ Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function
     Route::prefix('spmb')->name('spmb.')->group(function () {
         // Dashboard
         Route::get('/', [\App\Http\Controllers\Admin\SpmbController::class, 'index'])->name('index');
+        
+        // Hero / Banner
+        Route::get('/hero', [\App\Http\Controllers\Admin\SpmbController::class, 'heroIndex'])->name('hero.index');
+        Route::get('/hero/create', [\App\Http\Controllers\Admin\SpmbController::class, 'heroCreate'])->name('hero.create');
+        Route::post('/hero', [\App\Http\Controllers\Admin\SpmbController::class, 'heroStore'])->name('hero.store');
+        Route::get('/hero/{hero}/edit', [\App\Http\Controllers\Admin\SpmbController::class, 'heroEdit'])->name('hero.edit');
+        Route::put('/hero/{hero}', [\App\Http\Controllers\Admin\SpmbController::class, 'heroUpdate'])->name('hero.update');
+        Route::delete('/hero/{hero}', [\App\Http\Controllers\Admin\SpmbController::class, 'heroDestroy'])->name('hero.destroy');
+        
+        // Program Keahlian / Jurusan (SPMB)
+        Route::get('/jurusan', [\App\Http\Controllers\Admin\SpmbJurusanController::class, 'index'])->name('jurusan.index');
+        Route::get('/jurusan/create', [\App\Http\Controllers\Admin\SpmbJurusanController::class, 'create'])->name('jurusan.create');
+        Route::post('/jurusan', [\App\Http\Controllers\Admin\SpmbJurusanController::class, 'store'])->name('jurusan.store');
+        Route::get('/jurusan/{jurusan}/edit', [\App\Http\Controllers\Admin\SpmbJurusanController::class, 'edit'])->name('jurusan.edit');
+        Route::put('/jurusan/{jurusan}', [\App\Http\Controllers\Admin\SpmbJurusanController::class, 'update'])->name('jurusan.update');
+        Route::delete('/jurusan/{jurusan}', [\App\Http\Controllers\Admin\SpmbJurusanController::class, 'destroy'])->name('jurusan.destroy');
+        Route::patch('/jurusan/{jurusan}/toggle-active', [\App\Http\Controllers\Admin\SpmbJurusanController::class, 'toggleActive'])->name('jurusan.toggle-active');
         
         // Gelombang
         Route::get('/gelombang', [\App\Http\Controllers\Admin\SpmbController::class, 'gelombangIndex'])->name('gelombang.index');

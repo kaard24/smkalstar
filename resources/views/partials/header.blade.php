@@ -59,7 +59,7 @@
                             <span>Teknik Komputer Jaringan</span>
                         </a>
                         <a href="{{ url('/jurusan/mplb') }}" class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-sky-50 hover:text-primary {{ request()->is('jurusan/mplb') ? 'bg-sky-50 text-primary' : '' }}">
-                            <img src="{{ asset('images/logo/mplb.jpeg') }}" alt="MPLB" class="w-6 h-6 rounded-md object-cover">
+                            <img src="{{ asset('images/logo/mplb1.jpeg') }}" alt="MPLB" class="w-6 h-6 rounded-md object-cover">
                             <span>Manajemen Perkantoran</span>
                         </a>
                         <a href="{{ url('/jurusan/akl') }}" class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-sky-50 hover:text-primary {{ request()->is('jurusan/akl') ? 'bg-sky-50 text-primary' : '' }}">
@@ -215,7 +215,7 @@
                             TKJ
                         </a>
                         <a href="{{ url('/jurusan/mplb') }}" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-sky-50 hover:text-primary {{ request()->is('jurusan/mplb') ? 'bg-sky-50 text-primary' : '' }}">
-                            <img src="{{ asset('images/logo/mplb.jpeg') }}" alt="MPLB" class="w-5 h-5 rounded">
+                            <img src="{{ asset('images/logo/mplb1.jpeg') }}" alt="MPLB" class="w-5 h-5 rounded">
                             MPLB
                         </a>
                         <a href="{{ url('/jurusan/akl') }}" class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-sky-50 hover:text-primary {{ request()->is('jurusan/akl') ? 'bg-sky-50 text-primary' : '' }}">

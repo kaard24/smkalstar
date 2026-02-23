@@ -25,19 +25,30 @@
         </div>
         
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-            <div class="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-5 py-2 rounded-full text-sm font-bold mb-6 shadow-lg shadow-blue-200">
+            @php
+                $heroUtama = $hero ?? null;
+                $badgeText = $heroUtama?->badge_text ?? 'Pendaftaran Dibuka!';
+                $badgeClass = $heroUtama?->badge_warna_class ?? 'from-blue-500 to-cyan-500';
+                $judul1 = $heroUtama?->judul_baris1 ?? 'Sistem Penerimaan';
+                $judul2 = $heroUtama?->judul_baris2 ?? 'Murid Baru 2026/2027';
+                $deskripsi = $heroUtama?->deskripsi ?? 'Informasi lengkap mengenai pendaftaran, jadwal, persyaratan, dan biaya pendidikan di SMK Al-Hidayah Lestari';
+                $jumlahGelombang = $heroUtama?->jumlah_gelombang_tampil ?? 2;
+                $tampilkanGelombang = $heroUtama?->tampilkan_gelombang ?? true;
+            @endphp
+            <div class="inline-flex items-center gap-2 bg-gradient-to-r {{ $badgeClass }} text-white px-5 py-2 rounded-full text-sm font-bold mb-6 shadow-lg shadow-blue-200">
                 <span class="w-2 h-2 bg-white rounded-full animate-pulse"></span>
-                Pendaftaran Dibuka!
+                {{ $badgeText }}
             </div>
             <h1 class="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-4 font-heading">
-                Sistem Penerimaan <br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-sky-500 to-cyan-500">Murid Baru 2026/2027</span>
+                {{ $judul1 }} <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r {{ $badgeClass }}">{{ $judul2 }}</span>
             </h1>
-            <p class="text-gray-600 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed mb-8">Informasi lengkap mengenai pendaftaran, jadwal, persyaratan, dan biaya pendidikan di SMK Al-Hidayah Lestari</p>
+            <p class="text-gray-600 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed mb-8">{{ $deskripsi }}</p>
             
             <!-- Countdown/Quick Info -->
+            @if($tampilkanGelombang)
             <div class="flex flex-wrap justify-center gap-4 md:gap-6">
-                @foreach($gelombang->take(2) as $g)
+                @foreach($gelombang->take($jumlahGelombang) as $g)
                 @php
                     $isAktif = $g->is_aktif;
                     $statusColor = $isAktif ? 'blue' : 'slate';
@@ -54,6 +65,7 @@
                 </div>
                 @endforeach
             </div>
+            @endif
         </div>
     </div>
 
@@ -64,14 +76,6 @@
                 <div class="lg:col-span-2 space-y-16">
                     
                     <!-- Program Keahlian -->
-                    @php
-                        $jurusanImages = [
-                            'TKJ' => ['img' => 'images/tkj.png', 'logo' => 'images/logo/tkj.jpeg', 'border' => 'border-blue-900', 'bg' => 'bg-blue-50', 'text' => 'text-blue-900', 'hover' => 'group-hover:bg-blue-900'],
-                            'MPLB' => ['img' => 'images/mplb.png', 'logo' => 'images/logo/mplb.jpeg', 'border' => 'border-green-500', 'bg' => 'bg-green-50', 'text' => 'text-green-600', 'hover' => 'group-hover:bg-green-600'],
-                            'AKL' => ['img' => 'images/akl.png', 'logo' => 'images/logo/akl.jpeg', 'border' => 'border-purple-500', 'bg' => 'bg-purple-50', 'text' => 'text-purple-600', 'hover' => 'group-hover:bg-purple-600'],
-                            'BR' => ['img' => 'images/br.png', 'logo' => 'images/logo/br.jpeg', 'border' => 'border-cyan-500', 'bg' => 'bg-cyan-50', 'text' => 'text-cyan-600', 'hover' => 'group-hover:bg-cyan-600'],
-                        ];
-                    @endphp
                     <div>
                         <div class="flex items-center gap-4 mb-8">
                             <span class="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center text-xl font-bold">1</span>
@@ -79,28 +83,18 @@
                         </div>
                         <div class="grid sm:grid-cols-2 gap-6">
                             @forelse($jurusan as $j)
-                                @php
-                                    $data = $jurusanImages[$j->kode] ?? [
-                                        'img' => null,
-                                        'logo' => 'images/logo/default.jpeg',
-                                        'border' => 'border-gray-100', 
-                                        'bg' => 'bg-gray-50', 
-                                        'text' => 'text-gray-600',
-                                        'hover' => 'group-hover:bg-gray-600',
-                                    ];
-                                @endphp
                                 {{-- Layout 4:1 - Gambar 80%, Konten 20% --}}
-                                <a href="{{ url('/jurusan/' . strtolower($j->kode)) }}" class="flex flex-col border {{ $data['border'] }} rounded-3xl bg-white hover:shadow-lg transition duration-300 group overflow-hidden cursor-pointer">
+                                <a href="{{ url('/jurusan/' . strtolower($j->kode)) }}" class="flex flex-col border {{ $j->warna_border }} rounded-3xl bg-white hover:shadow-lg transition duration-300 group overflow-hidden cursor-pointer">
                                     {{-- Gambar Jurusan (4 bagian - 80%) --}}
                                     <div class="relative h-48 bg-gray-50 overflow-hidden flex items-center justify-center p-2">
-                                        <img src="{{ asset($data['img']) }}" alt="{{ $j->nama }}" class="w-full h-full object-contain scale-125 group-hover:scale-[1.35] transition duration-300">
+                                        <img src="{{ $j->gambar_url }}" alt="{{ $j->nama }}" class="w-full h-full object-contain scale-125 group-hover:scale-[1.35] transition duration-300">
                                     </div>
                                     {{-- Konten (1 bagian - 20%) --}}
                                     <div class="p-3 flex items-center gap-3">
-                                        <div class="w-10 h-10 rounded-full {{ $data['bg'] }} flex items-center justify-center overflow-hidden flex-shrink-0 ring-2 ring-white shadow-sm {{ $data['hover'] }} transition">
-                                            <img src="{{ asset($data['logo']) }}" alt="Logo {{ $j->nama }}" class="w-full h-full object-cover">
+                                        <div class="w-10 h-10 rounded-full {{ $j->warna_bg }} flex items-center justify-center overflow-hidden flex-shrink-0 ring-2 ring-white shadow-sm {{ $j->warna_hover }} transition">
+                                            <img src="{{ $j->logo_url }}" alt="Logo {{ $j->nama }}" class="w-full h-full object-cover">
                                         </div>
-                                        <h3 class="font-bold text-gray-900 text-sm group-hover:{{ $data['text'] }} transition leading-tight">{{ $j->nama }}</h3>
+                                        <h3 class="font-bold text-gray-900 text-sm group-hover:{{ $j->warna_text }} transition leading-tight">{{ $j->nama }}</h3>
                                     </div>
                                 </a>
                             @empty
