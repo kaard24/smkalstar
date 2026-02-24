@@ -4,7 +4,12 @@
 
 @section('content')
     <!-- Header Page - SPMB Design -->
-    <div class="relative bg-gradient-to-br from-blue-50 via-sky-50 to-cyan-50 py-16 md:py-24 border-b border-blue-100 overflow-hidden">
+    @php
+        $heroUtama = $hero ?? null;
+        $bgStyle = $heroUtama?->bg_style ?? '';
+        $bgClass = ($heroUtama?->bg_type ?? 'default') === 'default' ? 'bg-gradient-to-br from-blue-50 via-sky-50 to-cyan-50' : '';
+    @endphp
+    <div class="relative {{ $bgClass }} py-16 md:py-24 border-b border-blue-100 overflow-hidden" style="{{ $bgStyle }}">
         <!-- Decorative Elements -->
         <div class="absolute inset-0">
             <div class="absolute top-0 right-1/4 w-96 h-96 bg-blue-300/20 rounded-full blur-3xl"></div>
@@ -26,7 +31,6 @@
         
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
             @php
-                $heroUtama = $hero ?? null;
                 $badgeText = $heroUtama?->badge_text ?? 'Pendaftaran Dibuka!';
                 $badgeClass = $heroUtama?->badge_warna_class ?? 'from-blue-500 to-cyan-500';
                 $judul1 = $heroUtama?->judul_baris1 ?? 'Sistem Penerimaan';

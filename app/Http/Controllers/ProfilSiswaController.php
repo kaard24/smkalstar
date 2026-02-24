@@ -66,11 +66,11 @@ class ProfilSiswaController extends Controller
 
         // Base validation rules - sama ketat dengan lengkapi-data
         $rules = [
-            'nama' => 'required|string|min:3|max:39|regex:/^[a-zA-Z\s\'\-]+$/u',
+            'nama' => 'required|string|min:3|max:50|regex:/^[a-zA-Z\s\'\-]+$/u',
             'nik' => 'required|string|size:16|regex:/^[0-9]{16}$/',
             'no_kk' => 'required|string|size:16|regex:/^[0-9]{16}$/',
             'jk' => 'required|in:L,P',
-            'tgl_lahir' => 'required|date|before_or_equal:' . now()->subYears(13)->format('Y-m-d') . '|after_or_equal:' . now()->subYears(20)->format('Y-m-d'),
+            'tgl_lahir' => 'required|date|before_or_equal:' . now()->subYears(15)->format('Y-m-d') . '|after_or_equal:' . now()->subYears(20)->format('Y-m-d'),
             'tempat_lahir' => 'required|string|min:3|max:50|regex:/^[a-zA-Z\s\-]+$/u',
             'alamat' => 'required|string|min:10|max:255|regex:/^[a-zA-Z0-9\s.,\-\/\(\)]+$/u',
             'alamat_sekolah' => 'required|string|min:10|max:255|regex:/^[a-zA-Z0-9\s.,\-\/\(\)]+$/u',
@@ -78,11 +78,11 @@ class ProfilSiswaController extends Controller
             'asal_sekolah' => 'required|string|min:5|max:100|regex:/^[a-zA-Z0-9\s\-\.]+$/u',
             'npsn' => 'required|string|size:8|regex:/^[0-9]{8}$/',
             'agama' => 'required|in:Islam,Kristen,Katolik,Hindu,Buddha,Konghucu',
-            'golongan_darah' => 'nullable|in:A,B,AB,O',
+            'golongan_darah' => 'nullable|in:A,B,AB,O,Tidak Tahu',
             'anak_ke' => 'required|integer|between:1,10',
             'jumlah_saudara' => 'required|integer|between:0,10',
             'tinggi_badan' => 'required|integer|between:100,200',
-            'berat_badan' => 'required|integer|between:20,120',
+            'berat_badan' => 'required|integer|between:20,200',
             'riwayat_penyakit' => 'nullable|string|max:500|regex:/^[a-zA-Z0-9\s,\.\-\(\)\/]*$/u',
         ];
 
@@ -113,7 +113,7 @@ class ProfilSiswaController extends Controller
         $messages = [
             'nama.required' => 'Nama lengkap wajib diisi.',
             'nama.min' => 'Nama lengkap minimal 3 karakter.',
-            'nama.max' => 'Nama lengkap maksimal 39 karakter.',
+            'nama.max' => 'Nama lengkap maksimal 50 karakter.',
             'nama.regex' => 'Nama lengkap hanya boleh berisi huruf, spasi, tanda petik, dan tanda hubung.',
             
             'nik.required' => 'NIK wajib diisi.',
@@ -130,7 +130,7 @@ class ProfilSiswaController extends Controller
             'tempat_lahir.regex' => 'Tempat lahir hanya boleh berisi huruf, spasi, dan tanda hubung.',
             
             'tgl_lahir.required' => 'Tanggal lahir wajib diisi.',
-            'tgl_lahir.before_or_equal' => 'Umur minimal harus 13 tahun.',
+            'tgl_lahir.before_or_equal' => 'Umur minimal harus 15 tahun.',
             'tgl_lahir.after_or_equal' => 'Umur maksimal adalah 20 tahun.',
             
             'alamat.required' => 'Alamat wajib diisi.',
@@ -167,7 +167,7 @@ class ProfilSiswaController extends Controller
             'tinggi_badan.between' => 'Tinggi badan harus antara 100-200 cm.',
             
             'berat_badan.required' => 'Berat badan wajib diisi.',
-            'berat_badan.between' => 'Berat badan harus antara 20-120 kg.',
+            'berat_badan.between' => 'Berat badan harus antara 20-200 kg.',
             
             'riwayat_penyakit.max' => 'Riwayat penyakit maksimal 500 karakter.',
             'riwayat_penyakit.regex' => 'Riwayat penyakit hanya boleh mengandung huruf, angka, spasi, dan karakter , . - / ( )',

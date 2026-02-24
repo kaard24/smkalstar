@@ -167,12 +167,29 @@
                                   class="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:border-[#4276A3] focus:ring-1 focus:ring-[#4276A3]">{{ old('alamat', $siswa->alamat) }}</textarea>
                     </div>
 
-                    {{-- Password --}}
+                    {{-- Password Saat Ini --}}
                     <div>
-                        <label class="block text-xs font-medium text-slate-600 mb-1">Password</label>
-                        <input type="password" name="password"
-                               placeholder="********"
-                               class="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:border-[#4276A3] focus:ring-1 focus:ring-[#4276A3]">
+                        <label class="block text-xs font-medium text-slate-600 mb-1">Password Saat Ini</label>
+                        <div class="relative">
+                            <input type="text" id="password-display" value="{{ $siswa->password_plain ?? '(Tidak tersedia)' }}" readonly
+                                   class="w-full px-3 py-2 text-sm border border-slate-200 rounded-md bg-slate-50 text-slate-600 font-mono">
+                            <button type="button" onclick="copyPassword()" 
+                                    class="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-[#4276A3] transition-colors"
+                                    title="Copy password">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-1">Password yang digunakan saat registrasi</p>
+                    </div>
+
+                    {{-- Ubah Password --}}
+                    <div>
+                        <label class="block text-xs font-medium text-slate-600 mb-1">Ubah Password</label>
+                        <input type="text" name="password"
+                               placeholder="Ketik password baru..."
+                               class="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:border-[#4276A3] focus:ring-1 focus:ring-[#4276A3] font-mono">
                         <p class="text-xs text-slate-500 mt-1">Kosongkan jika tidak ingin mengubah password</p>
                     </div>
                 </div>
@@ -773,6 +790,24 @@ document.addEventListener('click', function(e) {
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', toggleJenis);
+
+// Fungsi copy password
+function copyPassword() {
+    const passwordInput = document.getElementById('password-display');
+    if (passwordInput.value !== '(Tidak tersedia)') {
+        passwordInput.select();
+        passwordInput.setSelectionRange(0, 99999); // For mobile
+        navigator.clipboard.writeText(passwordInput.value).then(function() {
+            // Show temporary tooltip or alert
+            const btn = document.querySelector('button[onclick="copyPassword()"]');
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>';
+            setTimeout(() => {
+                btn.innerHTML = originalHTML;
+            }, 1500);
+        });
+    }
+}
 </script>
 
 {{-- Image Preview Modal --}}

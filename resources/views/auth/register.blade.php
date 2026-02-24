@@ -51,8 +51,8 @@
             this.validation.nama_lengkap = { isValid: null, message: '' };
         } else if (value.length < 3) {
             this.validation.nama_lengkap = { isValid: false, message: 'Nama minimal 3 karakter' };
-        } else if (value.length > 39) {
-            this.validation.nama_lengkap = { isValid: false, message: 'Nama maksimal 39 karakter' };
+        } else if (value.length > 50) {
+            this.validation.nama_lengkap = { isValid: false, message: 'Nama maksimal 50 karakter' };
         } else if (!/^[a-zA-Z\s'\-]+$/u.test(value)) {
             this.validation.nama_lengkap = { isValid: false, message: 'Nama hanya boleh berisi huruf, spasi, petik, dan tanda hubung' };
         } else {
@@ -94,8 +94,6 @@
             this.validation.password = { isValid: false, message: 'Password harus mengandung huruf besar dan kecil' };
         } else if (!/[0-9]/.test(value)) {
             this.validation.password = { isValid: false, message: 'Password harus mengandung minimal 1 angka' };
-        } else if (!/[^a-zA-Z0-9]/.test(value)) {
-            this.validation.password = { isValid: false, message: 'Password harus mengandung minimal 1 simbol' };
         } else {
             this.validation.password = { isValid: true, message: 'Password kuat' };
         }
@@ -297,7 +295,7 @@
                                         @input="validateNama($event.target.value)"
                                         @blur="validateNama($event.target.value)"
                                         placeholder="Nama lengkap sesuai ijazah"
-                                        maxlength="39"
+                                        maxlength="50"
                                         required
                                         :class="{
                                             'w-full pl-11 pr-10 py-3.5 bg-gray-50 border-2 rounded-xl focus:bg-white focus:ring-4 transition-all': true,
@@ -319,7 +317,7 @@
                                     'text-gray-500': validation.nama_lengkap.isValid === null,
                                     'text-emerald-600': validation.nama_lengkap.isValid === true,
                                     'text-red-600': validation.nama_lengkap.isValid === false
-                                }" x-text="validation.nama_lengkap.message || 'Minimal 3 karakter, maksimal 39 karakter'"></p>
+                                }" x-text="validation.nama_lengkap.message || 'Minimal 3 karakter, maksimal 50 karakter'"></p>
                             </div>
 
                             <!-- Jenis Kelamin -->
@@ -478,7 +476,7 @@
                                         class="w-full pl-11 pr-4 py-3.5 bg-gray-50 border-2 border-gray-200 rounded-xl focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all"
                                     >
                                 </div>
-                                <p class="mt-1.5 text-xs text-gray-500">Umur minimal 13 tahun, maksimal 20 tahun</p>
+                                <p class="mt-1.5 text-xs text-gray-500">Umur minimal 15 tahun, maksimal 20 tahun</p>
                             </div>
 
                             <!-- Asal Sekolah -->
@@ -667,7 +665,7 @@
                                     'text-gray-500': validation.password.isValid === null,
                                     'text-emerald-600': validation.password.isValid === true,
                                     'text-red-600': validation.password.isValid === false
-                                }" x-text="validation.password.message || 'Minimal 8 karakter, huruf besar & kecil, angka, dan simbol'"></p>
+                                }" x-text="validation.password.message || 'Minimal 8 karakter, huruf besar & kecil, dan angka'"></p>
                             </div>
 
                             <!-- Confirm Password -->

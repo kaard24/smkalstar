@@ -41,6 +41,7 @@ class CalonSiswa extends Authenticatable
         'riwayat_penyakit',
         'npsn_sekolah',
         'minat_bakat',
+        'password_plain',
     ];
 
     /**

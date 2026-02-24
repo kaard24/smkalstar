@@ -69,9 +69,18 @@
                 <div class="grid grid-cols-2 gap-3 mb-4">
                     {{-- Laki-laki --}}
                     <div class="relative aspect-[3/4] rounded-lg overflow-hidden bg-slate-100">
-                        @if($item->foto_laki_url)
-                        <img src="{{ $item->foto_laki_url }}" alt="Seragam Laki-laki {{ $item->hari }}" 
+                        @php
+                            $lakiCount = count($item->foto_laki ?? []);
+                            $lakiUrl = $item->foto_laki_url;
+                        @endphp
+                        @if($lakiUrl)
+                        <img src="{{ $lakiUrl }}" alt="Seragam Laki-laki {{ $item->hari }}" 
                              class="w-full h-full object-cover" loading="lazy">
+                        @if($lakiCount > 1)
+                        <div class="absolute top-2 right-2 bg-blue-500 text-white text-xs px-2 py-0.5 rounded-full">
+                            {{ $lakiCount }} foto
+                        </div>
+                        @endif
                         @else
                         <div class="w-full h-full flex items-center justify-center">
                             <svg class="w-8 h-8 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -86,9 +95,18 @@
 
                     {{-- Perempuan --}}
                     <div class="relative aspect-[3/4] rounded-lg overflow-hidden bg-slate-100">
-                        @if($item->foto_perempuan_url)
-                        <img src="{{ $item->foto_perempuan_url }}" alt="Seragam Perempuan {{ $item->hari }}" 
+                        @php
+                            $perempuanCount = count($item->foto_perempuan ?? []);
+                            $perempuanUrl = $item->foto_perempuan_url;
+                        @endphp
+                        @if($perempuanUrl)
+                        <img src="{{ $perempuanUrl }}" alt="Seragam Perempuan {{ $item->hari }}" 
                              class="w-full h-full object-cover" loading="lazy">
+                        @if($perempuanCount > 1)
+                        <div class="absolute top-2 right-2 bg-pink-500 text-white text-xs px-2 py-0.5 rounded-full">
+                            {{ $perempuanCount }} foto
+                        </div>
+                        @endif
                         @else
                         <div class="w-full h-full flex items-center justify-center">
                             <svg class="w-8 h-8 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">

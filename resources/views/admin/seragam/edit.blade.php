@@ -115,121 +115,162 @@
         <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
             <div class="px-6 py-4 border-b border-slate-200 bg-slate-50">
                 <h2 class="font-semibold text-slate-800">Foto Seragam</h2>
+                <p class="text-xs text-slate-500 mt-1">Upload foto dan tambahkan keterangan (opsional)</p>
             </div>
             <div class="p-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {{-- Foto Laki-laki --}}
-                    <div x-data="{ 
-                        preview: '{{ $seragam->foto_laki_url }}',
-                        hasNewFile: false
-                    }">
-                        <label class="form-label">Foto Laki-laki</label>
+                    <div x-data="photoManager('laki', {{ json_encode($seragam->foto_laki_with_captions ?? []) }})">
+                        <label class="form-label flex items-center justify-between">
+                            <span>Foto Laki-laki</span>
+                            <span class="text-xs text-slate-500" x-text="photos.length + ' foto'"></span>
+                        </label>
                         
-                        {{-- Current Photo --}}
-                        <div class="mb-3" x-show="!hasNewFile && preview">
-                            <p class="text-xs text-slate-500 mb-2">Foto saat ini:</p>
-                            <img :src="preview" class="w-full aspect-[3/4] object-cover rounded-lg border">
-                        </div>
-                        
-                        {{-- Upload New --}}
-                        <div class="relative">
-                            <div class="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center hover:bg-slate-50 transition cursor-pointer relative overflow-hidden"
-                                 :class="{ 'border-[#4276A3] bg-[#4276A3]/5': hasNewFile }"
-                                 @click="$refs.inputLaki.click()">
-                                
-                                {{-- New Preview --}}
-                                <template x-if="hasNewFile">
-                                    <img :src="preview" class="w-full aspect-[3/4] object-cover rounded-lg">
-                                </template>
-                                
-                                {{-- Placeholder --}}
-                                <template x-if="!hasNewFile">
-                                    <div>
-                                        <svg class="w-10 h-10 text-slate-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                                        </svg>
-                                        <p class="text-sm text-slate-600 font-medium">Klik untuk ganti foto</p>
-                                        <p class="text-xs text-slate-400 mt-1">Biarkan kosong jika tidak ingin mengubah</p>
+                        {{-- Existing Photos --}}
+                        <div class="mb-3 space-y-3">
+                            @foreach($seragam->foto_laki_with_captions ?? [] as $index => $foto)
+                            <div class="relative group bg-slate-50 rounded-lg p-3 border border-slate-200">
+                                <div class="flex gap-3">
+                                    <img src="{{ $foto['url'] }}" class="w-20 h-24 object-cover rounded-lg border">
+                                    <div class="flex-1 min-w-0">
+                                        <label class="text-xs text-slate-500 block mb-1">Keterangan:</label>
+                                        <input type="text" name="keterangan_foto_laki[{{ $index }}]" 
+                                               value="{{ $foto['caption'] ?? '' }}"
+                                               class="w-full text-sm border-slate-200 rounded-lg focus:border-blue-500 focus:ring-blue-500"
+                                               placeholder="Contoh: Tampak depan">
+                                        @if($index === 0)
+                                        <span class="inline-block mt-2 text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded">Foto Utama</span>
+                                        @endif
                                     </div>
-                                </template>
-
-                                {{-- Change overlay --}}
-                                <div x-show="hasNewFile" class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-                                    <span class="text-white text-sm font-medium">Ganti Foto</span>
                                 </div>
+                                <label class="absolute top-2 right-2 bg-red-500 text-white p-1.5 rounded-lg cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity shadow-lg">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                    </svg>
+                                    <input type="checkbox" name="hapus_foto_laki[]" value="{{ $foto['path'] }}" class="hidden" 
+                                           @change="markForDelete($event, $refs['laki-photo-{{ $index }}'])">
+                                </label>
+                                <div x-ref="laki-photo-{{ $index }}"></div>
                             </div>
-                            <input type="file" x-ref="inputLaki" name="foto_laki" accept="image/*" class="hidden"
-                                   @change="
-                                       const file = $event.target.files[0];
-                                       if (file) {
-                                           const reader = new FileReader();
-                                           reader.onload = (e) => {
-                                               preview = e.target.result;
-                                               hasNewFile = true;
-                                           };
-                                           reader.readAsDataURL(file);
-                                       }
-                                   ">
+                            @endforeach
                         </div>
-                        @error('foto_laki')
+                        
+                        {{-- New Photos Preview --}
+                        <div class="mb-3 space-y-3" x-show="newPhotos.length > 0">
+                            <p class="text-xs text-slate-500 font-medium">Foto baru:</p>
+                            <template x-for="(photo, index) in newPhotos" :key="index">
+                                <div class="relative bg-slate-50 rounded-lg p-3 border border-slate-200">
+                                    <div class="flex gap-3">
+                                        <img :src="photo.preview" class="w-20 h-24 object-cover rounded-lg border">
+                                        <div class="flex-1">
+                                            <label class="text-xs text-slate-500 block mb-1">Keterangan:</label>
+                                            <input type="text" :name="'keterangan_foto_laki_baru[' + index + ']'" 
+                                                   class="w-full text-sm border-slate-200 rounded-lg focus:border-blue-500 focus:ring-blue-500"
+                                                   placeholder="Contoh: Tampak depan">
+                                        </div>
+                                    </div>
+                                    <button type="button" @click="removeNewPhoto(index)" 
+                                            class="absolute top-2 right-2 bg-red-500 text-white p-1.5 rounded-lg shadow-lg">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </template>
+                        </div>
+                        
+                        {{-- Upload Button --}}
+                        <div class="relative">
+                            <div class="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center hover:bg-slate-50 transition cursor-pointer"
+                                 @click="$refs.inputLaki.click()">
+                                <svg class="w-10 h-10 text-slate-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                                </svg>
+                                <p class="text-sm text-slate-600 font-medium">Tambah Foto</p>
+                                <p class="text-xs text-slate-400 mt-1">Bisa pilih lebih dari satu</p>
+                            </div>
+                            <input type="file" x-ref="inputLaki" name="foto_laki[]" accept="image/*" multiple class="hidden"
+                                   @change="handleFileSelect($event)">
+                        </div>
+                        @error('foto_laki.*')
                             <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
                         @enderror
                     </div>
 
                     {{-- Foto Perempuan --}}
-                    <div x-data="{ 
-                        preview: '{{ $seragam->foto_perempuan_url }}',
-                        hasNewFile: false
-                    }">
-                        <label class="form-label">Foto Perempuan</label>
+                    <div x-data="photoManager('perempuan', {{ json_encode($seragam->foto_perempuan_with_captions ?? []) }})">
+                        <label class="form-label flex items-center justify-between">
+                            <span>Foto Perempuan</span>
+                            <span class="text-xs text-slate-500" x-text="photos.length + ' foto'"></span>
+                        </label>
                         
-                        {{-- Current Photo --}}
-                        <div class="mb-3" x-show="!hasNewFile && preview">
-                            <p class="text-xs text-slate-500 mb-2">Foto saat ini:</p>
-                            <img :src="preview" class="w-full aspect-[3/4] object-cover rounded-lg border">
-                        </div>
-                        
-                        {{-- Upload New --}}
-                        <div class="relative">
-                            <div class="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center hover:bg-slate-50 transition cursor-pointer relative overflow-hidden"
-                                 :class="{ 'border-[#4276A3] bg-[#4276A3]/5': hasNewFile }"
-                                 @click="$refs.inputPerempuan.click()">
-                                
-                                {{-- New Preview --}}
-                                <template x-if="hasNewFile">
-                                    <img :src="preview" class="w-full aspect-[3/4] object-cover rounded-lg">
-                                </template>
-                                
-                                {{-- Placeholder --}}
-                                <template x-if="!hasNewFile">
-                                    <div>
-                                        <svg class="w-10 h-10 text-slate-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                                        </svg>
-                                        <p class="text-sm text-slate-600 font-medium">Klik untuk ganti foto</p>
-                                        <p class="text-xs text-slate-400 mt-1">Biarkan kosong jika tidak ingin mengubah</p>
+                        {{-- Existing Photos --}}
+                        <div class="mb-3 space-y-3">
+                            @foreach($seragam->foto_perempuan_with_captions ?? [] as $index => $foto)
+                            <div class="relative group bg-slate-50 rounded-lg p-3 border border-slate-200">
+                                <div class="flex gap-3">
+                                    <img src="{{ $foto['url'] }}" class="w-20 h-24 object-cover rounded-lg border">
+                                    <div class="flex-1 min-w-0">
+                                        <label class="text-xs text-slate-500 block mb-1">Keterangan:</label>
+                                        <input type="text" name="keterangan_foto_perempuan[{{ $index }}]" 
+                                               value="{{ $foto['caption'] ?? '' }}"
+                                               class="w-full text-sm border-slate-200 rounded-lg focus:border-pink-500 focus:ring-pink-500"
+                                               placeholder="Contoh: Tampak depan">
+                                        @if($index === 0)
+                                        <span class="inline-block mt-2 text-xs bg-pink-100 text-pink-700 px-2 py-0.5 rounded">Foto Utama</span>
+                                        @endif
                                     </div>
-                                </template>
-
-                                {{-- Change overlay --}}
-                                <div x-show="hasNewFile" class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-                                    <span class="text-white text-sm font-medium">Ganti Foto</span>
                                 </div>
+                                <label class="absolute top-2 right-2 bg-red-500 text-white p-1.5 rounded-lg cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity shadow-lg">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                    </svg>
+                                    <input type="checkbox" name="hapus_foto_perempuan[]" value="{{ $foto['path'] }}" class="hidden"
+                                           @change="markForDelete($event, $refs['perempuan-photo-{{ $index }}'])">
+                                </label>
+                                <div x-ref="perempuan-photo-{{ $index }}"></div>
                             </div>
-                            <input type="file" x-ref="inputPerempuan" name="foto_perempuan" accept="image/*" class="hidden"
-                                   @change="
-                                       const file = $event.target.files[0];
-                                       if (file) {
-                                           const reader = new FileReader();
-                                           reader.onload = (e) => {
-                                               preview = e.target.result;
-                                               hasNewFile = true;
-                                           };
-                                           reader.readAsDataURL(file);
-                                       }
-                                   ">
+                            @endforeach
                         </div>
-                        @error('foto_perempuan')
+                        
+                        {{-- New Photos Preview --}}
+                        <div class="mb-3 space-y-3" x-show="newPhotos.length > 0">
+                            <p class="text-xs text-slate-500 font-medium">Foto baru:</p>
+                            <template x-for="(photo, index) in newPhotos" :key="index">
+                                <div class="relative bg-slate-50 rounded-lg p-3 border border-slate-200">
+                                    <div class="flex gap-3">
+                                        <img :src="photo.preview" class="w-20 h-24 object-cover rounded-lg border">
+                                        <div class="flex-1">
+                                            <label class="text-xs text-slate-500 block mb-1">Keterangan:</label>
+                                            <input type="text" :name="'keterangan_foto_perempuan_baru[' + index + ']'" 
+                                                   class="w-full text-sm border-slate-200 rounded-lg focus:border-pink-500 focus:ring-pink-500"
+                                                   placeholder="Contoh: Tampak depan">
+                                        </div>
+                                    </div>
+                                    <button type="button" @click="removeNewPhoto(index)" 
+                                            class="absolute top-2 right-2 bg-red-500 text-white p-1.5 rounded-lg shadow-lg">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </template>
+                        </div>
+                        
+                        {{-- Upload Button --}}
+                        <div class="relative">
+                            <div class="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center hover:bg-slate-50 transition cursor-pointer"
+                                 @click="$refs.inputPerempuan.click()">
+                                <svg class="w-10 h-10 text-slate-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                                </svg>
+                                <p class="text-sm text-slate-600 font-medium">Tambah Foto</p>
+                                <p class="text-xs text-slate-400 mt-1">Bisa pilih lebih dari satu</p>
+                            </div>
+                            <input type="file" x-ref="inputPerempuan" name="foto_perempuan[]" accept="image/*" multiple class="hidden"
+                                   @change="handleFileSelect($event)">
+                        </div>
+                        @error('foto_perempuan.*')
                             <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
                         @enderror
                     </div>
@@ -251,4 +292,59 @@
         </div>
     </form>
 </div>
+
+<script>
+function seragamForm() {
+    return {}
+}
+
+function photoManager(type, existingPhotos = []) {
+    return {
+        photos: existingPhotos,
+        newPhotos: [],
+        files: [],
+        
+        handleFileSelect(event) {
+            const selectedFiles = Array.from(event.target.files);
+            
+            selectedFiles.forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        this.newPhotos.push({
+                            preview: e.target.result,
+                            name: file.name
+                        });
+                    };
+                    reader.readAsDataURL(file);
+                    this.files.push(file);
+                }
+            });
+            
+            // Update file list untuk form submission
+            const dataTransfer = new DataTransfer();
+            this.files.forEach(file => dataTransfer.items.add(file));
+            event.target.files = dataTransfer.files;
+        },
+        
+        removeNewPhoto(index) {
+            this.newPhotos.splice(index, 1);
+            this.files.splice(index, 1);
+        },
+        
+        markForDelete(event, containerRef) {
+            const checkbox = event.target;
+            const container = checkbox.closest('.relative.group');
+            
+            if (checkbox.checked) {
+                container.classList.add('opacity-50', 'grayscale');
+                checkbox.closest('label').classList.add('opacity-100');
+            } else {
+                container.classList.remove('opacity-50', 'grayscale');
+                checkbox.closest('label').classList.remove('opacity-100');
+            }
+        }
+    }
+}
+</script>
 @endsection

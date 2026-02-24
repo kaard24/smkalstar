@@ -176,7 +176,7 @@
                                 </div>
                                 <input type="text" id="nama" name="nama" 
                                     value="{{ old('nama', $calonSiswa->nama) }}" required
-                                    minlength="3" maxlength="39"
+                                    minlength="3" maxlength="50"
                                     pattern="^[a-zA-Z\s'\-]+$"
                                     title="Nama hanya boleh berisi huruf, spasi, petik, dan tanda hubung"
                                     oninput="this.value = this.value.replace(/[^a-zA-Z\s'\-]/g, '')"
@@ -500,6 +500,7 @@
                                     <option value="B" {{ old('golongan_darah', $calonSiswa->golongan_darah) === 'B' ? 'selected' : '' }}>B</option>
                                     <option value="AB" {{ old('golongan_darah', $calonSiswa->golongan_darah) === 'AB' ? 'selected' : '' }}>AB</option>
                                     <option value="O" {{ old('golongan_darah', $calonSiswa->golongan_darah) === 'O' ? 'selected' : '' }}>O</option>
+                                    <option value="Tidak Tahu" {{ old('golongan_darah', $calonSiswa->golongan_darah) === 'Tidak Tahu' ? 'selected' : '' }}>Tidak Tahu</option>
                                 </select>
                                 <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
                                     <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -613,9 +614,9 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/>
                                     </svg>
                                 </div>
-                                <input type="number" id="berat_badan" name="berat_badan" min="20" max="120"
+                                <input type="number" id="berat_badan" name="berat_badan" min="20" max="200"
                                     value="{{ old('berat_badan', $calonSiswa->berat_badan) }}" required
-                                    title="Berat badan harus antara 20-120 kg"
+                                    title="Berat badan harus antara 20-200 kg"
                                     class="w-full pl-12 pr-4 py-3.5 bg-gray-50 border-2 border-gray-200 rounded-xl focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/10 transition @error('berat_badan') border-red-500 @enderror">
                             </div>
                             @error('berat_badan')

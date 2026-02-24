@@ -16,6 +16,7 @@ use App\Http\Controllers\SpmbPembayaranController;
 use App\Http\Controllers\AdminPembayaranController;
 use App\Http\Controllers\AdminPengaturanPembayaranController;
 use App\Http\Controllers\AdminBerandaController;
+use App\Http\Controllers\AdminHeroController;
 use App\Http\Controllers\PublicPageController;
 use App\Http\Controllers\Admin\SeragamController;
 use Illuminate\Http\Request;
@@ -355,6 +356,15 @@ Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function
     Route::put('/beranda/{beranda}', [AdminBerandaController::class, 'update'])->name('beranda.update');
     Route::delete('/beranda/{beranda}', [AdminBerandaController::class, 'destroy'])->name('beranda.destroy');
     Route::patch('/beranda/{beranda}/toggle-active', [AdminBerandaController::class, 'toggleActive'])->name('beranda.toggle-active');
+
+    // Hero Section Module
+    Route::get('/hero', [AdminHeroController::class, 'index'])->name('hero.index');
+    Route::get('/hero/create', [AdminHeroController::class, 'create'])->name('hero.create');
+    Route::post('/hero', [AdminHeroController::class, 'store'])->name('hero.store');
+    Route::get('/hero/{hero}/edit', [AdminHeroController::class, 'edit'])->name('hero.edit');
+    Route::put('/hero/{hero}', [AdminHeroController::class, 'update'])->name('hero.update');
+    Route::delete('/hero/{hero}', [AdminHeroController::class, 'destroy'])->name('hero.destroy');
+    Route::patch('/hero/{hero}/set-active', [AdminHeroController::class, 'setActive'])->name('hero.setActive');
 
     // Profil Sekolah Module (Split into 3 pages)
     Route::get('/profil-sekolah', [\App\Http\Controllers\Admin\ProfilSekolahController::class, 'edit'])->name('profil-sekolah.edit');

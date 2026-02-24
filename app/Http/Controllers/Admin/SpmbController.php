@@ -367,11 +367,27 @@ class SpmbController extends Controller
             'tahun_ajaran' => 'required|string|max:20',
             'jumlah_gelombang_tampil' => 'required|integer|min:1|max:5',
             'urutan' => 'nullable|integer|min:0',
+            'bg_type' => 'required|in:default,color,image',
+            'bg_value' => 'nullable|string|max:255',
+            'bg_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
         $validated['aktif'] = $request->has('aktif');
         $validated['tampilkan_gelombang'] = $request->has('tampilkan_gelombang');
         $validated['urutan'] = $validated['urutan'] ?? (SpmbHero::max('urutan') + 1);
+
+        // Handle background
+        if ($validated['bg_type'] === 'image' && $request->hasFile('bg_image')) {
+            $file = $request->file('bg_image');
+            $filename = 'spmb_bg_' . time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('images/spmb'), $filename);
+            $validated['bg_value'] = 'images/spmb/' . $filename;
+        }
+
+        // Jika default, kosongkan bg_value
+        if ($validated['bg_type'] === 'default') {
+            $validated['bg_value'] = null;
+        }
 
         SpmbHero::create($validated);
         Cache::forget('spmb_data');
@@ -396,11 +412,37 @@ class SpmbController extends Controller
             'tahun_ajaran' => 'required|string|max:20',
             'jumlah_gelombang_tampil' => 'required|integer|min:1|max:5',
             'urutan' => 'nullable|integer|min:0',
+            'bg_type' => 'required|in:default,color,image',
+            'bg_value' => 'nullable|string|max:255',
+            'bg_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
         $validated['aktif'] = $request->has('aktif');
         $validated['tampilkan_gelombang'] = $request->has('tampilkan_gelombang');
         $validated['urutan'] = $validated['urutan'] ?? $hero->urutan;
+
+        // Handle background
+        if ($validated['bg_type'] === 'image' && $request->hasFile('bg_image')) {
+            // Hapus gambar lama jika ada
+            if ($hero->bg_value && file_exists(public_path($hero->bg_value))) {
+                unlink(public_path($hero->bg_value));
+            }
+            
+            $file = $request->file('bg_image');
+            $filename = 'spmb_bg_' . time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('images/spmb'), $filename);
+            $validated['bg_value'] = 'images/spmb/' . $filename;
+        } elseif ($validated['bg_type'] !== 'image') {
+            // Jika bukan image, hapus gambar lama
+            if ($hero->bg_value && str_starts_with($hero->bg_value, 'images/') && file_exists(public_path($hero->bg_value))) {
+                unlink(public_path($hero->bg_value));
+            }
+            
+            // Jika default, kosongkan bg_value
+            if ($validated['bg_type'] === 'default') {
+                $validated['bg_value'] = null;
+            }
+        }
 
         $hero->update($validated);
         Cache::forget('spmb_data');
@@ -416,7 +458,5 @@ class SpmbController extends Controller
 
         return redirect()->route('admin.spmb.hero.index')
             ->with('success', 'Hero/Banner berhasil dihapus.');
-    }
-            ->with('success', 'Program keahlian berhasil dihapus.');
     }
 }

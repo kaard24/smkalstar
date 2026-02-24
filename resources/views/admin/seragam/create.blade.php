@@ -120,79 +120,104 @@
         <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
             <div class="px-6 py-4 border-b border-slate-200 bg-slate-50">
                 <h2 class="font-semibold text-slate-800">Foto Seragam</h2>
+                <p class="text-xs text-slate-500 mt-1">Upload foto dan tambahkan keterangan (opsional)</p>
             </div>
             <div class="p-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {{-- Foto Laki-laki --}}
-                    <div>
-                        <label class="form-label">Foto Laki-laki <span class="text-rose-600">*</span></label>
-                        <div class="relative">
-                            <div class="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center hover:bg-slate-50 transition cursor-pointer relative overflow-hidden"
-                                 :class="{ 'border-[#4276A3] bg-[#4276A3]/5': lakiPreview }"
-                                 @click="$refs.inputLaki.click()">
-                                
-                                {{-- Preview --}}
-                                <template x-if="lakiPreview">
-                                    <img :src="lakiPreview" class="w-full aspect-[3/4] object-cover rounded-lg">
-                                </template>
-                                
-                                {{-- Placeholder --}}
-                                <template x-if="!lakiPreview">
-                                    <div>
-                                        <svg class="w-12 h-12 text-slate-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                                        </svg>
-                                        <p class="text-sm text-slate-600 font-medium">Klik untuk upload foto</p>
-                                        <p class="text-xs text-slate-400 mt-1">JPG, PNG, WebP (Max 2MB)</p>
+                    <div x-data="photoUploader('laki')">
+                        <label class="form-label flex items-center justify-between">
+                            <span>Foto Laki-laki</span>
+                            <span class="text-xs text-slate-500" x-text="photos.length + ' foto'"></span>
+                        </label>
+                        
+                        {{-- Photos Preview with Caption --}}
+                        <div class="mb-3 space-y-3" x-show="photos.length > 0">
+                            <template x-for="(photo, index) in photos" :key="index">
+                                <div class="relative bg-slate-50 rounded-lg p-3 border border-slate-200">
+                                    <div class="flex gap-3">
+                                        <img :src="photo.preview" class="w-20 h-24 object-cover rounded-lg border">
+                                        <div class="flex-1">
+                                            <label class="text-xs text-slate-500 block mb-1">Keterangan:</label>
+                                            <input type="text" :name="'keterangan_foto_laki[' + index + ']'" 
+                                                   class="w-full text-sm border-slate-200 rounded-lg focus:border-blue-500 focus:ring-blue-500"
+                                                   placeholder="Contoh: Tampak depan">
+                                        </div>
                                     </div>
-                                </template>
-
-                                {{-- Change overlay --}}
-                                <div x-show="lakiPreview" class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-                                    <span class="text-white text-sm font-medium">Ganti Foto</span>
+                                    <button type="button" @click="removePhoto(index)" 
+                                            class="absolute top-2 right-2 bg-red-500 text-white p-1.5 rounded-lg shadow-lg">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                        </svg>
+                                    </button>
+                                    <span x-show="index === 0" class="absolute bottom-2 left-24 text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded">Foto Utama</span>
                                 </div>
-                            </div>
-                            <input type="file" x-ref="inputLaki" name="foto_laki" accept="image/*" required class="hidden"
-                                   @change="handleFileChange($event, 'laki')">
+                            </template>
                         </div>
-                        @error('foto_laki')
+                        
+                        {{-- Upload Button --}}
+                        <div class="relative">
+                            <div class="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center hover:bg-slate-50 transition cursor-pointer"
+                                 @click="$refs.input.click()">
+                                <svg class="w-10 h-10 text-slate-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                                </svg>
+                                <p class="text-sm text-slate-600 font-medium">Tambah Foto</p>
+                                <p class="text-xs text-slate-400 mt-1">Bisa pilih lebih dari satu</p>
+                            </div>
+                            <input type="file" x-ref="input" name="foto_laki[]" accept="image/*" multiple class="hidden"
+                                   @change="handleFileSelect($event)">
+                        </div>
+                        @error('foto_laki.*')
                             <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
                         @enderror
                     </div>
 
                     {{-- Foto Perempuan --}}
-                    <div>
-                        <label class="form-label">Foto Perempuan <span class="text-rose-600">*</span></label>
-                        <div class="relative">
-                            <div class="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center hover:bg-slate-50 transition cursor-pointer relative overflow-hidden"
-                                 :class="{ 'border-[#4276A3] bg-[#4276A3]/5': perempuanPreview }"
-                                 @click="$refs.inputPerempuan.click()">
-                                
-                                {{-- Preview --}}
-                                <template x-if="perempuanPreview">
-                                    <img :src="perempuanPreview" class="w-full aspect-[3/4] object-cover rounded-lg">
-                                </template>
-                                
-                                {{-- Placeholder --}}
-                                <template x-if="!perempuanPreview">
-                                    <div>
-                                        <svg class="w-12 h-12 text-slate-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                                        </svg>
-                                        <p class="text-sm text-slate-600 font-medium">Klik untuk upload foto</p>
-                                        <p class="text-xs text-slate-400 mt-1">JPG, PNG, WebP (Max 2MB)</p>
+                    <div x-data="photoUploader('perempuan')">
+                        <label class="form-label flex items-center justify-between">
+                            <span>Foto Perempuan</span>
+                            <span class="text-xs text-slate-500" x-text="photos.length + ' foto'"></span>
+                        </label>
+                        
+                        {{-- Photos Preview with Caption --}}
+                        <div class="mb-3 space-y-3" x-show="photos.length > 0">
+                            <template x-for="(photo, index) in photos" :key="index">
+                                <div class="relative bg-slate-50 rounded-lg p-3 border border-slate-200">
+                                    <div class="flex gap-3">
+                                        <img :src="photo.preview" class="w-20 h-24 object-cover rounded-lg border">
+                                        <div class="flex-1">
+                                            <label class="text-xs text-slate-500 block mb-1">Keterangan:</label>
+                                            <input type="text" :name="'keterangan_foto_perempuan[' + index + ']'" 
+                                                   class="w-full text-sm border-slate-200 rounded-lg focus:border-pink-500 focus:ring-pink-500"
+                                                   placeholder="Contoh: Tampak depan">
+                                        </div>
                                     </div>
-                                </template>
-
-                                {{-- Change overlay --}}
-                                <div x-show="perempuanPreview" class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
-                                    <span class="text-white text-sm font-medium">Ganti Foto</span>
+                                    <button type="button" @click="removePhoto(index)" 
+                                            class="absolute top-2 right-2 bg-red-500 text-white p-1.5 rounded-lg shadow-lg">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                        </svg>
+                                    </button>
+                                    <span x-show="index === 0" class="absolute bottom-2 left-24 text-xs bg-pink-100 text-pink-700 px-2 py-0.5 rounded">Foto Utama</span>
                                 </div>
-                            </div>
-                            <input type="file" x-ref="inputPerempuan" name="foto_perempuan" accept="image/*" required class="hidden"
-                                   @change="handleFileChange($event, 'perempuan')">
+                            </template>
                         </div>
-                        @error('foto_perempuan')
+                        
+                        {{-- Upload Button --}}
+                        <div class="relative">
+                            <div class="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center hover:bg-slate-50 transition cursor-pointer"
+                                 @click="$refs.input.click()">
+                                <svg class="w-10 h-10 text-slate-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                                </svg>
+                                <p class="text-sm text-slate-600 font-medium">Tambah Foto</p>
+                                <p class="text-xs text-slate-400 mt-1">Bisa pilih lebih dari satu</p>
+                            </div>
+                            <input type="file" x-ref="input" name="foto_perempuan[]" accept="image/*" multiple class="hidden"
+                                   @change="handleFileSelect($event)">
+                        </div>
+                        @error('foto_perempuan.*')
                             <p class="mt-1 text-sm text-rose-600">{{ $message }}</p>
                         @enderror
                     </div>
@@ -217,23 +242,40 @@
 
 <script>
 function seragamForm() {
+    return {}
+}
+
+function photoUploader(type) {
     return {
-        lakiPreview: null,
-        perempuanPreview: null,
+        photos: [],
+        files: [],
         
-        handleFileChange(event, type) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    if (type === 'laki') {
-                        this.lakiPreview = e.target.result;
-                    } else {
-                        this.perempuanPreview = e.target.result;
-                    }
-                };
-                reader.readAsDataURL(file);
-            }
+        handleFileSelect(event) {
+            const selectedFiles = Array.from(event.target.files);
+            
+            selectedFiles.forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        this.photos.push({
+                            preview: e.target.result,
+                            name: file.name
+                        });
+                    };
+                    reader.readAsDataURL(file);
+                    this.files.push(file);
+                }
+            });
+            
+            // Update file list untuk form submission
+            const dataTransfer = new DataTransfer();
+            this.files.forEach(file => dataTransfer.items.add(file));
+            event.target.files = dataTransfer.files;
+        },
+        
+        removePhoto(index) {
+            this.photos.splice(index, 1);
+            this.files.splice(index, 1);
         }
     }
 }

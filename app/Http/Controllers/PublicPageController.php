@@ -17,6 +17,7 @@ use App\Models\SpmbBiaya;
 use App\Models\SpmbKontak;
 use App\Models\SpmbHero;
 use App\Models\SpmbJurusan;
+use App\Models\HeroSection;
 use Illuminate\Support\Facades\Cache;
 
 class PublicPageController extends Controller
@@ -51,7 +52,32 @@ class PublicPageController extends Controller
             return Berita::aktif()->published()->terbaru()->limit(3)->get();
         });
 
-        return view('home', compact('profil', 'fasilitas', 'galeri', 'berita'));
+        // Get hero section (active)
+        $hero = Cache::remember('hero_section', self::CACHE_DURATION, function () {
+            return HeroSection::getActive() ?? $this->getDefaultHero();
+        });
+
+        return view('home', compact('profil', 'fasilitas', 'galeri', 'berita', 'hero'));
+    }
+
+    /**
+     * Get default hero section when no active hero in database
+     */
+    private function getDefaultHero(): HeroSection
+    {
+        return new HeroSection([
+            'badge_text' => 'Pendaftaran 2026/2027 Dibuka',
+            'title_line1' => 'SPMB 2026/2027',
+            'title_highlight' => 'Telah',
+            'title_line2' => 'Dibuka!',
+            'description' => 'Daftarkan diri Anda sekarang dan jadilah bagian dari generasi unggul dan berakhlak di SMK Al-Hidayah Lestari.',
+            'button_primary_text' => 'Daftar Sekarang',
+            'button_primary_url' => '/spmb/register',
+            'button_secondary_text' => 'Info Lebih Lanjut',
+            'button_secondary_url' => '/spmb/info',
+            'hero_image' => 'images/b1.webp',
+            'is_active' => true,
+        ]);
     }
 
     /**

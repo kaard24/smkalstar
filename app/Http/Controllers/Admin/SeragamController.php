@@ -49,31 +49,49 @@ class SeragamController extends Controller
     {
         $validated = $request->validate([
             'hari' => 'required|string|in:' . implode(',', $this->hariList) . '|unique:seragam,hari',
-            'foto_laki' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
-            'foto_perempuan' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'foto_laki' => 'nullable|array',
+            'foto_laki.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048',
+            'foto_perempuan' => 'nullable|array',
+            'foto_perempuan.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048',
+            'keterangan_foto_laki' => 'nullable|array',
+            'keterangan_foto_laki.*' => 'nullable|string|max:255',
+            'keterangan_foto_perempuan' => 'nullable|array',
+            'keterangan_foto_perempuan.*' => 'nullable|string|max:255',
             'keterangan' => 'nullable|string|max:500',
             'warna_tema' => 'required|string|in:' . implode(',', array_keys($this->warnaList)),
             'urutan' => 'nullable|integer|min:0',
             'aktif' => 'boolean',
         ], [
             'hari.unique' => 'Seragam untuk hari ini sudah ada.',
-            'foto_laki.required' => 'Foto seragam laki-laki wajib diupload.',
-            'foto_perempuan.required' => 'Foto seragam perempuan wajib diupload.',
-            'foto_laki.image' => 'File harus berupa gambar.',
-            'foto_perempuan.image' => 'File harus berupa gambar.',
-            'foto_laki.max' => 'Ukuran foto maksimal 2MB.',
-            'foto_perempuan.max' => 'Ukuran foto maksimal 2MB.',
+            'foto_laki.*.image' => 'File harus berupa gambar.',
+            'foto_perempuan.*.image' => 'File harus berupa gambar.',
+            'foto_laki.*.max' => 'Ukuran foto maksimal 2MB.',
+            'foto_perempuan.*.max' => 'Ukuran foto maksimal 2MB.',
         ]);
 
-        // Upload foto laki-laki
+        // Upload multiple foto laki-laki
+        $fotoLaki = [];
+        $keteranganLaki = [];
         if ($request->hasFile('foto_laki')) {
-            $validated['foto_laki'] = $request->file('foto_laki')->store('seragam', 'public');
+            foreach ($request->file('foto_laki') as $index => $file) {
+                $fotoLaki[] = $file->store('seragam', 'public');
+                $keteranganLaki[] = $request->input("keterangan_foto_laki.$index") ?? '';
+            }
         }
+        $validated['foto_laki'] = $fotoLaki;
+        $validated['keterangan_foto_laki'] = $keteranganLaki;
 
-        // Upload foto perempuan
+        // Upload multiple foto perempuan
+        $fotoPerempuan = [];
+        $keteranganPerempuan = [];
         if ($request->hasFile('foto_perempuan')) {
-            $validated['foto_perempuan'] = $request->file('foto_perempuan')->store('seragam', 'public');
+            foreach ($request->file('foto_perempuan') as $index => $file) {
+                $fotoPerempuan[] = $file->store('seragam', 'public');
+                $keteranganPerempuan[] = $request->input("keterangan_foto_perempuan.$index") ?? '';
+            }
         }
+        $validated['foto_perempuan'] = $fotoPerempuan;
+        $validated['keterangan_foto_perempuan'] = $keteranganPerempuan;
 
         $validated['aktif'] = $request->has('aktif');
         $validated['urutan'] = $validated['urutan'] ?? 0;
@@ -105,42 +123,97 @@ class SeragamController extends Controller
     {
         $validated = $request->validate([
             'hari' => 'required|string|in:' . implode(',', $this->hariList) . '|unique:seragam,hari,' . $seragam->id,
-            'foto_laki' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-            'foto_perempuan' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'foto_laki' => 'nullable|array',
+            'foto_laki.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048',
+            'foto_perempuan' => 'nullable|array',
+            'foto_perempuan.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048',
+            'keterangan_foto_laki' => 'nullable|array',
+            'keterangan_foto_laki.*' => 'nullable|string|max:255',
+            'keterangan_foto_perempuan' => 'nullable|array',
+            'keterangan_foto_perempuan.*' => 'nullable|string|max:255',
             'keterangan' => 'nullable|string|max:500',
             'warna_tema' => 'required|string|in:' . implode(',', array_keys($this->warnaList)),
             'urutan' => 'nullable|integer|min:0',
             'aktif' => 'boolean',
         ], [
             'hari.unique' => 'Seragam untuk hari ini sudah ada.',
-            'foto_laki.image' => 'File harus berupa gambar.',
-            'foto_perempuan.image' => 'File harus berupa gambar.',
-            'foto_laki.max' => 'Ukuran foto maksimal 2MB.',
-            'foto_perempuan.max' => 'Ukuran foto maksimal 2MB.',
+            'foto_laki.*.image' => 'File harus berupa gambar.',
+            'foto_perempuan.*.image' => 'File harus berupa gambar.',
+            'foto_laki.*.max' => 'Ukuran foto maksimal 2MB.',
+            'foto_perempuan.*.max' => 'Ukuran foto maksimal 2MB.',
         ]);
+
+        // Get existing photos and captions
+        $fotoLaki = $seragam->foto_laki ?? [];
+        $fotoPerempuan = $seragam->foto_perempuan ?? [];
+        $keteranganLaki = $request->input('keterangan_foto_laki', $seragam->keterangan_foto_laki ?? []);
+        $keteranganPerempuan = $request->input('keterangan_foto_perempuan', $seragam->keterangan_foto_perempuan ?? []);
+
+        // Handle deleted photos laki-laki
+        if ($request->has('hapus_foto_laki')) {
+            foreach ($request->hapus_foto_laki as $index => $foto) {
+                if (in_array($foto, $fotoLaki)) {
+                    Storage::disk('public')->delete($foto);
+                    $fotoIndex = array_search($foto, $fotoLaki);
+                    unset($fotoLaki[$fotoIndex]);
+                    unset($keteranganLaki[$fotoIndex]);
+                }
+            }
+            $fotoLaki = array_values($fotoLaki);
+            $keteranganLaki = array_values($keteranganLaki);
+        }
+
+        // Handle deleted photos perempuan
+        if ($request->has('hapus_foto_perempuan')) {
+            foreach ($request->hapus_foto_perempuan as $index => $foto) {
+                if (in_array($foto, $fotoPerempuan)) {
+                    Storage::disk('public')->delete($foto);
+                    $fotoIndex = array_search($foto, $fotoPerempuan);
+                    unset($fotoPerempuan[$fotoIndex]);
+                    unset($keteranganPerempuan[$fotoIndex]);
+                }
+            }
+            $fotoPerempuan = array_values($fotoPerempuan);
+            $keteranganPerempuan = array_values($keteranganPerempuan);
+        }
 
         // Upload foto laki-laki baru jika ada
         if ($request->hasFile('foto_laki')) {
-            // Hapus foto lama
-            if ($seragam->foto_laki) {
-                Storage::disk('public')->delete($seragam->foto_laki);
+            foreach ($request->file('foto_laki') as $index => $file) {
+                $fotoLaki[] = $file->store('seragam', 'public');
+                $keteranganLaki[] = $request->input("keterangan_foto_laki_baru.$index") ?? '';
             }
-            $validated['foto_laki'] = $request->file('foto_laki')->store('seragam', 'public');
-        } else {
-            unset($validated['foto_laki']);
         }
 
         // Upload foto perempuan baru jika ada
         if ($request->hasFile('foto_perempuan')) {
-            // Hapus foto lama
-            if ($seragam->foto_perempuan) {
-                Storage::disk('public')->delete($seragam->foto_perempuan);
+            foreach ($request->file('foto_perempuan') as $index => $file) {
+                $fotoPerempuan[] = $file->store('seragam', 'public');
+                $keteranganPerempuan[] = $request->input("keterangan_foto_perempuan_baru.$index") ?? '';
             }
-            $validated['foto_perempuan'] = $request->file('foto_perempuan')->store('seragam', 'public');
-        } else {
-            unset($validated['foto_perempuan']);
         }
 
+        // Update captions for existing photos
+        if ($request->has('keterangan_foto_laki')) {
+            foreach ($request->keterangan_foto_laki as $index => $caption) {
+                if (isset($keteranganLaki[$index])) {
+                    $keteranganLaki[$index] = $caption;
+                }
+            }
+        }
+
+        if ($request->has('keterangan_foto_perempuan')) {
+            foreach ($request->keterangan_foto_perempuan as $index => $caption) {
+                if (isset($keteranganPerempuan[$index])) {
+                    $keteranganPerempuan[$index] = $caption;
+                }
+            }
+        }
+
+        $validated['foto_laki'] = array_values($fotoLaki);
+        $validated['foto_perempuan'] = array_values($fotoPerempuan);
+        $validated['keterangan_foto_laki'] = array_values($keteranganLaki);
+        $validated['keterangan_foto_perempuan'] = array_values($keteranganPerempuan);
         $validated['aktif'] = $request->has('aktif');
         $validated['urutan'] = $validated['urutan'] ?? 0;
 
@@ -158,14 +231,18 @@ class SeragamController extends Controller
      */
     public function destroy(Seragam $seragam)
     {
-        // Hapus foto laki-laki
+        // Hapus semua foto laki-laki
         if ($seragam->foto_laki) {
-            Storage::disk('public')->delete($seragam->foto_laki);
+            foreach ($seragam->foto_laki as $foto) {
+                Storage::disk('public')->delete($foto);
+            }
         }
 
-        // Hapus foto perempuan
+        // Hapus semua foto perempuan
         if ($seragam->foto_perempuan) {
-            Storage::disk('public')->delete($seragam->foto_perempuan);
+            foreach ($seragam->foto_perempuan as $foto) {
+                Storage::disk('public')->delete($foto);
+            }
         }
 
         $seragam->delete();

@@ -14,26 +14,26 @@
                 <div class="max-w-xl">
                     <div class="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-medium mb-6">
                         <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
-                        Pendaftaran 2026/2027 Dibuka
+                        {{ $hero->badge_text }}
                     </div>
                     
                     <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight mb-6">
-                        SPMB 2026/2027 
-                        <span class="text-blue-600">Telah</span> 
-                        <span class="text-cyan-600">Dibuka!</span>
+                        {{ $hero->title_line1 }} 
+                        <span class="text-blue-600">{{ $hero->title_highlight }}</span> 
+                        <span class="text-cyan-600">{{ $hero->title_line2 }}</span>
                     </h1>
                     
                     <p class="text-lg text-slate-600 mb-8 leading-relaxed">
-                        Daftarkan diri Anda sekarang dan jadilah bagian dari generasi unggul dan berakhlak di SMK Al-Hidayah Lestari.
+                        {{ $hero->description }}
                     </p>
                     
                     <div class="flex flex-wrap gap-4">
-                        <a href="{{ url('/spmb/register') }}" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-4 rounded-xl transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5">
-                            Daftar Sekarang
+                        <a href="{{ url($hero->button_primary_url) }}" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-4 rounded-xl transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5">
+                            {{ $hero->button_primary_text }}
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                         </a>
-                        <a href="{{ url('/spmb/info') }}" class="inline-flex items-center gap-2 bg-white hover:bg-gray-50 text-slate-700 font-semibold px-8 py-4 rounded-xl border border-gray-200 transition-all">
-                            Info Lebih Lanjut
+                        <a href="{{ url($hero->button_secondary_url) }}" class="inline-flex items-center gap-2 bg-white hover:bg-gray-50 text-slate-700 font-semibold px-8 py-4 rounded-xl border border-gray-200 transition-all">
+                            {{ $hero->button_secondary_text }}
                         </a>
                     </div>
                 </div>
@@ -41,20 +41,9 @@
                 <!-- Right Image -->
                 <div class="relative hidden lg:block">
                     <div class="relative rounded-3xl overflow-hidden shadow-2xl">
-                        <img src="{{ asset('images/b1.webp') }}" alt="SMK Al-Hidayah" class="w-full h-auto">
+                        <img src="{{ asset($hero->hero_image) }}" alt="SMK Al-Hidayah" class="w-full h-auto">
                     </div>
-                    <!-- Floating Badge -->
-                    <div class="absolute -bottom-6 -left-6 bg-white rounded-2xl p-4 shadow-xl">
-                        <div class="flex items-center gap-3">
-                            <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-500">Akreditasi</p>
-                                <p class="font-bold text-slate-900">B</p>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </div>

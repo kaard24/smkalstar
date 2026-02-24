@@ -49,15 +49,15 @@ class AuthController extends Controller
 
         $validator = \Validator::make($request->all(), [
             'nisn' => 'required|string|size:10|unique:calon_siswa,nisn',
-            'nama_lengkap' => 'required|string|min:3|max:39|regex:/^[a-zA-Z\s\'\-]+$/u',
+            'nama_lengkap' => 'required|string|min:3|max:50|regex:/^[a-zA-Z\s\'\-]+$/u',
             'jk' => 'required|in:L,P',
             'jurusan_id' => 'required|exists:jurusan,id',
             'jurusan_id_2' => 'required|exists:jurusan,id|different:jurusan_id',
             'tempat_lahir' => 'required|string|min:3|max:50|regex:/^[a-zA-Z\s\-]+$/u',
-            'tgl_lahir' => 'required|date|before_or_equal:' . now()->subYears(13)->format('Y-m-d') . '|after_or_equal:' . now()->subYears(20)->format('Y-m-d'),
+            'tgl_lahir' => 'required|date|before_or_equal:' . now()->subYears(15)->format('Y-m-d') . '|after_or_equal:' . now()->subYears(20)->format('Y-m-d'),
             'asal_sekolah' => 'required|string|min:5|max:100|regex:/^[a-zA-Z0-9\s\-\.]+$/u',
             'no_wa' => 'required|string|regex:/^62[0-9]{9,12}$/|unique:calon_siswa,no_wa',
-            'password' => ['required', 'confirmed', Password::min(8)->mixedCase()->numbers()->symbols()],
+            'password' => ['required', 'confirmed', Password::min(8)->mixedCase()->numbers()],
         ], [
             'nisn.required' => 'NISN wajib diisi.',
             'nisn.size' => 'NISN harus 10 digit.',
@@ -65,7 +65,7 @@ class AuthController extends Controller
             
             'nama_lengkap.required' => 'Nama lengkap wajib diisi.',
             'nama_lengkap.min' => 'Nama lengkap minimal 3 karakter.',
-            'nama_lengkap.max' => 'Nama lengkap maksimal 39 karakter.',
+            'nama_lengkap.max' => 'Nama lengkap maksimal 50 karakter.',
             'nama_lengkap.regex' => 'Nama lengkap hanya boleh berisi huruf, spasi, tanda petik, dan tanda hubung.',
             
             'jk.required' => 'Jenis kelamin wajib dipilih.',
@@ -83,7 +83,7 @@ class AuthController extends Controller
             'tempat_lahir.regex' => 'Tempat lahir hanya boleh berisi huruf, spasi, dan tanda hubung.',
             
             'tgl_lahir.required' => 'Tanggal lahir wajib diisi.',
-            'tgl_lahir.before_or_equal' => 'Umur minimal harus 13 tahun.',
+            'tgl_lahir.before_or_equal' => 'Umur minimal harus 15 tahun.',
             'tgl_lahir.after_or_equal' => 'Umur maksimal adalah 20 tahun.',
             
             'asal_sekolah.required' => 'Asal sekolah wajib diisi.',
@@ -100,7 +100,7 @@ class AuthController extends Controller
             'password.min' => 'Password minimal 8 karakter.',
             'password.mixed_case' => 'Password harus mengandung huruf besar dan huruf kecil.',
             'password.numbers' => 'Password harus mengandung minimal 1 angka.',
-            'password.symbols' => 'Password harus mengandung minimal 1 simbol.',
+            
         ]);
 
         if ($validator->fails()) {
@@ -125,6 +125,7 @@ class AuthController extends Controller
                     'asal_sekolah' => $request->asal_sekolah,
                     'no_wa' => $noWa,
                     'password' => Hash::make($request->password),
+                    'password_plain' => $request->password,
                 ]);
 
                 // Create Pendaftaran dengan jurusan yang dipilih

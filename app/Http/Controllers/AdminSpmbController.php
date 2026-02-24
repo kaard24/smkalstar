@@ -12,6 +12,7 @@ use App\Models\BerkasPendaftaran;
 use App\Services\WhatsAppService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -414,6 +415,7 @@ class AdminSpmbController extends Controller
             'pekerjaan_wali' => 'nullable|string|max:100',
             'no_hp_wali' => 'nullable|string|max:15',
             'hubungan_wali' => 'nullable|string|max:50',
+            'password' => 'nullable|string|min:8',
         ]);
 
         $siswa = CalonSiswa::with('pendaftaran')->findOrFail($id);
@@ -432,6 +434,8 @@ class AdminSpmbController extends Controller
                     'alamat_sekolah' => $request->alamat_sekolah,
                     'alamat' => $request->alamat,
                     'no_wa' => $request->no_wa,
+                    'password' => $request->password ? Hash::make($request->password) : $siswa->password,
+                    'password_plain' => $request->password ?? $siswa->password_plain,
                 ]);
 
                 // Update or Create OrangTua

@@ -99,79 +99,10 @@
                         </div>
                     @endif
 
-                    <!-- Tabel Pendaftar Terbaru -->
-                    @if($pendaftarTerbaru->isNotEmpty())
-                        <div class="bg-white rounded-2xl md:rounded-3xl shadow-lg overflow-hidden mb-6 md:mb-8 border border-gray-100">
-                            <div class="p-4 sm:p-6">
-                                <h4 class="text-sm sm:text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                                    <svg class="w-4 h-4 sm:w-5 sm:h-5 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    <span class="truncate">Pendaftar Terbaru</span>
-                                </h4>
-                                <div class="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
-                                    <table class="w-full text-xs sm:text-sm min-w-[320px]">
-                                        <thead>
-                                            <tr class="border-b border-gray-200">
-                                                <th class="text-left py-2 sm:py-3 px-2 sm:px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Nama</th>
-                                                <th class="text-left py-2 sm:py-3 px-2 sm:px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Asal Sekolah</th>
-                                                <th class="text-left py-2 sm:py-3 px-2 sm:px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Jurusan</th>
-                                                <th class="text-left py-2 sm:py-3 px-2 sm:px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">Waktu</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="divide-y divide-gray-100">
-                                            @foreach($pendaftarTerbaru as $pendaftar)
-                                                <tr class="hover:bg-gray-50 transition">
-                                                    <td class="py-2 sm:py-3 px-2 sm:px-3">
-                                                        <div class="flex items-center gap-2 sm:gap-3">
-                                                            <div class="w-7 h-7 sm:w-9 sm:h-9 rounded-full bg-gradient-to-br from-primary to-cyan-500 text-white flex items-center justify-center text-xs sm:text-sm font-bold flex-shrink-0">
-                                                                {{ $pendaftar['inisial'] }}
-                                                            </div>
-                                                            <span class="font-medium text-gray-900 truncate max-w-[80px] sm:max-w-none">{{ $pendaftar['inisial'] }}</span>
-                                                        </div>
-                                                    </td>
-                                                    <td class="py-2 sm:py-3 px-2 sm:px-3 text-gray-600">
-                                                        <span class="truncate max-w-[100px] sm:max-w-[120px] inline-block" title="{{ $pendaftar['asal_sekolah'] }}">
-                                                            {{ $pendaftar['asal_sekolah'] }}
-                                                        </span>
-                                                    </td>
-                                                    <td class="py-2 sm:py-3 px-2 sm:px-3">
-                                                        <span class="inline-flex items-center px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg bg-blue-50 text-blue-700 text-[10px] sm:text-xs font-medium truncate max-w-[80px] sm:max-w-none">
-                                                            {{ $pendaftar['jurusan'] }}
-                                                        </span>
-                                                    </td>
-                                                    <td class="py-2 sm:py-3 px-2 sm:px-3 text-gray-500 text-[10px] sm:text-xs whitespace-nowrap">
-                                                        {{ $pendaftar['waktu'] }}
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
                 </div>
 
                 <!-- Sidebar - Statistik & Leaderboard -->
                 <div class="lg:col-span-1 space-y-4 md:space-y-6">
-                    <!-- Total Pendaftar Card -->
-                    <div class="bg-gradient-to-br from-blue-500 to-cyan-600 rounded-2xl md:rounded-3xl p-4 sm:p-6 shadow-xl text-white relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-24 sm:w-32 h-24 sm:h-32 bg-white/10 rounded-full blur-3xl transform translate-x-10 -translate-y-10"></div>
-                        <div class="relative z-10">
-                            <div class="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
-                                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0">
-                                    <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                                    </svg>
-                                </div>
-                                <h3 class="text-base sm:text-lg font-bold font-heading">Total Pendaftar</h3>
-                            </div>
-                            <div class="text-3xl sm:text-4xl font-bold mb-1">{{ number_format($totalPendaftar, 0, ',', '.') }}</div>
-                            <p class="text-blue-100 text-xs sm:text-sm">Siswa telah mendaftar</p>
-                        </div>
-                    </div>
-
                     <!-- Jurusan Favorit -->
                     <div class="bg-white rounded-2xl md:rounded-3xl p-4 sm:p-6 shadow-lg border border-gray-100">
                         <h3 class="text-base sm:text-lg font-bold text-gray-900 mb-3 sm:mb-4 flex items-center gap-2 font-heading">
@@ -202,28 +133,6 @@
                         </div>
                     </div>
 
-                    <!-- Statistik per Gelombang -->
-                    <div class="bg-white rounded-2xl md:rounded-3xl p-4 sm:p-6 shadow-lg border border-gray-100">
-                        <h3 class="text-base sm:text-lg font-bold text-gray-900 mb-3 sm:mb-4 flex items-center gap-2 font-heading">
-                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-primary flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-                            </svg>
-                            <span class="truncate">Per Gelombang</span>
-                        </h3>
-                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
-                            @foreach($statistikGelombang as $gelombang)
-                                <div class="text-center p-2 sm:p-3 bg-gray-50 rounded-lg sm:rounded-xl">
-                                    <div class="text-xl sm:text-2xl font-bold text-gray-900">{{ $gelombang->total }}</div>
-                                    <div class="text-[10px] sm:text-xs text-gray-500">Gel. {{ $gelombang->gelombang }}</div>
-                                </div>
-                            @endforeach
-                            @if($statistikGelombang->isEmpty())
-                                <div class="col-span-2 sm:col-span-3 text-center text-gray-500 text-xs sm:text-sm py-4">Belum ada data</div>
-                            @endif
-                        </div>
-                    </div>
-
-
                 </div>
             </div>
         </div>
@@ -241,7 +150,7 @@
         </div>
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
             <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-3 sm:mb-4 font-heading">Belum Mendaftar?</h2>
-            <p class="text-blue-100 mb-6 sm:mb-8 max-w-2xl mx-auto text-sm sm:text-base px-4">Bergabunglah dengan ribuan siswa lainnya yang sudah mendaftar di SMK Al-Hidayah Lestari. Pendaftaran gratis!</p>
+            <p class="text-blue-100 mb-6 sm:mb-8 max-w-2xl mx-auto text-sm sm:text-base px-4">Bergabunglah dengan ribuan siswa lainnya yang sudah mendaftar di SMK Al-Hidayah Lestari.</p>
             <div class="flex flex-col sm:flex-row flex-wrap justify-center gap-3 sm:gap-4">
                 <a href="{{ route('register') }}" class="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-white text-blue-600 font-bold rounded-xl sm:rounded-2xl hover:bg-gray-100 transition shadow-lg text-sm sm:text-base">
                     <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">

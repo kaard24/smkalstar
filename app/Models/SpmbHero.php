@@ -22,6 +22,8 @@ class SpmbHero extends Model
         'jumlah_gelombang_tampil',
         'aktif',
         'urutan',
+        'bg_type',
+        'bg_value',
     ];
 
     protected $casts = [
@@ -76,5 +78,17 @@ class SpmbHero extends Model
     public function getJudulLengkapAttribute(): string
     {
         return $this->judul_baris1 . ' ' . $this->judul_baris2;
+    }
+
+    /**
+     * Background style untuk hero section
+     */
+    public function getBgStyleAttribute(): string
+    {
+        return match($this->bg_type) {
+            'color' => "background: {$this->bg_value};",
+            'image' => "background-image: url('" . asset($this->bg_value) . "'); background-size: cover; background-position: center;",
+            default => '', // default menggunakan class tailwind di view
+        };
     }
 }
