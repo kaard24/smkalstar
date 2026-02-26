@@ -52,6 +52,12 @@ return [
             'driver' => 'session',
             'provider' => 'admin',
         ],
+
+        // Guard untuk kajur
+        'kajur' => [
+            'driver' => 'session',
+            'provider' => 'kajur',
+        ],
     ],
 
     /*
@@ -87,6 +93,12 @@ return [
         'admin' => [
             'driver' => 'eloquent',
             'model' => App\Models\Admin::class,
+        ],
+
+        // Provider untuk kajur
+        'kajur' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Kajur::class,
         ],
     ],
 

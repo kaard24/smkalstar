@@ -112,6 +112,9 @@ class PublicPageController extends Controller
             abort(404);
         }
 
+        // Load info program and detail items
+        $jurusanDetail->load(['infoProgram', 'kompetensiItems', 'mapelItems', 'karirItems']);
+
         return view('jurusan.detail', compact('jurusanDetail', 'jurusanList'));
     }
 
@@ -192,10 +195,6 @@ class PublicPageController extends Controller
             ];
         });
 
-        $jurusan = Cache::remember('jurusan_aktif', self::CACHE_DURATION, function () {
-            return Jurusan::aktif()->urut()->get();
-        });
-
-        return view('spmb.info', array_merge($spmbData, ['jurusan' => $jurusan]));
+        return view('spmb.info', $spmbData);
     }
 }

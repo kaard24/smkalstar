@@ -19,6 +19,8 @@ use App\Http\Controllers\AdminBerandaController;
 use App\Http\Controllers\AdminHeroController;
 use App\Http\Controllers\PublicPageController;
 use App\Http\Controllers\Admin\SeragamController;
+use App\Http\Controllers\KajurAuthController;
+use App\Http\Controllers\Admin\KajurController;
 use Illuminate\Http\Request;
 use App\Models\CalonSiswa;
 use App\Models\Pendaftaran;
@@ -413,6 +415,18 @@ Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function
 
     // Jurusan/Program Keahlian Module
     Route::resource('jurusan', \App\Http\Controllers\Admin\JurusanController::class);
+    Route::delete('/jurusan/kegiatan-gambar/{gambar}', [\App\Http\Controllers\Admin\JurusanController::class, 'deleteKegiatanGambar'])->name('jurusan.kegiatan-gambar.destroy');
+
+    // Kajur (Kepala Jurusan) Module
+    Route::resource('kajur', KajurController::class);
+
+    // Profil Admin
+    Route::get('/profil', [\App\Http\Controllers\Admin\ProfilController::class, 'edit'])->name('profil.edit');
+    Route::put('/profil', [\App\Http\Controllers\Admin\ProfilController::class, 'update'])->name('profil.update');
+
+    // Footer Settings
+    Route::get('/footer', [\App\Http\Controllers\Admin\FooterSettingController::class, 'edit'])->name('footer.edit');
+    Route::put('/footer', [\App\Http\Controllers\Admin\FooterSettingController::class, 'update'])->name('footer.update');
 
     // Seragam Module
     Route::resource('seragam', SeragamController::class)->except(['show']);
@@ -475,5 +489,20 @@ Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function
     // Cache Management
     Route::post('/cache/clear-frontend', [AdminCacheController::class, 'clearFrontend'])->name('cache.clear-frontend');
     Route::post('/cache/clear-all', [AdminCacheController::class, 'clearAll'])->name('cache.clear-all');
+});
+
+// ============================================
+// Kajur (Kepala Jurusan) Routes
+// ============================================
+
+// Protected Kajur Routes
+Route::middleware('kajur')->prefix('kajur')->name('kajur.')->group(function () {
+    Route::post('/logout', [KajurAuthController::class, 'logout'])->name('logout');
+    Route::get('/dashboard', [KajurAuthController::class, 'dashboard'])->name('dashboard');
+    
+    // Jurusan Management
+    Route::get('/jurusan/edit', [\App\Http\Controllers\Kajur\JurusanController::class, 'edit'])->name('jurusan.edit');
+    Route::put('/jurusan', [\App\Http\Controllers\Kajur\JurusanController::class, 'update'])->name('jurusan.update');
+    Route::delete('/jurusan/kegiatan-gambar/{gambar}', [\App\Http\Controllers\Kajur\JurusanController::class, 'deleteKegiatanGambar'])->name('jurusan.kegiatan-gambar.destroy');
 });
 

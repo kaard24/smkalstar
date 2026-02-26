@@ -13,6 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'auth.spmb' => \Illuminate\Auth\Middleware\Authenticate::class . ':spmb',
+            'kajur' => \App\Http\Middleware\CheckKajur::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

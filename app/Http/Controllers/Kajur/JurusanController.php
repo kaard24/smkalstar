@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Kajur;
 
 use App\Http\Controllers\Controller;
 use App\Models\Jurusan;
@@ -9,117 +9,31 @@ use App\Models\JurusanDetailItem;
 use App\Models\JurusanKegiatan;
 use App\Models\JurusanKegiatanGambar;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
 class JurusanController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Show the form for editing the jurusan
      */
-    public function index()
+    public function edit()
     {
-        $jurusan = Jurusan::with(['infoProgram', 'kompetensiItems', 'mapelItems', 'karirItems'])->orderBy('urutan')->get();
-        return view('admin.jurusan.index', compact('jurusan'));
+        $kajur = Auth::guard('kajur')->user();
+        $jurusan = $kajur->jurusan()->with(['infoProgram', 'kompetensiItems', 'mapelItems', 'karirItems', 'kegiatan.gambar'])->first();
+        
+        return view('kajur.jurusan.edit', compact('jurusan'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Update the jurusan
      */
-    public function create()
+    public function update(Request $request)
     {
-        return view('admin.jurusan.create');
-    }
+        $kajur = Auth::guard('kajur')->user();
+        $jurusan = $kajur->jurusan;
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'kode' => 'required|string|max:10|unique:jurusan,kode',
-            'nama' => 'required|string|max:255',
-            'kategori' => 'nullable|string|max:255',
-            'deskripsi' => 'nullable|string',
-            'deskripsi_lengkap' => 'nullable|string',
-            'peluang_karir' => 'nullable|string',
-            'deskripsi_peluang_karir' => 'nullable|string',
-            'kompetensi' => 'nullable|string',
-            'deskripsi_kompetensi' => 'nullable|string',
-            'mata_pelajaran' => 'nullable|string',
-            'deskripsi_mata_pelajaran' => 'nullable|string',
-            'urutan' => 'nullable|integer|min:0',
-
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
-        ]);
-
-        // Handle logo upload
-        if ($request->hasFile('logo')) {
-            $logoPath = $request->file('logo')->store('jurusan/logo', 'public');
-            $validated['logo'] = $logoPath;
-        }
-
-        // Handle gambar upload
-        if ($request->hasFile('gambar')) {
-            $gambarPath = $request->file('gambar')->store('jurusan/gambar', 'public');
-            $validated['gambar'] = $gambarPath;
-        }
-
-        // Process array fields
-        if (!empty($validated['peluang_karir'])) {
-            $validated['peluang_karir'] = array_map('trim', explode("\n", $validated['peluang_karir']));
-        }
-        if (!empty($validated['kompetensi'])) {
-            $validated['kompetensi'] = array_map('trim', explode("\n", $validated['kompetensi']));
-        }
-        if (!empty($validated['mata_pelajaran'])) {
-            $validated['mata_pelajaran'] = array_map('trim', explode("\n", $validated['mata_pelajaran']));
-        }
-
-
-        $validated['aktif'] = true;
-        $validated['urutan'] = $validated['urutan'] ?? (Jurusan::max('urutan') + 1);
-
-        $jurusan = Jurusan::create($validated);
-
-        // Handle info program dinamis
-        $this->syncInfoProgram($jurusan, $request);
-
-        // Handle detail items (kompetensi, mapel, karir)
-        $this->syncDetailItems($jurusan, $request);
-
-        // Handle kegiatan
-        $this->syncKegiatan($jurusan, $request);
-
-        Cache::forget('jurusan_aktif');
-
-        return redirect()->route('admin.jurusan.index')
-            ->with('success', 'Program keahlian berhasil ditambahkan.');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Jurusan $jurusan)
-    {
-        return view('admin.jurusan.show', compact('jurusan'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Jurusan $jurusan)
-    {
-        $jurusan->load(['infoProgram', 'kompetensiItems', 'mapelItems', 'karirItems', 'kegiatan.gambar']);
-        return view('admin.jurusan.edit', compact('jurusan'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Jurusan $jurusan)
-    {
         $validated = $request->validate([
             'kode' => 'required|string|max:10|unique:jurusan,kode,' . $jurusan->id,
             'nama' => 'required|string|max:255',
@@ -139,7 +53,6 @@ class JurusanController extends Controller
 
         // Handle logo upload
         if ($request->hasFile('logo')) {
-            // Delete old logo if exists
             if ($jurusan->logo && Storage::disk('public')->exists($jurusan->logo)) {
                 Storage::disk('public')->delete($jurusan->logo);
             }
@@ -149,7 +62,6 @@ class JurusanController extends Controller
 
         // Handle gambar upload
         if ($request->hasFile('gambar')) {
-            // Delete old gambar if exists
             if ($jurusan->gambar && Storage::disk('public')->exists($jurusan->gambar)) {
                 Storage::disk('public')->delete($jurusan->gambar);
             }
@@ -174,7 +86,6 @@ class JurusanController extends Controller
             $validated['mata_pelajaran'] = null;
         }
 
-
         $validated['aktif'] = true;
         $validated['urutan'] = $validated['urutan'] ?? $jurusan->urutan;
 
@@ -191,7 +102,7 @@ class JurusanController extends Controller
 
         Cache::forget('jurusan_aktif');
 
-        return redirect()->route('admin.jurusan.index')
+        return redirect()->route('kajur.dashboard')
             ->with('success', 'Program keahlian berhasil diperbarui.');
     }
 
@@ -200,10 +111,8 @@ class JurusanController extends Controller
      */
     private function syncInfoProgram(Jurusan $jurusan, Request $request)
     {
-        // Hapus info program lama
         $jurusan->infoProgram()->delete();
 
-        // Tambah info program baru
         if ($request->has('info_label') && $request->has('info_value')) {
             $labels = $request->input('info_label', []);
             $values = $request->input('info_value', []);
@@ -226,7 +135,6 @@ class JurusanController extends Controller
      */
     private function syncDetailItems(Jurusan $jurusan, Request $request)
     {
-        // Hapus detail items lama
         $jurusan->detailItems()->delete();
 
         // Simpan kompetensi items
@@ -289,14 +197,12 @@ class JurusanController extends Controller
      */
     private function syncKegiatan(Jurusan $jurusan, Request $request)
     {
-        // Get existing kegiatan IDs
         $existingIds = $request->input('kegiatan_id', []);
         $juduls = $request->input('kegiatan_judul', []);
         $deskripsis = $request->input('kegiatan_deskripsi', []);
         
         // Delete kegiatan yang tidak ada di form
         $jurusan->kegiatan()->whereNotIn('id', $existingIds)->each(function ($kegiatan) {
-            // Delete gambar files
             foreach ($kegiatan->gambar as $gambar) {
                 if (Storage::disk('public')->exists($gambar->gambar)) {
                     Storage::disk('public')->delete($gambar->gambar);
@@ -313,7 +219,6 @@ class JurusanController extends Controller
             $deskripsi = $deskripsis[$index] ?? null;
 
             if ($kegiatanId && $kegiatanId !== 'new') {
-                // Update existing kegiatan
                 $kegiatan = JurusanKegiatan::find($kegiatanId);
                 if ($kegiatan) {
                     $kegiatan->update([
@@ -323,7 +228,6 @@ class JurusanController extends Controller
                     ]);
                 }
             } else {
-                // Create new kegiatan
                 $kegiatan = JurusanKegiatan::create([
                     'jurusan_id' => $jurusan->id,
                     'judul' => $judul,
@@ -332,7 +236,7 @@ class JurusanController extends Controller
                 ]);
             }
 
-            // Handle gambar upload for this kegiatan
+            // Handle gambar upload
             if ($request->hasFile("kegiatan_gambar_{$index}")) {
                 foreach ($request->file("kegiatan_gambar_{$index}") as $fileIndex => $file) {
                     $gambarPath = $file->store('jurusan/kegiatan', 'public');
@@ -347,7 +251,7 @@ class JurusanController extends Controller
     }
 
     /**
-     * Delete a kegiatan gambar (AJAX)
+     * Delete a kegiatan gambar
      */
     public function deleteKegiatanGambar(JurusanKegiatanGambar $gambar)
     {
@@ -357,34 +261,5 @@ class JurusanController extends Controller
         $gambar->delete();
         
         return response()->json(['success' => true]);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Jurusan $jurusan)
-    {
-        // Delete kegiatan gambar files
-        foreach ($jurusan->kegiatan as $kegiatan) {
-            foreach ($kegiatan->gambar as $gambar) {
-                if (Storage::disk('public')->exists($gambar->gambar)) {
-                    Storage::disk('public')->delete($gambar->gambar);
-                }
-            }
-        }
-
-        // Delete files if exists
-        if ($jurusan->logo && Storage::disk('public')->exists($jurusan->logo)) {
-            Storage::disk('public')->delete($jurusan->logo);
-        }
-        if ($jurusan->gambar && Storage::disk('public')->exists($jurusan->gambar)) {
-            Storage::disk('public')->delete($jurusan->gambar);
-        }
-
-        $jurusan->delete();
-        Cache::forget('jurusan_aktif');
-
-        return redirect()->route('admin.jurusan.index')
-            ->with('success', 'Program keahlian berhasil dihapus.');
     }
 }

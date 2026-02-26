@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\SpmbJurusan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Cache;
 
 class SpmbJurusanController extends Controller
 {
@@ -63,6 +64,9 @@ class SpmbJurusanController extends Controller
         $validated['aktif'] = $request->boolean('aktif', true);
 
         SpmbJurusan::create($validated);
+
+        // Clear cache
+        Cache::forget('spmb_data');
 
         return redirect()->route('admin.spmb.jurusan.index')
             ->with('success', 'Program keahlian berhasil ditambahkan.');
@@ -122,6 +126,9 @@ class SpmbJurusanController extends Controller
 
         $jurusan->update($validated);
 
+        // Clear cache
+        Cache::forget('spmb_data');
+
         return redirect()->route('admin.spmb.jurusan.index')
             ->with('success', 'Program keahlian berhasil diperbarui.');
     }
@@ -141,6 +148,9 @@ class SpmbJurusanController extends Controller
 
         $jurusan->delete();
 
+        // Clear cache
+        Cache::forget('spmb_data');
+
         return redirect()->route('admin.spmb.jurusan.index')
             ->with('success', 'Program keahlian berhasil dihapus.');
     }
@@ -151,6 +161,9 @@ class SpmbJurusanController extends Controller
     public function toggleActive(SpmbJurusan $jurusan)
     {
         $jurusan->update(['aktif' => !$jurusan->aktif]);
+        
+        // Clear cache
+        Cache::forget('spmb_data');
         
         $status = $jurusan->aktif ? 'diaktifkan' : 'dinonaktifkan';
         

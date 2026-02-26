@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\Kajur;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -14,19 +15,25 @@ use Illuminate\Support\Facades\RateLimiter;
 class AdminAuthController extends Controller
 {
     /**
-     * Menampilkan form login admin
+     * Menampilkan form login admin/kajur
      */
     public function showLoginForm()
     {
+        // Jika sudah login sebagai admin, redirect ke admin dashboard
         if (Auth::guard('admin')->check()) {
             return redirect()->route('admin.dashboard');
+        }
+
+        // Jika sudah login sebagai kajur, redirect ke kajur dashboard
+        if (Auth::guard('kajur')->check()) {
+            return redirect()->route('kajur.dashboard');
         }
 
         return view('admin.login');
     }
 
     /**
-     * Proses login admin
+     * Proses login admin atau kajur
      */
     public function login(Request $request)
     {
@@ -48,7 +55,21 @@ class AdminAuthController extends Controller
                 ->with('error', "Terlalu banyak percobaan login. Coba lagi dalam {$seconds} detik.");
         }
 
-        // Attempt login
+        // Coba login sebagai Kajur terlebih dahulu
+        $kajur = Kajur::where('username', $request->username)
+                       ->where('aktif', true)
+                       ->first();
+
+        if ($kajur && Hash::check($request->password, $kajur->password)) {
+            RateLimiter::clear($key);
+            Auth::guard('kajur')->login($kajur, $request->boolean('remember'));
+            $request->session()->regenerate();
+
+            return redirect()->intended(route('kajur.dashboard'))
+                ->with('success', 'Selamat datang, ' . $kajur->nama . '!');
+        }
+
+        // Jika bukan Kajur, coba login sebagai Admin
         $credentials = [
             'username' => $request->username,
             'password' => $request->password,

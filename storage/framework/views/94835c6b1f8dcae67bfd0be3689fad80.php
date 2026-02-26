@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Admin Panel - SMK Al-Hidayah Lestari')</title>
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
+    <title><?php echo $__env->yieldContent('title', 'Admin Panel - SMK Al-Hidayah Lestari'); ?></title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -490,9 +490,9 @@
         <div class="container mx-auto px-4">
             <div class="flex justify-between items-center h-16">
                 <!-- Logo Sekolah -->
-                <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 hover:opacity-80 transition">
+                <a href="<?php echo e(route('admin.dashboard')); ?>" class="flex items-center gap-3 hover:opacity-80 transition">
                     <div class="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center">
-                        <img src="{{ asset('images/logo.webp') }}" alt="Logo" class="w-8 h-8 object-contain rounded" loading="lazy">
+                        <img src="<?php echo e(asset('images/logo.webp')); ?>" alt="Logo" class="w-8 h-8 object-contain rounded" loading="lazy">
                     </div>
                     <div>
                         <span class="font-bold text-lg block leading-tight text-white">Admin Panel</span>
@@ -502,20 +502,20 @@
 
                 <!-- Desktop Navigation (Center) -->
                 <nav class="hidden lg:flex items-center justify-center flex-1 gap-1">
-                    <a href="{{ route('admin.pendaftar.index') }}" 
-                       class="nav-item flex items-center gap-2 {{ request()->is('admin/pendaftar*') ? 'bg-[#4276A3]/20 text-white border-l-2 border-[#4276A3]' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
+                    <a href="<?php echo e(route('admin.pendaftar.index')); ?>" 
+                       class="nav-item flex items-center gap-2 <?php echo e(request()->is('admin/pendaftar*') ? 'bg-[#4276A3]/20 text-white border-l-2 border-[#4276A3]' : 'text-slate-300 hover:bg-white/5 hover:text-white'); ?>">
                         Data Pendaftar
                     </a>
 
-                    <a href="{{ route('admin.pembayaran.index') }}" 
-                       class="nav-item flex items-center gap-2 {{ request()->is('admin/pembayaran*') ? 'bg-[#4276A3]/20 text-white border-l-2 border-[#4276A3]' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
+                    <a href="<?php echo e(route('admin.pembayaran.index')); ?>" 
+                       class="nav-item flex items-center gap-2 <?php echo e(request()->is('admin/pembayaran*') ? 'bg-[#4276A3]/20 text-white border-l-2 border-[#4276A3]' : 'text-slate-300 hover:bg-white/5 hover:text-white'); ?>">
                         Pembayaran
                     </a>
 
                     <!-- Program Keahlian Dropdown -->
-                    <div class="relative" x-data="{ open: false }" :class="{'bg-[#4276A3]/20 rounded-lg border-l-2 border-[#4276A3]': {{ request()->is('admin/jurusan*') || request()->is('admin/kajur*') ? 'true' : 'false' }}">
+                    <div class="relative" x-data="{ open: false }" :class="{'bg-[#4276A3]/20 rounded-lg border-l-2 border-[#4276A3]': <?php echo e(request()->is('admin/jurusan*') || request()->is('admin/kajur*') ? 'true' : 'false'); ?>">
                         <button @click="open = !open" 
-                                class="nav-item flex items-center gap-1 {{ request()->is('admin/jurusan*') || request()->is('admin/kajur*') ? 'text-white' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
+                                class="nav-item flex items-center gap-1 <?php echo e(request()->is('admin/jurusan*') || request()->is('admin/kajur*') ? 'text-white' : 'text-slate-300 hover:bg-white/5 hover:text-white'); ?>">
                             <span>Program Keahlian</span>
                             <svg :class="{'rotate-180': open}" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -523,24 +523,24 @@
                         </button>
                         <div x-show="open" @click.away="open = false" x-cloak
                              class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-[#E2E8F0] py-2 z-50 overflow-hidden">
-                            <a href="{{ route('admin.jurusan.index') }}" class="block px-4 py-2 text-sm {{ request()->is('admin/jurusan*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]' }} transition">
+                            <a href="<?php echo e(route('admin.jurusan.index')); ?>" class="block px-4 py-2 text-sm <?php echo e(request()->is('admin/jurusan*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]'); ?> transition">
                                 Data Jurusan
                             </a>
-                            <a href="{{ route('admin.kajur.index') }}" class="block px-4 py-2 text-sm {{ request()->is('admin/kajur*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]' }} transition">
+                            <a href="<?php echo e(route('admin.kajur.index')); ?>" class="block px-4 py-2 text-sm <?php echo e(request()->is('admin/kajur*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]'); ?> transition">
                                 Kepala Jurusan
                             </a>
                         </div>
                     </div>
 
-                    <a href="{{ route('admin.berita.index') }}" 
-                       class="nav-item flex items-center gap-2 {{ request()->is('admin/berita*') ? 'bg-[#4276A3]/20 text-white border-l-2 border-[#4276A3]' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
+                    <a href="<?php echo e(route('admin.berita.index')); ?>" 
+                       class="nav-item flex items-center gap-2 <?php echo e(request()->is('admin/berita*') ? 'bg-[#4276A3]/20 text-white border-l-2 border-[#4276A3]' : 'text-slate-300 hover:bg-white/5 hover:text-white'); ?>">
                         Berita
                     </a>
 
                     <!-- SPMB Menu Dropdown -->
-                    <div class="relative" x-data="{ open: false }" :class="{'bg-[#4276A3]/20 rounded-lg border-l-2 border-[#4276A3]': {{ request()->is('admin/spmb*') ? 'true' : 'false' }}">
+                    <div class="relative" x-data="{ open: false }" :class="{'bg-[#4276A3]/20 rounded-lg border-l-2 border-[#4276A3]': <?php echo e(request()->is('admin/spmb*') ? 'true' : 'false'); ?>">
                         <button @click="open = !open" 
-                                class="nav-item flex items-center gap-1 {{ request()->is('admin/spmb*') ? 'text-white' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
+                                class="nav-item flex items-center gap-1 <?php echo e(request()->is('admin/spmb*') ? 'text-white' : 'text-slate-300 hover:bg-white/5 hover:text-white'); ?>">
                             <span>SPMB</span>
                             <svg :class="{'rotate-180': open}" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -548,38 +548,38 @@
                         </button>
                         <div x-show="open" @click.away="open = false" x-cloak
                              class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-[#E2E8F0] py-2 z-50 overflow-hidden">
-                            <a href="{{ route('admin.spmb.index') }}" class="block px-4 py-2 text-sm {{ request()->is('admin/spmb') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]' }} transition">
+                            <a href="<?php echo e(route('admin.spmb.index')); ?>" class="block px-4 py-2 text-sm <?php echo e(request()->is('admin/spmb') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]'); ?> transition">
                                 Dashboard
                             </a>
                             <div class="border-t border-[#E2E8F0] my-1"></div>
-                            <a href="{{ route('admin.spmb.hero.index') }}" class="block px-4 py-2 text-sm {{ request()->is('admin/spmb/hero*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]' }} transition">
+                            <a href="<?php echo e(route('admin.spmb.hero.index')); ?>" class="block px-4 py-2 text-sm <?php echo e(request()->is('admin/spmb/hero*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]'); ?> transition">
                                 Hero / Banner
                             </a>
-                            <a href="{{ route('admin.spmb.jurusan.index') }}" class="block px-4 py-2 text-sm {{ request()->is('admin/spmb/jurusan*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]' }} transition">
+                            <a href="<?php echo e(route('admin.spmb.jurusan.index')); ?>" class="block px-4 py-2 text-sm <?php echo e(request()->is('admin/spmb/jurusan*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]'); ?> transition">
                                 Program Keahlian
                             </a>
-                            <a href="{{ route('admin.spmb.gelombang.index') }}" class="block px-4 py-2 text-sm {{ request()->is('admin/spmb/gelombang*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]' }} transition">
+                            <a href="<?php echo e(route('admin.spmb.gelombang.index')); ?>" class="block px-4 py-2 text-sm <?php echo e(request()->is('admin/spmb/gelombang*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]'); ?> transition">
                                 Info & Gelombang
                             </a>
-                            <a href="{{ route('admin.spmb.alur.index') }}" class="block px-4 py-2 text-sm {{ request()->is('admin/spmb/alur*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]' }} transition">
+                            <a href="<?php echo e(route('admin.spmb.alur.index')); ?>" class="block px-4 py-2 text-sm <?php echo e(request()->is('admin/spmb/alur*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]'); ?> transition">
                                 Alur Pendaftaran
                             </a>
-                            <a href="{{ route('admin.spmb.persyaratan.index') }}" class="block px-4 py-2 text-sm {{ request()->is('admin/spmb/persyaratan*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]' }} transition">
+                            <a href="<?php echo e(route('admin.spmb.persyaratan.index')); ?>" class="block px-4 py-2 text-sm <?php echo e(request()->is('admin/spmb/persyaratan*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]'); ?> transition">
                                 Persyaratan
                             </a>
-                            <a href="{{ route('admin.spmb.biaya.index') }}" class="block px-4 py-2 text-sm {{ request()->is('admin/spmb/biaya*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]' }} transition">
+                            <a href="<?php echo e(route('admin.spmb.biaya.index')); ?>" class="block px-4 py-2 text-sm <?php echo e(request()->is('admin/spmb/biaya*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]'); ?> transition">
                                 Rincian Biaya
                             </a>
-                            <a href="{{ route('admin.spmb.kontak.index') }}" class="block px-4 py-2 text-sm {{ request()->is('admin/spmb/kontak*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]' }} transition">
+                            <a href="<?php echo e(route('admin.spmb.kontak.index')); ?>" class="block px-4 py-2 text-sm <?php echo e(request()->is('admin/spmb/kontak*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]'); ?> transition">
                                 Kontak Person
                             </a>
                         </div>
                     </div>
 
                     <!-- More Menu Dropdown -->
-                    <div class="relative" x-data="{ open: false }" :class="{'bg-[#4276A3]/20 rounded-lg border-l-2 border-[#4276A3]': {{ request()->is('admin/struktur-organisasi*') || request()->is('admin/fasilitas*') || request()->is('admin/ekstrakurikuler*') || request()->is('admin/prestasi*') || request()->is('admin/galeri*') || request()->is('admin/profil-sekolah*') || request()->is('admin/seragam*') || request()->is('admin/hero*') || request()->is('admin/footer*') ? 'true' : 'false' }}">
+                    <div class="relative" x-data="{ open: false }" :class="{'bg-[#4276A3]/20 rounded-lg border-l-2 border-[#4276A3]': <?php echo e(request()->is('admin/struktur-organisasi*') || request()->is('admin/fasilitas*') || request()->is('admin/ekstrakurikuler*') || request()->is('admin/prestasi*') || request()->is('admin/galeri*') || request()->is('admin/profil-sekolah*') || request()->is('admin/seragam*') || request()->is('admin/hero*') || request()->is('admin/footer*') ? 'true' : 'false'); ?>">
                         <button @click="open = !open" 
-                                class="nav-item flex items-center gap-1 {{ request()->is('admin/struktur-organisasi*') || request()->is('admin/fasilitas*') || request()->is('admin/ekstrakurikuler*') || request()->is('admin/prestasi*') || request()->is('admin/galeri*') || request()->is('admin/profil-sekolah*') || request()->is('admin/seragam*') || request()->is('admin/hero*') || request()->is('admin/footer*') ? 'text-white' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
+                                class="nav-item flex items-center gap-1 <?php echo e(request()->is('admin/struktur-organisasi*') || request()->is('admin/fasilitas*') || request()->is('admin/ekstrakurikuler*') || request()->is('admin/prestasi*') || request()->is('admin/galeri*') || request()->is('admin/profil-sekolah*') || request()->is('admin/seragam*') || request()->is('admin/hero*') || request()->is('admin/footer*') ? 'text-white' : 'text-slate-300 hover:bg-white/5 hover:text-white'); ?>">
                             <span>Lainnya</span>
                             <svg :class="{'rotate-180': open}" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -587,38 +587,38 @@
                         </button>
                         <div x-show="open" @click.away="open = false" x-cloak
                              class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-[#E2E8F0] py-2 z-50 overflow-hidden">
-                            <a href="{{ route('admin.struktur-organisasi.index') }}" class="block px-4 py-2 text-sm {{ request()->is('admin/struktur-organisasi*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]' }} transition">
+                            <a href="<?php echo e(route('admin.struktur-organisasi.index')); ?>" class="block px-4 py-2 text-sm <?php echo e(request()->is('admin/struktur-organisasi*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]'); ?> transition">
                                 Struktur
                             </a>
-                            <a href="{{ route('admin.fasilitas.index') }}" class="block px-4 py-2 text-sm {{ request()->is('admin/fasilitas*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]' }} transition">
+                            <a href="<?php echo e(route('admin.fasilitas.index')); ?>" class="block px-4 py-2 text-sm <?php echo e(request()->is('admin/fasilitas*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]'); ?> transition">
                                 Fasilitas
                             </a>
                             <div class="border-t border-[#E2E8F0] my-1"></div>
-                            <a href="{{ route('admin.ekstrakurikuler.index') }}" class="block px-4 py-2 text-sm {{ request()->is('admin/ekstrakurikuler*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]' }} transition">
+                            <a href="<?php echo e(route('admin.ekstrakurikuler.index')); ?>" class="block px-4 py-2 text-sm <?php echo e(request()->is('admin/ekstrakurikuler*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]'); ?> transition">
                                 Ekstrakurikuler
                             </a>
-                            <a href="{{ route('admin.prestasi.index') }}" class="block px-4 py-2 text-sm {{ request()->is('admin/prestasi*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]' }} transition">
+                            <a href="<?php echo e(route('admin.prestasi.index')); ?>" class="block px-4 py-2 text-sm <?php echo e(request()->is('admin/prestasi*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]'); ?> transition">
                                 Prestasi
                             </a>
-                            <a href="{{ route('admin.galeri.index') }}" class="block px-4 py-2 text-sm {{ request()->is('admin/galeri*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]' }} transition">
+                            <a href="<?php echo e(route('admin.galeri.index')); ?>" class="block px-4 py-2 text-sm <?php echo e(request()->is('admin/galeri*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]'); ?> transition">
                                 Galeri
                             </a>
-                            <a href="{{ route('admin.seragam.index') }}" class="block px-4 py-2 text-sm {{ request()->is('admin/seragam*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]' }} transition">
+                            <a href="<?php echo e(route('admin.seragam.index')); ?>" class="block px-4 py-2 text-sm <?php echo e(request()->is('admin/seragam*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]'); ?> transition">
                                 Seragam
                             </a>
 
                             <div class="border-t border-[#E2E8F0] my-1"></div>
-                            <a href="{{ route('admin.profil-sekolah.sejarah') }}" class="block px-4 py-2 text-sm {{ request()->is('admin/profil-sekolah/sejarah*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]' }} transition">
+                            <a href="<?php echo e(route('admin.profil-sekolah.sejarah')); ?>" class="block px-4 py-2 text-sm <?php echo e(request()->is('admin/profil-sekolah/sejarah*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]'); ?> transition">
                                 Sejarah
                             </a>
-                            <a href="{{ route('admin.profil-sekolah.visi-misi') }}" class="block px-4 py-2 text-sm {{ request()->is('admin/profil-sekolah/visi-misi*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]' }} transition">
+                            <a href="<?php echo e(route('admin.profil-sekolah.visi-misi')); ?>" class="block px-4 py-2 text-sm <?php echo e(request()->is('admin/profil-sekolah/visi-misi*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]'); ?> transition">
                                 Visi Misi
                             </a>
                             <div class="border-t border-[#E2E8F0] my-1"></div>
-                            <a href="{{ route('admin.hero.index') }}" class="block px-4 py-2 text-sm {{ request()->is('admin/hero*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]' }} transition">
+                            <a href="<?php echo e(route('admin.hero.index')); ?>" class="block px-4 py-2 text-sm <?php echo e(request()->is('admin/hero*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]'); ?> transition">
                                 Beranda
                             </a>
-                            <a href="{{ route('admin.footer.edit') }}" class="block px-4 py-2 text-sm {{ request()->is('admin/footer*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]' }} transition">
+                            <a href="<?php echo e(route('admin.footer.edit')); ?>" class="block px-4 py-2 text-sm <?php echo e(request()->is('admin/footer*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]'); ?> transition">
                                 Footer
                             </a>
                         </div>
@@ -626,9 +626,9 @@
                 </nav>
 
                 <!-- Profil Dropdown (Right Side) -->
-                <div class="hidden lg:block relative" x-data="{ open: false }" :class="{'bg-[#4276A3]/20 rounded-lg border-l-2 border-[#4276A3]': {{ request()->is('admin/profil*') ? 'true' : 'false' }}">
+                <div class="hidden lg:block relative" x-data="{ open: false }" :class="{'bg-[#4276A3]/20 rounded-lg border-l-2 border-[#4276A3]': <?php echo e(request()->is('admin/profil*') ? 'true' : 'false'); ?>">
                     <button @click="open = !open" 
-                            class="nav-item flex items-center gap-1 {{ request()->is('admin/profil*') ? 'text-white' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
+                            class="nav-item flex items-center gap-1 <?php echo e(request()->is('admin/profil*') ? 'text-white' : 'text-slate-300 hover:bg-white/5 hover:text-white'); ?>">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                         </svg>
@@ -639,15 +639,15 @@
                     </button>
                     <div x-show="open" @click.away="open = false" x-cloak
                          class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-[#E2E8F0] py-2 z-50 overflow-hidden">
-                        <a href="{{ route('admin.profil.edit') }}" class="block px-4 py-2 text-sm {{ request()->is('admin/profil*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]' }} transition">
+                        <a href="<?php echo e(route('admin.profil.edit')); ?>" class="block px-4 py-2 text-sm <?php echo e(request()->is('admin/profil*') ? 'text-[#4276A3] bg-[#F8FAFC] font-medium' : 'text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155]'); ?> transition">
                             Edit Profil
                         </a>
-                        <a href="{{ url('/') }}" target="_blank" class="block px-4 py-2 text-sm text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155] transition">
+                        <a href="<?php echo e(url('/')); ?>" target="_blank" class="block px-4 py-2 text-sm text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#334155] transition">
                             Lihat Website
                         </a>
                         <div class="border-t border-[#E2E8F0] my-1"></div>
-                        <form action="{{ route('admin.logout') }}" method="POST">
-                            @csrf
+                        <form action="<?php echo e(route('admin.logout')); ?>" method="POST">
+                            <?php echo csrf_field(); ?>
                             <button type="submit" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition">
                                 Keluar
                             </button>
@@ -670,114 +670,114 @@
         <!-- Mobile Menu -->
         <div class="hidden lg:hidden bg-[#1E293B] border-t border-[#334155]" id="admin-mobile-menu">
             <div class="px-4 py-3 space-y-1">
-                <a href="{{ route('admin.pendaftar.index') }}" 
-                   class="block px-4 py-2 rounded-lg text-sm font-medium {{ request()->is('admin/pendaftar*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
+                <a href="<?php echo e(route('admin.pendaftar.index')); ?>" 
+                   class="block px-4 py-2 rounded-lg text-sm font-medium <?php echo e(request()->is('admin/pendaftar*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white'); ?>">
                     Data Pendaftar
                 </a>
-                <a href="{{ route('admin.pembayaran.index') }}" 
-                   class="block px-4 py-2 rounded-lg text-sm font-medium {{ request()->is('admin/pembayaran*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
+                <a href="<?php echo e(route('admin.pembayaran.index')); ?>" 
+                   class="block px-4 py-2 rounded-lg text-sm font-medium <?php echo e(request()->is('admin/pembayaran*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white'); ?>">
                     Pembayaran
                 </a>
 
                 <div class="px-4 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">Program Keahlian</div>
-                <a href="{{ route('admin.jurusan.index') }}" 
-                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium {{ request()->is('admin/jurusan*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
+                <a href="<?php echo e(route('admin.jurusan.index')); ?>" 
+                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium <?php echo e(request()->is('admin/jurusan*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white'); ?>">
                     Data Jurusan
                 </a>
-                <a href="{{ route('admin.kajur.index') }}" 
-                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium {{ request()->is('admin/kajur*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
+                <a href="<?php echo e(route('admin.kajur.index')); ?>" 
+                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium <?php echo e(request()->is('admin/kajur*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white'); ?>">
                     Kepala Jurusan
                 </a>
 
-                <a href="{{ route('admin.berita.index') }}" 
-                   class="block px-4 py-2 rounded-lg text-sm font-medium {{ request()->is('admin/berita*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
+                <a href="<?php echo e(route('admin.berita.index')); ?>" 
+                   class="block px-4 py-2 rounded-lg text-sm font-medium <?php echo e(request()->is('admin/berita*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white'); ?>">
                     Berita
                 </a>
 
                 <div class="px-4 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">SPMB</div>
-                <a href="{{ route('admin.spmb.index') }}" 
-                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium {{ request()->is('admin/spmb') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
+                <a href="<?php echo e(route('admin.spmb.index')); ?>" 
+                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium <?php echo e(request()->is('admin/spmb') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white'); ?>">
                     Dashboard SPMB
                 </a>
-                <a href="{{ route('admin.spmb.hero.index') }}" 
-                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium {{ request()->is('admin/spmb/hero*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
+                <a href="<?php echo e(route('admin.spmb.hero.index')); ?>" 
+                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium <?php echo e(request()->is('admin/spmb/hero*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white'); ?>">
                     Hero / Banner
                 </a>
-                <a href="{{ route('admin.spmb.jurusan.index') }}" 
-                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium {{ request()->is('admin/spmb/jurusan*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
+                <a href="<?php echo e(route('admin.spmb.jurusan.index')); ?>" 
+                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium <?php echo e(request()->is('admin/spmb/jurusan*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white'); ?>">
                     Program Keahlian
                 </a>
-                <a href="{{ route('admin.spmb.gelombang.index') }}" 
-                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium {{ request()->is('admin/spmb/gelombang*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
+                <a href="<?php echo e(route('admin.spmb.gelombang.index')); ?>" 
+                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium <?php echo e(request()->is('admin/spmb/gelombang*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white'); ?>">
                     Info & Gelombang
                 </a>
-                <a href="{{ route('admin.spmb.alur.index') }}" 
-                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium {{ request()->is('admin/spmb/alur*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
+                <a href="<?php echo e(route('admin.spmb.alur.index')); ?>" 
+                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium <?php echo e(request()->is('admin/spmb/alur*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white'); ?>">
                     Alur Pendaftaran
                 </a>
-                <a href="{{ route('admin.spmb.persyaratan.index') }}" 
-                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium {{ request()->is('admin/spmb/persyaratan*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
+                <a href="<?php echo e(route('admin.spmb.persyaratan.index')); ?>" 
+                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium <?php echo e(request()->is('admin/spmb/persyaratan*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white'); ?>">
                     Persyaratan
                 </a>
-                <a href="{{ route('admin.spmb.biaya.index') }}" 
-                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium {{ request()->is('admin/spmb/biaya*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
+                <a href="<?php echo e(route('admin.spmb.biaya.index')); ?>" 
+                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium <?php echo e(request()->is('admin/spmb/biaya*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white'); ?>">
                     Rincian Biaya
                 </a>
-                <a href="{{ route('admin.spmb.kontak.index') }}" 
-                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium {{ request()->is('admin/spmb/kontak*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
+                <a href="<?php echo e(route('admin.spmb.kontak.index')); ?>" 
+                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium <?php echo e(request()->is('admin/spmb/kontak*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white'); ?>">
                     Kontak Person
                 </a>
 
                 <div class="px-4 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">Lainnya</div>
-                <a href="{{ route('admin.struktur-organisasi.index') }}" 
-                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium {{ request()->is('admin/struktur-organisasi*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
+                <a href="<?php echo e(route('admin.struktur-organisasi.index')); ?>" 
+                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium <?php echo e(request()->is('admin/struktur-organisasi*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white'); ?>">
                     Struktur
                 </a>
-                <a href="{{ route('admin.fasilitas.index') }}" 
-                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium {{ request()->is('admin/fasilitas*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
+                <a href="<?php echo e(route('admin.fasilitas.index')); ?>" 
+                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium <?php echo e(request()->is('admin/fasilitas*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white'); ?>">
                     Fasilitas
                 </a>
-                <a href="{{ route('admin.ekstrakurikuler.index') }}" 
-                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium {{ request()->is('admin/ekstrakurikuler*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
+                <a href="<?php echo e(route('admin.ekstrakurikuler.index')); ?>" 
+                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium <?php echo e(request()->is('admin/ekstrakurikuler*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white'); ?>">
                     Ekstrakurikuler
                 </a>
-                <a href="{{ route('admin.prestasi.index') }}" 
-                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium {{ request()->is('admin/prestasi*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
+                <a href="<?php echo e(route('admin.prestasi.index')); ?>" 
+                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium <?php echo e(request()->is('admin/prestasi*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white'); ?>">
                     Prestasi
                 </a>
-                <a href="{{ route('admin.galeri.index') }}" 
-                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium {{ request()->is('admin/galeri*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
+                <a href="<?php echo e(route('admin.galeri.index')); ?>" 
+                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium <?php echo e(request()->is('admin/galeri*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white'); ?>">
                     Galeri
                 </a>
-                <a href="{{ route('admin.seragam.index') }}" 
-                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium {{ request()->is('admin/seragam*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
+                <a href="<?php echo e(route('admin.seragam.index')); ?>" 
+                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium <?php echo e(request()->is('admin/seragam*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white'); ?>">
                     Seragam
                 </a>
-                <a href="{{ route('admin.profil-sekolah.sejarah') }}" 
-                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium {{ request()->is('admin/profil-sekolah/sejarah*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
+                <a href="<?php echo e(route('admin.profil-sekolah.sejarah')); ?>" 
+                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium <?php echo e(request()->is('admin/profil-sekolah/sejarah*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white'); ?>">
                     Sejarah
                 </a>
-                <a href="{{ route('admin.profil-sekolah.visi-misi') }}" 
-                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium {{ request()->is('admin/profil-sekolah/visi-misi*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
+                <a href="<?php echo e(route('admin.profil-sekolah.visi-misi')); ?>" 
+                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium <?php echo e(request()->is('admin/profil-sekolah/visi-misi*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white'); ?>">
                     Visi Misi
                 </a>
-                <a href="{{ route('admin.hero.index') }}" 
-                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium {{ request()->is('admin/hero*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
+                <a href="<?php echo e(route('admin.hero.index')); ?>" 
+                   class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium <?php echo e(request()->is('admin/hero*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white'); ?>">
                     Beranda
                 </a>
 
                 <div class="border-t border-[#334155] pt-3 mt-3">
                     <div class="px-4 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">Profil</div>
-                    <a href="{{ route('admin.profil.edit') }}" 
-                       class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium {{ request()->is('admin/profil*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white' }}">
+                    <a href="<?php echo e(route('admin.profil.edit')); ?>" 
+                       class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium <?php echo e(request()->is('admin/profil*') ? 'text-white bg-[#4276A3]/20 border-l-2 border-[#4276A3]' : 'text-slate-400 hover:bg-white/5 hover:text-white'); ?>">
                         Edit Profil
                     </a>
-                    <a href="{{ url('/') }}" target="_blank" 
+                    <a href="<?php echo e(url('/')); ?>" target="_blank" 
                        class="block px-4 py-2 pl-6 rounded-lg text-sm font-medium text-slate-400 hover:bg-white/5 hover:text-white">
                         Lihat Website
                     </a>
-                    <form action="{{ route('admin.logout') }}" method="POST" class="mt-2 px-4">
-                        @csrf
+                    <form action="<?php echo e(route('admin.logout')); ?>" method="POST" class="mt-2 px-4">
+                        <?php echo csrf_field(); ?>
                         <button type="submit" class="block w-full px-4 py-2 rounded-lg text-sm font-medium text-red-400 bg-red-500/10 hover:bg-red-500/20 text-center">
                             Keluar
                         </button>
@@ -789,9 +789,10 @@
 
     <!-- Main Content Area -->
     <main class="container mx-auto px-4 py-6">
-        @yield('content')
+        <?php echo $__env->yieldContent('content'); ?>
     </main>
 
-    @stack('scripts')
+    <?php echo $__env->yieldPushContent('scripts'); ?>
 </body>
 </html>
+<?php /**PATH C:\Users\eka\.gemini\antigravity\scratch\smk-alstar\resources\views/layouts/admin.blade.php ENDPATH**/ ?>
