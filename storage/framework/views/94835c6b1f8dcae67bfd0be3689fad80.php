@@ -109,11 +109,6 @@
             border-radius: 12px;
             box-shadow: 0 1px 3px rgba(51, 65, 85, 0.08);  /* Slate-700 with low opacity */
             border: 1px solid #E2E8F0;  /* Slate-200 */
-            transition: all 0.2s ease;
-        }
-        .card:hover {
-            box-shadow: 0 4px 6px rgba(51, 65, 85, 0.05), 0 2px 4px rgba(51, 65, 85, 0.03);
-            transform: translateY(-1px);
         }
 
         .stat-card {

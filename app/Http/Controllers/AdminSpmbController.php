@@ -248,6 +248,7 @@ class AdminSpmbController extends Controller
             'alamat_sekolah' => 'nullable|string',
             'password' => 'required|string|min:6',
             'jurusan_id' => 'nullable|exists:jurusan,id',
+            'jurusan_id_2' => 'nullable|different:jurusan_id|exists:jurusan,id',
             'gelombang' => 'nullable|string|max:20',
             // Orang Tua
             'jenis' => 'nullable|in:orang_tua,wali',
@@ -318,6 +319,7 @@ class AdminSpmbController extends Controller
                     $pendaftaran = Pendaftaran::create([
                         'calon_siswa_id' => $siswa->id,
                         'jurusan_id' => $request->jurusan_id,
+                        'jurusan_id_2' => $request->jurusan_id_2,
                         'gelombang' => $request->gelombang ?? 'Gelombang 1',
                         'status_pendaftaran' => 'Terdaftar',
                     ]);
@@ -399,6 +401,7 @@ class AdminSpmbController extends Controller
             'no_wa' => 'nullable|string|max:15',
             'asal_sekolah' => 'nullable|string|max:100',
             'jurusan_id' => 'nullable|exists:jurusan,id',
+            'jurusan_id_2' => 'nullable|different:jurusan_id|exists:jurusan,id',
             // Orang Tua / Wali
             'jenis' => 'nullable|in:orang_tua,wali',
             'nama_ayah' => 'nullable|string|max:100',
@@ -490,6 +493,7 @@ class AdminSpmbController extends Controller
                         ['calon_siswa_id' => $siswa->id],
                         [
                             'jurusan_id' => $request->jurusan_id,
+                            'jurusan_id_2' => $request->jurusan_id_2,
                             'gelombang' => $request->gelombang,
                             'status_pendaftaran' => 'Terdaftar',
                         ]

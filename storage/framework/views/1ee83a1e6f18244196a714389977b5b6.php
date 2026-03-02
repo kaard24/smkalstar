@@ -1,13 +1,13 @@
-@extends('layouts.app')
-
-@section('title', 'Daftar - SMK Al-Hidayah Lestari')
-
-@php($hide_footer = true)
-@php($hide_bottom_nav = true)
 
 
+<?php $__env->startSection('title', 'Daftar - SMK Al-Hidayah Lestari'); ?>
 
-@section('content')
+<?php ($hide_footer = true); ?>
+<?php ($hide_bottom_nav = true); ?>
+
+
+
+<?php $__env->startSection('content'); ?>
 <div class="min-h-screen flex" x-data="{
     showPassword: false,
     showConfirmPassword: false,
@@ -16,13 +16,13 @@
     totalSteps: 2,
     recaptchaError: false,
     formData: {
-        nisn: '{{ old('nisn') }}',
-        nama_lengkap: '{{ old('nama_lengkap') }}',
-        jurusan_id: '{{ old('jurusan_id') }}',
-        tempat_lahir: '{{ old('tempat_lahir') }}',
-        tgl_lahir: '{{ old('tgl_lahir') }}',
-        asal_sekolah: '{{ old('asal_sekolah') }}',
-        no_wa: '{{ old('no_wa') }}'
+        nisn: '<?php echo e(old('nisn')); ?>',
+        nama_lengkap: '<?php echo e(old('nama_lengkap')); ?>',
+        jurusan_id: '<?php echo e(old('jurusan_id')); ?>',
+        tempat_lahir: '<?php echo e(old('tempat_lahir')); ?>',
+        tgl_lahir: '<?php echo e(old('tgl_lahir')); ?>',
+        asal_sekolah: '<?php echo e(old('asal_sekolah')); ?>',
+        no_wa: '<?php echo e(old('no_wa')); ?>'
     },
     validation: {
         nisn: { isValid: null, message: '' },
@@ -144,7 +144,7 @@
         <div class="relative z-10 flex flex-col justify-center px-12 xl:px-16">
             <div class="mb-8">
                 <div class="inline-flex items-center justify-center w-16 h-16 bg-white/20 backdrop-blur-sm rounded-xl mb-6 ring-1 ring-white/30">
-                    <img src="{{ asset('images/logo.webp') }}" alt="Logo" class="w-11 h-11 object-contain rounded-lg">
+                    <img src="<?php echo e(asset('images/logo.webp')); ?>" alt="Logo" class="w-11 h-11 object-contain rounded-lg">
                 </div>
                 <h1 class="text-3xl xl:text-4xl font-bold text-white mb-4 leading-tight">
                     Bergabung<br>Bersama <span class="text-cyan-300">Kami</span>
@@ -177,7 +177,7 @@
         
         <!-- Bottom Text -->
         <div class="absolute bottom-8 left-12 xl:left-16 text-white/60 text-sm">
-            © {{ date('Y') }} SMK Al-Hidayah Lestari
+            © <?php echo e(date('Y')); ?> SMK Al-Hidayah Lestari
         </div>
     </div>
 
@@ -187,7 +187,7 @@
             <!-- Mobile Logo -->
             <div class="lg:hidden text-center mb-6">
                 <div class="inline-flex items-center justify-center w-14 h-14 bg-gradient-to-br from-primary to-blue-600 rounded-xl shadow-lg mb-3">
-                    <img src="{{ asset('images/logo.webp') }}" alt="Logo" class="w-10 h-10 object-contain rounded-lg">
+                    <img src="<?php echo e(asset('images/logo.webp')); ?>" alt="Logo" class="w-10 h-10 object-contain rounded-lg">
                 </div>
                 <h1 class="text-xl font-bold text-gray-900">SMK Al-Hidayah Lestari</h1>
             </div>
@@ -202,31 +202,32 @@
                     <p class="text-gray-500">Lengkapi data Anda dengan benar</p>
                 </div>
 
-                @if(session('error'))
+                <?php if(session('error')): ?>
                 <div class="mb-6 p-4 bg-red-50 border border-red-100 rounded-xl flex items-start gap-3">
                     <svg class="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
-                    <p class="text-red-700 text-sm">{{ session('error') }}</p>
+                    <p class="text-red-700 text-sm"><?php echo e(session('error')); ?></p>
                 </div>
-                @endif
+                <?php endif; ?>
 
 
-                @if($errors->any())
+                <?php if($errors->any()): ?>
                 <div class="mb-6 p-4 bg-red-50 border border-red-100 rounded-xl">
                     <ul class="text-red-700 text-sm space-y-1">
-                        @foreach($errors->all() as $error)
+                        <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <li class="flex items-center gap-2">
                             <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01"/></svg>
-                            {{ $error }}
+                            <?php echo e($error); ?>
+
                         </li>
-                        @endforeach
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </ul>
                 </div>
-                @endif
+                <?php endif; ?>
 
-                <form action="{{ route('register.submit') }}" method="POST" id="registerForm" novalidate @submit="handleSubmit">
-                    @csrf
+                <form action="<?php echo e(route('register.submit')); ?>" method="POST" id="registerForm" novalidate @submit="handleSubmit">
+                    <?php echo csrf_field(); ?>
                     
                     <!-- Step 1: Data Pribadi -->
                     <div x-show="step === 1" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-x-4" x-transition:enter-end="opacity-100 translate-x-0">
@@ -327,14 +328,16 @@
                                 </label>
                                 <div class="flex gap-6">
                                     <label class="flex items-center gap-3 cursor-pointer group p-3 border-2 border-gray-200 rounded-xl bg-gray-50 hover:border-primary/50 transition-all flex-1 has-[:checked]:border-primary">
-                                        <input type="radio" name="jk" value="L" {{ old('jk') === 'L' ? 'checked' : '' }}
+                                        <input type="radio" name="jk" value="L" <?php echo e(old('jk') === 'L' ? 'checked' : ''); ?>
+
                                             class="w-5 h-5 text-primary border-gray-300 focus:ring-primary cursor-pointer">
                                         <span class="text-sm sm:text-base text-gray-700 group-hover:text-gray-900">
                                             Laki-laki
                                         </span>
                                     </label>
                                     <label class="flex items-center gap-3 cursor-pointer group p-3 border-2 border-gray-200 rounded-xl bg-gray-50 hover:border-primary/50 transition-all flex-1 has-[:checked]:border-primary">
-                                        <input type="radio" name="jk" value="P" {{ old('jk') === 'P' ? 'checked' : '' }}
+                                        <input type="radio" name="jk" value="P" <?php echo e(old('jk') === 'P' ? 'checked' : ''); ?>
+
                                             class="w-5 h-5 text-primary border-gray-300 focus:ring-primary cursor-pointer">
                                         <span class="text-sm sm:text-base text-gray-700 group-hover:text-gray-900">
                                             Perempuan
@@ -362,9 +365,9 @@
                                         class="w-full pl-10 pr-10 py-2.5 sm:py-3.5 text-sm sm:text-base bg-gray-50 border-2 border-gray-200 rounded-lg sm:rounded-xl focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all appearance-none cursor-pointer"
                                     >
                                         <option value="">-- Pilih Jurusan 1 --</option>
-                                        @foreach($jurusan as $j)
-                                        <option value="{{ $j->id }}">{{ $j->nama }}</option>
-                                        @endforeach
+                                        <?php $__currentLoopData = $jurusan; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $j): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <option value="<?php echo e($j->id); ?>"><?php echo e($j->nama); ?></option>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </select>
                                     <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
                                         <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -392,9 +395,9 @@
                                         class="w-full pl-10 pr-10 py-2.5 sm:py-3.5 text-sm sm:text-base bg-gray-50 border-2 border-gray-200 rounded-lg sm:rounded-xl focus:bg-white focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all appearance-none cursor-pointer"
                                     >
                                         <option value="">-- Pilih Jurusan 2 --</option>
-                                        @foreach($jurusan as $j)
-                                        <option value="{{ $j->id }}">{{ $j->nama }}</option>
-                                        @endforeach
+                                        <?php $__currentLoopData = $jurusan; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $j): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <option value="<?php echo e($j->id); ?>"><?php echo e($j->nama); ?></option>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </select>
                                     <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
                                         <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -541,7 +544,7 @@
                         <div class="space-y-5">
                             <!-- No WhatsApp -->
                             <div x-data="{ 
-                                noWa: '{{ old('no_wa') }}',
+                                noWa: '<?php echo e(old('no_wa')); ?>',
                                 isValid: null,
                                 formatWA(value) {
                                     // Hapus semua karakter non-digit
@@ -631,7 +634,7 @@
                                         x-ref="password"
                                         @input="validatePassword($event.target.value)"
                                         @blur="validatePassword($event.target.value)"
-                                        value="{{ old('password', session('password', '')) }}"
+                                        value="<?php echo e(old('password', session('password', ''))); ?>"
                                         placeholder="Minimal 8 karakter"
                                         required
                                         :class="{
@@ -680,7 +683,7 @@
                                         x-ref="passwordConfirmation"
                                         @input="validatePasswordConfirmation($event.target.value)"
                                         @blur="validatePasswordConfirmation($event.target.value)"
-                                        value="{{ old('password_confirmation', session('password_confirmation', '')) }}"
+                                        value="<?php echo e(old('password_confirmation', session('password_confirmation', ''))); ?>"
                                         placeholder="Ulangi password"
                                         required
                                         :class="{
@@ -754,7 +757,7 @@
                 <!-- Login Link -->
                 <p class="text-center text-gray-600">
                     Sudah punya akun?
-                    <a href="{{ route('login') }}" class="text-primary font-bold hover:text-primary-dark transition ml-1 inline-flex items-center gap-1 group">
+                    <a href="<?php echo e(route('login')); ?>" class="text-primary font-bold hover:text-primary-dark transition ml-1 inline-flex items-center gap-1 group">
                         Masuk di sini
                         <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
@@ -767,4 +770,6 @@
         </div>
     </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\eka\.gemini\antigravity\scratch\smk-alstar\resources\views/auth/register.blade.php ENDPATH**/ ?>

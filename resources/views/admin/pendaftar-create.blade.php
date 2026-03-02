@@ -190,6 +190,17 @@
                             </select>
                         </div>
                         <div>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">Jurusan 2</label>
+                            <select name="jurusan_id_2" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary bg-white">
+                                <option value="">-- Pilih Jurusan 2 --</option>
+                                @foreach($jurusan as $j)
+                                <option value="{{ $j->id }}" {{ old('jurusan_id_2') == $j->id ? 'selected' : '' }}>
+                                    {{ $j->nama }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div>
                             <label class="block text-xs font-medium text-gray-600 mb-1">Gelombang</label>
                             <input type="text" name="gelombang" value="{{ old('gelombang', 'Gelombang 1') }}" 
                                    placeholder="Gelombang 1"
