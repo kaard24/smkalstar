@@ -90,7 +90,7 @@
                         </div>
 
                         <!-- Quick Stats -->
-                        <div class="grid grid-cols-2 gap-3 mb-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
                             <div class="text-center p-3 bg-gray-50 rounded-xl">
                                 <p class="text-xs text-gray-500 mb-1">Status</p>
                                 @if($calonSiswa->pendaftaran?->tes?->status_kelulusan === 'Lulus')
@@ -316,7 +316,7 @@
                         <div class="grid md:grid-cols-2 gap-6">
                             <div class="space-y-1">
                                 <p class="text-xs text-gray-400 uppercase tracking-wider">Jurusan Pilihan</p>
-                                <p class="font-bold text-primary text-lg">{{ $calonSiswa->pendaftaran->jurusan->nama ?? '-' }}</p>
+                                <p class="font-bold text-primary text-base sm:text-lg">{{ $calonSiswa->pendaftaran->jurusan->nama ?? '-' }}</p>
                             </div>
                             <div class="space-y-1">
                                 <p class="text-xs text-gray-400 uppercase tracking-wider">Gelombang</p>

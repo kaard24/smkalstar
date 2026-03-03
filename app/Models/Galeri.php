@@ -60,6 +60,6 @@ class Galeri extends Model
      */
     public function getCacheKey()
     {
-        return 'galeri_aktif';
+        return ['galeri_aktif', 'galeri_home'];
     }
 }

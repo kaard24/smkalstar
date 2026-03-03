@@ -12,6 +12,10 @@
     <!-- PWA Manifest -->
     <link rel="manifest" href="<?php echo e(asset('manifest.json')); ?>">
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/webp" href="<?php echo e(asset('images/logo.webp')); ?>">
+    <link rel="shortcut icon" href="<?php echo e(asset('images/logo.webp')); ?>">
+    
     <!-- Apple Touch Icon -->
     <link rel="apple-touch-icon" href="<?php echo e(asset('images/logo.webp')); ?>">
     
@@ -72,7 +76,7 @@
         
         /* Mobile */
         @media (max-width: 768px) {
-            body{font-size:15px}
+            body{font-size:14px;line-height:1.6}
             a,button{min-height:44px;min-width:44px}
         }
     </style>
@@ -134,6 +138,10 @@
             /* Mobile-friendly height using --vh */
             .min-h-screen-mobile {
                 min-height: calc(var(--vh) * 100);
+            }
+            /* Keep custom fixed bars above mobile bottom-nav */
+            .mobile-fixed-safe {
+                bottom: calc(env(safe-area-inset-bottom) + 5.25rem) !important;
             }
         }
         

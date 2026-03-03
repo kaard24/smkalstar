@@ -1,4 +1,4 @@
-@php
+<?php
     // Warna tema berdasarkan kode jurusan (fallback jika tidak ada di database)
     $defaultThemes = [
         'TKJ' => [
@@ -28,15 +28,15 @@
     // Gunakan logo dari database jika ada, jika tidak gunakan default
     $logoUrl = $jurusanDetail->logo_url ?? asset('images/logo/default.jpeg');
     $gambarUrl = $jurusanDetail->gambar_url;
-@endphp
+?>
 
-@extends('layouts.app')
 
-@section('title', $jurusanDetail->nama . ' - SMK Al-Hidayah Lestari')
 
-@section('content')
+<?php $__env->startSection('title', $jurusanDetail->nama . ' - SMK Al-Hidayah Lestari'); ?>
+
+<?php $__env->startSection('content'); ?>
     <!-- Hero Section -->
-    <div class="relative {{ $theme['bg'] }} py-10 sm:py-16 md:py-24 overflow-hidden">
+    <div class="relative <?php echo e($theme['bg']); ?> py-10 sm:py-16 md:py-24 overflow-hidden">
         <!-- Decorative Elements -->
         <div class="absolute inset-0 overflow-hidden">
             <div class="absolute top-0 right-0 w-64 h-64 sm:w-96 sm:h-96 bg-white/10 rounded-full blur-3xl transform translate-x-1/3 -translate-y-1/3"></div>
@@ -59,7 +59,7 @@
             <div class="flex flex-col lg:flex-row items-center gap-5 sm:gap-8 lg:gap-12">
                 <!-- Logo Jurusan -->
                 <div class="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-2xl sm:rounded-3xl bg-white shadow-2xl overflow-hidden flex-shrink-0 ring-4 ring-white/20 p-2">
-                    <img src="{{ $logoUrl }}" alt="Logo {{ $jurusanDetail->nama }}" class="w-full h-full object-contain">
+                    <img src="<?php echo e($logoUrl); ?>" alt="Logo <?php echo e($jurusanDetail->nama); ?>" class="w-full h-full object-contain">
                 </div>
                 
                 <!-- Content -->
@@ -71,10 +71,12 @@
                         <span class="whitespace-nowrap">Program Keahlian</span>
                     </div>
                     <h1 class="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-2 sm:mb-4 font-heading">
-                        {{ $jurusanDetail->nama }}
+                        <?php echo e($jurusanDetail->nama); ?>
+
                     </h1>
                     <p class="text-white/80 text-sm sm:text-base md:text-base max-w-2xl leading-relaxed">
-                        {{ $jurusanDetail->deskripsi ?? 'Pelajari selengkapnya tentang program keahlian ' . $jurusanDetail->nama . ' dan persiapkan masa depan gemilang bersama SMK Al-Hidayah Lestari.' }}
+                        <?php echo e($jurusanDetail->deskripsi ?? 'Pelajari selengkapnya tentang program keahlian ' . $jurusanDetail->nama . ' dan persiapkan masa depan gemilang bersama SMK Al-Hidayah Lestari.'); ?>
+
                     </p>
                 </div>
             </div>
@@ -86,17 +88,17 @@
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center gap-2 overflow-x-auto py-2 sm:py-3 no-scrollbar scroll-smooth">
                 <span class="text-gray-500 text-xs sm:text-sm font-medium whitespace-nowrap mr-1 sm:mr-2 flex-shrink-0">Jurusan:</span>
-                @foreach($jurusanList as $j)
-                    @php
+                <?php $__currentLoopData = $jurusanList; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $j): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <?php
                         $jLogoUrl = $j->logo_url ?? asset('images/logo/default.jpeg');
                         $isActive = $j->id === $jurusanDetail->id;
-                    @endphp
-                    <a href="{{ url('/jurusan/' . strtolower($j->kode)) }}" 
-                       class="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium whitespace-nowrap transition flex-shrink-0 {{ $isActive ? $theme['bg'] . ' text-white' : 'text-gray-600 hover:bg-gray-100' }}">
-                        <img src="{{ $jLogoUrl }}" alt="{{ $j->nama }}" class="w-4 h-4 sm:w-5 sm:h-5 rounded-full object-cover flex-shrink-0">
-                        <span>{{ $j->kode }}</span>
+                    ?>
+                    <a href="<?php echo e(url('/jurusan/' . strtolower($j->kode))); ?>" 
+                       class="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium whitespace-nowrap transition flex-shrink-0 <?php echo e($isActive ? $theme['bg'] . ' text-white' : 'text-gray-600 hover:bg-gray-100'); ?>">
+                        <img src="<?php echo e($jLogoUrl); ?>" alt="<?php echo e($j->nama); ?>" class="w-4 h-4 sm:w-5 sm:h-5 rounded-full object-cover flex-shrink-0">
+                        <span><?php echo e($j->kode); ?></span>
                     </a>
-                @endforeach
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
         </div>
     </div>
@@ -108,18 +110,18 @@
                 <!-- Main Content -->
                 <div class="lg:col-span-2 space-y-4 sm:space-y-6 lg:space-y-8">
                     <!-- Gambar Jurusan -->
-                    @if($gambarUrl)
+                    <?php if($gambarUrl): ?>
                     <div class="bg-white rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm">
                         <div class="h-48 sm:h-56 md:h-64 lg:h-80 relative">
-                            <img src="{{ $gambarUrl }}" alt="{{ $jurusanDetail->nama }}" class="absolute inset-0 w-full h-full object-cover">
+                            <img src="<?php echo e($gambarUrl); ?>" alt="<?php echo e($jurusanDetail->nama); ?>" class="absolute inset-0 w-full h-full object-cover">
                         </div>
                     </div>
-                    @endif
+                    <?php endif; ?>
 
                     <!-- Tentang Jurusan -->
                     <div class="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 shadow-sm">
                         <h2 class="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-4 sm:mb-6 flex items-center gap-2 sm:gap-3">
-                            <span class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl {{ $theme['bg_light'] }} {{ $theme['text'] }} flex items-center justify-center flex-shrink-0">
+                            <span class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl <?php echo e($theme['bg_light']); ?> <?php echo e($theme['text']); ?> flex items-center justify-center flex-shrink-0">
                                 <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                 </svg>
@@ -128,16 +130,17 @@
                         </h2>
                         <div class="prose prose-gray max-w-none">
                             <p class="text-gray-600 leading-relaxed text-sm sm:text-base md:text-base">
-                                {{ $jurusanDetail->deskripsi_lengkap ?? $jurusanDetail->deskripsi ?? 'Deskripsi lengkap tentang jurusan ' . $jurusanDetail->nama . ' akan segera ditambahkan.' }}
+                                <?php echo e($jurusanDetail->deskripsi_lengkap ?? $jurusanDetail->deskripsi ?? 'Deskripsi lengkap tentang jurusan ' . $jurusanDetail->nama . ' akan segera ditambahkan.'); ?>
+
                             </p>
                         </div>
                     </div>
 
                     <!-- Kompetensi -->
-                    @if($jurusanDetail->kompetensiItems->count() > 0)
+                    <?php if($jurusanDetail->kompetensiItems->count() > 0): ?>
                     <div class="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 shadow-sm">
                         <h2 class="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-4 sm:mb-6 flex items-center gap-2 sm:gap-3">
-                            <span class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl {{ $theme['bg_light'] }} {{ $theme['text'] }} flex items-center justify-center flex-shrink-0">
+                            <span class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl <?php echo e($theme['bg_light']); ?> <?php echo e($theme['text']); ?> flex items-center justify-center flex-shrink-0">
                                 <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
                                 </svg>
@@ -145,23 +148,23 @@
                             <span>Kompetensi Utama</span>
                         </h2>
                         <div class="space-y-4">
-                            @foreach($jurusanDetail->kompetensiItems as $item)
-                            <div class="p-4 {{ $theme['bg_light'] }} rounded-xl border {{ $theme['border'] }}">
-                                <h3 class="font-bold text-gray-900 mb-1">{{ $item->judul }}</h3>
-                                @if($item->deskripsi)
-                                <p class="text-gray-600 text-sm">{{ $item->deskripsi }}</p>
-                                @endif
+                            <?php $__currentLoopData = $jurusanDetail->kompetensiItems; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <div class="p-4 <?php echo e($theme['bg_light']); ?> rounded-xl border <?php echo e($theme['border']); ?>">
+                                <h3 class="font-bold text-gray-900 mb-1"><?php echo e($item->judul); ?></h3>
+                                <?php if($item->deskripsi): ?>
+                                <p class="text-gray-600 text-sm"><?php echo e($item->deskripsi); ?></p>
+                                <?php endif; ?>
                             </div>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </div>
                     </div>
-                    @endif
+                    <?php endif; ?>
 
                     <!-- Peluang Karir -->
-                    @if($jurusanDetail->karirItems->count() > 0)
+                    <?php if($jurusanDetail->karirItems->count() > 0): ?>
                     <div class="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 shadow-sm">
                         <h2 class="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-4 sm:mb-6 flex items-center gap-2 sm:gap-3">
-                            <span class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl {{ $theme['bg_light'] }} {{ $theme['text'] }} flex items-center justify-center flex-shrink-0">
+                            <span class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl <?php echo e($theme['bg_light']); ?> <?php echo e($theme['text']); ?> flex items-center justify-center flex-shrink-0">
                                 <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                                 </svg>
@@ -169,23 +172,23 @@
                             <span>Peluang Karir</span>
                         </h2>
                         <div class="space-y-4">
-                            @foreach($jurusanDetail->karirItems as $item)
-                            <div class="p-4 {{ $theme['bg_light'] }} rounded-xl border {{ $theme['border'] }}">
-                                <h3 class="font-bold text-gray-900 mb-1">{{ $item->judul }}</h3>
-                                @if($item->deskripsi)
-                                <p class="text-gray-600 text-sm">{{ $item->deskripsi }}</p>
-                                @endif
+                            <?php $__currentLoopData = $jurusanDetail->karirItems; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <div class="p-4 <?php echo e($theme['bg_light']); ?> rounded-xl border <?php echo e($theme['border']); ?>">
+                                <h3 class="font-bold text-gray-900 mb-1"><?php echo e($item->judul); ?></h3>
+                                <?php if($item->deskripsi): ?>
+                                <p class="text-gray-600 text-sm"><?php echo e($item->deskripsi); ?></p>
+                                <?php endif; ?>
                             </div>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </div>
                     </div>
-                    @endif
+                    <?php endif; ?>
 
                     <!-- Mata Pelajaran -->
-                    @if($jurusanDetail->mapelItems->count() > 0)
+                    <?php if($jurusanDetail->mapelItems->count() > 0): ?>
                     <div class="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 shadow-sm">
                         <h2 class="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-4 sm:mb-6 flex items-center gap-2 sm:gap-3">
-                            <span class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl {{ $theme['bg_light'] }} {{ $theme['text'] }} flex items-center justify-center flex-shrink-0">
+                            <span class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl <?php echo e($theme['bg_light']); ?> <?php echo e($theme['text']); ?> flex items-center justify-center flex-shrink-0">
                                 <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
                                 </svg>
@@ -193,23 +196,23 @@
                             <span>Mata Pelajaran Produk</span>
                         </h2>
                         <div class="space-y-4">
-                            @foreach($jurusanDetail->mapelItems as $item)
-                            <div class="p-4 {{ $theme['bg_light'] }} rounded-xl border {{ $theme['border'] }}">
-                                <h3 class="font-bold text-gray-900 mb-1">{{ $item->judul }}</h3>
-                                @if($item->deskripsi)
-                                <p class="text-gray-600 text-sm">{{ $item->deskripsi }}</p>
-                                @endif
+                            <?php $__currentLoopData = $jurusanDetail->mapelItems; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <div class="p-4 <?php echo e($theme['bg_light']); ?> rounded-xl border <?php echo e($theme['border']); ?>">
+                                <h3 class="font-bold text-gray-900 mb-1"><?php echo e($item->judul); ?></h3>
+                                <?php if($item->deskripsi): ?>
+                                <p class="text-gray-600 text-sm"><?php echo e($item->deskripsi); ?></p>
+                                <?php endif; ?>
                             </div>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </div>
                     </div>
-                    @endif
+                    <?php endif; ?>
 
                     <!-- Kegiatan Jurusan -->
-                    @if($jurusanDetail->kegiatan->count() > 0)
+                    <?php if($jurusanDetail->kegiatan->count() > 0): ?>
                     <div class="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 shadow-sm">
                         <h2 class="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-4 sm:mb-6 flex items-center gap-2 sm:gap-3">
-                            <span class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl {{ $theme['bg_light'] }} {{ $theme['text'] }} flex items-center justify-center flex-shrink-0">
+                            <span class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl <?php echo e($theme['bg_light']); ?> <?php echo e($theme['text']); ?> flex items-center justify-center flex-shrink-0">
                                 <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -219,47 +222,47 @@
                         </h2>
 
                         <div class="space-y-6">
-                            @foreach($jurusanDetail->kegiatan as $kegiatan)
+                            <?php $__currentLoopData = $jurusanDetail->kegiatan; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $kegiatan): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <div class="border border-gray-100 rounded-xl p-4 sm:p-5">
-                                <h3 class="font-bold text-gray-900 text-sm sm:text-base">{{ $kegiatan->judul }}</h3>
-                                @if($kegiatan->deskripsi)
-                                <p class="text-gray-600 text-sm mt-1">{{ $kegiatan->deskripsi }}</p>
-                                @endif
+                                <h3 class="font-bold text-gray-900 text-sm sm:text-base"><?php echo e($kegiatan->judul); ?></h3>
+                                <?php if($kegiatan->deskripsi): ?>
+                                <p class="text-gray-600 text-sm mt-1"><?php echo e($kegiatan->deskripsi); ?></p>
+                                <?php endif; ?>
 
-                                @if($kegiatan->gambar->count() > 0)
+                                <?php if($kegiatan->gambar->count() > 0): ?>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
-                                    @foreach($kegiatan->gambar as $g)
-                                    <img src="{{ $g->gambar_url }}" alt="{{ $kegiatan->judul }}" class="w-full h-24 sm:h-32 object-cover rounded-lg border border-gray-100">
-                                    @endforeach
+                                    <?php $__currentLoopData = $kegiatan->gambar; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $g): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <img src="<?php echo e($g->gambar_url); ?>" alt="<?php echo e($kegiatan->judul); ?>" class="w-full h-24 sm:h-32 object-cover rounded-lg border border-gray-100">
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </div>
-                                @endif
+                                <?php endif; ?>
                             </div>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </div>
                     </div>
-                    @endif
+                    <?php endif; ?>
                 </div>
 
                 <!-- Sidebar -->
                 <div class="lg:col-span-1 space-y-4 sm:space-y-6">
                     <!-- Info Cepat -->
-                    <div class="bg-gradient-to-br {{ $theme['gradient'] }} rounded-2xl sm:rounded-3xl p-5 sm:p-6 text-white shadow-xl">
+                    <div class="bg-gradient-to-br <?php echo e($theme['gradient']); ?> rounded-2xl sm:rounded-3xl p-5 sm:p-6 text-white shadow-xl">
                         <h3 class="text-lg sm:text-xl font-bold mb-4 sm:mb-6">Info Program</h3>
                         <div class="space-y-3 sm:space-y-4">
-                            @if($jurusanDetail->infoProgram->count() > 0)
-                                @foreach($jurusanDetail->infoProgram as $index => $info)
+                            <?php if($jurusanDetail->infoProgram->count() > 0): ?>
+                                <?php $__currentLoopData = $jurusanDetail->infoProgram; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $info): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="flex items-center gap-3">
                                     <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0">
-                                        <span class="text-sm sm:text-base font-bold">{{ $index + 1 }}</span>
+                                        <span class="text-sm sm:text-base font-bold"><?php echo e($index + 1); ?></span>
                                     </div>
                                     <div class="min-w-0">
-                                        <p class="text-white/70 text-xs sm:text-sm">{{ $info->label }}</p>
-                                        <p class="font-semibold text-sm sm:text-base">{{ $info->value }}</p>
+                                        <p class="text-white/70 text-xs sm:text-sm"><?php echo e($info->label); ?></p>
+                                        <p class="font-semibold text-sm sm:text-base"><?php echo e($info->value); ?></p>
                                     </div>
                                 </div>
-                                @endforeach
-                            @else
-                                {{-- Default jika belum ada data --}}
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            <?php else: ?>
+                                
                                 <div class="flex items-center gap-3">
                                     <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-white/20 flex items-center justify-center flex-shrink-0">
                                         <span class="text-sm sm:text-base font-bold">1</span>
@@ -287,15 +290,15 @@
                                         <p class="font-semibold text-sm sm:text-base">Di Industri</p>
                                     </div>
                                 </div>
-                            @endif
+                            <?php endif; ?>
                         </div>
                     </div>
 
                     <!-- CTA Daftar -->
                     <div class="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 shadow-sm border border-gray-100">
                         <h3 class="text-base sm:text-lg font-bold text-gray-900 mb-2 sm:mb-3">Tertarik?</h3>
-                        <p class="text-gray-600 text-xs sm:text-sm mb-3 sm:mb-4">Daftar sekarang dan jadilah bagian dari {{ $jurusanDetail->nama }}.</p>
-                        <a href="{{ url('/spmb/register') }}" class="block w-full {{ $theme['bg'] }} hover:opacity-90 text-white text-center font-bold py-2.5 sm:py-3 rounded-lg sm:rounded-xl transition text-sm sm:text-base">
+                        <p class="text-gray-600 text-xs sm:text-sm mb-3 sm:mb-4">Daftar sekarang dan jadilah bagian dari <?php echo e($jurusanDetail->nama); ?>.</p>
+                        <a href="<?php echo e(url('/spmb/register')); ?>" class="block w-full <?php echo e($theme['bg']); ?> hover:opacity-90 text-white text-center font-bold py-2.5 sm:py-3 rounded-lg sm:rounded-xl transition text-sm sm:text-base">
                             Daftar Sekarang
                         </a>
                     </div>
@@ -304,27 +307,29 @@
                     <div class="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 shadow-sm border border-gray-100">
                         <h3 class="text-base sm:text-lg font-bold text-gray-900 mb-3 sm:mb-4">Jurusan Lainnya</h3>
                         <div class="space-y-2 sm:space-y-3">
-                            @foreach($jurusanList as $j)
-                                @if($j->id !== $jurusanDetail->id)
-                                @php
+                            <?php $__currentLoopData = $jurusanList; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $j): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <?php if($j->id !== $jurusanDetail->id): ?>
+                                <?php
                                     $otherLogoUrl = $j->logo_url ?? asset('images/logo/default.jpeg');
-                                @endphp
-                                <a href="{{ url('/jurusan/' . strtolower($j->kode)) }}" class="flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 rounded-lg sm:rounded-xl hover:bg-gray-50 transition group">
-                                    <img src="{{ $otherLogoUrl }}" alt="{{ $j->nama }}" class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg object-cover flex-shrink-0">
+                                ?>
+                                <a href="<?php echo e(url('/jurusan/' . strtolower($j->kode))); ?>" class="flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 rounded-lg sm:rounded-xl hover:bg-gray-50 transition group">
+                                    <img src="<?php echo e($otherLogoUrl); ?>" alt="<?php echo e($j->nama); ?>" class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg object-cover flex-shrink-0">
                                     <div class="flex-1 min-w-0">
-                                        <p class="font-semibold text-gray-900 text-xs sm:text-sm group-hover:{{ $theme['text'] }} transition truncate">{{ $j->nama }}</p>
-                                        <p class="text-gray-500 text-[10px] sm:text-xs">{{ $j->kode }}</p>
+                                        <p class="font-semibold text-gray-900 text-xs sm:text-sm group-hover:<?php echo e($theme['text']); ?> transition truncate"><?php echo e($j->nama); ?></p>
+                                        <p class="text-gray-500 text-[10px] sm:text-xs"><?php echo e($j->kode); ?></p>
                                     </div>
-                                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400 group-hover:{{ $theme['text'] }} transition flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400 group-hover:<?php echo e($theme['text']); ?> transition flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                                     </svg>
                                 </a>
-                                @endif
-                            @endforeach
+                                <?php endif; ?>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\eka\.gemini\antigravity\scratch\smk-alstar\resources\views/jurusan/detail.blade.php ENDPATH**/ ?>

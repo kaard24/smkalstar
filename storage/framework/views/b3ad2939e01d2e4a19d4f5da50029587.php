@@ -1,8 +1,8 @@
-@extends('layouts.app')
 
-@section('title', 'Berita - SMK Al-Hidayah Lestari')
 
-@section('content')
+<?php $__env->startSection('title', 'Berita - SMK Al-Hidayah Lestari'); ?>
+
+<?php $__env->startSection('content'); ?>
     <!-- Header Page - Unique Design -->
     <div class="relative bg-gradient-to-br from-cyan-50 via-sky-50 to-blue-50 py-16 md:py-24 border-b border-cyan-100 overflow-hidden">
         <!-- Decorative Elements -->
@@ -24,9 +24,9 @@
             <p class="text-gray-600 text-sm sm:text-base md:text-xl max-w-3xl mx-auto leading-relaxed">Ikuti perkembangan terbaru, kegiatan, dan informasi penting seputar SMK Al-Hidayah Lestari</p>
             
             <!-- Search Form -->
-            <form action="{{ route('berita.index') }}" method="GET" class="mt-8 max-w-2xl mx-auto">
+            <form action="<?php echo e(route('berita.index')); ?>" method="GET" class="mt-8 max-w-2xl mx-auto">
                 <div class="relative flex flex-col sm:block">
-                    <input type="text" name="search" value="{{ request('search') }}" 
+                    <input type="text" name="search" value="<?php echo e(request('search')); ?>" 
                            placeholder="Cari berita..." 
                            class="w-full px-5 sm:px-6 py-3.5 sm:py-4 pr-5 sm:pr-32 rounded-full border border-gray-200 shadow-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent outline-none transition text-gray-700"
                            aria-label="Cari berita">
@@ -35,15 +35,15 @@
                         Cari
                     </button>
                 </div>
-                @if(request('search'))
+                <?php if(request('search')): ?>
                 <div class="mt-3 flex items-center justify-center gap-2 text-sm text-gray-600">
-                    <span>Hasil pencarian untuk: <strong class="text-cyan-600">"{{ request('search') }}"</strong></span>
-                    <a href="{{ route('berita.index') }}" class="text-red-500 hover:text-red-600 flex items-center gap-1 ml-2">
+                    <span>Hasil pencarian untuk: <strong class="text-cyan-600">"<?php echo e(request('search')); ?>"</strong></span>
+                    <a href="<?php echo e(route('berita.index')); ?>" class="text-red-500 hover:text-red-600 flex items-center gap-1 ml-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                         Reset
                     </a>
                 </div>
-                @endif
+                <?php endif; ?>
             </form>
         </div>
     </div>
@@ -51,7 +51,7 @@
     <!-- Berita List Section -->
     <section class="py-12 md:py-16 bg-white">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            @if($berita->isEmpty())
+            <?php if($berita->isEmpty()): ?>
             <!-- Enhanced Empty State -->
             <div class="max-w-2xl mx-auto">
                 <div class="relative bg-gradient-to-br from-slate-50 to-gray-50 border border-gray-200 rounded-3xl p-12 md:p-16 text-center overflow-hidden">
@@ -71,34 +71,35 @@
                         </div>
                         <h3 class="text-2xl font-bold text-gray-900 mb-3">Belum Ada Berita</h3>
                         <p class="text-gray-500 mb-6 max-w-md mx-auto">Nantikan update terbaru dari kami. Berita, pengumuman, dan informasi penting akan segera hadir di sini.</p>
-                        <a href="{{ url('/spmb/info') }}" class="inline-flex items-center gap-2 text-cyan-600 hover:text-cyan-700 font-medium transition">
+                        <a href="<?php echo e(url('/spmb/info')); ?>" class="inline-flex items-center gap-2 text-cyan-600 hover:text-cyan-700 font-medium transition">
                             <span>Lihat Info SPMB</span>
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                         </a>
                     </div>
                 </div>
             </div>
-            @else
+            <?php else: ?>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-                @foreach($berita as $item)
+                <?php $__currentLoopData = $berita; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <article class="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group border border-gray-100">
-                    <a href="{{ route('berita.show', $item->slug) }}">
+                    <a href="<?php echo e(route('berita.show', $item->slug)); ?>">
                         <div class="aspect-video overflow-hidden bg-gray-100">
-                            @if($item->gambar_utama)
-                            <img src="{{ $item->gambar_utama }}" alt="{{ $item->judul }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" decoding="async">
-                            @else
+                            <?php if($item->gambar_utama): ?>
+                            <img src="<?php echo e($item->gambar_utama); ?>" alt="<?php echo e($item->judul); ?>" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" decoding="async">
+                            <?php else: ?>
                             <div class="w-full h-full flex items-center justify-center">
                                 <svg class="w-16 h-16 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path></svg>
                             </div>
-                            @endif
+                            <?php endif; ?>
                         </div>
                         <div class="p-6">
                             <div class="flex items-center gap-2 text-xs text-gray-500 mb-3">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                {{ $item->published_at ? $item->published_at->format('d M Y') : '-' }}
+                                <?php echo e($item->published_at ? $item->published_at->format('d M Y') : '-'); ?>
+
                             </div>
-                            <h3 class="font-bold text-base sm:text-lg text-gray-900 mb-2 group-hover:text-primary transition line-clamp-2">{{ $item->judul }}</h3>
-                            <p class="text-gray-600 text-sm line-clamp-3">{{ $item->excerpt }}</p>
+                            <h3 class="font-bold text-base sm:text-lg text-gray-900 mb-2 group-hover:text-primary transition line-clamp-2"><?php echo e($item->judul); ?></h3>
+                            <p class="text-gray-600 text-sm line-clamp-3"><?php echo e($item->excerpt); ?></p>
                             <div class="mt-4 flex items-center text-primary font-medium text-sm group-hover:gap-2 transition-all">
                                 Baca Selengkapnya
                                 <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
@@ -106,16 +107,19 @@
                         </div>
                     </a>
                 </article>
-                @endforeach
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
 
             <!-- Pagination -->
-            @if($berita->hasPages())
+            <?php if($berita->hasPages()): ?>
             <div class="mt-12 flex justify-center">
-                {{ $berita->links() }}
+                <?php echo e($berita->links()); ?>
+
             </div>
-            @endif
-            @endif
+            <?php endif; ?>
+            <?php endif; ?>
         </div>
     </section>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\eka\.gemini\antigravity\scratch\smk-alstar\resources\views/berita/index.blade.php ENDPATH**/ ?>

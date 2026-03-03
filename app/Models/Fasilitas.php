@@ -84,6 +84,6 @@ class Fasilitas extends Model
      */
     public function getCacheKey()
     {
-        return 'fasilitas_aktif';
+        return ['fasilitas_aktif', 'fasilitas_home'];
     }
 }

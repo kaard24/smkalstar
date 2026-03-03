@@ -142,7 +142,10 @@ class Berita extends Model
      */
     public function getCacheKey()
     {
-        return 'related_berita_' . $this->id;
+        return [
+            'related_berita_' . $this->id,
+            'berita_home',
+        ];
     }
 
     /**

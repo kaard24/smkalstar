@@ -219,7 +219,7 @@ class JurusanController extends Controller
             $deskripsi = $deskripsis[$index] ?? null;
 
             if ($kegiatanId && $kegiatanId !== 'new') {
-                $kegiatan = JurusanKegiatan::find($kegiatanId);
+                $kegiatan = $jurusan->kegiatan()->find($kegiatanId);
                 if ($kegiatan) {
                     $kegiatan->update([
                         'judul' => $judul,
@@ -255,10 +255,18 @@ class JurusanController extends Controller
      */
     public function deleteKegiatanGambar(JurusanKegiatanGambar $gambar)
     {
+        $kajur = Auth::guard('kajur')->user();
+
+        if (!$gambar->kegiatan || $gambar->kegiatan->jurusan_id !== $kajur->jurusan_id) {
+            abort(403);
+        }
+
         if (Storage::disk('public')->exists($gambar->gambar)) {
             Storage::disk('public')->delete($gambar->gambar);
         }
         $gambar->delete();
+
+        Cache::forget('jurusan_aktif');
         
         return response()->json(['success' => true]);
     }

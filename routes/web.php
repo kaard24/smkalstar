@@ -25,7 +25,6 @@ use Illuminate\Http\Request;
 use App\Models\CalonSiswa;
 use App\Models\Pendaftaran;
 use App\Models\Tes;
-use App\Models\Jurusan;
 
 /*
 |--------------------------------------------------------------------------
@@ -84,10 +83,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // SPMB Public Pages (tanpa auth)
 // ============================================
 Route::prefix('spmb')->name('spmb.')->group(function () {
-    Route::get('/', function () { 
-        $jurusan = Jurusan::aktif()->urut()->get();
-        return view('spmb.info', compact('jurusan')); 
-    })->name('index');
+    Route::get('/', [PublicPageController::class, 'spmbInfo'])->name('index');
     Route::get('/info', [PublicPageController::class, 'spmbInfo'])->name('info');
 
     // Kalender Akademik

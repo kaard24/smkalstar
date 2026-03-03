@@ -21,20 +21,20 @@
             <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-4 font-heading">
                 Fasilitas <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-indigo-600">Sekolah</span>
             </h1>
-            <p class="text-gray-600 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">Sarana dan prasarana modern untuk mendukung kegiatan belajar mengajar yang efektif dan nyaman</p>
+            <p class="text-gray-600 text-sm sm:text-base md:text-xl max-w-3xl mx-auto leading-relaxed">Sarana dan prasarana modern untuk mendukung kegiatan belajar mengajar yang efektif dan nyaman</p>
         </div>
     </div>
 
-    <section class="py-20 bg-gray-50" x-data="createLightboxData()" @keydown.escape.window="closeLightbox()">
+    <section class="py-12 sm:py-16 md:py-20 bg-gray-50" x-data="createLightboxData()" @keydown.escape.window="closeLightbox()">
         
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
                 @forelse($fasilitas as $item)
                 @php
                     $images = $item->gambar_urls;
                 @endphp
                 <div class="group cursor-pointer bg-white rounded-3xl shadow-sm hover:shadow-2xl transition-all duration-300 border border-gray-100 overflow-hidden" @click="openLightbox({{ json_encode($images) }}, '{{ addslashes($item->nama) }}')">
-                    <div class="relative h-64 overflow-hidden">
+                    <div class="relative h-52 sm:h-60 md:h-64 overflow-hidden">
                         @if($item->gambar_url)
                         <img src="{{ $item->gambar_urls[0] }}" alt="{{ $item->nama }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700" loading="lazy" decoding="async">
                         @else
@@ -54,7 +54,7 @@
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-90 group-hover:opacity-75 transition duration-300"></div>
                         
                         <div class="absolute bottom-0 left-0 right-0 p-6 transform translate-y-2 group-hover:translate-y-0 transition duration-300">
-                            <h3 class="text-white font-bold text-xl mb-1 font-heading">{{ $item->nama }}</h3>
+                            <h3 class="text-white font-bold text-base sm:text-xl mb-1 font-heading">{{ $item->nama }}</h3>
                             <p class="text-gray-300 text-sm opacity-0 group-hover:opacity-100 transition duration-300 delay-100 flex items-center gap-1">
                                 Lihat Galeri 
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
@@ -79,7 +79,7 @@
                                 </svg>
                             </div>
                             <h3 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">Fasilitas Sedang Dipersiapkan</h3>
-                            <p class="text-gray-600 text-lg max-w-xl mx-auto leading-relaxed">Kami sedang menyiapkan informasi lengkap tentang sarana dan prasarana modern yang akan mendukung proses belajar mengajar Anda.</p>
+                            <p class="text-gray-600 text-sm sm:text-base md:text-lg max-w-xl mx-auto leading-relaxed">Kami sedang menyiapkan informasi lengkap tentang sarana dan prasarana modern yang akan mendukung proses belajar mengajar Anda.</p>
                             <div class="mt-8 flex justify-center gap-3">
                                 <div class="w-2 h-2 rounded-full bg-blue-400 animate-bounce" style="animation-delay: 0s;"></div>
                                 <div class="w-2 h-2 rounded-full bg-blue-400 animate-bounce" style="animation-delay: 0.2s;"></div>
@@ -105,21 +105,21 @@
             
             <div class="absolute inset-0" @click="closeLightbox()"></div>
 
-            <button class="absolute top-6 right-6 text-white/50 hover:text-white transition z-50 transform hover:scale-110 duration-200" @click="closeLightbox()">
-                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            <button class="absolute top-4 sm:top-6 right-4 sm:right-6 text-white/50 hover:text-white transition z-50 transform hover:scale-110 duration-200" @click="closeLightbox()">
+                <svg class="w-8 h-8 sm:w-10 sm:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
 
             <!-- Navigation Buttons -->
             <button x-show="activeImages.length > 1" 
                     @click.stop="prevImage()" 
-                    class="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition p-3 hover:bg-white/10 rounded-full z-50">
-                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    class="absolute left-2 sm:left-4 md:left-8 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition p-2 sm:p-3 hover:bg-white/10 rounded-full z-50">
+                <svg class="w-8 h-8 sm:w-10 sm:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
             </button>
             
             <button x-show="activeImages.length > 1" 
                     @click.stop="nextImage()" 
-                    class="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition p-3 hover:bg-white/10 rounded-full z-50">
-                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    class="absolute right-2 sm:right-4 md:right-8 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition p-2 sm:p-3 hover:bg-white/10 rounded-full z-50">
+                <svg class="w-8 h-8 sm:w-10 sm:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
             </button>
 
             <div class="max-w-7xl max-h-[90vh] w-full flex flex-col items-center relative z-40 pointer-events-none">
@@ -127,7 +127,7 @@
                     <img :src="activeImages.length > 0 ? activeImages[activeIndex] : ''" class="max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl transition-all duration-300">
                 </div>
                 <div class="text-white text-center mt-6 pointer-events-auto">
-                    <h3 class="text-2xl font-bold font-heading mb-2" x-text="activeCaption"></h3>
+                    <h3 class="text-lg sm:text-2xl font-bold font-heading mb-2" x-text="activeCaption"></h3>
                     <div x-show="activeImages.length > 1" class="inline-flex gap-1.5 mt-2">
                         <template x-for="(img, idx) in activeImages" :key="idx">
                             <button @click="activeIndex = idx" 

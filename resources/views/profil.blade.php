@@ -15,10 +15,10 @@
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
                 Tentang Kami
             </div>
-            <h1 class="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-4 font-heading">
+            <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-4 font-heading">
                 Profil <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-cyan-600">Sekolah</span>
             </h1>
-            <p class="text-gray-600 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">Mengenal lebih dekat sejarah, visi, dan orang-orang hebat di balik SMK Al-Hidayah Lestari</p>
+            <p class="text-gray-600 text-sm sm:text-base md:text-xl max-w-3xl mx-auto leading-relaxed">Mengenal lebih dekat sejarah, visi, dan orang-orang hebat di balik SMK Al-Hidayah Lestari</p>
             
             <!-- Breadcrumb -->
             <nav class="mt-8 flex justify-center">
@@ -112,7 +112,7 @@
                             </div>
                             <h3 class="text-xl md:text-2xl font-bold text-gray-900 font-heading">Visi</h3>
                         </div>
-                        <p class="text-gray-700 text-sm md:text-lg font-medium italic leading-relaxed">
+                        <p class="text-gray-700 text-sm sm:text-base md:text-lg font-medium italic leading-relaxed">
                             "{{ $profil->visi }}"
                         </p>
                     </div>
@@ -182,7 +182,7 @@
                         </div>
                         
                         @if($section->activeMembers->isNotEmpty())
-                        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-x-8 md:gap-y-12 max-w-6xl mx-auto">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-x-8 md:gap-y-12 max-w-6xl mx-auto">
                             @foreach($section->activeMembers as $member)
                             <div class="text-center group">
                                 <div class="w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 mx-auto mb-3 md:mb-6 rounded-xl md:rounded-3xl overflow-hidden bg-white shadow-lg md:shadow-xl rotate-2 md:rotate-3 group-hover:rotate-0 transition-transform duration-300 ring-2 md:ring-4 ring-white border border-gray-100">

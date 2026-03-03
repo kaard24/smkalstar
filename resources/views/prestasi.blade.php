@@ -20,24 +20,24 @@
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
                 Pencapaian Gemilang
             </div>
-            <h1 class="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-4 font-heading">
+            <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-4 font-heading">
                 Prestasi <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-sky-500 to-cyan-500">Sekolah</span>
             </h1>
-            <p class="text-gray-600 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">Catatan kebanggaan dan bukti nyata kualitas pendidikan yang telah menghasilkan lulusan berprestasi</p>
+            <p class="text-gray-600 text-sm sm:text-base md:text-xl max-w-3xl mx-auto leading-relaxed">Catatan kebanggaan dan bukti nyata kualitas pendidikan yang telah menghasilkan lulusan berprestasi</p>
         </div>
     </div>
 
-    <section class="py-20 bg-gray-50" x-data="createLightboxData()" @keydown.escape.window="closeLightbox()">
+    <section class="py-12 sm:py-16 md:py-20 bg-gray-50" x-data="createLightboxData()" @keydown.escape.window="closeLightbox()">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             @if($prestasi->count() > 0)
-            <div class="grid grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
                 @foreach($prestasi as $item)
                 @php
                     $images = $item->gambar_urls;
                 @endphp
                 <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-2xl transition-all duration-300 group cursor-pointer flex flex-col"
                      @click="openLightbox({{ json_encode($images) }}, '{{ addslashes($item->judul) }}')">
-                    <div class="relative h-64 overflow-hidden">
+                    <div class="relative h-52 sm:h-60 md:h-64 overflow-hidden">
                         @if($item->gambar_url)
                         <img src="{{ $item->gambar_url }}" alt="{{ $item->judul }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700" loading="lazy" decoding="async">
                         @else
@@ -65,8 +65,8 @@
                          @endif
                     </div>
                     
-                    <div class="p-8 flex-1 flex flex-col">
-                        <h3 class="font-bold text-gray-900 text-xl font-heading mb-3 group-hover:text-primary transition leading-tight">{{ $item->judul }}</h3>
+                    <div class="p-5 sm:p-8 flex-1 flex flex-col">
+                        <h3 class="font-bold text-gray-900 text-base sm:text-xl font-heading mb-3 group-hover:text-primary transition leading-tight">{{ $item->judul }}</h3>
                         @if($item->deskripsi)
                         <p class="text-sm text-gray-500 leading-relaxed line-clamp-3 mb-4">{{ $item->deskripsi }}</p>
                         @endif
@@ -115,21 +115,21 @@
             
             <div class="absolute inset-0" @click="closeLightbox()"></div>
 
-            <button class="absolute top-6 right-6 text-white/50 hover:text-white transition z-50 transform hover:scale-110 duration-200" @click="closeLightbox()">
-                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            <button class="absolute top-4 sm:top-6 right-4 sm:right-6 text-white/50 hover:text-white transition z-50 transform hover:scale-110 duration-200" @click="closeLightbox()">
+                <svg class="w-8 h-8 sm:w-10 sm:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
 
             <!-- Navigation Buttons -->
             <button x-show="activeImages.length > 1" 
                     @click.stop="prevImage()" 
-                    class="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition p-3 hover:bg-white/10 rounded-full z-50">
-                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    class="absolute left-2 sm:left-4 md:left-8 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition p-2 sm:p-3 hover:bg-white/10 rounded-full z-50">
+                <svg class="w-8 h-8 sm:w-10 sm:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
             </button>
             
             <button x-show="activeImages.length > 1" 
                     @click.stop="nextImage()" 
-                    class="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition p-3 hover:bg-white/10 rounded-full z-50">
-                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    class="absolute right-2 sm:right-4 md:right-8 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition p-2 sm:p-3 hover:bg-white/10 rounded-full z-50">
+                <svg class="w-8 h-8 sm:w-10 sm:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
             </button>
 
             <div class="max-w-7xl max-h-[90vh] w-full flex flex-col items-center relative z-40 pointer-events-none">
@@ -137,7 +137,7 @@
                     <img :src="activeImages.length > 0 ? activeImages[activeIndex] : ''" class="max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl transition-all duration-300">
                 </div>
                 <div class="text-white text-center mt-6 pointer-events-auto">
-                    <h3 class="text-2xl font-bold font-heading mb-2" x-text="activeCaption"></h3>
+                    <h3 class="text-lg sm:text-2xl font-bold font-heading mb-2" x-text="activeCaption"></h3>
                     <div x-show="activeImages.length > 1" class="inline-flex gap-1.5 mt-2">
                         <template x-for="(img, idx) in activeImages" :key="idx">
                             <button @click="activeIndex = idx" 

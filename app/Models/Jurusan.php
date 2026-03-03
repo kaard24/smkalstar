@@ -149,6 +149,6 @@ class Jurusan extends Model
      */
     public function getCacheKey()
     {
-        return 'jurusan_aktif';
+        return ['jurusan_aktif', 'jurusan_home'];
     }
 }

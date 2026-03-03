@@ -18,6 +18,7 @@ use App\Models\SpmbKontak;
 use App\Models\SpmbHero;
 use App\Models\SpmbJurusan;
 use App\Models\HeroSection;
+use App\Models\BerandaSection;
 use Illuminate\Support\Facades\Cache;
 
 class PublicPageController extends Controller
@@ -57,7 +58,26 @@ class PublicPageController extends Controller
             return HeroSection::getActive() ?? $this->getDefaultHero();
         });
 
-        return view('home', compact('profil', 'fasilitas', 'galeri', 'berita', 'hero'));
+        // Get jurusan (for homepage cards)
+        $jurusanHome = Cache::remember('jurusan_home', self::CACHE_DURATION, function () {
+            return Jurusan::aktif()->urut()->limit(4)->get();
+        });
+
+        // Dynamic beranda sections managed from admin/beranda
+        $berandaSections = BerandaSection::active()
+            ->ordered()
+            ->get()
+            ->groupBy('tipe');
+
+        return view('home', compact(
+            'profil',
+            'fasilitas',
+            'galeri',
+            'berita',
+            'hero',
+            'jurusanHome',
+            'berandaSections'
+        ));
     }
 
     /**
@@ -112,8 +132,8 @@ class PublicPageController extends Controller
             abort(404);
         }
 
-        // Load info program and detail items
-        $jurusanDetail->load(['infoProgram', 'kompetensiItems', 'mapelItems', 'karirItems']);
+        // Load info program, detail items, and kegiatan jurusan
+        $jurusanDetail->load(['infoProgram', 'kompetensiItems', 'mapelItems', 'karirItems', 'kegiatan.gambar']);
 
         return view('jurusan.detail', compact('jurusanDetail', 'jurusanList'));
     }

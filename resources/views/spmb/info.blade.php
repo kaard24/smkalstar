@@ -47,7 +47,7 @@
                 {{ $judul1 }} <br>
                 <span class="text-transparent bg-clip-text bg-gradient-to-r {{ $badgeClass }}">{{ $judul2 }}</span>
             </h1>
-            <p class="text-gray-600 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed mb-8">{{ $deskripsi }}</p>
+            <p class="text-gray-600 text-sm sm:text-base md:text-xl max-w-3xl mx-auto leading-relaxed mb-8">{{ $deskripsi }}</p>
             
             <!-- Countdown/Quick Info -->
             @if($tampilkanGelombang)
@@ -83,7 +83,7 @@
                     <div>
                         <div class="flex items-center gap-4 mb-8">
                             <span class="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center text-xl font-bold">1</span>
-                            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 font-heading">Program Keahlian</h2>
+                            <h2 class="text-xl sm:text-3xl font-bold text-gray-900 font-heading">Program Keahlian</h2>
                         </div>
                         <div class="grid grid-cols-2 gap-3 sm:gap-6">
                             @forelse($jurusan as $j)
@@ -113,7 +113,7 @@
                     <div>
                         <div class="flex items-center gap-4 mb-8">
                             <span class="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center text-xl font-bold">2</span>
-                            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 font-heading">Jadwal Pendaftaran</h2>
+                            <h2 class="text-xl sm:text-3xl font-bold text-gray-900 font-heading">Jadwal Pendaftaran</h2>
                         </div>
                         
                         <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
@@ -150,7 +150,7 @@
                     <div>
                         <div class="flex items-center gap-4 mb-8">
                             <span class="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center text-xl font-bold">3</span>
-                            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 font-heading">Alur Pendaftaran</h2>
+                            <h2 class="text-xl sm:text-3xl font-bold text-gray-900 font-heading">Alur Pendaftaran</h2>
                         </div>
                         <div class="relative pl-6 sm:pl-10 space-y-10 before:absolute before:left-2 sm:before:left-4 before:top-2 before:bottom-2 before:w-0.5 before:bg-gradient-to-b before:from-primary before:to-slate-200">
                             @forelse($alur as $index => $item)
@@ -159,7 +159,7 @@
                             @endphp
                             <div class="relative group">
                                 <span class="absolute -left-[33px] sm:-left-[41px] top-0 w-8 h-8 sm:w-10 sm:h-10 rounded-full {{ $isFirst ? 'bg-primary border-4 border-white shadow-md text-white' : 'bg-white border-4 border-gray-200 shadow-sm text-gray-500 group-hover:border-primary group-hover:text-primary' }} flex items-center justify-center text-xs sm:text-sm font-bold z-10 transition">{{ $item->nomor }}</span>
-                                <h3 class="font-bold text-gray-900 text-lg mb-1 group-hover:text-primary transition">{{ $item->judul }}</h3>
+                                <h3 class="font-bold text-gray-900 text-base sm:text-lg mb-1 group-hover:text-primary transition">{{ $item->judul }}</h3>
                                 <p class="text-gray-600 leading-relaxed">{{ $item->deskripsi }}</p>
                             </div>
                             @empty
@@ -172,7 +172,7 @@
                     <div>
                          <div class="flex items-center gap-4 mb-8">
                             <span class="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center text-xl font-bold">4</span>
-                            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900 font-heading">Persyaratan Berkas</h2>
+                            <h2 class="text-xl sm:text-3xl font-bold text-gray-900 font-heading">Persyaratan Berkas</h2>
                         </div>
                         <div class="bg-white rounded-3xl border border-gray-100 p-8 shadow-sm">
                             <ul class="space-y-4">

@@ -1,8 +1,8 @@
-@extends('layouts.app')
 
-@section('title', 'Jadwal Seragam - SMK Al-Hidayah Lestari')
 
-@push('styles')
+<?php $__env->startSection('title', 'Jadwal Seragam - SMK Al-Hidayah Lestari'); ?>
+
+<?php $__env->startPush('styles'); ?>
 <style>
 /* Day Tabs */
 .day-tabs {
@@ -392,9 +392,9 @@
 
 [x-cloak] { display: none !important; }
 </style>
-@endpush
+<?php $__env->stopPush(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 <!-- Header -->
 <div class="relative bg-gradient-to-br from-blue-50 via-sky-50 to-cyan-50 py-16 md:py-24 border-b border-blue-100 overflow-hidden">
     <div class="absolute inset-0">
@@ -415,21 +415,22 @@
 
 <!-- Main Content -->
 <section class="py-12 md:py-16 bg-white"
-         x-data="seragamSwipe({{ $seragam->count() }})"
+         x-data="seragamSwipe(<?php echo e($seragam->count()); ?>)"
          x-init="init()">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         
-        @if($seragam->count() > 0)
+        <?php if($seragam->count() > 0): ?>
             <!-- Day Tabs -->
             <div class="flex justify-center mb-10">
                 <div class="day-tabs">
-                    @foreach($seragam as $index => $item)
-                    <button @click="goToSlide({{ $index }})" 
-                            :class="{ 'active': currentSlide === {{ $index }} }"
+                    <?php $__currentLoopData = $seragam; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <button @click="goToSlide(<?php echo e($index); ?>)" 
+                            :class="{ 'active': currentSlide === <?php echo e($index); ?> }"
                             class="day-tab">
-                        {{ $item->hari }}
+                        <?php echo e($item->hari); ?>
+
                     </button>
-                    @endforeach
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </div>
             </div>
 
@@ -438,24 +439,24 @@
                 <div class="flex transition-transform duration-300 ease-out"
                      :style="`transform: translateX(-${currentSlide * 100}%)`">
                     
-                    @foreach($seragam as $item)
-                    @php
+                    <?php $__currentLoopData = $seragam; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <?php
                         $fotoLaki = $item->foto_laki_data ?? [];
                         $fotoPerempuan = $item->foto_perempuan_data ?? [];
-                    @endphp
+                    ?>
                     <div class="w-full flex-shrink-0 px-0 md:px-4">
                         <!-- Day Title -->
                         <div class="text-center mb-8">
-                            <h2 class="text-2xl font-bold text-gray-900">{{ $item->hari }}</h2>
-                            @if($item->keterangan)
-                                <p class="text-gray-500 mt-1">{{ $item->keterangan }}</p>
-                            @endif
+                            <h2 class="text-2xl font-bold text-gray-900"><?php echo e($item->hari); ?></h2>
+                            <?php if($item->keterangan): ?>
+                                <p class="text-gray-500 mt-1"><?php echo e($item->keterangan); ?></p>
+                            <?php endif; ?>
                         </div>
 
                         <!-- Photos Grid -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
                             <!-- Laki-laki -->
-                            <div x-data="photoGallery({{ json_encode($fotoLaki) }}, 'Laki-laki')">
+                            <div x-data="photoGallery(<?php echo e(json_encode($fotoLaki)); ?>, 'Laki-laki')">
                                 <div class="photo-card">
                                     <div class="p-4 bg-gradient-to-r from-blue-50 to-blue-100 border-b border-blue-100 flex items-center gap-3">
                                         <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white">
@@ -464,17 +465,17 @@
                                             </svg>
                                         </div>
                                         <span class="font-semibold text-blue-900">Laki-laki</span>
-                                        @if(count($fotoLaki) > 1)
+                                        <?php if(count($fotoLaki) > 1): ?>
                                             <span class="ml-auto text-xs bg-blue-200 text-blue-700 px-3 py-1 rounded-full">
-                                                {{ count($fotoLaki) }} foto
+                                                <?php echo e(count($fotoLaki)); ?> foto
                                             </span>
-                                        @endif
+                                        <?php endif; ?>
                                     </div>
                                     
-                                    @if(count($fotoLaki) > 0)
+                                    <?php if(count($fotoLaki) > 0): ?>
                                         <div class="photo-wrapper" @click="openLightbox(currentIndex)">
                                             <img :src="`/storage/${photos[currentIndex].foto}`" 
-                                                 :alt="`Seragam {{ $item->hari }} Laki-laki`"
+                                                 :alt="`Seragam <?php echo e($item->hari); ?> Laki-laki`"
                                                  loading="lazy">
                                             
                                             <!-- Hover Overlay -->
@@ -486,20 +487,20 @@
                                                 </div>
                                             </div>
                                             
-                                            @if(count($fotoLaki) > 1)
+                                            <?php if(count($fotoLaki) > 1): ?>
                                             <div class="photo-nav-dots">
                                                 <template x-for="(photo, idx) in photos" :key="idx">
                                                     <div class="photo-dot" :class="{ 'active': currentIndex === idx }"></div>
                                                 </template>
                                             </div>
-                                            @endif
+                                            <?php endif; ?>
                                         </div>
                                         
                                         <!-- Caption -->
                                         <div class="photo-caption" x-show="photos[currentIndex]?.keterangan" x-text="photos[currentIndex]?.keterangan" x-cloak></div>
                                         
                                         <!-- Navigation -->
-                                        @if(count($fotoLaki) > 1)
+                                        <?php if(count($fotoLaki) > 1): ?>
                                         <div class="photo-nav-bar">
                                             <button @click="prevPhoto()" class="photo-nav-btn">
                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -507,7 +508,8 @@
                                                 </svg>
                                             </button>
                                             <span class="text-sm text-gray-500 font-medium">
-                                                <span x-text="currentIndex + 1"></span> / {{ count($fotoLaki) }}
+                                                <span x-text="currentIndex + 1"></span> / <?php echo e(count($fotoLaki)); ?>
+
                                             </span>
                                             <button @click="nextPhoto()" class="photo-nav-btn">
                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -515,15 +517,15 @@
                                                 </svg>
                                             </button>
                                         </div>
-                                        @endif
-                                    @else
+                                        <?php endif; ?>
+                                    <?php else: ?>
                                         <div class="empty-photo">
                                             <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                             </svg>
                                             <span class="text-sm">Belum ada foto</span>
                                         </div>
-                                    @endif
+                                    <?php endif; ?>
                                 </div>
 
                                 <!-- Lightbox Backdrop -->
@@ -577,7 +579,7 @@
                             </div>
 
                             <!-- Perempuan -->
-                            <div x-data="photoGallery({{ json_encode($fotoPerempuan) }}, 'Perempuan')">
+                            <div x-data="photoGallery(<?php echo e(json_encode($fotoPerempuan)); ?>, 'Perempuan')">
                                 <div class="photo-card">
                                     <div class="p-4 bg-gradient-to-r from-pink-50 to-pink-100 border-b border-pink-100 flex items-center gap-3">
                                         <div class="w-10 h-10 rounded-full bg-pink-500 flex items-center justify-center text-white">
@@ -586,17 +588,17 @@
                                             </svg>
                                         </div>
                                         <span class="font-semibold text-pink-900">Perempuan</span>
-                                        @if(count($fotoPerempuan) > 1)
+                                        <?php if(count($fotoPerempuan) > 1): ?>
                                             <span class="ml-auto text-xs bg-pink-200 text-pink-700 px-3 py-1 rounded-full">
-                                                {{ count($fotoPerempuan) }} foto
+                                                <?php echo e(count($fotoPerempuan)); ?> foto
                                             </span>
-                                        @endif
+                                        <?php endif; ?>
                                     </div>
                                     
-                                    @if(count($fotoPerempuan) > 0)
+                                    <?php if(count($fotoPerempuan) > 0): ?>
                                         <div class="photo-wrapper" @click="openLightbox(currentIndex)">
                                             <img :src="`/storage/${photos[currentIndex].foto}`" 
-                                                 :alt="`Seragam {{ $item->hari }} Perempuan`"
+                                                 :alt="`Seragam <?php echo e($item->hari); ?> Perempuan`"
                                                  loading="lazy">
                                             
                                             <!-- Hover Overlay -->
@@ -608,20 +610,20 @@
                                                 </div>
                                             </div>
                                             
-                                            @if(count($fotoPerempuan) > 1)
+                                            <?php if(count($fotoPerempuan) > 1): ?>
                                             <div class="photo-nav-dots">
                                                 <template x-for="(photo, idx) in photos" :key="idx">
                                                     <div class="photo-dot" :class="{ 'active': currentIndex === idx }"></div>
                                                 </template>
                                             </div>
-                                            @endif
+                                            <?php endif; ?>
                                         </div>
                                         
                                         <!-- Caption -->
                                         <div class="photo-caption" x-show="photos[currentIndex]?.keterangan" x-text="photos[currentIndex]?.keterangan" x-cloak></div>
                                         
                                         <!-- Navigation -->
-                                        @if(count($fotoPerempuan) > 1)
+                                        <?php if(count($fotoPerempuan) > 1): ?>
                                         <div class="photo-nav-bar">
                                             <button @click="prevPhoto()" class="photo-nav-btn">
                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -629,7 +631,8 @@
                                                 </svg>
                                             </button>
                                             <span class="text-sm text-gray-500 font-medium">
-                                                <span x-text="currentIndex + 1"></span> / {{ count($fotoPerempuan) }}
+                                                <span x-text="currentIndex + 1"></span> / <?php echo e(count($fotoPerempuan)); ?>
+
                                             </span>
                                             <button @click="nextPhoto()" class="photo-nav-btn">
                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -637,15 +640,15 @@
                                                 </svg>
                                             </button>
                                         </div>
-                                        @endif
-                                    @else
+                                        <?php endif; ?>
+                                    <?php else: ?>
                                         <div class="empty-photo">
                                             <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                             </svg>
                                             <span class="text-sm">Belum ada foto</span>
                                         </div>
-                                    @endif
+                                    <?php endif; ?>
                                 </div>
 
                                 <!-- Lightbox Backdrop -->
@@ -699,11 +702,11 @@
                             </div>
                         </div>
                     </div>
-                    @endforeach
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </div>
             </div>
 
-        @else
+        <?php else: ?>
             <!-- Empty State -->
             <div class="max-w-2xl mx-auto">
                 <div class="relative bg-gradient-to-br from-fuchsia-50 via-purple-50 to-pink-50 border border-fuchsia-100 rounded-3xl p-12 md:p-16 text-center overflow-hidden">
@@ -725,12 +728,12 @@
                     </div>
                 </div>
             </div>
-        @endif
+        <?php endif; ?>
     </div>
 </section>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@push('scripts')
+<?php $__env->startPush('scripts'); ?>
 <script>
 // Main Swipe Controller
 function seragamSwipe(totalSlides) {
@@ -848,4 +851,6 @@ function photoGallery(photos, type) {
     }
 }
 </script>
-@endpush
+<?php $__env->stopPush(); ?>
+
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\eka\.gemini\antigravity\scratch\smk-alstar\resources\views/seragam.blade.php ENDPATH**/ ?>

@@ -3,7 +3,7 @@
 @section('title', 'Lengkapi Data - SMK Al-Hidayah Lestari')
 
 @section('content')
-<div class="min-h-screen bg-gray-50 py-8" x-data="{
+<div class="min-h-screen bg-gray-50 py-6 sm:py-8" x-data="{
     step: 1,
     totalSteps: 2,
     isLoading: false,
@@ -50,8 +50,8 @@
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Header -->
         <div class="mb-8 text-center sm:text-left">
-            <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Lengkapi Data Pendaftaran</h1>
-            <p class="text-gray-600 mt-2">Silakan lengkapi data yang masih diperlukan untuk melanjutkan proses pendaftaran.</p>
+            <h1 class="text-xl sm:text-3xl font-bold text-gray-900">Lengkapi Data Pendaftaran</h1>
+            <p class="text-sm sm:text-base text-gray-600 mt-2">Silakan lengkapi data yang masih diperlukan untuk melanjutkan proses pendaftaran.</p>
         </div>
 
         <!-- Progress Steps -->
@@ -542,7 +542,7 @@
                                 Pilih Jenis <span class="text-red-500">*</span>
                             </label>
                             <div class="flex flex-wrap gap-4">
-                                <label class="flex items-center gap-3 cursor-pointer bg-white px-5 py-4 rounded-xl border-2 transition-all flex-1 min-w-[140px]"
+                                <label class="flex items-center gap-3 cursor-pointer bg-white px-4 sm:px-5 py-4 rounded-xl border-2 transition-all flex-1 min-w-[120px] sm:min-w-[140px]"
                                     :class="jenis === 'orang_tua' ? 'border-primary ring-2 ring-primary/20' : 'border-gray-200 hover:border-primary/50'">
                                     <input type="radio" name="jenis" value="orang_tua" x-model="jenis" required
                                         class="w-5 h-5 text-primary border-gray-300 focus:ring-primary cursor-pointer">
@@ -551,7 +551,7 @@
                                         <span class="text-xs text-gray-500">Ayah & Ibu kandung</span>
                                     </div>
                                 </label>
-                                <label class="flex items-center gap-3 cursor-pointer bg-white px-5 py-4 rounded-xl border-2 transition-all flex-1 min-w-[140px]"
+                                <label class="flex items-center gap-3 cursor-pointer bg-white px-4 sm:px-5 py-4 rounded-xl border-2 transition-all flex-1 min-w-[120px] sm:min-w-[140px]"
                                     :class="jenis === 'wali' ? 'border-primary ring-2 ring-primary/20' : 'border-gray-200 hover:border-primary/50'">
                                     <input type="radio" name="jenis" value="wali" x-model="jenis" required
                                         class="w-5 h-5 text-primary border-gray-300 focus:ring-primary cursor-pointer">
@@ -1170,7 +1170,7 @@
 </div>
 
 {{-- Auto-save Notification Toast --}}
-<div id="autosave-toast" class="fixed bottom-4 right-4 z-50 transform translate-y-20 opacity-0 transition-all duration-300" style="display: none;">
+<div id="autosave-toast" class="fixed bottom-4 mobile-fixed-safe right-3 sm:right-4 z-50 transform translate-y-20 opacity-0 transition-all duration-300" style="display: none;">
     <div class="bg-gray-800 text-white px-4 py-3 rounded-xl shadow-lg flex items-center gap-3">
         <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>

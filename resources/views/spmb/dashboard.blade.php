@@ -74,7 +74,7 @@
                         <h3 class="font-semibold text-slate-800">Status Pendaftaran</h3>
                     </div>
                     <div class="p-4">
-                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                             @php
                                 $statusItems = [
                                     ['key' => 'biodata', 'label' => 'Biodata', 'icon' => 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z'],

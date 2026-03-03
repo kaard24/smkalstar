@@ -42,7 +42,7 @@ $footer = \App\Models\FooterSetting::getSettings();
                 </h3>
                 <ul class="space-y-2.5 sm:space-y-3 text-xs sm:text-sm text-gray-400">
                     <li><a href="<?php echo e(url('/profil')); ?>" class="hover:text-primary transition flex items-center gap-2 group"><span class="w-1.5 h-1.5 rounded-full bg-gray-600 group-hover:bg-primary transition"></span>Profil Sekolah</a></li>
-                    <li><a href="<?php echo e(url('/ppdb/info')); ?>" class="hover:text-primary transition flex items-center gap-2 group"><span class="w-1.5 h-1.5 rounded-full bg-gray-600 group-hover:bg-primary transition"></span>Info SPMB</a></li>
+                    <li><a href="<?php echo e(url('/spmb/info')); ?>" class="hover:text-primary transition flex items-center gap-2 group"><span class="w-1.5 h-1.5 rounded-full bg-gray-600 group-hover:bg-primary transition"></span>Info SPMB</a></li>
                     <li><a href="<?php echo e(url('/ekstrakurikuler')); ?>" class="hover:text-primary transition flex items-center gap-2 group"><span class="w-1.5 h-1.5 rounded-full bg-gray-600 group-hover:bg-primary transition"></span>Ekstrakurikuler</a></li>
                     <li><a href="<?php echo e(url('/berita')); ?>" class="hover:text-primary transition flex items-center gap-2 group"><span class="w-1.5 h-1.5 rounded-full bg-gray-600 group-hover:bg-primary transition"></span>Berita</a></li>
                 </ul>
