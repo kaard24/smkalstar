@@ -118,9 +118,7 @@
                 @auth('spmb')
                     @php
                         $user = auth('spmb')->user();
-                        $fotoUrl = $user->foto && file_exists(public_path('storage/foto/' . $user->foto)) 
-                            ? asset('storage/foto/' . $user->foto) 
-                            : ($user->jk === 'P' ? asset('images/avatar-female.svg') : asset('images/avatar-male.svg'));
+                        $fotoUrl = $user->foto_url . '?v=' . optional($user->updated_at)->timestamp;
                     @endphp
                     <div class="relative" x-data="{ open: false }" @click.away="open = false">
                         <button @click="open = !open" class="flex items-center gap-2 text-gray-700 hover:text-primary transition focus:outline-none px-2 py-1 rounded-lg hover:bg-gray-50" aria-haspopup="true" :aria-expanded="open.toString()" aria-label="Menu pengguna {{ $user->nama ?: 'Siswa' }}">

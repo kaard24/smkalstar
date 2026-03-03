@@ -37,6 +37,7 @@ Route::get('/', [PublicPageController::class, 'home']);
 Route::get('/profil', [PublicPageController::class, 'profil'])->name('profil');
 
 Route::get('/jurusan/{slug}', [PublicPageController::class, 'jurusanDetail'])->name('jurusan.detail');
+Route::get('/jurusan/{slug}/kegiatan/{kegiatanId}', [PublicPageController::class, 'jurusanKegiatanDetail'])->name('jurusan.kegiatan.detail');
 Route::get('/fasilitas', [PublicPageController::class, 'fasilitas'])->name('fasilitas');
 Route::get('/ekstrakurikuler', [PublicPageController::class, 'ekstrakurikuler'])->name('ekstrakurikuler');
 Route::get('/prestasi', [PublicPageController::class, 'prestasi'])->name('prestasi');

@@ -82,17 +82,17 @@
     </div>
 
     <!-- Navigation Jurusan -->
-    <div class="bg-white border-b border-gray-200 sticky top-14 md:top-16 z-40">
+    <div class="bg-white border-b border-gray-200 sticky top-14 md:top-16 z-40 overflow-x-hidden">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center gap-2 overflow-x-auto py-2 sm:py-3 no-scrollbar scroll-smooth">
-                <span class="text-gray-500 text-xs sm:text-sm font-medium whitespace-nowrap mr-1 sm:mr-2 flex-shrink-0">Jurusan:</span>
+            <div class="flex flex-wrap items-center gap-2 py-2 sm:py-3">
+                <span class="text-gray-500 text-xs sm:text-sm font-medium mr-1 sm:mr-2">Jurusan:</span>
                 @foreach($jurusanList as $j)
                     @php
                         $jLogoUrl = $j->logo_url ?? asset('images/logo/default.jpeg');
                         $isActive = $j->id === $jurusanDetail->id;
                     @endphp
                     <a href="{{ url('/jurusan/' . strtolower($j->kode)) }}" 
-                       class="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium whitespace-nowrap transition flex-shrink-0 {{ $isActive ? $theme['bg'] . ' text-white' : 'text-gray-600 hover:bg-gray-100' }}">
+                       class="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition {{ $isActive ? $theme['bg'] . ' text-white' : 'text-gray-600 hover:bg-gray-100' }}">
                         <img src="{{ $jLogoUrl }}" alt="{{ $j->nama }}" class="w-4 h-4 sm:w-5 sm:h-5 rounded-full object-cover flex-shrink-0">
                         <span>{{ $j->kode }}</span>
                     </a>
@@ -218,22 +218,37 @@
                             <span>Kegiatan Jurusan</span>
                         </h2>
 
-                        <div class="space-y-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                             @foreach($jurusanDetail->kegiatan as $kegiatan)
-                            <div class="border border-gray-100 rounded-xl p-4 sm:p-5">
-                                <h3 class="font-bold text-gray-900 text-sm sm:text-base">{{ $kegiatan->judul }}</h3>
-                                @if($kegiatan->deskripsi)
-                                <p class="text-gray-600 text-sm mt-1">{{ $kegiatan->deskripsi }}</p>
-                                @endif
-
-                                @if($kegiatan->gambar->count() > 0)
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
-                                    @foreach($kegiatan->gambar as $g)
-                                    <img src="{{ $g->gambar_url }}" alt="{{ $kegiatan->judul }}" class="w-full h-24 sm:h-32 object-cover rounded-lg border border-gray-100">
-                                    @endforeach
+                            @php
+                                $cover = $kegiatan->gambar->first()?->gambar_url;
+                            @endphp
+                            <a href="{{ route('jurusan.kegiatan.detail', ['slug' => strtolower($jurusanDetail->kode), 'kegiatanId' => $kegiatan->id]) }}"
+                               class="group border border-gray-100 rounded-xl overflow-hidden hover:shadow-md transition">
+                                <div class="h-36 sm:h-40 bg-gray-100">
+                                    @if($cover)
+                                    <img src="{{ $cover }}" alt="{{ $kegiatan->judul }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                                    @else
+                                    <div class="w-full h-full flex items-center justify-center text-gray-300">
+                                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                        </svg>
+                                    </div>
+                                    @endif
                                 </div>
-                                @endif
-                            </div>
+                                <div class="p-4">
+                                    <h3 class="font-bold text-gray-900 text-sm sm:text-base mb-1 line-clamp-2">{{ $kegiatan->judul }}</h3>
+                                    @if($kegiatan->deskripsi)
+                                    <p class="text-gray-600 text-sm line-clamp-3">{{ \Illuminate\Support\Str::limit(strip_tags($kegiatan->deskripsi), 120) }}</p>
+                                    @endif
+                                    <span class="inline-flex items-center gap-1 mt-3 text-sm font-semibold {{ $theme['text'] }}">
+                                        Lihat Detail
+                                        <svg class="w-4 h-4 group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                        </svg>
+                                    </span>
+                                </div>
+                            </a>
                             @endforeach
                         </div>
                     </div>

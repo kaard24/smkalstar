@@ -60,16 +60,6 @@
         </div>
     </section>
 
-    <!-- Mobile Sticky CTA -->
-    <div class="lg:hidden fixed mobile-fixed-safe inset-x-0 z-40 p-3 bg-white/95 backdrop-blur border-t border-slate-200">
-        <a href="{{ url($hero->button_primary_url) }}" class="w-full inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-xl shadow-md transition">
-            {{ $hero->button_primary_text }}
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-            </svg>
-        </a>
-    </div>
-
     <!-- Tentang Kami Section -->
     <section id="sejarah" class="py-16 lg:py-20 bg-slate-50 pb-24 lg:pb-20">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -163,7 +153,7 @@
                 <p class="text-gray-600">Program keahlian unggulan yang siap menyiapkanmu untuk dunia kerja dan industri.</p>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
                 @php
                     $jurusanThemes = [
                         ['bg' => 'bg-blue-50', 'text' => 'text-blue-600'],
@@ -212,9 +202,9 @@
                 </a>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
-                @foreach($fasilitas as $item)
-                <div class="group bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all">
+            <div class="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
+                @foreach($fasilitas->take(6) as $index => $item)
+                <div class="group bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all {{ $index >= 4 ? 'hidden md:block' : '' }}">
                     <div class="aspect-[16/10] overflow-hidden bg-gray-100">
                         @if($item->gambar_url)
                         <img src="{{ $item->gambar_url }}" alt="{{ $item->nama }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">

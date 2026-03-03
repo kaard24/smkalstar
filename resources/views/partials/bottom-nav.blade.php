@@ -29,9 +29,7 @@
         {{-- Profil --}}
         @php
             $navUser = auth('spmb')->user();
-            $navFotoUrl = $navUser->foto && file_exists(public_path('storage/foto/' . $navUser->foto)) 
-                ? asset('storage/foto/' . $navUser->foto) 
-                : ($navUser->jk === 'P' ? asset('images/avatar-female.svg') : asset('images/avatar-male.svg'));
+            $navFotoUrl = $navUser->foto_url . '?v=' . optional($navUser->updated_at)->timestamp;
         @endphp
         <a href="{{ route('spmb.profil') }}" data-instant class="inline-flex flex-col items-center justify-center px-2 hover:bg-gray-50 group {{ request()->routeIs('spmb.profil') ? 'text-primary' : 'text-gray-500' }}" aria-current="{{ request()->routeIs('spmb.profil') ? 'page' : 'false' }}">
             <div class="w-6 h-6 mb-0.5 rounded-full overflow-hidden border-2 {{ request()->routeIs('spmb.profil') ? 'border-primary' : 'border-gray-300' }}">

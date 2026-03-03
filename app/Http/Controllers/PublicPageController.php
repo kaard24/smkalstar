@@ -19,6 +19,7 @@ use App\Models\SpmbHero;
 use App\Models\SpmbJurusan;
 use App\Models\HeroSection;
 use App\Models\BerandaSection;
+use App\Models\JurusanKegiatan;
 use Illuminate\Support\Facades\Cache;
 
 class PublicPageController extends Controller
@@ -136,6 +137,33 @@ class PublicPageController extends Controller
         $jurusanDetail->load(['infoProgram', 'kompetensiItems', 'mapelItems', 'karirItems', 'kegiatan.gambar']);
 
         return view('jurusan.detail', compact('jurusanDetail', 'jurusanList'));
+    }
+
+    /**
+     * Detail kegiatan jurusan page
+     */
+    public function jurusanKegiatanDetail($slug, $kegiatanId)
+    {
+        $jurusanList = Cache::remember('jurusan_aktif', self::CACHE_DURATION, function () {
+            return Jurusan::aktif()->urut()->get();
+        });
+
+        $searchSlug = strtolower($slug);
+
+        $jurusanDetail = $jurusanList->first(function ($item) use ($searchSlug) {
+            return strtolower($item->kode) === $searchSlug ||
+                   str_replace(' ', '-', strtolower($item->nama)) === $searchSlug;
+        });
+
+        if (!$jurusanDetail) {
+            abort(404);
+        }
+
+        $kegiatan = JurusanKegiatan::with(['gambar', 'jurusan'])
+            ->where('jurusan_id', $jurusanDetail->id)
+            ->findOrFail($kegiatanId);
+
+        return view('jurusan.kegiatan-detail', compact('jurusanDetail', 'jurusanList', 'kegiatan'));
     }
 
     /**
