@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 
 class HeroSection extends Model
@@ -21,6 +22,8 @@ class HeroSection extends Model
         'button_secondary_url',
         'hero_image',
         'is_active',
+        'created_by',
+        'updated_by',
     ];
 
     protected $casts = [
@@ -33,5 +36,15 @@ class HeroSection extends Model
     public static function getActive(): ?self
     {
         return static::where('is_active', true)->first();
+    }
+
+    public function creator(): BelongsTo
+    {
+        return $this->belongsTo(Admin::class, 'created_by');
+    }
+
+    public function updater(): BelongsTo
+    {
+        return $this->belongsTo(Admin::class, 'updated_by');
     }
 }

@@ -146,7 +146,7 @@
                 <div class="inline-flex items-center justify-center w-16 h-16 bg-white/20 backdrop-blur-sm rounded-xl mb-6 ring-1 ring-white/30">
                     <img src="{{ asset('images/logo.webp') }}" alt="Logo" class="w-11 h-11 object-contain rounded-lg">
                 </div>
-                <h1 class="text-3xl xl:text-4xl font-bold text-white mb-4 leading-tight">
+                <h1 class="text-2xl sm:text-3xl xl:text-4xl font-bold text-white mb-4 leading-tight">
                     Bergabung<br>Bersama <span class="text-cyan-300">Kami</span>
                 </h1>
                 <p class="text-white/80 leading-relaxed">

@@ -116,6 +116,14 @@
                     <input type="file" name="hero_image" accept="image/*"
                            class="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:border-[#4276A3] focus:ring-1 focus:ring-[#4276A3]">
                     <p class="text-xs text-slate-500 mt-1">Format: JPG, PNG, WebP. Max: 2MB. Kosongkan jika tidak ingin mengubah gambar.</p>
+
+                    @if($hero->hero_image)
+                    <label class="mt-3 inline-flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" name="remove_image" value="1" {{ old('remove_image') ? 'checked' : '' }}
+                               class="w-4 h-4 text-red-600 border-slate-300 rounded focus:ring-red-500">
+                        <span class="text-xs text-red-600">Hapus gambar saat ini</span>
+                    </label>
+                    @endif
                 </div>
 
                 {{-- Status --}}

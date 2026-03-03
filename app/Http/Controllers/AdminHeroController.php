@@ -4,16 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\HeroSection;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 
 class AdminHeroController extends Controller
 {
+    private const DEFAULT_HERO_IMAGE = 'images/b1.webp';
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $heroes = HeroSection::orderBy('created_at', 'desc')->get();
+        $heroes = HeroSection::with(['creator', 'updater'])
+            ->orderBy('created_at', 'desc')
+            ->get();
         return view('admin.hero.index', compact('heroes'));
     }
 
@@ -41,15 +47,13 @@ class AdminHeroController extends Controller
             'button_secondary_text' => 'required|string|max:50',
             'button_secondary_url' => 'required|string|max:200',
             'hero_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'remove_image' => 'nullable|boolean',
             'is_active' => 'boolean',
         ]);
 
         // Handle image upload
         if ($request->hasFile('hero_image')) {
-            $image = $request->file('hero_image');
-            $filename = 'hero_' . time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images'), $filename);
-            $validated['hero_image'] = 'images/' . $filename;
+            $validated['hero_image'] = $this->storeHeroImage($request->file('hero_image'));
         }
 
         $validated['is_active'] = $request->boolean('is_active', false);
@@ -59,7 +63,11 @@ class AdminHeroController extends Controller
             HeroSection::where('is_active', true)->update(['is_active' => false]);
         }
 
+        $validated['created_by'] = Auth::guard('admin')->id();
+        $validated['updated_by'] = Auth::guard('admin')->id();
+
         HeroSection::create($validated);
+        $this->clearHeroCache();
 
         return redirect()->route('admin.hero.index')
             ->with('success', 'Hero section berhasil dibuat!');
@@ -89,20 +97,19 @@ class AdminHeroController extends Controller
             'button_secondary_text' => 'required|string|max:50',
             'button_secondary_url' => 'required|string|max:200',
             'hero_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'remove_image' => 'nullable|boolean',
             'is_active' => 'boolean',
         ]);
 
-        // Handle image upload
+        // Handle image upload / remove
         if ($request->hasFile('hero_image')) {
-            // Delete old image if exists and not default
-            if ($hero->hero_image && file_exists(public_path($hero->hero_image))) {
-                unlink(public_path($hero->hero_image));
-            }
-
-            $image = $request->file('hero_image');
-            $filename = 'hero_' . time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('images'), $filename);
-            $validated['hero_image'] = 'images/' . $filename;
+            $oldImage = $hero->hero_image;
+            $validated['hero_image'] = $this->storeHeroImage($request->file('hero_image'));
+            $this->deleteHeroImageIfCustom($oldImage);
+        } elseif ($request->boolean('remove_image')) {
+            $this->deleteHeroImageIfCustom($hero->hero_image);
+            // Keep column non-null but empty so default image is not used anymore.
+            $validated['hero_image'] = '';
         }
 
         $validated['is_active'] = $request->boolean('is_active', false);
@@ -112,7 +119,10 @@ class AdminHeroController extends Controller
             HeroSection::where('is_active', true)->where('id', '!=', $hero->id)->update(['is_active' => false]);
         }
 
+        $validated['updated_by'] = Auth::guard('admin')->id();
+
         $hero->update($validated);
+        $this->clearHeroCache();
 
         return redirect()->route('admin.hero.index')
             ->with('success', 'Hero section berhasil diperbarui!');
@@ -123,12 +133,10 @@ class AdminHeroController extends Controller
      */
     public function destroy(HeroSection $hero)
     {
-        // Delete image if exists and not default
-        if ($hero->hero_image && file_exists(public_path($hero->hero_image))) {
-            unlink(public_path($hero->hero_image));
-        }
+        $this->deleteHeroImageIfCustom($hero->hero_image);
 
         $hero->delete();
+        $this->clearHeroCache();
 
         return redirect()->route('admin.hero.index')
             ->with('success', 'Hero section berhasil dihapus!');
@@ -140,9 +148,39 @@ class AdminHeroController extends Controller
     public function setActive(HeroSection $hero)
     {
         HeroSection::where('is_active', true)->update(['is_active' => false]);
-        $hero->update(['is_active' => true]);
+        $hero->update([
+            'is_active' => true,
+            'updated_by' => Auth::guard('admin')->id(),
+        ]);
+        $this->clearHeroCache();
 
         return redirect()->route('admin.hero.index')
             ->with('success', 'Hero section berhasil diaktifkan!');
+    }
+
+    private function storeHeroImage($image): string
+    {
+        $extension = strtolower($image->getClientOriginalExtension() ?: 'jpg');
+        $filename = 'hero_' . Str::uuid()->toString() . '.' . $extension;
+        $image->move(public_path('images'), $filename);
+
+        return 'images/' . $filename;
+    }
+
+    private function deleteHeroImageIfCustom(?string $imagePath): void
+    {
+        if (!$imagePath || $imagePath === self::DEFAULT_HERO_IMAGE) {
+            return;
+        }
+
+        $fullPath = public_path($imagePath);
+        if (is_file($fullPath)) {
+            @unlink($fullPath);
+        }
+    }
+
+    private function clearHeroCache(): void
+    {
+        Cache::forget('hero_section');
     }
 }

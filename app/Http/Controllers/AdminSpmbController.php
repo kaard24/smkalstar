@@ -789,62 +789,7 @@ class AdminSpmbController extends Controller
 
         $callback = function () use ($pendaftar) {
             $file = fopen('php://output', 'w');
-            
-            // Add BOM for UTF-8
-            fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
-
-            // Header row
-            fputcsv($file, [
-                'No',
-                'NISN',
-                'Nama Lengkap',
-                'Jenis Kelamin',
-                'Tanggal Lahir',
-                'Asal Sekolah',
-                'Alamat',
-                'No. WhatsApp',
-                'Nama Ayah',
-                'Nama Ibu',
-                'No. WA Ortu',
-                'Jurusan Pilihan',
-                'Gelombang',
-                'Status Pendaftaran',
-                'Nilai Minat Bakat',
-                'Status Wawancara',
-                'Status Kelulusan',
-                'Tanggal Daftar'
-            ]);
-
-            // Data rows
-            foreach ($pendaftar as $index => $siswa) {
-                // Safely access nested relationships
-                $pendaftaran = $siswa->pendaftaran;
-                $jurusan = $pendaftaran?->jurusan;
-                $tes = $pendaftaran?->tes;
-                $orangTua = $siswa->orangTua;
-                
-                fputcsv($file, [
-                    $index + 1,
-                    "'" . $siswa->nisn,
-                    $siswa->nama,
-                    $siswa->jk == 'L' ? 'Laki-laki' : ($siswa->jk == 'P' ? 'Perempuan' : '-'),
-                    $siswa->tgl_lahir ? $siswa->tgl_lahir->format('d/m/Y') : '-',
-                    $siswa->asal_sekolah ?? '-',
-                    $siswa->alamat ?? '-',
-                    $siswa->no_wa ? "'" . $siswa->no_wa : '-',
-                    $orangTua?->nama_ayah ?? '-',
-                    $orangTua?->nama_ibu ?? '-',
-                    $orangTua?->no_wa_ortu ? "'" . $orangTua->no_wa_ortu : '-',
-                    $jurusan?->nama ?? 'Belum Memilih',
-                    $pendaftaran?->gelombang ?? '-',
-                    $pendaftaran?->status_pendaftaran ?? 'Belum Lengkap',
-                    $tes?->nilai_minat_bakat ?? '-',
-                    $tes?->status_wawancara ?? 'belum',
-                    $tes?->status_kelulusan ?? 'Pending',
-                    $siswa->created_at?->format('d/m/Y H:i') ?? '-'
-                ]);
-            }
-
+            $this->writePendaftarCsv($file, $pendaftar);
             fclose($file);
         };
 
@@ -926,62 +871,7 @@ class AdminSpmbController extends Controller
 
         $callback = function () use ($pendaftar) {
             $file = fopen('php://output', 'w');
-            
-            // Add BOM for UTF-8
-            fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
-
-            // Header row
-            fputcsv($file, [
-                'No',
-                'NISN',
-                'Nama Lengkap',
-                'Jenis Kelamin',
-                'Tanggal Lahir',
-                'Asal Sekolah',
-                'Alamat',
-                'No. WhatsApp',
-                'Nama Ayah',
-                'Nama Ibu',
-                'No. WA Ortu',
-                'Jurusan Pilihan',
-                'Gelombang',
-                'Status Pendaftaran',
-                'Nilai Minat Bakat',
-                'Status Wawancara',
-                'Status Kelulusan',
-                'Tanggal Daftar'
-            ]);
-
-            // Data rows
-            foreach ($pendaftar as $index => $siswa) {
-                // Safely access nested relationships
-                $pendaftaran = $siswa->pendaftaran;
-                $jurusan = $pendaftaran?->jurusan;
-                $tes = $pendaftaran?->tes;
-                $orangTua = $siswa->orangTua;
-                
-                fputcsv($file, [
-                    $index + 1,
-                    "'" . $siswa->nisn,
-                    $siswa->nama,
-                    $siswa->jk == 'L' ? 'Laki-laki' : ($siswa->jk == 'P' ? 'Perempuan' : '-'),
-                    $siswa->tgl_lahir ? $siswa->tgl_lahir->format('d/m/Y') : '-',
-                    $siswa->asal_sekolah ?? '-',
-                    $siswa->alamat ?? '-',
-                    $siswa->no_wa ? "'" . $siswa->no_wa : '-',
-                    $orangTua?->nama_ayah ?? '-',
-                    $orangTua?->nama_ibu ?? '-',
-                    $orangTua?->no_wa_ortu ? "'" . $orangTua->no_wa_ortu : '-',
-                    $jurusan?->nama ?? 'Belum Memilih',
-                    $pendaftaran?->gelombang ?? '-',
-                    $pendaftaran?->status_pendaftaran ?? 'Belum Lengkap',
-                    $tes?->nilai_minat_bakat ?? '-',
-                    $tes?->status_wawancara ?? 'belum',
-                    $tes?->status_kelulusan ?? 'Pending',
-                    $siswa->created_at?->format('d/m/Y H:i') ?? '-'
-                ]);
-            }
-
+            $this->writePendaftarCsv($file, $pendaftar);
             fclose($file);
         };
 
@@ -989,14 +879,77 @@ class AdminSpmbController extends Controller
     }
 
     /**
-     * Bulk update status pendaftar
+     * Tulis data pendaftar ke format CSV yang konsisten untuk export.
+     */
+    private function writePendaftarCsv($file, $pendaftar): void
+    {
+        // Add BOM for UTF-8
+        fprintf($file, chr(0xEF) . chr(0xBB) . chr(0xBF));
+
+        // Header row
+        fputcsv($file, [
+            'No',
+            'NISN',
+            'Nama Lengkap',
+            'Jenis Kelamin',
+            'Tanggal Lahir',
+            'Asal Sekolah',
+            'Alamat',
+            'No. WhatsApp',
+            'Nama Ayah',
+            'Nama Ibu',
+            'No. WA Ortu',
+            'Jurusan Pilihan',
+            'Gelombang',
+            'Status Pendaftaran',
+            'Nilai Minat Bakat',
+            'Status Wawancara',
+            'Status Kelulusan',
+            'Tanggal Daftar',
+        ]);
+
+        foreach ($pendaftar as $index => $siswa) {
+            $pendaftaran = $siswa->pendaftaran;
+            $jurusan = $pendaftaran?->jurusan;
+            $tes = $pendaftaran?->tes;
+            $orangTua = $siswa->orangTua;
+
+            $statusWawancara = ($tes?->status_wawancara ?? 'belum') === 'sudah'
+                ? 'Sudah Wawancara'
+                : 'Belum Wawancara';
+
+            fputcsv($file, [
+                $index + 1,
+                "'" . $siswa->nisn,
+                $siswa->nama,
+                $siswa->jk == 'L' ? 'Laki-laki' : ($siswa->jk == 'P' ? 'Perempuan' : '-'),
+                $siswa->tgl_lahir ? $siswa->tgl_lahir->format('d/m/Y') : '-',
+                $siswa->asal_sekolah ?? '-',
+                $siswa->alamat ?? '-',
+                $siswa->no_wa ? "'" . $siswa->no_wa : '-',
+                $orangTua?->nama_ayah ?? '-',
+                $orangTua?->nama_ibu ?? '-',
+                $orangTua?->no_wa_ortu ? "'" . $orangTua->no_wa_ortu : '-',
+                $jurusan?->nama ?? 'Belum Memilih',
+                $pendaftaran?->gelombang ?? '-',
+                $pendaftaran?->status_pendaftaran ?? 'Belum Lengkap',
+                $tes?->nilai_minat_bakat ?? '-',
+                $statusWawancara,
+                $tes?->status_kelulusan ?? 'Pending',
+                $siswa->created_at?->format('d/m/Y H:i') ?? '-',
+            ]);
+        }
+    }
+
+    /**
+     * Bulk update status wawancara pendaftar
      */
     public function bulkUpdateStatus(Request $request)
     {
         $request->validate([
             'ids' => 'required|array',
             'ids.*' => 'required|integer|exists:calon_siswa,id',
-            'status' => 'required|in:baru,proses_data,proses_berkas,lengkap,lulus',
+            'status' => 'required|in:belum,sudah',
         ]);
 
         $ids = $request->ids;
@@ -1016,8 +969,7 @@ class AdminSpmbController extends Controller
                     $pendaftaran = $siswa->pendaftaran;
                     
                     switch ($status) {
-                        case 'lulus':
-                            // Update atau buat record tes dengan status lulus
+                        case 'sudah':
                             Tes::updateOrCreate(
                                 ['pendaftaran_id' => $pendaftaran->id],
                                 [
@@ -1025,11 +977,7 @@ class AdminSpmbController extends Controller
                                     'status_kelulusan' => 'Lulus',
                                 ]
                             );
-                            
-                            // Update status pendaftaran
                             $pendaftaran->update(['status_pendaftaran' => 'Selesai Tes']);
-                            
-                            // Buat pengumuman
                             Pengumuman::updateOrCreate(
                                 ['pendaftaran_id' => $pendaftaran->id],
                                 [
@@ -1039,25 +987,17 @@ class AdminSpmbController extends Controller
                             );
                             $count++;
                             break;
-                            
-                        case 'lengkap':
-                            // Update status pendaftaran
-                            $pendaftaran->update(['status_pendaftaran' => 'Diverifikasi']);
-                            $count++;
-                            break;
-                            
-                        case 'proses_berkas':
-                            $pendaftaran->update(['status_pendaftaran' => 'Menunggu Verifikasi']);
-                            $count++;
-                            break;
-                            
-                        case 'proses_data':
+
+                        case 'belum':
+                            Tes::updateOrCreate(
+                                ['pendaftaran_id' => $pendaftaran->id],
+                                [
+                                    'status_wawancara' => 'belum',
+                                    'status_kelulusan' => 'Pending',
+                                ]
+                            );
                             $pendaftaran->update(['status_pendaftaran' => 'Terdaftar']);
-                            $count++;
-                            break;
-                            
-                        case 'baru':
-                            $pendaftaran->update(['status_pendaftaran' => 'Terdaftar']);
+                            Pengumuman::where('pendaftaran_id', $pendaftaran->id)->delete();
                             $count++;
                             break;
                     }
@@ -1065,15 +1005,12 @@ class AdminSpmbController extends Controller
             });
 
             $statusLabel = [
-                'baru' => 'Baru Daftar',
-                'proses_data' => 'Proses Data',
-                'proses_berkas' => 'Proses Berkas',
-                'lengkap' => 'Data Lengkap',
-                'lulus' => 'Sudah Lulus',
+                'belum' => 'Belum Wawancara',
+                'sudah' => 'Sudah Wawancara',
             ][$status];
 
             return redirect()->route('admin.pendaftar.index')
-                ->with('success', "{$count} data berhasil diupdate status menjadi '{$statusLabel}'.");
+                ->with('success', "{$count} data berhasil diupdate wawancara menjadi '{$statusLabel}'.");
 
         } catch (\Exception $e) {
             return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());

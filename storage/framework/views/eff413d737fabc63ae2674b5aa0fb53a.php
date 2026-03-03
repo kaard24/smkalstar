@@ -234,7 +234,7 @@
     
     <?php echo $__env->yieldPushContent('styles'); ?>
 </head>
-<body class="bg-gray-50 flex flex-col min-h-screen text-gray-800 pb-20 md:pb-0 safe-area-inset-bottom safe-area-inset-top">
+<body class="bg-gray-50 flex flex-col min-h-screen text-gray-800 safe-area-inset-bottom safe-area-inset-top">
     <!-- Skip to main content -->
     <a href="#main-content" class="skip-link">Langsung ke konten utama</a>
     
@@ -245,7 +245,7 @@
 
     <?php echo $__env->make('partials.header', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
-    <main id="main-content" class="flex-grow" tabindex="-1">
+    <main id="main-content" class="flex-grow pb-20 md:pb-0" tabindex="-1">
         <?php echo $__env->yieldContent('content'); ?>
     </main>
 

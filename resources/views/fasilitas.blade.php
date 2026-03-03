@@ -18,7 +18,7 @@
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
                 Sarana & Prasarana
             </div>
-            <h1 class="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-4 font-heading">
+            <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-4 font-heading">
                 Fasilitas <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-indigo-600">Sekolah</span>
             </h1>
             <p class="text-gray-600 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">Sarana dan prasarana modern untuk mendukung kegiatan belajar mengajar yang efektif dan nyaman</p>
@@ -28,7 +28,7 @@
     <section class="py-20 bg-gray-50" x-data="createLightboxData()" @keydown.escape.window="closeLightbox()">
         
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
                 @forelse($fasilitas as $item)
                 @php
                     $images = $item->gambar_urls;
@@ -78,7 +78,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
                                 </svg>
                             </div>
-                            <h3 class="text-3xl font-bold text-gray-900 mb-4">Fasilitas Sedang Dipersiapkan</h3>
+                            <h3 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">Fasilitas Sedang Dipersiapkan</h3>
                             <p class="text-gray-600 text-lg max-w-xl mx-auto leading-relaxed">Kami sedang menyiapkan informasi lengkap tentang sarana dan prasarana modern yang akan mendukung proses belajar mengajar Anda.</p>
                             <div class="mt-8 flex justify-center gap-3">
                                 <div class="w-2 h-2 rounded-full bg-blue-400 animate-bounce" style="animation-delay: 0s;"></div>

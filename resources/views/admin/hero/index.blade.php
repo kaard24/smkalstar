@@ -47,6 +47,7 @@
                     <tr>
                         <th class="px-4 py-3 font-semibold text-slate-700">Preview</th>
                         <th class="px-4 py-3 font-semibold text-slate-700">Badge & Judul</th>
+                        <th class="px-4 py-3 font-semibold text-slate-700">User</th>
                         <th class="px-4 py-3 font-semibold text-slate-700">Status</th>
                         <th class="px-4 py-3 font-semibold text-slate-700 text-right">Aksi</th>
                     </tr>
@@ -56,12 +57,20 @@
                     <tr class="hover:bg-slate-50 transition-colors">
                         <td class="px-4 py-3">
                             <div class="w-20 h-12 rounded overflow-hidden bg-slate-100">
-                                <img src="{{ asset($hero->hero_image) }}" alt="Hero" class="w-full h-full object-cover">
+                                @if(!empty($hero->hero_image))
+                                    <img src="{{ asset($hero->hero_image) }}" alt="Hero" class="w-full h-full object-cover">
+                                @else
+                                    <div class="w-full h-full flex items-center justify-center text-[10px] text-slate-400">No image</div>
+                                @endif
                             </div>
                         </td>
                         <td class="px-4 py-3">
                             <div class="text-xs text-slate-500">{{ $hero->badge_text }}</div>
                             <div class="font-medium text-slate-800">{{ $hero->title_line1 }} {{ $hero->title_highlight }} {{ $hero->title_line2 }}</div>
+                        </td>
+                        <td class="px-4 py-3">
+                            <div class="text-xs text-slate-500">Dibuat: {{ $hero->creator->name ?? '-' }}</div>
+                            <div class="text-xs text-slate-500">Diubah: {{ $hero->updater->name ?? '-' }}</div>
                         </td>
                         <td class="px-4 py-3">
                             @if($hero->is_active)
@@ -106,7 +115,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="4" class="px-4 py-8 text-center text-slate-500">
+                        <td colspan="5" class="px-4 py-8 text-center text-slate-500">
                             <div class="flex flex-col items-center gap-2">
                                 <svg class="w-12 h-12 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>

@@ -17,7 +17,7 @@
                 </svg>
                 Tahun Ajaran 2026/2027
             </div>
-            <h1 class="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-4 font-heading">
+            <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-4 font-heading">
                 Kalender Akademik <br>
                 <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-sky-500 to-cyan-500">SPMB 2026/2027</span>
             </h1>
@@ -84,25 +84,25 @@
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="text-center mb-8">
                 <p class="text-blue-100 text-lg mb-2">{{ $nextEvent['label'] }}</p>
-                <h2 class="text-3xl md:text-4xl font-bold text-white font-heading" id="global-countdown">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-white font-heading" id="global-countdown">
                     Memuat...
                 </h2>
             </div>
             <div class="flex flex-wrap justify-center gap-4 md:gap-6" id="countdown-units">
                 <div class="bg-white/10 backdrop-blur-sm rounded-2xl px-6 py-4 text-center min-w-[80px]">
-                    <div class="text-3xl md:text-4xl font-bold text-white" id="cd-days">00</div>
+                    <div class="text-2xl sm:text-3xl md:text-4xl font-bold text-white" id="cd-days">00</div>
                     <div class="text-blue-100 text-sm">Hari</div>
                 </div>
                 <div class="bg-white/10 backdrop-blur-sm rounded-2xl px-6 py-4 text-center min-w-[80px]">
-                    <div class="text-3xl md:text-4xl font-bold text-white" id="cd-hours">00</div>
+                    <div class="text-2xl sm:text-3xl md:text-4xl font-bold text-white" id="cd-hours">00</div>
                     <div class="text-blue-100 text-sm">Jam</div>
                 </div>
                 <div class="bg-white/10 backdrop-blur-sm rounded-2xl px-6 py-4 text-center min-w-[80px]">
-                    <div class="text-3xl md:text-4xl font-bold text-white" id="cd-minutes">00</div>
+                    <div class="text-2xl sm:text-3xl md:text-4xl font-bold text-white" id="cd-minutes">00</div>
                     <div class="text-blue-100 text-sm">Menit</div>
                 </div>
                 <div class="bg-white/10 backdrop-blur-sm rounded-2xl px-6 py-4 text-center min-w-[80px]">
-                    <div class="text-3xl md:text-4xl font-bold text-white" id="cd-seconds">00</div>
+                    <div class="text-2xl sm:text-3xl md:text-4xl font-bold text-white" id="cd-seconds">00</div>
                     <div class="text-blue-100 text-sm">Detik</div>
                 </div>
             </div>
@@ -114,7 +114,7 @@
     <section class="py-20 bg-gray-50">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 font-heading mb-4">Timeline SPMB 2026</h2>
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 font-heading mb-4">Timeline SPMB 2026</h2>
                 <p class="text-gray-600 max-w-2xl mx-auto">Ikuti setiap tahapan dengan cermat. Status akan diperbarui secara otomatis berdasarkan jadwal.</p>
             </div>
 
