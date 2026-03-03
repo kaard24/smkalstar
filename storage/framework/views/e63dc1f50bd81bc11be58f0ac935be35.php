@@ -399,4 +399,4 @@
     </script>
 </body>
 </html>
-<?php /**PATH C:\Users\eka\.gemini\antigravity\scratch\smk-alstar\resources\views/layouts/app.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\Users\eka\.gemini\antigravity\scratch\smk-alstar\resources\views\layouts\app.blade.php ENDPATH**/ ?>

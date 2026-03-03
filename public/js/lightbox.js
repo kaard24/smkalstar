@@ -46,6 +46,8 @@
             activeImages: [],
             activeIndex: 0,
             activeCaption: '',
+            touchStartX: null,
+            swipeThreshold: 40,
             
             openLightbox: function(images, caption) {
                 this.activeImages = Array.isArray(images) ? images : [images];
@@ -76,6 +78,32 @@
                         ? this.activeImages.length - 1 
                         : this.activeIndex - 1;
                 }
+            },
+
+            onTouchStart: function(event) {
+                if (!event.touches || event.touches.length === 0) return;
+                this.touchStartX = event.touches[0].clientX;
+            },
+
+            onTouchEnd: function(event) {
+                if (this.touchStartX === null) return;
+                if (!event.changedTouches || event.changedTouches.length === 0) {
+                    this.touchStartX = null;
+                    return;
+                }
+
+                const touchEndX = event.changedTouches[0].clientX;
+                const deltaX = touchEndX - this.touchStartX;
+
+                if (Math.abs(deltaX) >= this.swipeThreshold) {
+                    if (deltaX < 0) {
+                        this.nextImage();
+                    } else {
+                        this.prevImage();
+                    }
+                }
+
+                this.touchStartX = null;
             },
             
             get currentImage() {

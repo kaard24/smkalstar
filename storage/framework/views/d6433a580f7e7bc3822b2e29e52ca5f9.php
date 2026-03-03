@@ -1,8 +1,8 @@
-@extends('layouts.app')
 
-@section('title', 'Prestasi - SMK Al-Hidayah Lestari')
 
-@section('content')
+<?php $__env->startSection('title', 'Prestasi - SMK Al-Hidayah Lestari'); ?>
+
+<?php $__env->startSection('content'); ?>
     <!-- Header Page - Unique Design -->
     <div class="relative bg-gradient-to-br from-blue-50 via-sky-50 to-cyan-50 py-16 md:py-24 border-b border-blue-100 overflow-hidden">
         <!-- Decorative Elements -->
@@ -29,47 +29,48 @@
 
     <section class="py-12 sm:py-16 md:py-20 bg-gray-50" x-data="createLightboxData()" @keydown.escape.window="closeLightbox()" @keydown.arrow-right.window="nextImage()" @keydown.arrow-left.window="prevImage()">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            @if($prestasi->count() > 0)
+            <?php if($prestasi->count() > 0): ?>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-                @foreach($prestasi as $item)
-                @php
+                <?php $__currentLoopData = $prestasi; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <?php
                     $images = $item->gambar_urls;
-                @endphp
+                ?>
                 <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-2xl transition-all duration-300 group cursor-pointer flex flex-col"
-                     @click="openLightbox(@js($images), @js($item->judul))">
+                     @click="openLightbox(<?php echo \Illuminate\Support\Js::from($images)->toHtml() ?>, <?php echo \Illuminate\Support\Js::from($item->judul)->toHtml() ?>)">
                     <div class="relative h-52 sm:h-60 md:h-64 overflow-hidden">
-                        @if($item->gambar_url)
-                        <img src="{{ $item->gambar_url }}" alt="{{ $item->judul }}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700" loading="lazy" decoding="async">
-                        @else
+                        <?php if($item->gambar_url): ?>
+                        <img src="<?php echo e($item->gambar_url); ?>" alt="<?php echo e($item->judul); ?>" class="w-full h-full object-cover group-hover:scale-110 transition duration-700" loading="lazy" decoding="async">
+                        <?php else: ?>
                         <div class="w-full h-full bg-yellow-50 flex items-center justify-center text-yellow-500 group-hover:bg-yellow-100 transition duration-300">
                             <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
                         </div>
-                        @endif
+                        <?php endif; ?>
                         
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80 group-hover:opacity-60 transition duration-300"></div>
 
                         <div class="absolute top-4 left-4">
-                            <span class="px-3 py-1 bg-white/90 backdrop-blur-sm text-primary rounded-full text-xs font-bold shadow-sm uppercase tracking-wider border border-white/50">{{ $item->tahun }}</span>
+                            <span class="px-3 py-1 bg-white/90 backdrop-blur-sm text-primary rounded-full text-xs font-bold shadow-sm uppercase tracking-wider border border-white/50"><?php echo e($item->tahun); ?></span>
                         </div>
                         
                         <div class="absolute top-4 right-4">
-                            <span class="px-3 py-1 bg-yellow-400/90 backdrop-blur-sm text-white rounded-full text-xs font-bold shadow-sm uppercase tracking-wider">{{ $item->tingkat }}</span>
+                            <span class="px-3 py-1 bg-yellow-400/90 backdrop-blur-sm text-white rounded-full text-xs font-bold shadow-sm uppercase tracking-wider"><?php echo e($item->tingkat); ?></span>
                         </div>
 
                          <!-- Multiple items indicator -->
-                         @if(count($images) > 1)
+                         <?php if(count($images) > 1): ?>
                          <div class="absolute bottom-4 right-4 bg-black/60 backdrop-blur-md text-white text-xs font-bold px-2.5 py-1 rounded-full flex items-center gap-1 border border-white/10">
                              <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                             {{ count($images) }}
+                             <?php echo e(count($images)); ?>
+
                          </div>
-                         @endif
+                         <?php endif; ?>
                     </div>
                     
                     <div class="p-5 sm:p-8 flex-1 flex flex-col">
-                        <h3 class="font-bold text-gray-900 text-base sm:text-xl font-heading mb-3 group-hover:text-primary transition leading-tight">{{ $item->judul }}</h3>
-                        @if($item->deskripsi)
-                        <p class="text-sm text-gray-500 leading-relaxed line-clamp-3 mb-4">{{ $item->deskripsi }}</p>
-                        @endif
+                        <h3 class="font-bold text-gray-900 text-base sm:text-xl font-heading mb-3 group-hover:text-primary transition leading-tight"><?php echo e($item->judul); ?></h3>
+                        <?php if($item->deskripsi): ?>
+                        <p class="text-sm text-gray-500 leading-relaxed line-clamp-3 mb-4"><?php echo e($item->deskripsi); ?></p>
+                        <?php endif; ?>
                         
                         <div class="mt-auto pt-4 border-t border-gray-50 flex items-center text-primary text-sm font-medium gap-1 group-hover:translate-x-2 transition duration-300">
                             Lihat Detail
@@ -77,9 +78,9 @@
                         </div>
                     </div>
                 </div>
-                @endforeach
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </div>
-            @else
+            <?php else: ?>
             <!-- Enhanced Empty State -->
             <div class="max-w-2xl mx-auto">
                 <div class="relative bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50 border border-amber-100 rounded-3xl p-12 md:p-16 text-center overflow-hidden">
@@ -99,7 +100,7 @@
                     </div>
                 </div>
             </div>
-            @endif
+            <?php endif; ?>
         </div>
 
         <!-- Lightbox Modal -->
@@ -150,5 +151,7 @@
             </div>
         </div>
     </section>
-@endsection
+<?php $__env->stopSection(); ?>
 
+
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\eka\.gemini\antigravity\scratch\smk-alstar\resources\views\prestasi.blade.php ENDPATH**/ ?>

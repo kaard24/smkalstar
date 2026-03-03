@@ -334,6 +334,7 @@
         }
     </style>
     
+    <script src="{{ asset('js/lightbox.js') }}" defer></script>
     <!-- Async Alpine.js -->
     <script defer src="{{ asset('js/alpine.min.js') }}"></script>
     
@@ -363,7 +364,6 @@
     @endif
 
     <script src="{{ asset('js/validation.js') }}" defer></script>
-    <script src="{{ asset('js/lightbox.js') }}" defer></script>
     
     @stack('scripts')
     
