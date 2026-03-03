@@ -2,8 +2,8 @@
     <input type="hidden" name="kegiatan_id[]" value="{{ $kegiatan ? $kegiatan->id : 'new' }}">
     <div class="flex gap-3 mb-4">
         <div class="flex-1">
-            <label class="block text-xs font-medium text-slate-600 mb-1">Judul Kegiatan</label>
-            <input type="text" name="kegiatan_judul[]" value="{{ $judul }}"
+            <label for="kegiatan_judul_{{ $index }}" class="block text-xs font-medium text-slate-600 mb-1">Judul Kegiatan</label>
+            <input id="kegiatan_judul_{{ $index }}" type="text" name="kegiatan_judul[]" value="{{ $judul }}"
                 class="w-full rounded-lg border-slate-300 focus:border-pink-500 focus:ring-pink-500 text-sm font-medium bg-white"
                 placeholder="Contoh: Praktek di Lab">
         </div>
@@ -13,13 +13,13 @@
         </button>
     </div>
     <div class="mb-4">
-        <label class="block text-xs font-medium text-slate-600 mb-1">Deskripsi</label>
-        <textarea name="kegiatan_deskripsi[]" rows="2" 
+        <label for="kegiatan_deskripsi_{{ $index }}" class="block text-xs font-medium text-slate-600 mb-1">Deskripsi</label>
+        <textarea id="kegiatan_deskripsi_{{ $index }}" name="kegiatan_deskripsi[]" rows="2" 
             class="w-full rounded-lg border-slate-300 focus:border-pink-500 focus:ring-pink-500 text-sm bg-white"
             placeholder="Deskripsi kegiatan (opsional)...">{{ $deskripsi }}</textarea>
     </div>
     <div>
-        <label class="block text-xs font-medium text-slate-600 mb-2">Gambar Kegiatan</label>
+        <label for="kegiatan_gambar_{{ $index }}" class="block text-xs font-medium text-slate-600 mb-2">Gambar Kegiatan</label>
         <div class="flex flex-wrap gap-2 mb-2">
             @foreach($gambar as $g)
             <div class="relative group" id="kegiatan-gambar-{{ $g->id }}">
@@ -36,7 +36,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
             </svg>
             Tambah Gambar
-            <input type="file" name="kegiatan_gambar_{{ $index }}[]" multiple accept="image/*" class="hidden" onchange="previewKegiatanGambar(this, {{ $index }})">
+            <input id="kegiatan_gambar_{{ $index }}" type="file" name="kegiatan_gambar_{{ $index }}[]" multiple accept="image/*" class="hidden" onchange="previewKegiatanGambar(this, {{ $index }})">
         </label>
         <div id="preview-kegiatan-{{ $index }}" class="flex flex-wrap gap-2 mt-2"></div>
     </div>

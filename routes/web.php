@@ -78,7 +78,7 @@ Route::middleware('guest:spmb')->group(function () {
     Route::get('/spmb/register', fn() => redirect()->route('register'));
 });
 
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::match(['get', 'post'], '/logout', [AuthController::class, 'logout'])->name('logout');
 
 // ============================================
 // SPMB Public Pages (tanpa auth)

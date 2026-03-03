@@ -1,24 +1,24 @@
-@extends('layouts.admin')
 
-@php
+
+<?php
 use App\Models\Pembayaran;
-@endphp
+?>
 
-@section('title', 'Manajemen Pembayaran - Admin Panel')
+<?php $__env->startSection('title', 'Manajemen Pembayaran - Admin Panel'); ?>
 
-@section('content')
-@php
+<?php $__env->startSection('content'); ?>
+<?php
 $activePengaturan = \App\Models\PengaturanPembayaran::getActive();
-@endphp
+?>
 
-    {{-- Header --}}
+    
     <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
             <h1 class="text-2xl font-bold text-slate-800">Manajemen Pembayaran</h1>
             <p class="text-slate-600 mt-1">Kelola dan verifikasi pembayaran pendaftaran siswa.</p>
         </div>
         
-        {{-- Pengaturan Pembayaran --}}
+        
         <div class="bg-gradient-to-r from-[#4276A3] to-[#5a8ab5] rounded-xl shadow-md p-4 text-white min-w-[280px]">
             <div class="flex items-center justify-between mb-2">
                 <div class="flex items-center gap-2">
@@ -28,107 +28,110 @@ $activePengaturan = \App\Models\PengaturanPembayaran::getActive();
                     </svg>
                     <span class="font-semibold text-sm">Pengaturan Pembayaran</span>
                 </div>
-                <a href="{{ route('admin.pembayaran-pengaturan.index') }}" class="p-1.5 bg-white/20 rounded-lg hover:bg-white/30 transition-colors" title="Edit Pengaturan">
+                <a href="<?php echo e(route('admin.pembayaran-pengaturan.index')); ?>" class="p-1.5 bg-white/20 rounded-lg hover:bg-white/30 transition-colors" title="Edit Pengaturan">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                     </svg>
                 </a>
             </div>
-            @if($activePengaturan)
+            <?php if($activePengaturan): ?>
                 <div class="space-y-1 text-sm">
                     <div class="flex justify-between">
                         <span class="text-white/80">Penerima:</span>
-                        <span class="font-medium">{{ $activePengaturan->nama_penerima }}</span>
+                        <span class="font-medium"><?php echo e($activePengaturan->nama_penerima); ?></span>
                     </div>
                     <div class="flex justify-between">
                         <span class="text-white/80">Biaya:</span>
-                        <span class="font-medium">{{ $activePengaturan->biaya_formatted }}</span>
+                        <span class="font-medium"><?php echo e($activePengaturan->biaya_formatted); ?></span>
                     </div>
-                    @if($activePengaturan->nomor_rekening)
+                    <?php if($activePengaturan->nomor_rekening): ?>
                     <div class="flex justify-between">
                         <span class="text-white/80">Rekening:</span>
-                        <span class="font-medium">{{ $activePengaturan->nomor_rekening }}</span>
+                        <span class="font-medium"><?php echo e($activePengaturan->nomor_rekening); ?></span>
                     </div>
-                    @endif
+                    <?php endif; ?>
                 </div>
-            @else
+            <?php else: ?>
                 <div class="text-sm text-white/80 flex items-center gap-2">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
                     </svg>
                     Belum ada pengaturan aktif
                 </div>
-            @endif
+            <?php endif; ?>
         </div>
     </div>
 
-    {{-- Filter & Stats --}}
+    
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
         <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-4">
             <p class="text-sm text-slate-500">Total Pembayaran</p>
-            <p class="text-2xl font-bold text-slate-800">{{ $pembayaran->total() }}</p>
+            <p class="text-2xl font-bold text-slate-800"><?php echo e($pembayaran->total()); ?></p>
         </div>
         <div class="bg-yellow-50 rounded-xl shadow-sm border border-yellow-100 p-4">
             <p class="text-sm text-yellow-600">Menunggu Verifikasi</p>
             <p class="text-2xl font-bold text-yellow-700">
-                {{ Pembayaran::where('status', Pembayaran::STATUS_PENDING)->count() }}
+                <?php echo e(Pembayaran::where('status', Pembayaran::STATUS_PENDING)->count()); ?>
+
             </p>
         </div>
         <div class="bg-green-50 rounded-xl shadow-sm border border-green-100 p-4">
             <p class="text-sm text-green-600">Diterima</p>
             <p class="text-2xl font-bold text-green-700">
-                {{ Pembayaran::where('status', Pembayaran::STATUS_VERIFIED)->count() }}
+                <?php echo e(Pembayaran::where('status', Pembayaran::STATUS_VERIFIED)->count()); ?>
+
             </p>
         </div>
         <div class="bg-red-50 rounded-xl shadow-sm border border-red-100 p-4">
             <p class="text-sm text-red-600">Ditolak</p>
             <p class="text-2xl font-bold text-red-700">
-                {{ Pembayaran::where('status', Pembayaran::STATUS_REJECTED)->count() }}
+                <?php echo e(Pembayaran::where('status', Pembayaran::STATUS_REJECTED)->count()); ?>
+
             </p>
         </div>
     </div>
 
-    {{-- Filter --}}
+    
     <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-4 mb-6">
-        <form action="{{ route('admin.pembayaran.index') }}" method="GET" class="flex flex-wrap items-end gap-3">
+        <form action="<?php echo e(route('admin.pembayaran.index')); ?>" method="GET" class="flex flex-wrap items-end gap-3">
             <div class="flex-1 min-w-[200px]">
                 <label for="pembayaran-search" class="block text-sm font-medium text-slate-700 mb-1">Cari</label>
-                <input id="pembayaran-search" type="text" name="search" value="{{ request('search') }}" placeholder="Nama atau NISN..." 
+                <input id="pembayaran-search" type="text" name="search" value="<?php echo e(request('search')); ?>" placeholder="Nama atau NISN..." 
                     class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#4276A3] focus:border-[#4276A3]">
             </div>
             <div class="w-40">
                 <label for="pembayaran-status" class="block text-sm font-medium text-slate-700 mb-1">Status</label>
                 <select id="pembayaran-status" name="status" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#4276A3] focus:border-[#4276A3]">
                     <option value="">Semua Status</option>
-                    <option value="{{ Pembayaran::STATUS_PENDING }}" {{ request('status') == Pembayaran::STATUS_PENDING ? 'selected' : '' }}>Menunggu Verifikasi</option>
-                    <option value="{{ Pembayaran::STATUS_VERIFIED }}" {{ request('status') == Pembayaran::STATUS_VERIFIED ? 'selected' : '' }}>Diterima</option>
-                    <option value="{{ Pembayaran::STATUS_REJECTED }}" {{ request('status') == Pembayaran::STATUS_REJECTED ? 'selected' : '' }}>Ditolak</option>
+                    <option value="<?php echo e(Pembayaran::STATUS_PENDING); ?>" <?php echo e(request('status') == Pembayaran::STATUS_PENDING ? 'selected' : ''); ?>>Menunggu Verifikasi</option>
+                    <option value="<?php echo e(Pembayaran::STATUS_VERIFIED); ?>" <?php echo e(request('status') == Pembayaran::STATUS_VERIFIED ? 'selected' : ''); ?>>Diterima</option>
+                    <option value="<?php echo e(Pembayaran::STATUS_REJECTED); ?>" <?php echo e(request('status') == Pembayaran::STATUS_REJECTED ? 'selected' : ''); ?>>Ditolak</option>
                 </select>
             </div>
             <div class="flex gap-2">
                 <button type="submit" class="px-4 py-2 bg-[#4276A3] text-white rounded-lg hover:bg-[#3a6a94]">
                     Filter
                 </button>
-                <a href="{{ route('admin.pembayaran.index') }}" class="px-4 py-2 border border-slate-300 text-slate-600 rounded-lg hover:bg-slate-50">
+                <a href="<?php echo e(route('admin.pembayaran.index')); ?>" class="px-4 py-2 border border-slate-300 text-slate-600 rounded-lg hover:bg-slate-50">
                     Reset
                 </a>
             </div>
         </form>
     </div>
 
-    {{-- Bulk Actions --}}
+    
     <div class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
-        @if($pembayaran->count() > 0)
+        <?php if($pembayaran->count() > 0): ?>
         <div class="p-4 border-b border-slate-100 bg-slate-50 flex items-center gap-3" id="bulk-actions" style="display: none;">
             <span class="text-sm text-slate-600"><span id="selected-count">0</span> dipilih</span>
-            <button type="button" onclick="bulkVerify('{{ Pembayaran::STATUS_VERIFIED }}')" class="px-3 py-1.5 bg-green-600 text-white text-sm rounded hover:bg-green-700">
+            <button type="button" onclick="bulkVerify('<?php echo e(Pembayaran::STATUS_VERIFIED); ?>')" class="px-3 py-1.5 bg-green-600 text-white text-sm rounded hover:bg-green-700">
                 Terima
             </button>
-            <button type="button" onclick="bulkVerify('{{ Pembayaran::STATUS_REJECTED }}')" class="px-3 py-1.5 bg-red-600 text-white text-sm rounded hover:bg-red-700">
+            <button type="button" onclick="bulkVerify('<?php echo e(Pembayaran::STATUS_REJECTED); ?>')" class="px-3 py-1.5 bg-red-600 text-white text-sm rounded hover:bg-red-700">
                 Tolak
             </button>
         </div>
-        @endif
+        <?php endif; ?>
 
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
@@ -146,8 +149,8 @@ $activePengaturan = \App\Models\PengaturanPembayaran::getActive();
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
-                    @forelse($pembayaran as $item)
-                    @php
+                    <?php $__empty_1 = true; $__currentLoopData = $pembayaran; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                    <?php
                         $statusColors = [
                             Pembayaran::STATUS_PENDING => 'bg-yellow-100 text-yellow-700',
                             Pembayaran::STATUS_VERIFIED => 'bg-green-100 text-green-700',
@@ -158,53 +161,54 @@ $activePengaturan = \App\Models\PengaturanPembayaran::getActive();
                             Pembayaran::STATUS_VERIFIED => 'Diterima',
                             Pembayaran::STATUS_REJECTED => 'Ditolak',
                         ];
-                    @endphp
+                    ?>
                     <tr class="hover:bg-slate-50">
                         <td class="px-4 py-3">
-                            <input type="checkbox" name="ids[]" value="{{ $item->id }}" class="row-checkbox rounded border-slate-300 text-[#4276A3] focus:ring-[#4276A3]">
+                            <input type="checkbox" name="ids[]" value="<?php echo e($item->id); ?>" class="row-checkbox rounded border-slate-300 text-[#4276A3] focus:ring-[#4276A3]">
                         </td>
                         <td class="px-4 py-3">
-                            <p class="font-medium text-slate-800">{{ $item->calonSiswa->nama }}</p>
-                            <p class="text-xs text-slate-500 font-mono">{{ $item->calonSiswa->nisn }}</p>
+                            <p class="font-medium text-slate-800"><?php echo e($item->calonSiswa->nama); ?></p>
+                            <p class="text-xs text-slate-500 font-mono"><?php echo e($item->calonSiswa->nisn); ?></p>
                         </td>
                         <td class="px-4 py-3">
-                            <span class="text-sm text-slate-600">{{ $item->calonSiswa->pendaftaran->jurusan->nama ?? '-' }}</span>
+                            <span class="text-sm text-slate-600"><?php echo e($item->calonSiswa->pendaftaran->jurusan->nama ?? '-'); ?></span>
                         </td>
                         <td class="px-4 py-3">
-                            <span class="text-sm text-slate-600">{{ $item->jumlah_formatted }}</span>
+                            <span class="text-sm text-slate-600"><?php echo e($item->jumlah_formatted); ?></span>
                         </td>
                         <td class="px-4 py-3">
-                            <span class="text-sm text-slate-600">{{ $item->created_at?->format('d M Y') ?? '-' }}</span>
+                            <span class="text-sm text-slate-600"><?php echo e($item->created_at?->format('d M Y') ?? '-'); ?></span>
                         </td>
                         <td class="px-4 py-3">
-                            <span class="inline-flex px-2 py-1 text-xs font-medium rounded {{ $statusColors[$item->status] }}">
-                                {{ $statusLabels[$item->status] }}
+                            <span class="inline-flex px-2 py-1 text-xs font-medium rounded <?php echo e($statusColors[$item->status]); ?>">
+                                <?php echo e($statusLabels[$item->status]); ?>
+
                             </span>
                         </td>
                         <td class="px-4 py-3 text-center">
                             <div class="flex items-center justify-center gap-2">
-                                <a href="{{ route('admin.pembayaran.show', $item->id) }}" class="p-1.5 text-blue-600 hover:bg-blue-50 rounded" title="Detail">
+                                <a href="<?php echo e(route('admin.pembayaran.show', $item->id)); ?>" class="p-1.5 text-blue-600 hover:bg-blue-50 rounded" title="Detail">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
                                     </svg>
                                 </a>
-                                @if($item->bukti_pembayaran)
-                                <a href="{{ route('admin.pembayaran.preview', $item->id) }}" target="_blank" class="p-1.5 text-green-600 hover:bg-green-50 rounded" title="Lihat Bukti">
+                                <?php if($item->bukti_pembayaran): ?>
+                                <a href="<?php echo e(route('admin.pembayaran.preview', $item->id)); ?>" target="_blank" class="p-1.5 text-green-600 hover:bg-green-50 rounded" title="Lihat Bukti">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                     </svg>
                                 </a>
-                                <a href="{{ route('admin.pembayaran.download', $item->id) }}" class="p-1.5 text-slate-600 hover:bg-slate-100 rounded" title="Download">
+                                <a href="<?php echo e(route('admin.pembayaran.download', $item->id)); ?>" class="p-1.5 text-slate-600 hover:bg-slate-100 rounded" title="Download">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
                                     </svg>
                                 </a>
-                                @endif
+                                <?php endif; ?>
                             </div>
                         </td>
                     </tr>
-                    @empty
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                     <tr>
                         <td colspan="7" class="px-4 py-8 text-center text-slate-500">
                             <svg class="w-12 h-12 mx-auto text-slate-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -213,19 +217,20 @@ $activePengaturan = \App\Models\PengaturanPembayaran::getActive();
                             <p>Tidak ada data pembayaran</p>
                         </td>
                     </tr>
-                    @endforelse
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>
 
-        @if($pembayaran->hasPages())
+        <?php if($pembayaran->hasPages()): ?>
         <div class="p-4 border-t border-slate-100">
-            {{ $pembayaran->links() }}
+            <?php echo e($pembayaran->links()); ?>
+
         </div>
-        @endif
+        <?php endif; ?>
     </div>
 
-    @push('scripts')
+    <?php $__env->startPush('scripts'); ?>
     <script>
         // Select all checkbox
         document.getElementById('select-all')?.addEventListener('change', function() {
@@ -257,15 +262,15 @@ $activePengaturan = \App\Models\PengaturanPembayaran::getActive();
             if (checked.length === 0) return;
 
             const ids = Array.from(checked).map(cb => cb.value);
-            const action = status === '{{ Pembayaran::STATUS_VERIFIED }}' ? 'menerima' : 'menolak';
+            const action = status === '<?php echo e(Pembayaran::STATUS_VERIFIED); ?>' ? 'menerima' : 'menolak';
             
             if (!confirm(`Yakin ingin ${action} ${ids.length} pembayaran terpilih?`)) return;
 
-            fetch('{{ route('admin.pembayaran.bulk-verify') }}', {
+            fetch('<?php echo e(route('admin.pembayaran.bulk-verify')); ?>', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>'
                 },
                 body: JSON.stringify({ ids, status })
             })
@@ -281,5 +286,7 @@ $activePengaturan = \App\Models\PengaturanPembayaran::getActive();
             .catch(() => alert('Terjadi kesalahan'));
         }
     </script>
-    @endpush
-@endsection
+    <?php $__env->stopPush(); ?>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\eka\.gemini\antigravity\scratch\smk-alstar\resources\views/admin/pembayaran.blade.php ENDPATH**/ ?>

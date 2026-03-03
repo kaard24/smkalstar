@@ -49,8 +49,8 @@
             <div x-show="open" x-collapse class="p-6 border-t border-slate-100">
                 <div class="grid md:grid-cols-2 gap-6">
                     <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2">Kode Jurusan <span class="text-red-500">*</span></label>
-                        <input type="text" name="kode" value="{{ old('kode', $jurusan->kode) }}" 
+                        <label for="kode" class="block text-sm font-medium text-slate-700 mb-2">Kode Jurusan <span class="text-red-500">*</span></label>
+                        <input id="kode" type="text" name="kode" value="{{ old('kode', $jurusan->kode) }}" 
                             class="w-full rounded-xl border-slate-300 focus:border-blue-500 focus:ring-blue-500 uppercase text-sm py-2.5"
                             placeholder="Contoh: TKJ" required>
                         @error('kode')
@@ -61,8 +61,8 @@
                         @enderror
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2">Nama Jurusan <span class="text-red-500">*</span></label>
-                        <input type="text" name="nama" value="{{ old('nama', $jurusan->nama) }}" 
+                        <label for="nama" class="block text-sm font-medium text-slate-700 mb-2">Nama Jurusan <span class="text-red-500">*</span></label>
+                        <input id="nama" type="text" name="nama" value="{{ old('nama', $jurusan->nama) }}" 
                             class="w-full rounded-xl border-slate-300 focus:border-blue-500 focus:ring-blue-500 text-sm py-2.5"
                             placeholder="Contoh: Teknik Komputer dan Jaringan" required>
                         @error('nama')
@@ -73,9 +73,9 @@
                         @enderror
                     </div>
                     <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-slate-700 mb-2">Urutan Tampil</label>
+                        <label for="urutan" class="block text-sm font-medium text-slate-700 mb-2">Urutan Tampil</label>
                         <div class="flex items-center gap-3">
-                            <input type="number" name="urutan" value="{{ old('urutan', $jurusan->urutan) }}" min="0"
+                            <input id="urutan" type="number" name="urutan" value="{{ old('urutan', $jurusan->urutan) }}" min="0"
                                 class="w-32 rounded-xl border-slate-300 focus:border-blue-500 focus:ring-blue-500 text-sm py-2.5">
                             <span class="text-sm text-slate-500">Urutan untuk penampilan di website (0 = pertama)</span>
                         </div>
@@ -105,15 +105,15 @@
             <div x-show="open" x-collapse class="p-6 border-t border-slate-100">
                 <div class="space-y-6">
                     <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2">Deskripsi Singkat</label>
-                        <textarea name="deskripsi" rows="3" 
+                        <label for="deskripsi" class="block text-sm font-medium text-slate-700 mb-2">Deskripsi Singkat</label>
+                        <textarea id="deskripsi" name="deskripsi" rows="3" 
                             class="w-full rounded-xl border-slate-300 focus:border-blue-500 focus:ring-blue-500 text-sm"
                             placeholder="Deskripsi singkat tentang jurusan (tampil di hero & list)...">{{ old('deskripsi', $jurusan->deskripsi) }}</textarea>
                         <p class="text-xs text-slate-500 mt-1">Tampil di halaman list jurusan dan hero section</p>
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-2">Deskripsi Lengkap</label>
-                        <textarea name="deskripsi_lengkap" rows="6" 
+                        <label for="deskripsi_lengkap" class="block text-sm font-medium text-slate-700 mb-2">Deskripsi Lengkap</label>
+                        <textarea id="deskripsi_lengkap" name="deskripsi_lengkap" rows="6" 
                             class="w-full rounded-xl border-slate-300 focus:border-blue-500 focus:ring-blue-500 text-sm"
                             placeholder="Deskripsi lengkap tentang jurusan (tampil di halaman detail)...">{{ old('deskripsi_lengkap', $jurusan->deskripsi_lengkap) }}</textarea>
                         <p class="text-xs text-slate-500 mt-1">Tampil di halaman detail jurusan</p>
@@ -144,7 +144,7 @@
                 <div class="grid md:grid-cols-2 gap-6">
                     {{-- Logo --}}
                     <div x-data="{ preview: '{{ $jurusan->logo_url }}', hover: false }">
-                        <label class="block text-sm font-medium text-slate-700 mb-3">Logo Jurusan</label>
+                        <label for="logo" class="block text-sm font-medium text-slate-700 mb-3">Logo Jurusan</label>
                         <div class="relative group">
                             <div @dragover.prevent="hover = true" @dragleave.prevent="hover = false" @drop.prevent="handleDrop($event, 'logo')"
                                  :class="{ 'border-blue-400 bg-blue-50': hover }"
@@ -183,7 +183,7 @@
 
                     {{-- Gambar --}}
                     <div x-data="{ preview: '{{ $jurusan->gambar_url }}', hover: false }">
-                        <label class="block text-sm font-medium text-slate-700 mb-3">Gambar Jurusan</label>
+                        <label for="gambar" class="block text-sm font-medium text-slate-700 mb-3">Gambar Jurusan</label>
                         <div class="relative group">
                             <div @dragover.prevent="hover = true" @dragleave.prevent="hover = false" @drop.prevent="handleDrop($event, 'gambar')"
                                  :class="{ 'border-blue-400 bg-blue-50': hover }"
@@ -522,8 +522,8 @@ function addKegiatan() {
         <input type="hidden" name="kegiatan_id[]" value="new">
         <div class="flex gap-3 mb-4">
             <div class="flex-1">
-                <label class="block text-xs font-medium text-slate-600 mb-1">Judul Kegiatan</label>
-                <input type="text" name="kegiatan_judul[]" 
+                <label for="kegiatan_judul_${kegiatanIndex}" class="block text-xs font-medium text-slate-600 mb-1">Judul Kegiatan</label>
+                <input id="kegiatan_judul_${kegiatanIndex}" type="text" name="kegiatan_judul[]" 
                     class="w-full rounded-lg border-slate-300 focus:border-pink-500 focus:ring-pink-500 text-sm font-medium bg-white"
                     placeholder="Contoh: Praktek di Lab">
             </div>
@@ -533,20 +533,20 @@ function addKegiatan() {
             </button>
         </div>
         <div class="mb-4">
-            <label class="block text-xs font-medium text-slate-600 mb-1">Deskripsi</label>
-            <textarea name="kegiatan_deskripsi[]" rows="2" 
+            <label for="kegiatan_deskripsi_${kegiatanIndex}" class="block text-xs font-medium text-slate-600 mb-1">Deskripsi</label>
+            <textarea id="kegiatan_deskripsi_${kegiatanIndex}" name="kegiatan_deskripsi[]" rows="2" 
                 class="w-full rounded-lg border-slate-300 focus:border-pink-500 focus:ring-pink-500 text-sm bg-white"
                 placeholder="Deskripsi kegiatan (opsional)..."></textarea>
         </div>
         <div>
-            <label class="block text-xs font-medium text-slate-600 mb-2">Gambar Kegiatan</label>
+            <label for="kegiatan_gambar_${kegiatanIndex}" class="block text-xs font-medium text-slate-600 mb-2">Gambar Kegiatan</label>
             <div class="flex flex-wrap gap-2 mb-2" id="existing-kegiatan-${kegiatanIndex}"></div>
             <label class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-slate-300 hover:border-pink-400 text-slate-700 text-sm font-medium rounded-lg cursor-pointer transition">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                 </svg>
                 Tambah Gambar
-                <input type="file" name="kegiatan_gambar_${kegiatanIndex}[]" multiple accept="image/*" class="hidden" onchange="previewKegiatanGambar(this, ${kegiatanIndex})">
+                <input id="kegiatan_gambar_${kegiatanIndex}" type="file" name="kegiatan_gambar_${kegiatanIndex}[]" multiple accept="image/*" class="hidden" onchange="previewKegiatanGambar(this, ${kegiatanIndex})">
             </label>
             <div id="preview-kegiatan-${kegiatanIndex}" class="flex flex-wrap gap-2 mt-2"></div>
         </div>

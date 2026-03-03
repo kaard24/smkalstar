@@ -1,9 +1,7 @@
-@extends('layouts.admin')
+<?php $__env->startSection('title', 'Daftar Pendaftar - Admin Panel'); ?>
 
-@section('title', 'Daftar Pendaftar - Admin Panel')
-
-@section('content')
-    {{-- Header Section --}}
+<?php $__env->startSection('content'); ?>
+    
     <div class="mb-6">
         <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div>
@@ -11,13 +9,13 @@
                 <p class="text-xs text-slate-500 mt-0.5">Kelola data pendaftar SPMB SMK Al-Hidayah Lestari</p>
             </div>
             <div class="flex flex-wrap gap-2 items-center">
-                <a href="{{ route('admin.pendaftar.create') }}" class="btn btn-primary">
+                <a href="<?php echo e(route('admin.pendaftar.create')); ?>" class="btn btn-primary">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                     </svg>
                     Tambah Siswa
                 </a>
-                <a href="{{ route('admin.pendaftar.export', request()->query()) }}" class="btn btn-success">
+                <a href="<?php echo e(route('admin.pendaftar.export', request()->query())); ?>" class="btn btn-success">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                     </svg>
@@ -27,25 +25,27 @@
         </div>
     </div>
 
-    @if(session('success'))
+    <?php if(session('success')): ?>
     <div class="mb-4 p-4 bg-[#047857]/10 border border-[#047857]/20 text-[#047857] rounded-lg flex items-center text-sm">
         <svg class="w-5 h-5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
         </svg>
-        {{ session('success') }}
-    </div>
-    @endif
+        <?php echo e(session('success')); ?>
 
-    @if(session('error'))
+    </div>
+    <?php endif; ?>
+
+    <?php if(session('error')): ?>
     <div class="mb-4 p-4 bg-[#991B1B]/10 border border-[#991B1B]/20 text-[#991B1B] rounded-lg flex items-center text-sm">
         <svg class="w-5 h-5 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
         </svg>
-        {{ session('error') }}
-    </div>
-    @endif
+        <?php echo e(session('error')); ?>
 
-    {{-- Advanced Filter Section --}}
+    </div>
+    <?php endif; ?>
+
+    
     <div class="mb-4 bg-white rounded-xl border border-slate-200 p-4">
         <div class="flex items-center justify-between mb-4">
             <h3 class="text-sm font-semibold text-slate-800 flex items-center gap-2">
@@ -54,61 +54,61 @@
                 </svg>
                 Filter Data Pendaftar
             </h3>
-            @php
+            <?php
                 $hasFilter = request('search') || request('jurusan') || request('gender') || request('wawancara');
-            @endphp
-            @if($hasFilter)
+            ?>
+            <?php if($hasFilter): ?>
             <span class="text-xs bg-[#4276A3]/10 text-[#4276A3] px-2 py-1 rounded-full font-medium">Filter Aktif</span>
-            @endif
+            <?php endif; ?>
         </div>
         
-        <form action="{{ route('admin.pendaftar.index') }}" method="GET">
-            {{-- Row 1: Search, Jurusan, Gender, Wawancara --}}
+        <form action="<?php echo e(route('admin.pendaftar.index')); ?>" method="GET">
+            
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
-                {{-- Search Input --}}
+                
                 <div>
                     <label for="search" class="block text-xs font-medium text-slate-600 mb-1">Cari (Nama/NISN/No.WA)</label>
                     <div class="relative">
                         <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                         </svg>
-                        <input type="text" name="search" id="search" value="{{ request('search') }}" placeholder="Ketik untuk mencari..." style="padding-left: 2.5rem;" class="form-input w-full">
+                        <input type="text" name="search" id="search" value="<?php echo e(request('search')); ?>" placeholder="Ketik untuk mencari..." style="padding-left: 2.5rem;" class="form-input w-full">
                     </div>
                 </div>
 
-                {{-- Jurusan Filter --}}
+                
                 <div>
                     <label for="jurusan" class="block text-xs font-medium text-slate-600 mb-1">Jurusan</label>
                     <select name="jurusan" id="jurusan" class="form-input w-full">
                         <option value="">Semua Jurusan</option>
-                        @foreach($jurusanList as $jurusan)
-                            <option value="{{ $jurusan->id }}" {{ request('jurusan') == $jurusan->id ? 'selected' : '' }}>{{ $jurusan->nama }}</option>
-                        @endforeach
+                        <?php $__currentLoopData = $jurusanList; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $jurusan): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <option value="<?php echo e($jurusan->id); ?>" <?php echo e(request('jurusan') == $jurusan->id ? 'selected' : ''); ?>><?php echo e($jurusan->nama); ?></option>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </select>
                 </div>
 
-                {{-- Gender Filter --}}
+                
                 <div>
                     <label for="gender" class="block text-xs font-medium text-slate-600 mb-1">Gender</label>
                     <select name="gender" id="gender" class="form-input w-full">
                         <option value="">Semua</option>
-                        <option value="L" {{ request('gender') == 'L' ? 'selected' : '' }}>Laki-laki</option>
-                        <option value="P" {{ request('gender') == 'P' ? 'selected' : '' }}>Perempuan</option>
+                        <option value="L" <?php echo e(request('gender') == 'L' ? 'selected' : ''); ?>>Laki-laki</option>
+                        <option value="P" <?php echo e(request('gender') == 'P' ? 'selected' : ''); ?>>Perempuan</option>
                     </select>
                 </div>
 
-                {{-- Wawancara Filter --}}
+                
                 <div>
                     <label for="wawancara" class="block text-xs font-medium text-slate-600 mb-1">Status Wawancara</label>
                     <select name="wawancara" id="wawancara" class="form-input w-full">
                         <option value="">Semua</option>
-                        <option value="belum" {{ request('wawancara') == 'belum' ? 'selected' : '' }}>Belum Wawancara</option>
-                        <option value="sudah" {{ request('wawancara') == 'sudah' ? 'selected' : '' }}>Sudah Wawancara</option>
+                        <option value="belum" <?php echo e(request('wawancara') == 'belum' ? 'selected' : ''); ?>>Belum Wawancara</option>
+                        <option value="sudah" <?php echo e(request('wawancara') == 'sudah' ? 'selected' : ''); ?>>Sudah Wawancara</option>
                     </select>
                 </div>
             </div>
 
-            {{-- Action Buttons --}}
+            
             <div class="flex flex-wrap gap-2 items-center pt-3 border-t border-slate-200">
                 <button type="submit" class="btn btn-primary">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -116,36 +116,36 @@
                     </svg>
                     Terapkan Filter
                 </button>
-                @if($hasFilter)
-                <a href="{{ route('admin.pendaftar.index') }}" class="btn btn-secondary">
+                <?php if($hasFilter): ?>
+                <a href="<?php echo e(route('admin.pendaftar.index')); ?>" class="btn btn-secondary">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
                     Reset Filter
                 </a>
-                @endif
+                <?php endif; ?>
                 
-                {{-- Active Filter Indicators --}}
-                @if($hasFilter)
+                
+                <?php if($hasFilter): ?>
                 <div class="flex flex-wrap gap-1 ml-auto">
-                    @if(request('search'))
-                        <span class="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded">Cari: {{ Str::limit(request('search'), 15) }}</span>
-                    @endif
-                    @if(request('jurusan'))
-                        @php $jurusanNama = $jurusanList->firstWhere('id', request('jurusan'))?->nama ?? 'Jurusan'; @endphp
-                        <span class="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded">{{ Str::limit($jurusanNama, 15) }}</span>
-                    @endif
-                    @if(request('gender'))
-                        <span class="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded">{{ request('gender') == 'L' ? 'Laki-laki' : 'Perempuan' }}</span>
-                    @endif
+                    <?php if(request('search')): ?>
+                        <span class="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded">Cari: <?php echo e(Str::limit(request('search'), 15)); ?></span>
+                    <?php endif; ?>
+                    <?php if(request('jurusan')): ?>
+                        <?php $jurusanNama = $jurusanList->firstWhere('id', request('jurusan'))?->nama ?? 'Jurusan'; ?>
+                        <span class="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded"><?php echo e(Str::limit($jurusanNama, 15)); ?></span>
+                    <?php endif; ?>
+                    <?php if(request('gender')): ?>
+                        <span class="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded"><?php echo e(request('gender') == 'L' ? 'Laki-laki' : 'Perempuan'); ?></span>
+                    <?php endif; ?>
 
                 </div>
-                @endif
+                <?php endif; ?>
             </div>
         </form>
     </div>
 
-    {{-- Bulk Operations Toolbar --}}
+    
     <div id="bulk-toolbar" class="mb-4 bg-[#4276A3]/5 border border-[#4276A3]/20 rounded-xl p-3 hidden">
         <div class="flex flex-wrap items-center justify-between gap-3">
             <div class="flex items-center gap-3">
@@ -179,7 +179,7 @@
         </div>
     </div>
 
-    {{-- Data Table --}}
+    
     <div class="bg-white rounded-xl border border-slate-200 overflow-hidden">
         <div class="overflow-x-auto">
             <table class="data-table">
@@ -198,88 +198,88 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($pendaftar as $index => $siswa)
-                    @php
+                    <?php $__empty_1 = true; $__currentLoopData = $pendaftar; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $siswa): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                    <?php
                         $isComplete = $siswa->isRegistrationComplete();
                         $hasPendaftaran = $siswa->pendaftaran !== null;
                         $hasWawancaraSelesai = $siswa->pendaftaran?->tes?->status_wawancara === 'sudah';
                         $berkasProgress = \App\Models\BerkasPendaftaran::getUploadProgress($siswa->id);
                         $nomor = ($pendaftar->currentPage() - 1) * $pendaftar->perPage() + $index + 1;
-                    @endphp
-                    <tr data-id="{{ $siswa->id }}">
+                    ?>
+                    <tr data-id="<?php echo e($siswa->id); ?>">
                         <td class="text-center" onclick="event.stopPropagation();">
-                            <input type="checkbox" name="ids[]" value="{{ $siswa->id }}" class="row-checkbox w-4 h-4 text-[#4276A3] rounded border-slate-300 focus:ring-[#4276A3]" onclick="event.stopPropagation(); updateSelection();">
+                            <input type="checkbox" name="ids[]" value="<?php echo e($siswa->id); ?>" class="row-checkbox w-4 h-4 text-[#4276A3] rounded border-slate-300 focus:ring-[#4276A3]" onclick="event.stopPropagation(); updateSelection();">
                         </td>
-                        <td class="text-center text-slate-500" onclick="window.location='{{ route('admin.pendaftar.show', $siswa->id) }}'">{{ $nomor }}</td>
-                        <td onclick="window.location='{{ route('admin.pendaftar.show', $siswa->id) }}'">
-                            <div class="font-medium text-slate-800">{{ $siswa->nama }}</div>
-                            <div class="text-xs text-slate-400 mt-0.5">{{ $siswa->no_wa ?? '-' }}</div>
+                        <td class="text-center text-slate-500" onclick="window.location='<?php echo e(route('admin.pendaftar.show', $siswa->id)); ?>'"><?php echo e($nomor); ?></td>
+                        <td onclick="window.location='<?php echo e(route('admin.pendaftar.show', $siswa->id)); ?>'">
+                            <div class="font-medium text-slate-800"><?php echo e($siswa->nama); ?></div>
+                            <div class="text-xs text-slate-400 mt-0.5"><?php echo e($siswa->no_wa ?? '-'); ?></div>
                         </td>
-                        <td onclick="window.location='{{ route('admin.pendaftar.show', $siswa->id) }}'">
-                            <span class="font-mono text-slate-600 text-xs">{{ $siswa->nisn }}</span>
+                        <td onclick="window.location='<?php echo e(route('admin.pendaftar.show', $siswa->id)); ?>'">
+                            <span class="font-mono text-slate-600 text-xs"><?php echo e($siswa->nisn); ?></span>
                         </td>
-                        <td onclick="window.location='{{ route('admin.pendaftar.show', $siswa->id) }}'">
-                            @if($siswa->pendaftaran && $siswa->pendaftaran->jurusan)
-                                <span class="badge badge-info">{{ $siswa->pendaftaran->jurusan->kode }}</span>
-                            @else
+                        <td onclick="window.location='<?php echo e(route('admin.pendaftar.show', $siswa->id)); ?>'">
+                            <?php if($siswa->pendaftaran && $siswa->pendaftaran->jurusan): ?>
+                                <span class="badge badge-info"><?php echo e($siswa->pendaftaran->jurusan->kode); ?></span>
+                            <?php else: ?>
                                 <span class="badge badge-secondary">Belum Pilih</span>
-                            @endif
+                            <?php endif; ?>
                         </td>
-                        <td onclick="window.location='{{ route('admin.pendaftar.show', $siswa->id) }}'">
+                        <td onclick="window.location='<?php echo e(route('admin.pendaftar.show', $siswa->id)); ?>'">
                             <div class="flex items-center gap-2">
                                 <div class="flex-1 w-20 bg-slate-200 rounded-full h-1.5">
-                                    <div class="bg-[#4276A3] h-1.5 rounded-full" style="width: {{ $berkasProgress['percentage'] }}%"></div>
+                                    <div class="bg-[#4276A3] h-1.5 rounded-full" style="width: <?php echo e($berkasProgress['percentage']); ?>%"></div>
                                 </div>
-                                <span class="text-xs font-medium text-slate-600 whitespace-nowrap">{{ $berkasProgress['uploaded'] }}/{{ $berkasProgress['total'] }}</span>
+                                <span class="text-xs font-medium text-slate-600 whitespace-nowrap"><?php echo e($berkasProgress['uploaded']); ?>/<?php echo e($berkasProgress['total']); ?></span>
                             </div>
-                            @if($berkasProgress['is_complete'])
+                            <?php if($berkasProgress['is_complete']): ?>
                                 <span class="text-xs text-[#047857] font-medium">Lengkap</span>
-                            @elseif($berkasProgress['uploaded'] > 0)
+                            <?php elseif($berkasProgress['uploaded'] > 0): ?>
                                 <span class="text-xs text-[#B45309]">Proses</span>
-                            @else
+                            <?php else: ?>
                                 <span class="text-xs text-slate-400">Belum Upload</span>
-                            @endif
+                            <?php endif; ?>
                         </td>
-                        <td onclick="window.location='{{ route('admin.pendaftar.show', $siswa->id) }}'">
+                        <td onclick="window.location='<?php echo e(route('admin.pendaftar.show', $siswa->id)); ?>'">
                             <div class="flex flex-col gap-1">
-                                @if($hasPendaftaran && $isComplete && $berkasProgress['is_complete'])
+                                <?php if($hasPendaftaran && $isComplete && $berkasProgress['is_complete']): ?>
                                     <span class="badge badge-success">
                                         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                                         Siap Tes
                                     </span>
-                                @elseif($hasPendaftaran && $isComplete)
+                                <?php elseif($hasPendaftaran && $isComplete): ?>
                                     <span class="badge badge-info">
                                         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/></svg>
                                         Data Lengkap
                                     </span>
-                                @elseif($hasPendaftaran)
+                                <?php elseif($hasPendaftaran): ?>
                                     <span class="badge badge-warning">
                                         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                                         Proses
                                     </span>
-                                @else
+                                <?php else: ?>
                                     <span class="badge badge-secondary">
                                         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
                                         Baru
                                     </span>
-                                @endif
+                                <?php endif; ?>
 
-                                @if($hasWawancaraSelesai)
+                                <?php if($hasWawancaraSelesai): ?>
                                     <span class="badge badge-info">Sudah Wawancara</span>
-                                @endif
+                                <?php endif; ?>
                             </div>
                         </td>
                         <td>
                             <div class="flex gap-2 justify-center" onclick="event.stopPropagation();">
-                                <a href="{{ route('admin.pendaftar.edit', $siswa->id) }}" class="btn btn-sm btn-secondary">
+                                <a href="<?php echo e(route('admin.pendaftar.edit', $siswa->id)); ?>" class="btn btn-sm btn-secondary">
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                                     </svg>
                                     Edit
                                 </a>
-                                <form action="{{ route('admin.pendaftar.destroy', $siswa->id) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus data ini?');">
-                                    @csrf
-                                    @method('DELETE')
+                                <form action="<?php echo e(route('admin.pendaftar.destroy', $siswa->id)); ?>" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus data ini?');">
+                                    <?php echo csrf_field(); ?>
+                                    <?php echo method_field('DELETE'); ?>
                                     <button type="submit" class="btn btn-sm btn-danger">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
@@ -290,7 +290,7 @@
                             </div>
                         </td>
                     </tr>
-                    @empty
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                     <tr>
                         <td colspan="8" class="px-6 py-8 text-center text-slate-500">
                             <div class="flex flex-col items-center">
@@ -301,16 +301,17 @@
                             </div>
                         </td>
                     </tr>
-                    @endforelse
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>
         <div class="px-4 py-3 border-t border-slate-200 bg-slate-50">
-            {{ $pendaftar->links() }}
+            <?php echo e($pendaftar->links()); ?>
+
         </div>
     </div>
 
-    {{-- Bulk Delete Modal --}}
+    
     <div id="delete-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-xl border border-slate-200 max-w-md w-full p-6">
             <div class="flex items-center gap-3 mb-4">
@@ -327,8 +328,8 @@
             <p class="text-slate-600 mb-6">Anda yakin ingin menghapus <span id="delete-count" class="font-semibold text-red-600"></span> data yang dipilih?</p>
             <div class="flex gap-3 justify-end">
                 <button type="button" onclick="closeDeleteModal()" class="btn btn-secondary">Batal</button>
-                <form id="bulk-delete-form" action="{{ route('admin.pendaftar.bulk-delete') }}" method="POST">
-                    @csrf
+                <form id="bulk-delete-form" action="<?php echo e(route('admin.pendaftar.bulk-delete')); ?>" method="POST">
+                    <?php echo csrf_field(); ?>
                     <div id="delete-ids-container"></div>
                     <button type="submit" class="btn btn-danger">Ya, Hapus</button>
                 </form>
@@ -336,7 +337,7 @@
         </div>
     </div>
 
-    {{-- Wawancara Update Modal --}}
+    
     <div id="status-modal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-xl border border-slate-200 max-w-md w-full p-6">
             <div class="flex items-center gap-3 mb-4">
@@ -350,8 +351,8 @@
                     <p class="text-sm text-slate-500">Pilih status wawancara baru untuk data terpilih</p>
                 </div>
             </div>
-            <form id="bulk-status-form" action="{{ route('admin.pendaftar.bulk-update-status') }}" method="POST">
-                @csrf
+            <form id="bulk-status-form" action="<?php echo e(route('admin.pendaftar.bulk-update-status')); ?>" method="POST">
+                <?php echo csrf_field(); ?>
                 <div id="status-ids-container"></div>
                 <div class="mb-4">
                     <label for="bulk-status-wawancara" class="block text-sm font-medium text-slate-700 mb-2">Status Wawancara</label>
@@ -368,7 +369,7 @@
         </div>
     </div>
 
-    @push('scripts')
+    <?php $__env->startPush('scripts'); ?>
     <script>
         const bulkToolbar = document.getElementById('bulk-toolbar');
         const selectAllCheckbox = document.getElementById('select-all-checkbox');
@@ -412,11 +413,11 @@
             if (ids.length === 0) { alert('Pilih minimal satu data'); return; }
             const form = document.createElement('form');
             form.method = 'POST';
-            form.action = '{{ route("admin.pendaftar.bulk-export") }}';
+            form.action = '<?php echo e(route("admin.pendaftar.bulk-export")); ?>';
             const csrfInput = document.createElement('input');
             csrfInput.type = 'hidden';
             csrfInput.name = '_token';
-            csrfInput.value = '{{ csrf_token() }}';
+            csrfInput.value = '<?php echo e(csrf_token()); ?>';
             form.appendChild(csrfInput);
             ids.forEach(id => {
                 const input = document.createElement('input');
@@ -477,5 +478,7 @@
             }
         });
     </script>
-    @endpush
-@endsection
+    <?php $__env->stopPush(); ?>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.admin', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\Users\eka\.gemini\antigravity\scratch\smk-alstar\resources\views/admin/pendaftar.blade.php ENDPATH**/ ?>
