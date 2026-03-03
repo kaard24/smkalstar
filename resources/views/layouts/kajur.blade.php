@@ -31,6 +31,35 @@
     
     <style>
         [x-cloak] { display: none !important; }
+
+        @media (max-width: 425px) {
+            body {
+                font-size: 13.5px;
+                line-height: 1.55;
+            }
+
+            .container {
+                padding-left: 14px !important;
+                padding-right: 14px !important;
+            }
+
+            header .h-16 {
+                height: 3.5rem;
+            }
+
+            header h1 {
+                font-size: 0.9rem;
+            }
+
+            header p {
+                font-size: 0.68rem;
+            }
+
+            main {
+                padding-top: 1rem !important;
+                padding-bottom: 1rem !important;
+            }
+        }
     </style>
 </head>
 <body class="bg-slate-50 min-h-screen" x-data="{ mobileMenuOpen: false }">

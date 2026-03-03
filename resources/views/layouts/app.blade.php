@@ -37,8 +37,8 @@
     <style>
         /* Critical CSS for Above the Fold */
         *,*::before,*::after{box-sizing:border-box}
-        html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-        body{margin:0;font-family:'Inter',system-ui,-apple-system,sans-serif;font-size:16px;line-height:1.7;color:#1f2937;background:#f9fafb;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+        html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;max-width:100%;overflow-x:hidden}
+        body{margin:0;font-family:'Inter',system-ui,-apple-system,sans-serif;font-size:16px;line-height:1.7;color:#1f2937;background:#f9fafb;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;max-width:100%;overflow-x:hidden}
         h1,h2,h3,h4,h5,h6{margin:0;font-family:'Outfit',sans-serif;font-weight:600;line-height:1.2}
         a{color:inherit;text-decoration:none}
         img{max-width:100%;height:auto;display:block}
@@ -77,7 +77,92 @@
         /* Mobile */
         @media (max-width: 768px) {
             body{font-size:14px;line-height:1.6}
-            a,button{min-height:44px;min-width:44px}
+            a,button{min-height:44px}
+            h1{font-size:1.9rem;line-height:1.25}
+            h2{font-size:1.55rem;line-height:1.3}
+            h3{font-size:1.3rem;line-height:1.35}
+            .container{padding-left:16px;padding-right:16px}
+            .text-xs{font-size:.75rem !important}
+            .text-sm{font-size:.86rem !important}
+            .text-base{font-size:.96rem !important}
+            .text-lg{font-size:1.06rem !important}
+            .text-xl{font-size:1.2rem !important;line-height:1.35 !important}
+            .text-2xl{font-size:1.4rem !important;line-height:1.32 !important}
+            .text-3xl{font-size:1.7rem !important;line-height:1.28 !important}
+            .text-4xl{font-size:2rem !important;line-height:1.25 !important}
+            .text-5xl{font-size:2.2rem !important;line-height:1.2 !important}
+            .text-6xl{font-size:2.4rem !important;line-height:1.15 !important}
+            .p-10{padding:1.5rem !important}
+            .p-8{padding:1.25rem !important}
+            .p-7{padding:1.15rem !important}
+            .p-6{padding:1rem !important}
+            .px-8{padding-left:1.25rem !important;padding-right:1.25rem !important}
+            .py-20{padding-top:3.25rem !important;padding-bottom:3.25rem !important}
+            .py-16{padding-top:2.75rem !important;padding-bottom:2.75rem !important}
+            .py-12{padding-top:2.2rem !important;padding-bottom:2.2rem !important}
+            .gap-8{gap:1.25rem !important}
+            .gap-6{gap:1rem !important}
+            .rounded-3xl{border-radius:1.25rem}
+            .rounded-2xl{border-radius:1rem}
+        }
+
+        /* Mobile M refinement (425px and below) */
+        @media (max-width: 425px) {
+            body{font-size:13.5px;line-height:1.58}
+            .container{padding-left:14px;padding-right:14px}
+            .text-sm{font-size:.82rem !important}
+            .text-base{font-size:.92rem !important}
+            .text-lg{font-size:1.02rem !important}
+            .text-xl{font-size:1.18rem !important;line-height:1.35 !important}
+            .text-2xl{font-size:1.35rem !important;line-height:1.32 !important}
+            .text-3xl{font-size:1.55rem !important;line-height:1.28 !important}
+            .p-8{padding:1.15rem !important}
+            .p-6{padding:1rem !important}
+            .p-5{padding:.9rem !important}
+            .py-20{padding-top:2.8rem !important;padding-bottom:2.8rem !important}
+            .py-16{padding-top:2.3rem !important;padding-bottom:2.3rem !important}
+            .gap-8{gap:1.15rem !important}
+            .gap-6{gap:1rem !important}
+            .rounded-3xl{border-radius:1.1rem}
+        }
+        
+        /* Small mobile refinement (375px and below) */
+        @media (max-width: 375px) {
+            body{font-size:13px;line-height:1.55}
+            h1{font-size:1.5rem;line-height:1.25}
+            h2{font-size:1.25rem;line-height:1.3}
+            h3{font-size:1.1rem;line-height:1.35}
+            .container{padding-left:12px;padding-right:12px}
+            .text-xs{font-size:.7rem !important}
+            .text-sm{font-size:.8rem !important}
+            .text-base{font-size:.9rem !important}
+            .text-lg{font-size:1rem !important}
+            .text-xl{font-size:1.1rem !important;line-height:1.35 !important}
+            .text-2xl{font-size:1.25rem !important;line-height:1.35 !important}
+            .text-3xl{font-size:1.45rem !important;line-height:1.3 !important}
+            .text-4xl{font-size:1.65rem !important;line-height:1.25 !important}
+            .text-5xl{font-size:1.85rem !important;line-height:1.2 !important}
+            .text-6xl{font-size:2rem !important;line-height:1.2 !important}
+            .p-8{padding:1rem !important}
+            .p-7{padding:.95rem !important}
+            .p-6{padding:.9rem !important}
+            .p-5{padding:.8rem !important}
+            .p-4{padding:.75rem !important}
+            .px-8{padding-left:1rem !important;padding-right:1rem !important}
+            .px-6{padding-left:.85rem !important;padding-right:.85rem !important}
+            .py-4{padding-top:.75rem !important;padding-bottom:.75rem !important}
+            .py-6{padding-top:1rem !important;padding-bottom:1rem !important}
+            .py-8{padding-top:1.25rem !important;padding-bottom:1.25rem !important}
+            .py-10{padding-top:1.5rem !important;padding-bottom:1.5rem !important}
+            .py-12{padding-top:1.75rem !important;padding-bottom:1.75rem !important}
+            .py-16{padding-top:2rem !important;padding-bottom:2rem !important}
+            .py-20{padding-top:2.5rem !important;padding-bottom:2.5rem !important}
+            .gap-8{gap:1rem !important}
+            .gap-6{gap:.9rem !important}
+            .gap-5{gap:.75rem !important}
+            .gap-4{gap:.65rem !important}
+            .rounded-3xl{border-radius:1rem}
+            .rounded-2xl{border-radius:.875rem}
         }
     </style>
     
@@ -119,6 +204,18 @@
     <style>
         @media (min-width: 1280px) {
             body { font-size: 17px; }
+        }
+
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        @media (max-width: 375px) {
+            .container {
+                padding-left: 12px;
+                padding-right: 12px;
+            }
         }
         
         /* Mobile viewport height variable */

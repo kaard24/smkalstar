@@ -167,12 +167,12 @@
                 @php
                     $theme = $jurusanThemes[$index % count($jurusanThemes)];
                 @endphp
-                <a href="{{ url('/jurusan/' . strtolower($j->kode)) }}" class="group bg-white border border-gray-100 rounded-xl sm:rounded-2xl p-3 sm:p-5 shadow-sm hover:shadow-lg transition-all hover:-translate-y-1">
+                <a href="{{ url('/jurusan/' . strtolower($j->kode)) }}" class="group h-full min-w-0 bg-white border border-gray-100 rounded-xl sm:rounded-2xl p-3 sm:p-5 shadow-sm hover:shadow-lg transition-all hover:-translate-y-1 flex flex-col">
                     <div class="w-full aspect-square {{ $theme['bg'] }} rounded-lg sm:rounded-xl flex items-center justify-center mb-3 sm:mb-5 overflow-hidden">
                         <img src="{{ $j->logo_url ?? asset('images/logo/default.jpeg') }}" alt="{{ $j->kode }}" class="w-3/4 h-3/4 object-contain group-hover:scale-110 transition-transform duration-300">
                     </div>
                     <h3 class="font-bold text-slate-900 mb-1 text-sm sm:text-base">{{ $j->kode }}</h3>
-                    <p class="text-xs sm:text-sm text-gray-600 mb-2 sm:mb-4 leading-snug">{{ $j->nama }}</p>
+                    <p class="text-xs sm:text-sm text-gray-600 mb-2 sm:mb-4 leading-snug flex-1">{{ $j->nama }}</p>
                     <span class="inline-flex items-center gap-1 {{ $theme['text'] }} font-semibold text-xs sm:text-sm">
                         Detail
                         <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>

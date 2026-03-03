@@ -1,16 +1,16 @@
 <header class="bg-white sticky top-0 z-50 safe-area-inset-top">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-14 md:h-16">
+        <div class="flex justify-between items-center h-14 lg:h-16">
             <!-- Logo -->
-            <a href="{{ url('/') }}" class="flex-shrink-0 flex items-center gap-2">
-                <img class="h-8 w-8 md:h-9 md:w-9 rounded-full object-cover" src="{{ asset('images/logo.webp') }}" alt="Logo SMK Al-Hidayah Lestari" loading="lazy" decoding="async">
-                <span class="font-bold text-sm md:text-lg text-primary tracking-tight leading-none">
+            <a href="{{ url('/') }}" class="flex items-center gap-2 min-w-0 max-w-[calc(100%-3.5rem)] lg:max-w-none">
+                <img class="h-8 w-8 lg:h-9 lg:w-9 rounded-full object-cover flex-shrink-0" src="{{ asset('images/logo.webp') }}" alt="Logo SMK Al-Hidayah Lestari" loading="lazy" decoding="async">
+                <span class="font-bold text-xs sm:text-sm lg:text-lg text-primary tracking-tight leading-none truncate">
                     SMK Al-Hidayah Lestari
                 </span>
             </a>
 
             <!-- Desktop Menu -->
-            <nav class="hidden md:flex space-x-1 items-center">
+            <nav class="hidden lg:flex space-x-1 items-center">
                 <a href="{{ url('/') }}" class="px-3 py-2 text-gray-700 hover:text-primary font-medium transition rounded-md hover:bg-gray-50 text-sm">Beranda</a>
 
                 <!-- Profil Sekolah Dropdown -->
@@ -114,7 +114,7 @@
             </nav>
 
             <!-- CTA Buttons / User Profile -->
-            <div class="hidden md:flex items-center space-x-2">
+            <div class="hidden lg:flex items-center space-x-2">
                 @auth('spmb')
                     @php
                         $user = auth('spmb')->user();
@@ -171,7 +171,7 @@
             </div>
 
             <!-- Mobile menu button -->
-            <div class="md:hidden flex items-center">
+            <div class="lg:hidden flex items-center">
                 <button type="button"
                     class="p-2.5 rounded-xl text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition active:scale-95"
                     onclick="const menu=document.getElementById('mobile-menu');const expanded=this.getAttribute('aria-expanded')==='true';menu.classList.toggle('hidden');this.setAttribute('aria-expanded',(!expanded).toString());"
@@ -188,7 +188,7 @@
     </div>
 
     <!-- Mobile Menu -->
-    <div class="hidden md:hidden bg-white border-t border-gray-100 max-h-[80vh] overflow-y-auto" id="mobile-menu" style="padding-bottom: env(safe-area-inset-bottom);">
+    <div class="hidden lg:hidden bg-white border-t border-gray-100 max-h-[80vh] overflow-y-auto" id="mobile-menu" style="padding-bottom: env(safe-area-inset-bottom);">
         <div class="px-4 py-3 pb-safe space-y-2">
             <a href="{{ url('/') }}" class="block px-4 py-3 rounded-lg text-sm font-medium {{ request()->is('/') ? 'bg-primary text-white' : 'text-gray-700 hover:bg-gray-50' }}">Beranda</a>
 

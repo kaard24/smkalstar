@@ -12,7 +12,7 @@
     showPassword: false,
     showConfirmPassword: false,
     isLoading: false,
-    step: 1,
+    step: {{ $errors->has('no_wa') || $errors->has('password') || $errors->has('password_confirmation') ? 2 : 1 }},
     totalSteps: 2,
     recaptchaError: false,
     formData: {
@@ -34,6 +34,14 @@
     },
     handleSubmit(e) {
         this.isLoading = true;
+    },
+    init() {
+        this.$nextTick(() => {
+            this.validateNisn(this.formData.nisn || '');
+            this.validateNama(this.formData.nama_lengkap || '');
+            this.validateTempatLahir(this.formData.tempat_lahir || '');
+            this.validateAsalSekolah(this.formData.asal_sekolah || '');
+        });
     },
     validateNisn(value) {
         const nisn = value.replace(/\D/g, '');
@@ -111,12 +119,23 @@
         }
     },
     canProceedStep1() {
-        return this.validation.nisn.isValid === true && 
-               this.validation.nama_lengkap.isValid === true &&
-               this.formData.jurusan_id !== '' &&
-               this.validation.tempat_lahir.isValid === true &&
-               this.formData.tgl_lahir !== '' &&
-               this.validation.asal_sekolah.isValid === true;
+        const nisn = (this.formData.nisn || '').replace(/\D/g, '');
+        const nama = (this.formData.nama_lengkap || '').trim();
+        const jurusan = (this.formData.jurusan_id || '').toString().trim();
+        const tempatLahir = (this.formData.tempat_lahir || '').trim();
+        const tglLahir = (this.formData.tgl_lahir || '').trim();
+        const asalSekolah = (this.formData.asal_sekolah || '').trim();
+
+        const namaValid = nama.length >= 3 && nama.length <= 50 && /^[a-zA-Z\s'\-]+$/u.test(nama);
+        const tempatLahirValid = tempatLahir.length >= 3 && tempatLahir.length <= 50 && /^[a-zA-Z\s\-]+$/u.test(tempatLahir);
+        const asalSekolahValid = asalSekolah.length >= 5 && asalSekolah.length <= 100 && /^[a-zA-Z0-9\s\-\.]+$/u.test(asalSekolah);
+
+        return nisn.length === 10 &&
+               namaValid &&
+               jurusan !== '' &&
+               tempatLahirValid &&
+               tglLahir !== '' &&
+               asalSekolahValid;
     },
     nextStep() {
         if (this.step < this.totalSteps) this.step++
@@ -182,22 +201,22 @@
     </div>
 
     <!-- Right Side - Form -->
-    <div class="w-full lg:w-3/5 xl:w-2/3 flex items-center justify-center p-6 sm:p-8 lg:p-12 bg-gray-50/50">
+    <div class="w-full lg:w-3/5 xl:w-2/3 flex items-center justify-center p-4 sm:p-8 lg:p-12 bg-gray-50/50">
         <div class="w-full max-w-2xl">
             <!-- Mobile Logo -->
-            <div class="lg:hidden text-center mb-6">
-                <div class="inline-flex items-center justify-center w-14 h-14 bg-gradient-to-br from-primary to-blue-600 rounded-xl shadow-lg mb-3">
+            <div class="lg:hidden text-center mb-5">
+                <div class="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-primary to-blue-600 rounded-xl shadow-lg mb-2.5 sm:mb-3">
                     <img src="{{ asset('images/logo.webp') }}" alt="Logo" class="w-10 h-10 object-contain rounded-lg">
                 </div>
-                <h1 class="text-xl font-bold text-gray-900">SMK Al-Hidayah Lestari</h1>
+                <h1 class="text-lg sm:text-xl font-bold text-gray-900">SMK Al-Hidayah Lestari</h1>
             </div>
 
             <!-- Register Card -->
-            <div class="bg-white rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 p-8 sm:p-10">
-                <div class="mb-8">
+            <div class="bg-white rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 p-5 sm:p-10">
+                <div class="mb-6 sm:mb-8">
                     <div class="flex items-center justify-between mb-2">
-                        <h2 class="text-2xl font-bold text-gray-900">Buat Akun Baru</h2>
-                        <span class="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">Langkah <span x-text="step"></span> dari <span x-text="totalSteps"></span></span>
+                        <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Buat Akun Baru</h2>
+                        <span class="text-xs sm:text-sm text-gray-500 bg-gray-100 px-2.5 sm:px-3 py-1 rounded-full">Langkah <span x-text="step"></span> / <span x-text="totalSteps"></span></span>
                     </div>
                     <p class="text-gray-500">Lengkapi data Anda dengan benar</p>
                 </div>

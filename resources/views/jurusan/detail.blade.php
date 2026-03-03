@@ -34,9 +34,97 @@
 
 @section('title', $jurusanDetail->nama . ' - SMK Al-Hidayah Lestari')
 
+@push('styles')
+<style>
+    @media (max-width: 425px) {
+        .jurusan-detail-page .hero-section {
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+        }
+
+        .jurusan-detail-page .hero-logo {
+            width: 5.25rem;
+            height: 5.25rem;
+        }
+
+        .jurusan-detail-page .hero-title {
+            font-size: 1.3rem !important;
+            line-height: 1.3 !important;
+            margin-bottom: 0.5rem !important;
+        }
+
+        .jurusan-detail-page .hero-desc {
+            font-size: 0.82rem !important;
+            line-height: 1.55 !important;
+        }
+
+        .jurusan-detail-page .jurusan-nav {
+            gap: 0.35rem !important;
+            padding-top: 0.55rem !important;
+            padding-bottom: 0.55rem !important;
+        }
+
+        .jurusan-detail-page .jurusan-tab {
+            padding: 0.32rem 0.48rem !important;
+            font-size: 0.62rem !important;
+            border-radius: 0.5rem !important;
+        }
+
+        .jurusan-detail-page .jurusan-tab img {
+            width: 0.78rem !important;
+            height: 0.78rem !important;
+        }
+
+        .jurusan-detail-page section.py-8 {
+            padding-top: 1.25rem !important;
+            padding-bottom: 1.5rem !important;
+        }
+
+        .jurusan-detail-page .bg-white.rounded-2xl,
+        .jurusan-detail-page .bg-gradient-to-br.rounded-2xl {
+            border-radius: 0.95rem !important;
+        }
+
+        .jurusan-detail-page .p-5 {
+            padding: 0.9rem !important;
+        }
+    }
+
+    @media (max-width: 375px) {
+        .jurusan-detail-page .hero-section {
+            padding-top: 1.75rem;
+            padding-bottom: 1.75rem;
+        }
+
+        .jurusan-detail-page .hero-logo {
+            width: 4.75rem;
+            height: 4.75rem;
+        }
+
+        .jurusan-detail-page .hero-title {
+            font-size: 1.18rem !important;
+        }
+
+        .jurusan-detail-page .hero-desc {
+            font-size: 0.78rem !important;
+        }
+
+        .jurusan-detail-page .jurusan-nav-label {
+            font-size: 0.62rem !important;
+        }
+
+        .jurusan-detail-page .jurusan-tab {
+            font-size: 0.58rem !important;
+            padding: 0.28rem 0.42rem !important;
+        }
+    }
+</style>
+@endpush
+
 @section('content')
+<div class="jurusan-detail-page">
     <!-- Hero Section -->
-    <div class="relative {{ $theme['bg'] }} py-10 sm:py-16 md:py-24 overflow-hidden">
+    <div class="hero-section relative {{ $theme['bg'] }} py-10 sm:py-16 md:py-24 overflow-hidden">
         <!-- Decorative Elements -->
         <div class="absolute inset-0 overflow-hidden">
             <div class="absolute top-0 right-0 w-64 h-64 sm:w-96 sm:h-96 bg-white/10 rounded-full blur-3xl transform translate-x-1/3 -translate-y-1/3"></div>
@@ -58,7 +146,7 @@
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="flex flex-col lg:flex-row items-center gap-5 sm:gap-8 lg:gap-12">
                 <!-- Logo Jurusan -->
-                <div class="w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-2xl sm:rounded-3xl bg-white shadow-2xl overflow-hidden flex-shrink-0 ring-4 ring-white/20 p-2">
+                <div class="hero-logo w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-2xl sm:rounded-3xl bg-white shadow-2xl overflow-hidden flex-shrink-0 ring-4 ring-white/20 p-2">
                     <img src="{{ $logoUrl }}" alt="Logo {{ $jurusanDetail->nama }}" class="w-full h-full object-contain">
                 </div>
                 
@@ -70,10 +158,10 @@
                         </svg>
                         <span class="whitespace-nowrap">Program Keahlian</span>
                     </div>
-                    <h1 class="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-2 sm:mb-4 font-heading">
+                    <h1 class="hero-title text-xl sm:text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-2 sm:mb-4 font-heading">
                         {{ $jurusanDetail->nama }}
                     </h1>
-                    <p class="text-white/80 text-sm sm:text-base md:text-base max-w-2xl leading-relaxed">
+                    <p class="hero-desc text-white/80 text-sm sm:text-base md:text-base max-w-2xl leading-relaxed">
                         {{ $jurusanDetail->deskripsi ?? 'Pelajari selengkapnya tentang program keahlian ' . $jurusanDetail->nama . ' dan persiapkan masa depan gemilang bersama SMK Al-Hidayah Lestari.' }}
                     </p>
                 </div>
@@ -82,18 +170,18 @@
     </div>
 
     <!-- Navigation Jurusan -->
-    <div class="bg-white border-b border-gray-200 sticky top-14 md:top-16 z-40 overflow-x-hidden">
+    <div class="bg-white border-b border-gray-200 sticky top-14 md:top-16 z-40">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-wrap items-center gap-2 py-2 sm:py-3">
-                <span class="text-gray-500 text-xs sm:text-sm font-medium mr-1 sm:mr-2">Jurusan:</span>
+            <div class="jurusan-nav flex flex-wrap items-center gap-1.5 sm:gap-2 py-2 sm:py-3">
+                <span class="jurusan-nav-label text-gray-500 text-[11px] sm:text-sm font-medium shrink-0">Jurusan:</span>
                 @foreach($jurusanList as $j)
                     @php
                         $jLogoUrl = $j->logo_url ?? asset('images/logo/default.jpeg');
                         $isActive = $j->id === $jurusanDetail->id;
                     @endphp
                     <a href="{{ url('/jurusan/' . strtolower($j->kode)) }}" 
-                       class="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium transition {{ $isActive ? $theme['bg'] . ' text-white' : 'text-gray-600 hover:bg-gray-100' }}">
-                        <img src="{{ $jLogoUrl }}" alt="{{ $j->nama }}" class="w-4 h-4 sm:w-5 sm:h-5 rounded-full object-cover flex-shrink-0">
+                       class="jurusan-tab flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1 sm:py-2 rounded-lg sm:rounded-xl text-[10px] sm:text-sm font-medium transition {{ $isActive ? $theme['bg'] . ' text-white' : 'text-gray-600 hover:bg-gray-100' }}">
+                        <img src="{{ $jLogoUrl }}" alt="{{ $j->nama }}" class="w-3.5 h-3.5 sm:w-5 sm:h-5 rounded-full object-cover flex-shrink-0">
                         <span>{{ $j->kode }}</span>
                     </a>
                 @endforeach
@@ -106,7 +194,7 @@
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
                 <!-- Main Content -->
-                <div class="lg:col-span-2 space-y-4 sm:space-y-6 lg:space-y-8">
+                <div class="lg:col-span-2 min-w-0 space-y-4 sm:space-y-6 lg:space-y-8">
                     <!-- Gambar Jurusan -->
                     @if($gambarUrl)
                     <div class="bg-white rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm">
@@ -256,7 +344,7 @@
                 </div>
 
                 <!-- Sidebar -->
-                <div class="lg:col-span-1 space-y-4 sm:space-y-6">
+                <div class="lg:col-span-1 min-w-0 space-y-4 sm:space-y-6">
                     <!-- Info Cepat -->
                     <div class="bg-gradient-to-br {{ $theme['gradient'] }} rounded-2xl sm:rounded-3xl p-5 sm:p-6 text-white shadow-xl">
                         <h3 class="text-lg sm:text-xl font-bold mb-4 sm:mb-6">Info Program</h3>
@@ -342,4 +430,5 @@
             </div>
         </div>
     </section>
+</div>
 @endsection

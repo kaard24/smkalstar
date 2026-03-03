@@ -480,11 +480,86 @@
             outline: 2px solid #4276A3;
             outline-offset: 2px;
         }
+
+        /* ============================================
+           MOBILE M (<=425px) CONSISTENCY
+           ============================================ */
+        @media (max-width: 425px) {
+            body {
+                font-size: 13.5px;
+                line-height: 1.55;
+            }
+
+            .container {
+                padding-left: 14px !important;
+                padding-right: 14px !important;
+            }
+
+            .nav-item {
+                padding: 8px 12px;
+                font-size: 12px;
+                border-radius: 7px;
+            }
+
+            .card {
+                border-radius: 10px;
+            }
+
+            .btn {
+                padding: 0.5rem 0.9rem;
+                font-size: 0.78rem;
+            }
+
+            .btn-sm {
+                padding: 0.3rem 0.55rem;
+                font-size: 0.68rem;
+            }
+
+            .btn-lg {
+                padding: 0.7rem 1.1rem;
+                font-size: 0.9rem;
+            }
+
+            .badge {
+                font-size: 0.68rem;
+                padding: 0.2rem 0.5rem;
+            }
+
+            .data-table th,
+            .data-table td {
+                padding: 0.6rem 0.55rem;
+                font-size: 0.75rem;
+            }
+
+            .form-input {
+                padding: 0.55rem 0.75rem;
+                font-size: 0.8rem;
+            }
+
+            .form-label {
+                font-size: 0.8rem;
+            }
+
+            /* Mobile navbar as compact dropdown */
+            #admin-mobile-menu {
+                position: absolute;
+                top: calc(100% + 0.5rem);
+                left: 14px;
+                right: 14px;
+                background: #1E293B;
+                border: 1px solid #334155;
+                border-radius: 12px;
+                box-shadow: 0 16px 32px rgba(15, 23, 42, 0.45);
+                max-height: 72vh;
+                overflow-y: auto;
+                z-index: 70;
+            }
+        }
     </style>
 </head>
 <body class="font-sans min-h-screen">
     <!-- Header -->
-    <header class="bg-[#334155] border-b border-[#475569] sticky top-0 z-50">
+    <header class="bg-[#334155] border-b border-[#475569] sticky top-0 z-50 relative">
         <div class="container mx-auto px-4">
             <div class="flex justify-between items-center h-16">
                 <!-- Logo Sekolah -->

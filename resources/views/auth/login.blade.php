@@ -70,20 +70,20 @@
     </div>
 
     <!-- Right Side - Form -->
-    <div class="w-full lg:w-1/2 xl:w-2/5 flex items-center justify-center p-6 sm:p-8 lg:p-12 bg-gray-50/50">
+    <div class="w-full lg:w-1/2 xl:w-2/5 flex items-center justify-center p-4 sm:p-8 lg:p-12 bg-gray-50/50">
         <div class="w-full max-w-md">
             <!-- Mobile Logo -->
-            <div class="lg:hidden text-center mb-8">
-                <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-primary to-blue-600 rounded-2xl shadow-lg mb-4">
+            <div class="lg:hidden text-center mb-6">
+                <div class="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-primary to-blue-600 rounded-2xl shadow-lg mb-3 sm:mb-4">
                     <img src="{{ asset('images/logo.webp') }}" alt="Logo" class="w-11 h-11 object-contain rounded-lg">
                 </div>
-                <h1 class="text-2xl font-bold text-gray-900">SMK Al-Hidayah Lestari</h1>
+                <h1 class="text-lg sm:text-2xl font-bold text-gray-900">SMK Al-Hidayah Lestari</h1>
             </div>
 
             <!-- Login Card -->
-            <div class="bg-white rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 p-8 sm:p-10">
-                <div class="mb-8">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-2">Masuk ke Akun</h2>
+            <div class="bg-white rounded-3xl shadow-xl shadow-gray-200/50 border border-gray-100 p-5 sm:p-10">
+                <div class="mb-6 sm:mb-8">
+                    <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Masuk ke Akun</h2>
                     <p class="text-gray-500">Silakan masukkan data login Anda</p>
                 </div>
 

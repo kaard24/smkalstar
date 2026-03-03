@@ -1,4 +1,4 @@
-<nav id="bottom-nav-mobile" class="fixed bottom-0 left-0 z-50 w-full bg-white/95 backdrop-blur-lg border-t border-gray-200/80 shadow-[0_-8px_30px_-6px_rgba(0,0,0,0.1)] md:hidden transition-transform duration-300" aria-label="Navigasi mobile" style="padding-bottom: max(env(safe-area-inset-bottom), 0px);">
+<nav id="bottom-nav-mobile" class="fixed bottom-0 left-0 z-50 w-full bg-white/95 backdrop-blur-lg border-t border-gray-200/80 shadow-[0_-8px_30px_-6px_rgba(0,0,0,0.1)] lg:hidden transition-transform duration-300" aria-label="Navigasi mobile" style="padding-bottom: max(env(safe-area-inset-bottom), 0px);">
     @auth('spmb')
     {{-- Layout untuk user yang sudah login: 4 kolom --}}
     <div class="grid h-16 grid-cols-4 mx-auto font-medium">
@@ -109,7 +109,7 @@
         let ticking = false;
 
         function updateNav() {
-            const isMobile = window.matchMedia('(max-width: 768px)').matches;
+            const isMobile = window.matchMedia('(max-width: 1023px)').matches;
             const currentY = window.scrollY || 0;
 
             if (!isMobile) {
@@ -150,7 +150,7 @@
     }
     
     /* Ensure touch targets are at least 44px on mobile */
-    @media (max-width: 768px) {
+    @media (max-width: 1023px) {
         nav a, nav button {
             min-height: 44px;
         }

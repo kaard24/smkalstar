@@ -45,6 +45,38 @@
             border-color: #4276A3;
             box-shadow: 0 0 0 3px rgba(66, 118, 163, 0.1);
         }
+
+        @media (max-width: 425px) {
+            body {
+                padding: 12px;
+            }
+
+            .max-w-md {
+                max-width: 100%;
+            }
+
+            .rounded-xl {
+                border-radius: 0.75rem;
+            }
+
+            .px-6 {
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
+            }
+
+            .py-6 {
+                padding-top: 1rem !important;
+                padding-bottom: 1rem !important;
+            }
+
+            .p-6 {
+                padding: 1rem !important;
+            }
+
+            h1.text-xl {
+                font-size: 1.05rem !important;
+            }
+        }
     </style>
 </head>
 <body class="min-h-screen flex items-center justify-center p-4">
